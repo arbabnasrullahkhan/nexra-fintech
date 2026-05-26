@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- ========================================== -->
+    <!-- 🚀 NEXRA CAREERS | VIRAL SEO ARCHITECTURE  -->
+    <!-- ========================================== -->
+    <title>NEXRA Careers | Join the Global Technical Force</title>
+    <meta name="title" content="NEXRA HireMe | Professional Recruitment Portal">
+    <meta name="description" content="Apply for Manager, Moderator, or Operations roles at NEXRA. Join the world's most advanced fintech task ecosystem. Secure your future today.">
+    <meta name="keywords" content="NEXRA Jobs, Online Work Pakistan, Fintech Careers, Remote Node Manager, Moderator Jobs, Digital Marketing Jobs, HireMe Nexra">
+    <meta name="author" content="NEXRA Global">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="assets/ui/logo.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --nexra-green: #00c853;
+            --pure-black: #000000;
+            --deep-gray: #111111;
+            --surface: #ffffff;
+            --border: rgba(0,0,0,0.08);
+            --text-muted: #666666;
+            --error: #ff3b30;
+            --font-main: 'Inter', sans-serif;
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        html, body { width: 100%; height: 100%; background: #fff; color: var(--pure-black); font-family: var(--font-main); overflow-x: hidden; }
+
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.85); backdrop-filter: blur(25px); padding: 15px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .h-logo { height: 35px; mix-blend-mode: multiply; }
+        
+        .stepper-container { width: 100%; max-width: 800px; margin: 20px auto; padding: 0 25px; }
+        .progress-track { width: 100%; height: 6px; background: #eee; border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; background: var(--nexra-green); width: 10%; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .viewport { width: 100%; max-width: 850px; margin: 0 auto; padding: 20px 25px 120px; }
+
+        /* 2. SECTION TRANSITIONS */
+        .hire-section { display: none; animation: slideUp 0.6s ease; }
+        .hire-section.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .sec-head { margin-bottom: 30px; }
+        .sec-head h1 { font-family: var(--font-head); font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+        .sec-head p { font-size: 14px; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+
+        /* 3. FORM COMPONENTS */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        .field label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--pure-black); padding-left: 5px; }
+        .field input, .field select, .field textarea { width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid var(--border); background: #f9f9f9; font-size: 14px; font-weight: 700; transition: 0.3s; font-family: inherit; }
+        .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--pure-black); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+
+        .upload-node { border: 2px dashed #ddd; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; position: relative; overflow: hidden; }
+        .upload-node:hover { border-color: var(--nexra-green); background: #f0fff4; }
+        .upload-node i { font-size: 30px; color: #ccc; margin-bottom: 10px; }
+        .upload-node span { font-size: 12px; font-weight: 800; display: block; color: #999; }
+        .preview-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+
+        .quiz-card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; }
+        .q-text { font-size: 15px; font-weight: 800; margin-bottom: 15px; display: block; line-height: 1.4; }
+        .opt-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-item { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 14px; border: 1.5px solid #f0f0f0; cursor: pointer; transition: 0.2s; }
+        .opt-item input { width: 18px; height: 18px; accent-color: var(--nexra-green); }
+
+        .nav-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 1px solid var(--border); padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+        .btn-hire { padding: 16px 30px; border-radius: 16px; border: none; font-size: 14px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-prev { background: #f0f0f0; color: #888; }
+        .btn-next { background: var(--pure-black); color: #fff; }
+        .btn-submit { background: var(--nexra-green); color: #fff; }
+
+        .success-wrapper { text-align: center; display: none; padding-top: 50px; }
+        .success-icon { width: 100px; height: 100px; background: var(--nexra-green); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 45px; margin: 0 auto 30px; box-shadow: 0 15px 35px rgba(0, 200, 83, 0.3); }
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 40px; }
+        .soc-card { padding: 20px; border-radius: 20px; border: 1px solid var(--border); text-decoration: none; color: inherit; transition: 0.3s; text-align: center;}
+
+        .node-loader { position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 15px; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top-color: var(--nexra-green); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="node-loader" id="mainLoader"><div class="spinner"></div><p style="font-weight: 900; font-size: 11px; letter-spacing: 2px;">SYNCING PROTOCOL...</p></div>
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="assets/ui/logo.png" alt="NEXRA" class="h-logo">
+        <div style="font-family:'Outfit'; font-weight:900; font-size:16px;">CAREER HANDSHAKE</div>
+    </header>
+
+    <div class="stepper-container" id="stepper">
+        <div class="progress-track"><div class="progress-fill" id="p-bar"></div></div>
+    </div>
+
+    <main class="viewport">
+        <form id="hireForm">
+            
+            <!-- STEP 1: ECOSYSTEM INTRO -->
+            <section class="hire-section active" id="sec-1">
+                <div class="sec-head">
+                    <h1>Ecosystem Entrance</h1>
+                    <p>Identify your node in the global workforce hierarchy.</p>
+                </div>
+                <div class="quiz-card" style="background: var(--pure-black); color:#fff; border:none;">
+                    <p style="font-size:14px; line-height:1.6; opacity:0.8;">
+                        NEXRA Force is expanding. We are currently recruiting 1 Manager, 1 Moderator per country, and 20 Office Boys per region.
+                    </p>
+                </div>
+                <div class="field" style="margin-top:20px;">
+                    <label>Target Professional Role</label>
+                    <select name="target_role" required>
+                        <option value="Manager">Global Manager (High-Level Audit)</option>
+                        <option value="Moderator">Country Moderator (Regional Governance)</option>
+                        <option value="OfficeBoy" selected>Regional Office Boy (Operational Support)</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- STEP 2: IDENTITY -->
+            <section class="hire-section" id="sec-2">
+                <div class="sec-head">
+                    <h1>Identity Protocol</h1>
+                    <p>Verified identification is mandatory for regional payouts.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Full Legal Name</label>
+                        <input type="text" name="full_name" placeholder="As per Govt ID" required>
+                    </div>
+                    <div class="field">
+                        <label>Date of Birth</label>
+                        <input type="date" name="dob" id="dobInput" required onchange="validateAgeNode()">
+                    </div>
+                    <div class="field">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Country of Node</label>
+                        <select id="countrySelect" name="country" required></select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Residential address</label>
+                    <input type="text" name="address" placeholder="City, Street, House #" required>
+                </div>
+            </section>
+
+            <!-- STEP 3: LINKS -->
+            <section class="hire-section" id="sec-3">
+                <div class="sec-head">
+                    <h1>Communication Nodes</h1>
+                    <p>Direct neural links for interview scheduling.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Official Email</label>
+                        <input type="email" name="email" placeholder="name@domain.com" required>
+                    </div>
+                    <div class="field">
+                        <label>WhatsApp Protocol</label>
+                        <input type="tel" name="whatsapp" placeholder="+92 ..." required>
+                    </div>
+                    <div class="field">
+                        <label>Social Presence (LinkedIn/FB)</label>
+                        <input type="url" name="social_link" placeholder="https://..." required>
+                    </div>
+                    <div class="field">
+                        <label>Emergency Contact</label>
+                        <input type="tel" name="emergency_phone" placeholder="Contact Person Number" required>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 4: PORTFOLIO -->
+            <section class="hire-section" id="sec-4">
+                <div class="sec-head">
+                    <h1>Work Portfolio</h1>
+                    <p>Help us audit your experience in the technical force.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Total Experience</label>
+                        <select name="exp_years" required>
+                            <option value="Fresh">Fresh / Entry Level</option>
+                            <option value="1-3">1-3 Years</option>
+                            <option value="3+">3+ Years</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Current Status</label>
+                        <input type="text" name="job_status" placeholder="Employed/Freelancing/Student" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Technical Skills List</label>
+                    <textarea name="skills" placeholder="Data Audit, Marketing, Support, Anti-Bot..." style="height:80px;" required></textarea>
+                </div>
+            </section>
+
+            <!-- STEP 5: HARDWARE -->
+            <section class="hire-section" id="sec-5">
+                <div class="sec-head">
+                    <h1>Hardware Audit</h1>
+                    <p>Ensuring your node hardware meets technical requirements.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Primary Device</label>
+                        <select name="device_type" required>
+                            <option value="Laptop">PC / Laptop</option>
+                            <option value="Android">Android</option>
+                            <option value="iPhone">iPhone</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Hardware Specs</label>
+                        <input type="text" name="device_specs" placeholder="Model, RAM, Processor" required>
+                    </div>
+                    <div class="field">
+                        <label>Connection Protocol</label>
+                        <select name="internet_type" required>
+                            <option value="Fiber">Fiber Optic</option>
+                            <option value="4G">4G / 5G LTE</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Power Backup Node</label>
+                        <select name="power_backup" required>
+                            <option value="Yes">UPS / Solar / Powerbank</option>
+                            <option value="No">No Backup</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 6: NEURAL LOGIC (MCQs) -->
+            <section class="hire-section" id="sec-6">
+                <div class="sec-head">
+                    <h1>Neural Logic Test</h1>
+                    <p>Automated scoring active. Select correct consensus.</p>
+                </div>
+                <div id="quizContainer">
+                    <div class="quiz-card">
+                        <span class="q-text">1. How will you respond to a suspicious transaction node?</span>
+                        <div class="opt-list">
+                            <label class="opt-item"><input type="radio" name="q1" value="10" required> <span>Immediate Block & Audit</span></label>
+                            <label class="opt-item"><input type="radio" name="q1" value="0"> <span>Ignore and approve</span></label>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <span class="q-text">2. What is the priority when a user disputes a technical task?</span>
+                        <div class="opt-list">
+                            <label class="opt-item"><input type="radio" name="q2" value="10" required> <span>Manual verification of work node</span></label>
+                            <label class="opt-item"><input type="radio" name="q2" value="0"> <span>Ban the user instantly</span></label>
+                        </div>
+                    </div>
+                    <div class="quiz-card">
+                        <span class="q-text">3. Referrals are a core part of NEXRA. How do you promote growth?</span>
+                        <div class="opt-list">
+                            <label class="opt-item"><input type="radio" name="q3" value="10" required> <span>Incentivizing active team leaders</span></label>
+                            <label class="opt-item"><input type="radio" name="q3" value="0"> <span>Spamming links</span></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 7: SCENARIOS -->
+            <section class="hire-section" id="sec-7">
+                <div class="sec-head">
+                    <h1>Ecosystem Scenarios</h1>
+                    <p>Decision-making logic for complex nodes.</p>
+                </div>
+                <div class="field" style="margin-bottom:20px;">
+                    <label>Scenario: 5 Users report a bug on the same task. How do you handle the crowd?</label>
+                    <textarea name="sc_1" required></textarea>
+                </div>
+                <div class="field">
+                    <label>Scenario: You detect an Admin login attempt from an unknown IP. Protocol?</label>
+                    <textarea name="sc_2" required></textarea>
+                </div>
+            </section>
+
+            <!-- STEP 8: STRATEGY -->
+            <section class="hire-section" id="sec-8">
+                <div class="sec-head">
+                    <h1>Growth Strategy</h1>
+                    <p>Regional expansion and vision roadmap.</p>
+                </div>
+                <div class="field">
+                    <label>How will you expand NEXRA presence in your specific country?</label>
+                    <textarea name="strategy" style="height:120px;" required></textarea>
+                </div>
+            </section>
+
+            <!-- STEP 9: FINANCE -->
+            <section class="hire-section" id="sec-9">
+                <div class="sec-head">
+                    <h1>Financial Handshake</h1>
+                    <p>Configure your settlement parameters.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Salary Expectation (USD)</label>
+                        <input type="number" name="salary_expect" placeholder="e.g. 150" required>
+                    </div>
+                    <div class="field">
+                        <label>Salary Model</label>
+                        <select name="salary_model" required>
+                            <option value="Fixed">Fixed Settlement</option>
+                            <option value="Growth" selected>Start Low, Grow with Performance</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Payout Gateway</label>
+                        <select name="payout_method" required>
+                            <option value="Binance">Binance (USDT)</option>
+                            <option value="Easypaisa">Easypaisa (PK)</option>
+                            <option value="SadaPay">SadaPay (PK)</option>
+                            <option value="Bank">Direct Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Account ID / Number</label>
+                        <input type="text" name="pay_account" required>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 10: DOCUMENTS -->
+            <section class="hire-section" id="sec-10">
+                <div class="sec-head">
+                    <h1>Documentation Protocol</h1>
+                    <p>Finalizing the dossier with visual proof nodes.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Digital Portrait</label>
+                        <div class="upload-node" onclick="triggerNodeInput('portrait')">
+                            <i class="fa-solid fa-camera"></i><span>Upload Portrait</span>
+                            <input type="file" id="portrait" accept="image/*" hidden onchange="preview(this)">
+                            <img class="preview-img">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Govt ID (Front/Back)</label>
+                        <div class="upload-node" onclick="triggerNodeInput('govt_id')">
+                            <i class="fa-solid fa-id-card"></i><span>Upload ID</span>
+                            <input type="file" id="govt_id" accept="image/*" hidden onchange="preview(this)">
+                            <img class="preview-img">
+                        </div>
+                    </div>
+                </div>
+                <div class="field" style="margin-top:20px;">
+                    <label>Official CV (PDF Only)</label>
+                    <div class="upload-node" onclick="triggerNodeInput('cv')">
+                        <i class="fa-solid fa-file-pdf"></i><span id="cv-label">Upload CV</span>
+                        <input type="file" id="cv" accept=".pdf" hidden onchange="metaUpdate(this, 'cv-label')">
+                    </div>
+                </div>
+            </section>
+
+        </form>
+
+        <!-- SUCCESS SCREEN -->
+        <section class="success-wrapper" id="successScreen">
+            <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+            <h1 style="font-family:'Outfit'; font-weight:900;">Handshake Dispatched</h1>
+            <p style="color:#666; font-weight:800; margin-top:10px;">Role ID: <b id="finalID" style="color:var(--nexra-green);">--</b></p>
+            <p style="margin:20px auto; font-size:14px; line-height:1.6; color:#888; max-width:550px;">Shortlisted candidates will be contacted via WhatsApp for the neural interview. Join our nodes for updates.</p>
+            
+            <div class="social-grid">
+                <a href="https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K" target="_blank" class="soc-card"><i class="fa-brands fa-whatsapp" style="color:#25d366; font-size:24px;"></i><br><span style="font-weight:900; font-size:11px;">WA Hub</span></a>
+                <a href="https://www.facebook.com/share/1DsSrJqYjb/?mibextid=wwXIfr" target="_blank" class="soc-card"><i class="fa-brands fa-facebook" style="color:#1877f2; font-size:24px;"></i><br><span style="font-weight:900; font-size:11px;">FB Group</span></a>
+            </div>
+         <button class="btn-hire btn-next" style="margin: 40px auto 0;" onclick="window.location.href='https://nexra.ct.ws/?i=1'">Start New Session</button>
+  </section>
+
+    </main>
+
+    <div class="nav-footer" id="formNav">
+        <button class="btn-hire btn-prev" id="prevBtn" onclick="navigateProtocol(-1)" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
+        <button class="btn-hire btn-next" id="nextBtn" onclick="navigateProtocol(1)">Next Step <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Firebase System -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        let currentStep = 1;
+        const totalSteps = 10;
+        const hireForm = document.getElementById('hireForm');
+
+        // 1. 196 Country Node Engine
+        const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Holy See","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine State","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+        const sel = document.getElementById('countrySelect');
+        countries.forEach(c => {
+            const o = document.createElement('option');
+            o.value = c; o.innerText = c;
+            if(c === "Pakistan") o.selected = true;
+            sel.appendChild(o);
+        });
+
+        // 2. Navigation Protocol Handshake
+        window.navigateProtocol = (dir) => {
+            if(dir === 1 && !validateCurrentStep()) return;
+
+            const current = document.getElementById(`sec-${currentStep}`);
+            if(current) current.classList.remove('active');
+            
+            currentStep += dir;
+            
+            const next = document.getElementById(`sec-${currentStep}`);
+            if(next) next.classList.add('active');
+
+            document.getElementById('p-bar').style.width = ((currentStep / totalSteps) * 100) + '%';
+            document.getElementById('prevBtn').disabled = (currentStep === 1);
+            
+            const nBtn = document.getElementById('nextBtn');
+            if(currentStep === totalSteps) {
+                nBtn.innerText = "Authorize Application";
+                nBtn.classList.add('btn-submit');
+                nBtn.onclick = () => executeFinalHandshake();
+            } else {
+                nBtn.innerText = "Next Step";
+                nBtn.classList.remove('btn-submit');
+                nBtn.onclick = () => navigateProtocol(1);
+            }
+            window.scrollTo(0, 0);
+        };
+
+        function validateCurrentStep() {
+            const sec = document.getElementById(`sec-${currentStep}`);
+            if(!sec) return true;
+            const requireds = sec.querySelectorAll('[required]');
+            for(let input of requireds) {
+                if(!input.value) {
+                    alert("Handshake Failure: Required technical parameters missing.");
+                    input.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        window.validateAgeNode = () => {
+            const dob = new Date(document.getElementById('dobInput').value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) { age--; }
+            
+            if(age < 17 || age > 30) {
+                alert("Protocol Notice: Candidate age must be between 17 and 30 years.");
+                document.getElementById('dobInput').value = "";
+            }
+        };
+
+        // 3. Visual Node Handlers
+        window.triggerNodeInput = (id) => document.getElementById(id).click();
+        window.preview = (input) => {
+            if(input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = input.parentElement.querySelector('.preview-img');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+        window.metaUpdate = (input, label) => {
+            if(input.files && input.files[0]) {
+                document.getElementById(label).innerText = input.files[0].name;
+                document.getElementById(label).style.color = "var(--nexra-green)";
+            }
+        };
+
+        // 4. FINAL ECOSYSTEM HANDSHAKE
+        async function executeFinalHandshake() {
+            if(!validateCurrentStep()) return;
+
+            const loader = document.getElementById('mainLoader');
+            loader.style.display = 'flex';
+
+            try {
+                // Scoring Node
+                let score = 0;
+                const radios = hireForm.querySelectorAll('input[type="radio"]:checked');
+                radios.forEach(r => score += parseInt(r.value));
+                const matchPct = (score / 30) * 100;
+
+                const roleID = `NEX-HR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+                const portrait = await nodeToBase64('portrait');
+                const idProof = await nodeToBase64('govt_id');
+                const cvNode = await nodeToBase64('cv');
+
+                // Build Serializable Payload (Removing File Objects)
+                const formData = new FormData(hireForm);
+                const auditData = {};
+                formData.forEach((value, key) => {
+                    // Skip File objects which cause Firestore errors
+                    if (!(value instanceof File)) {
+                        auditData[key] = value;
+                    }
+                });
+
+                const applicationPayload = {
+                    role_id: roleID,
+                    full_name: hireForm.full_name.value,
+                    email: hireForm.email.value,
+                    country: hireForm.country.value,
+                    target_role: hireForm.target_role.value,
+                    skill_match: matchPct,
+                    status: "Pending",
+                    timestamp: serverTimestamp(),
+                    portrait: portrait,
+                    id_proof: idProof,
+                    cv_node: cvNode,
+                    audit_details: auditData
+                };
+
+                await addDoc(collection(db, "hireme_applications"), applicationPayload);
+
+                loader.style.display = 'none';
+                document.getElementById('formNav').style.display = 'none';
+                document.getElementById('stepper').style.display = 'none';
+                hireForm.style.display = 'none';
+                document.getElementById('successScreen').style.display = 'block';
+                document.getElementById('finalID').innerText = roleID;
+
+                confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
+
+            } catch (err) {
+                loader.style.display = 'none';
+                alert("Handshake Blocked: " + err.message);
+                console.error(err);
+            }
+        }
+
+        const nodeToBase64 = id => new Promise((resolve) => {
+            const input = document.getElementById(id);
+            if(!input || !input.files[0]) return resolve(null);
+            const reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => resolve(null);
+        });
+
+    </script>
+</body>
+</html>
