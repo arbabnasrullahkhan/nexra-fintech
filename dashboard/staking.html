@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Secure Payment Node</title>
+    
+    <!-- UI Assets -->
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000; --pure-white: #ffffff; --nexra-green: #00c853; 
+            --nexra-blue: #3742fa; --nexra-gold: #ffcc00; --nexra-red: #ff4757;
+            --gray-bg: #f8f9fa; --border: rgba(0, 0, 0, 0.08);
+            --vault-grad: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 100%);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--pure-white); color: var(--pure-black); font-family: 'Inter', sans-serif; -webkit-user-select: none; }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 2000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .back-btn { font-size: 20px; color: var(--pure-black); cursor: pointer; }
+        .profile-dp { width: 34px; height: 34px; border-radius: 50%; background: var(--pure-black); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; border: 2px solid var(--nexra-blue); }
+
+        .viewport { width: 100%; max-width: 800px; margin: 0 auto; padding: 15px; padding-bottom: 120px; display: none; }
+
+        .pay-hero { background: var(--vault-grad); color: #fff; padding: 30px 24px; border-radius: 32px; text-align: center; margin-bottom: 25px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .pay-hero h1 { font-family: 'Outfit'; font-size: 24px; font-weight: 900; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .pay-hero p { font-size: 11px; opacity: 0.7; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .section-title { font-size: 14px; font-weight: 800; margin: 25px 0 15px; display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+        .section-title span { color: var(--nexra-blue); font-size: 10px; }
+
+        .package-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 30px; }
+        .pack-card { background: #fff; border: 1px solid var(--border); padding: 20px; border-radius: 24px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .pack-card.active { border-color: var(--nexra-blue); background: #f0f4ff; box-shadow: 0 8px 20px rgba(55, 66, 250, 0.1); }
+        .pack-card b { font-size: 18px; display: block; margin-bottom: 4px; font-family: 'Outfit'; }
+        .pack-card span { font-size: 11px; color: #666; font-weight: 700; }
+        .pack-card.active::after { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 10px; right: 10px; color: var(--nexra-blue); font-size: 14px; }
+
+        .gateway-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 5px; margin-bottom: 25px; scrollbar-width: none; }
+        .gateway-scroll::-webkit-scrollbar { display: none; }
+        .gw-card { min-width: 100px; background: #fff; border: 1px solid var(--border); padding: 15px; border-radius: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .gw-card.active { border-color: var(--pure-black); background: var(--gray-bg); transform: translateY(-3px); }
+        .gw-img { width: 40px; height: 40px; margin-bottom: 8px; border-radius: 10px; object-fit: contain; }
+        .gw-card span { font-size: 10px; font-weight: 800; display: block; }
+
+        .pay-form { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 28px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 25px; }
+        
+        .admin-details { background: var(--gray-bg); padding: 18px; border-radius: 20px; margin-bottom: 20px; border: 1px dashed #ddd; position: relative; }
+        .admin-details div { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .admin-details b { color: var(--nexra-blue); font-family: 'Inter'; overflow-wrap: break-word; text-align: right; max-width: 60%; cursor: copy; }
+        
+        .qr-container { text-align: center; margin: 15px 0; display: none; }
+        .qr-img { width: 150px; height: 150px; border-radius: 15px; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 10px; font-weight: 800; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group input { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid var(--gray-bg); background: var(--gray-bg); font-size: 14px; font-weight: 700; outline: none; font-family: 'Inter'; }
+
+        .btn-pay { width: 100%; padding: 18px; border-radius: 18px; border: none; background: var(--nexra-blue); color: #fff; font-size: 15px; font-weight: 900; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(55, 66, 250, 0.2); }
+        .btn-pay:active { transform: scale(0.96); }
+        .btn-pay:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .history-list { display: flex; flex-direction: column; gap: 12px; }
+        .hist-item { background: #fff; border: 1px solid var(--border); padding: 16px; border-radius: 22px; display: flex; justify-content: space-between; align-items: center; }
+        .status-pill { padding: 5px 12px; border-radius: 100px; font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+        .st-pending { background: #fff8e1; color: #fbc02d; }
+        .st-approved { background: #e8f5e9; color: #2e7d32; }
+        .st-rejected { background: #ffebee; color: #c62828; }
+
+        .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .popup-card { background: #fff; width: 100%; max-width: 350px; padding: 30px; border-radius: 32px; text-align: center; animation: springIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes springIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 3000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; transition: 0.3s; }
+
+        .loader-spin { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <i class="fa-solid fa-chevron-left back-btn" onclick="location.href='home.html'"></i>
+        <div style="font-family:'Outfit'; font-weight:900; font-size:16px; letter-spacing:-0.5px;">PURCHASE ASSETS</div>
+        <div class="profile-dp" id="userInitial">?</div>
+    </header>
+
+    <main class="viewport" id="appMain">
+        
+        <div class="pay-hero">
+            <h1>Cloud Liquidity</h1>
+            <p>Deploy nodes with secure coin assets</p>
+        </div>
+
+        <div class="section-title">Select Asset Package</div>
+        <div class="package-grid" id="packageGrid">
+            <div class="pack-card" onclick="selectPackage(5, 500, this)"><b>500 Coins</b><span>Cost: $5.00</span></div>
+            <div class="pack-card" onclick="selectPackage(10, 1000, this)"><b>1000 Coins</b><span>Cost: $10.00</span></div>
+            <div class="pack-card" onclick="selectPackage(25, 2600, this)"><b>2600 Coins</b><span>Cost: $25.00</span></div>
+            <div class="pack-card" onclick="selectPackage(50, 5500, this)"><b>5500 Coins</b><span>Cost: $50.00</span></div>
+        </div>
+
+        <div class="section-title">Payment Method <span id="userLocation">Detecting...</span></div>
+        <div class="gateway-scroll" id="gatewayList"></div>
+
+        <div class="pay-form">
+            <div class="admin-details" id="adminInfo">
+                <p style="text-align:center; font-size:11px; color:#999;">Select a gateway to see details.</p>
+            </div>
+
+            <div class="qr-container" id="qrArea">
+                <img src="" class="qr-img" id="qrCodeImg">
+                <p style="font-size:10px; margin-top:8px; font-weight:800; color:var(--nexra-blue);">SCAN TO DEPOSIT</p>
+            </div>
+
+            <div class="input-group">
+                <label>Deposit Verification (TxID / Ref No)</label>
+                <input type="text" id="txIdInput" placeholder="Paste Transaction ID here">
+            </div>
+
+            <button class="btn-pay" id="submitBtn" onclick="submitDepositHandshake()">
+                <span id="btnText">INITIATE VERIFICATION</span>
+                <div class="loader-spin" id="btnLoader"></div>
+            </button>
+        </div>
+
+        <div class="section-title">Recent Activity Ledger</div>
+        <div class="history-list" id="historyContainer">
+            <p style="text-align:center; padding:20px; color:#ccc; font-size:11px;">Syncing ledger...</p>
+        </div>
+
+    </main>
+
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup-card">
+            <i class="fa-solid fa-shield-check" style="font-size:60px; color:var(--nexra-green); margin-bottom:15px;"></i>
+            <h2 style="font-family:'Outfit'; font-weight:900;">Handshake Logged</h2>
+            <p style="font-size:13px; color:#666; margin-top:10px; line-height:1.5;">Your TxID has been submitted for auditor verification. Assets will appear in your vault within 1-2 hours.</p>
+            <button class="btn-pay" style="margin-top:20px;" onclick="closePopup()">CONTINUE</button>
+        </div>
+    </div>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <script type="module">
+        import { auth, db, doc, onSnapshot, updateDoc, increment, onAuthStateChanged, collection, addDoc, query, where, getDocs, serverTimestamp, getDoc, setDoc } from "../assets/js/firebase-config.js";
+
+        let currentUID = null;
+        let selectedAmount = 0;
+        let selectedCoins = 0;
+        let selectedGateway = null;
+        let isPakistan = false;
+
+        // 1. SYSTEM INITIALIZATION
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUID = user.uid;
+                document.getElementById('appMain').style.display = 'block';
+                await standardizeUserNode(user);
+                initProtocol();
+            } else {
+                window.location.href = "../auth/login.html";
+            }
+        });
+
+        // Migration Fix: Ensure document ID is UID, not Email
+        async function standardizeUserNode(user) {
+            const uidRef = doc(db, "pending_users", user.uid);
+            const uidSnap = await getDoc(uidRef);
+
+            if (!uidSnap.exists()) {
+                const q = query(collection(db, "pending_users"), where("email", "==", user.email));
+                const querySnap = await getDocs(q);
+                if (!querySnap.empty) {
+                    const data = querySnap.docs[0].data();
+                    await setDoc(uidRef, { ...data, uid: user.uid });
+                }
+            }
+            // Update Header Initial
+            const data = (await getDoc(uidRef)).data();
+            document.getElementById('userInitial').innerText = (data.name || "N")[0].toUpperCase();
+        }
+
+        async function initProtocol() {
+            await detectRegion();
+            syncHistoryLedger();
+            loadGateways();
+        }
+
+        async function detectRegion() {
+            try {
+                const res = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const data = await res.json();
+                const country = data.country || "International";
+                isPakistan = (country === "Pakistan");
+                document.getElementById('userLocation').innerText = country;
+            } catch (e) {
+                document.getElementById('userLocation').innerText = "Global Node";
+            }
+        }
+
+        // 2. GATEWAY ENGINE
+        async function loadGateways() {
+            const listEl = document.getElementById('gatewayList');
+            onSnapshot(collection(db, "getway"), (snap) => {
+                listEl.innerHTML = "";
+                snap.forEach(doc => {
+                    const gw = { id: doc.id, ...doc.data() };
+                    if(!gw.isActive) return;
+
+                    const show = (gw.type === "Both") || (isPakistan && gw.type === "Local") || (!isPakistan && gw.type === "International");
+                    
+                    if(show) {
+                        const div = document.createElement('div');
+                        div.className = 'gw-card';
+                        div.onclick = () => activateGateway(gw, div);
+                        div.innerHTML = `<img src="../assets/pay/${gw.icon}.png" class="gw-img" onerror="this.src='../assets/ui/logo.png'"><span>${gw.name}</span>`;
+                        listEl.appendChild(div);
+                    }
+                });
+            });
+        }
+
+        function activateGateway(gw, el) {
+            document.querySelectorAll('.gw-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            selectedGateway = gw;
+
+            const info = document.getElementById('adminInfo');
+            info.innerHTML = `
+                <div><span>Receiver:</span> <b>${gw.title || "NEXRA Node"}</b></div>
+                <div><span>Address:</span> <b onclick="copyToClip('${gw.number}')">${gw.number} <i class="fa-regular fa-copy"></i></b></div>
+            `;
+
+            const qrArea = document.getElementById('qrArea');
+            if (gw.qr) {
+                qrArea.style.display = 'block';
+                document.getElementById('qrCodeImg').src = `../assets/pay/qr/${gw.qr}.jpeg`;
+            } else {
+                qrArea.style.display = 'none';
+            }
+        }
+
+        window.selectPackage = (price, coins, el) => {
+            document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            selectedAmount = price;
+            selectedCoins = coins;
+        };
+
+        window.copyToClip = (text) => {
+            navigator.clipboard.writeText(text);
+            if(navigator.vibrate) navigator.vibrate(40);
+            alert("Protocol: Address copied to clipboard.");
+        };
+
+        // 3. SUBMISSION ENGINE
+        window.submitDepositHandshake = async () => {
+            const txId = document.getElementById('txIdInput').value.trim();
+            if (!selectedAmount) return alert("Select an asset package first.");
+            if (!selectedGateway) return alert("Select a payment gateway.");
+            if (!txId) return alert("Transaction ID required for audit.");
+
+            const btn = document.getElementById('submitBtn');
+            const loader = document.getElementById('btnLoader');
+            const btnText = document.getElementById('btnText');
+
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            loader.style.display = 'block';
+
+            try {
+                await addDoc(collection(db, "payment_requests"), {
+                    uid: currentUID,
+                    user_email: auth.currentUser.email,
+                    amount_usd: selectedAmount,
+                    coins: selectedCoins,
+                    gateway: selectedGateway.name,
+                    txid: txId,
+                    status: 'pending',
+                    timestamp: serverTimestamp()
+                });
+
+                document.getElementById('txIdInput').value = "";
+                document.getElementById('successPopup').style.display = 'flex';
+                confetti({ particleCount: 150, origin: { y: 0.7 } });
+            } catch (e) {
+                alert("Cloud Sync Failure: Check connection.");
+            } finally {
+                btn.disabled = false;
+                btnText.style.display = 'block';
+                loader.style.display = 'none';
+            }
+        };
+
+        // 4. LEDGER SYNC
+        function syncHistoryLedger() {
+            const q = query(collection(db, "payment_requests"), where("uid", "==", currentUID));
+            onSnapshot(q, (snap) => {
+                const container = document.getElementById('historyContainer');
+                let logs = [];
+                snap.forEach(d => logs.push(d.data()));
+                
+                logs.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                container.innerHTML = logs.length === 0 ? '<p style="text-align:center; padding:20px; color:#ccc;">No history logged.</p>' : "";
+                
+                logs.forEach(r => {
+                    const statusClass = r.status === 'approved' ? 'st-approved' : (r.status === 'rejected' ? 'st-rejected' : 'st-pending');
+                    container.innerHTML += `
+                        <div class="hist-item">
+                            <div style="display:flex; flex-direction:column; gap:2px;">
+                                <b style="font-size:13px;">${r.coins} Coins</b>
+                                <span style="font-size:9px; color:#999; font-weight:800;">${r.gateway} • $${r.amount_usd}.00</span>
+                            </div>
+                            <div class="status-pill ${statusClass}">${r.status}</div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        window.closePopup = () => document.getElementById('successPopup').style.display = 'none';
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

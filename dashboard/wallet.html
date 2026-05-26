@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Payout Command</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000; --pure-white: #ffffff; --nexra-green: #00c853; 
+            --nexra-gold: #ffcc00; --nexra-red: #ff4757; --gray-light: #f4f4f7; 
+            --border: rgba(0, 0, 0, 0.08); --vault-grad: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 100%);
+        }
+
+        /* 1. MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--pure-white); color: var(--pure-black); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+        .h-name { height: 18px; mix-blend-mode: multiply; }
+
+        .viewport { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 140px; }
+
+        /* THE VAULT CARD */
+        .vault-card { background: var(--vault-grad); color: #fff; padding: 30px 24px; border-radius: 35px; position: relative; overflow: hidden; margin-bottom: 25px; box-shadow: 0 20px 45px rgba(0,0,0,0.2); }
+        .v-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; display: block; margin-bottom: 10px; }
+        .v-main { display: flex; align-items: baseline; gap: 8px; margin-bottom: 15px; }
+        .v-val { font-family: 'Outfit'; font-size: 42px; font-weight: 900; letter-spacing: -1px; }
+        .v-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .ms-val { font-size: 14px; font-weight: 700; color: var(--nexra-green); }
+
+        /* LOCK STATUS CARD */
+        .lock-card { background: #fff; border: 1.5px solid var(--border); border-radius: 24px; padding: 15px 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+        .lock-card.warning { border-color: var(--nexra-red); background: #fffafa; }
+        .lock-card i { font-size: 22px; }
+
+        /* PAYOUT FORM */
+        .payout-card { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #999; letter-spacing: 1px; }
+        .input-box { width: 100%; padding: 16px; border-radius: 15px; border: 2px solid var(--gray-light); background: var(--gray-light); font-size: 15px; font-weight: 700; outline: none; transition: 0.2s; color: var(--pure-black); font-family: inherit; }
+        .input-box:focus { border-color: var(--pure-black); background: #fff; }
+
+        .tax-box { background: var(--gray-light); padding: 15px; border-radius: 15px; border: 1px dashed #ccc; margin-bottom: 20px; font-size: 13px; font-weight: 600; }
+
+        .btn-withdraw { width: 100%; padding: 20px; border-radius: 20px; border: none; background: var(--pure-black); color: #fff; font-size: 15px; font-weight: 900; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-withdraw:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* HISTORY LEDGER */
+        .ledger-box { background: #fff; border: 1px solid var(--border); border-radius: 30px; overflow: hidden; margin-bottom: 30px; }
+        .l-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--gray-light); }
+        .l-item:last-child { border-bottom: none; }
+        .l-info { flex: 1; }
+        .l-title { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+        .l-status { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; }
+        .s-pending { background: #fff4e0; color: #ff9f43; }
+        .s-approved { background: #e0fff0; color: var(--nexra-green); }
+        .s-rejected { background: #ffebeb; color: var(--nexra-red); }
+        
+        .btn-cancel { font-size: 9px; color: var(--nexra-red); background: #fff; border: 1.5px solid var(--nexra-red); padding: 6px 12px; border-radius: 10px; font-weight: 900; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-cancel:active { background: var(--nexra-red); color: #fff; }
+
+        .rules-box { background: #fdfdfd; border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 30px; }
+        .rules-box h4 { font-size: 12px; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; color: var(--nexra-red); }
+        .rules-box p { font-size: 11px; color: #777; line-height: 1.5; font-weight: 600; margin-bottom: 8px; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; }
+        .dock-link.active { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <img src="../assets/ui/name.png" style="height:18px; mix-blend-mode:multiply;">
+        <div style="width:34px"></div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Vault Node Display -->
+        <section class="vault-card">
+            <span class="v-label">Handshake Vault Balance</span>
+            <div class="v-main"><span style="font-size:24px; color:var(--nexra-green); font-weight:500;">$</span><span class="v-val" id="userBal">0.0000</span></div>
+            <div class="v-row">
+                <div style="display:flex; flex-direction:column">
+                    <span class="v-label">Lifetime Yield</span>
+                    <span class="ms-val" id="userPaid">$0.00</span>
+                </div>
+                <div style="display:flex; flex-direction:column; text-align:right">
+                    <span class="v-label">Active Team Nodes</span>
+                    <span class="ms-val" id="userRef">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lock Protocol Interface -->
+        <div id="lockStatus" class="lock-card">
+            <i class="fa-solid fa-circle-notch fa-spin" style="color:var(--nexra-gold)"></i>
+            <div>
+                <div style="font-size:13px; font-weight:800;">Protocol: Authenticating...</div>
+                <div style="font-size:10px; color:#888; font-weight:600;">Connecting to ledger.</div>
+            </div>
+        </div>
+
+        <div class="rules-box">
+            <h4>Withdrawal Protocols</h4>
+            <p>1. <b>Manual Audit:</b> Each request is reconciled by auditors within 1-2 hours.</p>
+            <p>2. <b>Recall Window:</b> Commands can be aborted within 30 minutes for a full refund.</p>
+            <p>3. <b>Single Sequence:</b> Only one active request is allowed per technical node.</p>
+        </div>
+
+        <!-- Settlement Form -->
+        <section class="payout-card" id="formWrapper">
+            <form id="payoutForm">
+                <div class="form-group">
+                    <label>Settlement Gateway</label>
+                    <select class="input-box" id="pMethod" required>
+                        <option value="JazzCash">JazzCash (PK)</option>
+                        <option value="EasyPaisa">EasyPaisa (PK)</option>
+                        <option value="Binance (USDT)">Binance (USDT)</option>
+                        <option value="SadaPay">SadaPay (PK)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Target Identification</label><input type="text" id="pNumber" class="input-box" placeholder="Account / Wallet ID" required></div>
+                <div class="form-group"><label>Official Account Title</label><input type="text" id="pTitle" class="input-box" placeholder="Registered Name" required></div>
+                <div class="form-group"><label>Command Value (USD)</label><input type="number" id="pAmount" class="input-box" step="0.01" oninput="calculateLiveFee()" required></div>
+                
+                <div class="tax-box">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span>System Audit Fee (<span id="taxRateDisplay">5</span>%)</span>
+                        <span id="taxValue" style="color:var(--nexra-red)">$0.00</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-weight:900; font-size:15px; color:var(--nexra-green)">
+                        <span>Net Liquidity Dispatch</span>
+                        <span id="netValue">$0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-withdraw" id="subBtn" disabled>SYNCING VAULT...</button>
+            </form>
+        </section>
+
+        <h3 style="font-size:15px; font-weight:900; margin-bottom:15px; padding-left:5px;">Protocol Ledger</h3>
+        <div class="ledger-box" id="historyList">
+            <!-- Dynamically Injected Logs -->
+        </div>
+
+    </main>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link active"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, updateDoc, increment, collection, addDoc, 
+            serverTimestamp, query, where, getDocs, deleteDoc, getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userData = null;
+        let sysSettings = { min: 0.75, max: 500, tax: 5 };
+        let activeRequestCount = 0;
+
+        // 1. SYSTEM INITIALIZATION
+        onAuthStateChanged(auth, (user) => {
+            if (!user) window.location.href = "../auth/login.html";
+            else {
+                syncSystemConfig();
+                syncUserNode(user.uid);
+                syncHistoryProtocol(user.uid);
+            }
+        });
+
+        async function syncSystemConfig() {
+            onSnapshot(doc(db, "settings", "app"), (snap) => {
+                if(snap.exists()) {
+                    const d = snap.data();
+                    sysSettings = { 
+                        min: d.withdraw_min || 0.75, 
+                        max: d.withdraw_max || 500,
+                        tax: d.tax_rate || 5
+                    };
+                    document.getElementById('taxRateDisplay').innerText = sysSettings.tax;
+                }
+            });
+        }
+
+        function syncUserNode(uid) {
+            onSnapshot(doc(db, "pending_users", uid), async (snap) => {
+                if(snap.exists()){
+                    userData = snap.data();
+                    document.getElementById('userBal').innerText = (userData.balance || 0).toFixed(4);
+                    document.getElementById('userPaid').innerText = `$${(userData.withdrawn || 0).toFixed(2)}`;
+                    
+                    // Fetch Active Referral Count
+                    const qRef = query(collection(db, "pending_users"), where("referral_id", "==", userData.nexra_id || '---'), where("status", "==", "approved"));
+                    const refSnap = await getDocs(qRef);
+                    document.getElementById('userRef').innerText = refSnap.size;
+
+                    evaluateLockMechanism(refSnap.size);
+                }
+            });
+        }
+
+        // 2. PROTOCOL LOCK LOGIC
+        function evaluateLockMechanism(activeRefs) {
+            const withdraws = userData.withdraw_count || 0;
+            const consumed = userData.refs_used_for_payout || 0;
+            const available = activeRefs - consumed;
+
+            let isLocked = false;
+            let reason = "";
+
+            if(activeRequestCount > 0) {
+                isLocked = true;
+                reason = "Existing handshake in progress. Wait for audit.";
+            } else if(withdraws >= 30) {
+                if(available < 2) { isLocked = true; reason = "Legacy Lock: 2 new partners required."; }
+            } else if (withdraws > 0 && withdraws % 2 === 0) {
+                if(available < 2) { isLocked = true; reason = `Cycle Lock: 2 partners required after settlement #${withdraws}.`; }
+            }
+
+            const statusBox = document.getElementById('lockStatus');
+            const subBtn = document.getElementById('subBtn');
+            
+            if(isLocked) {
+                statusBox.className = "lock-card warning";
+                statusBox.innerHTML = `<i class="fa-solid fa-shield-halved" style="color:var(--nexra-red)"></i><div><div style="font-size:13px; font-weight:800;">Protocol: Restricted</div><div style="font-size:10px; color:var(--nexra-red); font-weight:700;">${reason}</div></div>`;
+                subBtn.disabled = true;
+                subBtn.innerText = "COMMAND LOCKED";
+            } else {
+                statusBox.className = "lock-card";
+                statusBox.innerHTML = `<i class="fa-solid fa-unlock-keyhole" style="color:var(--nexra-green)"></i><div><div style="font-size:13px; font-weight:800;">Protocol: Unlocked</div><div style="font-size:10px; color:#888; font-weight:600;">Vault authenticated. Ready for settlement #${withdraws + 1}.</div></div>`;
+                subBtn.disabled = false;
+                subBtn.innerText = "EXECUTE SETTLEMENT";
+            }
+        }
+
+        window.calculateLiveFee = () => {
+            const val = parseFloat(document.getElementById('pAmount').value) || 0;
+            const fee = val * (sysSettings.tax / 100);
+            document.getElementById('taxValue').innerText = `-$${fee.toFixed(2)}`;
+            document.getElementById('netValue').innerText = `$${(val - fee).toFixed(2)}`;
+        };
+
+        // 3. SETTLEMENT HANDSHAKE
+        document.getElementById('payoutForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const amt = parseFloat(document.getElementById('pAmount').value);
+            if(amt < sysSettings.min || amt > sysSettings.max) return alert(`System Protocol: $${sysSettings.min} - $${sysSettings.max}`);
+            if(amt > userData.balance) return alert("Vault Liquidity Mismatch.");
+
+            const btn = document.getElementById('subBtn');
+            btn.disabled = true;
+            btn.innerText = "ENCRYPTING...";
+
+            try {
+                const wCount = userData.withdraw_count || 0;
+                let refDebt = (wCount >= 30 || (wCount > 0 && wCount % 2 === 0)) ? 2 : 0;
+
+                // Push to Ledger
+                await addDoc(collection(db, "withdrawal_requests"), {
+                    uid: auth.currentUser.uid,
+                    user_email: auth.currentUser.email,
+                    method: document.getElementById('pMethod').value,
+                    account_number: document.getElementById('pNumber').value,
+                    account_name: document.getElementById('pTitle').value,
+                    requested_amount: amt,
+                    net_payout: amt * (1 - (sysSettings.tax / 100)),
+                    status: "pending",
+                    timestamp: serverTimestamp()
+                });
+
+                // Update Master Node
+                await updateDoc(doc(db, "pending_users", auth.currentUser.uid), {
+                    balance: increment(-amt),
+                    withdraw_count: increment(1),
+                    refs_used_for_payout: increment(refDebt)
+                });
+
+                // Update Notifications
+                await addDoc(collection(db, "notifications"), {
+                    user_email: auth.currentUser.email,
+                    title: "Settlement Protocol Logged",
+                    message: `Withdrawal command for $${amt} dispatched to Auditor hub.`,
+                    type: "payout",
+                    timestamp: serverTimestamp()
+                });
+
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                e.target.reset();
+                alert("Protocol Success: Settlement handshaked.");
+
+            } catch (err) { alert("Auth Failure: " + err.message); }
+            btn.disabled = false;
+        };
+
+        // 4. HISTORY SYNC (FIXED: CLIENT-SIDE SORTING TO AVOID INDEX ERROR)
+        function syncHistoryProtocol(uid) {
+            const q = query(collection(db, "withdrawal_requests"), where("uid", "==", uid));
+            
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('historyList');
+                let rawLogs = [];
+                activeRequestCount = 0;
+
+                snap.forEach(docSnap => {
+                    const log = docSnap.data();
+                    if(log.status === 'pending') activeRequestCount++;
+                    rawLogs.push({ id: docSnap.id, ...log });
+                });
+
+                // Client-side sort: Newest first (solves the Index error)
+                rawLogs.sort((a, b) => {
+                    const timeA = a.timestamp ? a.timestamp.toMillis() : Date.now();
+                    const timeB = b.timestamp ? b.timestamp.toMillis() : Date.now();
+                    return timeB - timeA;
+                });
+
+                if(rawLogs.length === 0) {
+                    list.innerHTML = "<p style='padding:40px; text-align:center; color:#ccc; font-size:12px;'>No ledger records found.</p>";
+                    return;
+                }
+
+                list.innerHTML = "";
+                rawLogs.forEach(t => {
+                    const date = t.timestamp ? t.timestamp.toDate() : new Date();
+                    const diffMins = (new Date() - date) / 60000;
+                    const canRecall = (t.status === 'pending' && diffMins < 30);
+
+                    list.innerHTML += `
+                        <div class="l-item">
+                            <div class="l-info">
+                                <div class="l-title">${t.method} Protocol</div>
+                                <div style="font-size:10px; color:#999; font-weight:700;">${date.toLocaleString()}</div>
+                                ${canRecall ? `<button class="btn-cancel" onclick="recallProtocol('${t.id}', ${t.requested_amount})">RECALL COMMAND</button>` : ''}
+                            </div>
+                            <div style="text-align:right">
+                                <div style="font-weight:900; font-size:14px;">$${t.requested_amount.toFixed(2)}</div>
+                                <span class="l-status s-${t.status}">${t.status}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Refresh lock status after counting pending requests
+                const qRef = query(collection(db, "pending_users"), where("referral_id", "==", userData?.nexra_id || '---'), where("status", "==", "approved"));
+                getDocs(qRef).then(rs => evaluateLockMechanism(rs.size));
+            });
+        }
+
+        window.recallProtocol = async (id, amt) => {
+            if(confirm("Protocol Recall: Stop dispatch and refund vault?")){
+                try {
+                    await deleteDoc(doc(db, "withdrawal_requests", id));
+                    await updateDoc(doc(db, "pending_users", auth.currentUser.uid), { 
+                        balance: increment(amt),
+                        withdraw_count: increment(-1) 
+                    });
+
+                    await addDoc(collection(db, "notifications"), {
+                        user_email: auth.currentUser.email,
+                        title: "Settlement Recalled",
+                        message: `Withdrawal command for $${amt} was aborted. Balance refunded.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                    
+                    alert("Vault Refilled.");
+                } catch(e) { alert("Recall sync error."); }
+            }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

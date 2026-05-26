@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Referral Command</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --green: #00c853;
+            --gold: #ffcc00;
+            --gray: #f8f9fa;
+            --border: rgba(0,0,0,0.06);
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. LAYOUT LOCKDOWN */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100%; overflow-x: hidden; 
+            background: var(--white); color: var(--black); font-family: 'Inter', sans-serif;
+            touch-action: pan-y; -webkit-user-select: none;
+        }
+
+        .bg-mesh {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 35px 35px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+        }
+
+        /* 2. TOP NAVIGATION */
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo-btn { width: 34px; height: 34px; cursor: pointer; }
+        .h-name { height: 18px; mix-blend-mode: multiply; }
+        .profile-trigger { width: 35px; height: 35px; border-radius: 50%; background: var(--black); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+
+        .viewport { width: 100%; max-width: 1000px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+
+        /* 3. ATTRACTION MESSAGE CARD */
+        .wealth-quote {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: #fff; padding: 25px; border-radius: 28px; margin-bottom: 25px;
+            position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .wealth-quote i { font-size: 40px; position: absolute; right: -10px; bottom: -10px; opacity: 0.1; transform: rotate(-15deg); }
+        .wealth-quote h2 { font-family: var(--font-head); font-size: 18px; margin-bottom: 8px; color: var(--green); }
+        .wealth-quote p { font-size: 13px; opacity: 0.8; line-height: 1.5; font-weight: 500; }
+
+        /* 4. HERO: NEXRA ID & LINK */
+        .refer-hero {
+            background: var(--white); border: 1px solid var(--border); padding: 35px 24px; border-radius: 32px;
+            text-align: center; margin-bottom: 25px; position: relative; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .refer-hero h1 { font-family: var(--font-head); font-size: 24px; letter-spacing: -0.5px; }
+        .my-id { font-size: 12px; color: var(--green); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px; display: block; }
+        
+        .link-card {
+            background: var(--gray); border: 1px solid var(--border);
+            padding: 15px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .link-val { font-size: 13px; font-weight: 700; color: #555; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+        .copy-trigger { background: var(--black); color: var(--white); border: none; padding: 10px 20px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .copy-trigger:active { transform:scale(0.9); }
+
+        .share-row { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+        .share-btn { width: 50px; height: 50px; border-radius: 16px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: 0.3s; border: 1px solid var(--border); }
+        .share-btn:active { transform: scale(0.9); }
+
+        /* 5. STATS & MILESTONES */
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+        .stat-card { background: #fff; border: 1px solid var(--border); padding: 20px; border-radius: 24px; text-align: center; }
+        .stat-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .stat-val { font-size: 26px; font-weight: 900; font-family: var(--font-head); letter-spacing:-1px;}
+
+        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; padding-left: 5px; letter-spacing:-0.5px; }
+        .milestone-track { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-bottom: 25px; }
+        .milestone-track::-webkit-scrollbar { display: none; }
+        .m-card { min-width: 145px; background: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 22px; text-align: center; transition:0.3s; }
+        .m-card.active { border-color: var(--green); background: #f0fff4; }
+        .m-card.active .m-reward { color: var(--green); }
+        .m-title { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 5px; }
+        .m-reward { font-size: 16px; font-weight: 900; color: var(--black); }
+
+        /* 6. LEADERBOARD */
+        .leaderboard-box { background: #fff; border: 1px solid var(--border); border-radius: 28px; overflow: hidden; margin-bottom: 30px; }
+        .lb-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--gray); }
+        .lb-item:last-child { border-bottom: none; }
+        .lb-rank { width: 24px; font-weight: 900; font-size: 14px; color: #bbb; }
+        .lb-item:nth-child(1) .lb-rank { color: var(--gold); }
+        .lb-val { font-weight: 900; font-size: 13px; color: var(--green); margin-left: auto; }
+
+        /* 7. NETWORK LEDGER */
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; padding: 0 5px; }
+        .tab { padding: 10px 18px; border-radius: 100px; background: var(--gray); font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); transition:0.2s; }
+        .tab.active { background: var(--black); color: #fff; border-color:var(--black); }
+
+        .team-box { background: #fff; border: 1px solid var(--border); border-radius: 28px; overflow: hidden; min-height: 150px; }
+        .t-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--gray); }
+        .t-avatar { width: 42px; height: 42px; border-radius: 14px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; text-transform: uppercase; }
+        .t-info { flex: 1; }
+        .t-name { font-size: 14px; font-weight: 800; }
+        .t-status { font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; margin-left: auto; }
+        .s-approved { background: #e0fff0; color: var(--green); }
+        .s-pending { background: #fff4e0; color: #ff9f43; }
+        .s-rejected { background: #ffebeb; color: #ff4d4d; }
+
+        /* 8. BOT & DOCK */
+        .bot-fab { position: fixed; bottom: 105px; right: 20px; width: 55px; height: 55px; background: var(--black); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; z-index: 1500; border: 2px solid #fff; }
+        .chat-window { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.1); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+        .chat-window.open { bottom: 0; }
+        .chat-header { padding: 25px; border-bottom: 1px solid var(--gray); display: flex; justify-content: space-between; align-items: center; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .msg-bot { background: var(--gray); color: var(--black); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight:600; line-height: 1.5; }
+        .chat-opt { background: #fff; border: 1.5px solid var(--black); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; }
+
+        .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--black); color: #fff; padding: 15px 30px; border-radius: 100px; font-size: 12px; font-weight: 800; z-index: 5000; transition: 0.5s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .toast.show { top: 40px; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+        .dock-link.active::after { content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+    <div class="toast" id="toast">Handshake: Link copied to clipboard</div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="logo-btn" onclick="location.href='home.html'" alt="Home">
+        <img src="../assets/ui/name.png" class="h-name" alt="NEXRA">
+        <div class="profile-trigger" id="userInitial" onclick="location.href='profile.html'">?</div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Wealth Blueprint Message -->
+        <section class="wealth-quote">
+            <i class="fa-solid fa-gem"></i>
+            <h2>Ecosystem Wealth Blueprint</h2>
+            <p>"True digital freedom isn't found in solo work, but in the nodes you connect. Build your network, unlock liquid wealth, and dominate the ledger together."</p>
+        </section>
+
+        <!-- Referral Link Hero -->
+        <section class="refer-hero">
+            <h1 style="font-family:'Outfit'; font-weight:900;">Invitation Protocol</h1>
+            <span class="my-id" id="displayID">SYNCHRONIZING...</span>
+            <div class="link-card">
+                <span class="link-val" id="refLink">Initializing Neural Link...</span>
+                <button class="copy-trigger" onclick="copyReferral()">COPY</button>
+            </div>
+            <div class="share-row">
+                <div class="share-btn" onclick="share('whatsapp')" style="color: #25D366;"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="share-btn" onclick="share('telegram')" style="color: #0088cc;"><i class="fa-brands fa-telegram"></i></div>
+                <div class="share-btn" onclick="share('native')" style="color: #000;"><i class="fa-solid fa-share-nodes"></i></div>
+            </div>
+        </section>
+
+        <!-- Real-Time Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-lbl">Active Nodes</span>
+                <span class="stat-val" id="teamCount">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-lbl">Network Yield</span>
+                <span class="stat-val" id="teamEarned" style="color:var(--green)">$0.00</span>
+            </div>
+        </div>
+
+        <div class="section-title">Milestone Thresholds</div>
+        <div class="milestone-track">
+            <div class="m-card" id="m-1"><span class="m-title">1st Invite</span><div class="m-reward">$0.20</div></div>
+            <div class="m-card" id="m-10"><span class="m-title">10 Partners</span><div class="m-reward">$0.65</div></div>
+            <div class="m-card" id="m-25"><span class="m-title">25 Partners</span><div class="m-reward">$1.00</div></div>
+            <div class="m-card" id="m-50"><span class="m-title">50 Partners</span><div class="m-reward">$5.00</div></div>
+            <div class="m-card" id="m-100"><span class="m-title">100 Partners</span><div class="m-reward">$15.00</div></div>
+        </div>
+
+        <div class="section-title">Global Top Partners</div>
+        <div class="leaderboard-box" id="leaderboard">
+            <p style="padding:20px; text-align:center; color:#ccc; font-size:12px;">Fetching Rank Data...</p>
+        </div>
+
+        <div class="section-title">Partner Ledger</div>
+        <div class="tabs">
+            <div class="tab active" onclick="filterTeam('all', this)">All Nodes</div>
+            <div class="tab" onclick="filterTeam('approved', this)">Active</div>
+            <div class="tab" onclick="filterTeam('pending', this)">Waiting</div>
+        </div>
+        <div class="team-box" id="teamList">
+            <p style="padding:40px; text-align:center; color:#ccc; font-size:12px;">Empty Ledger</p>
+        </div>
+
+    </main>
+
+    <!-- Interactive AI Bot -->
+    <div class="bot-fab" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+    <div class="chat-window" id="chatBot">
+        <div class="chat-header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="width:10px; height:10px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green)"></span>
+                <span style="font-weight:900; font-family:'Outfit';">REFERRAL AI</span>
+            </div>
+            <i class="fa-solid fa-chevron-down" onclick="toggleChat()" style="cursor:pointer; font-size:20px;"></i>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg-bot">Protocol engaged. I can explain the network yield logic. What would you like to know?</div>
+            <div class="chat-options">
+                <button class="chat-opt" onclick="botAsk(1)">How much per invite?</button>
+                <button class="chat-opt" onclick="botAsk(2)">Milestone rewards logic?</button>
+                <button class="chat-opt" onclick="botAsk(3)">My partner status is 'Waiting'?</button>
+                <button class="chat-opt" onclick="window.open('https://chat.whatsapp.com/YOUR_LINK')">Join Official Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link active"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, collection, query, where, onSnapshot, orderBy, limit 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let myNexraID = "", fullTeam = [];
+
+        // 1. SYSTEM IDENTITY SYNC
+        onAuthStateChanged(auth, (user) => {
+            if(!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                syncUserData(user.uid);
+                syncLeaderboard();
+            }
+        });
+
+        function syncUserData(uid) {
+            onSnapshot(doc(db, "pending_users", uid), (snap) => {
+                if(!snap.exists()) return;
+                const d = snap.data();
+                
+                myNexraID = d.nexra_id || "PENDING_VERIFICATION";
+                
+                document.getElementById('displayID').innerText = myNexraID;
+                document.getElementById('userInitial').innerText = (d.name || "N")[0];
+                
+                if(d.status === "approved" && d.nexra_id) {
+                    const link = `https://nexra.ct.ws/auth/register.html?ref=${d.nexra_id}`;
+                    document.getElementById('refLink').innerText = link;
+                    syncTeamNodes(d.nexra_id);
+                } else {
+                    document.getElementById('refLink').innerText = "Protocol Locked: Activate Account First";
+                }
+            });
+        }
+
+        // 2. TEAM LEDGER ENGINE
+        function syncTeamNodes(refID) {
+            const teamQ = query(collection(db, "pending_users"), where("referral_id", "==", refID));
+            onSnapshot(teamQ, (snap) => {
+                fullTeam = [];
+                let approvedCount = 0;
+                
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    fullTeam.push(d);
+                    if(d.status === 'approved') approvedCount++;
+                });
+
+                document.getElementById('teamCount').innerText = fullTeam.length;
+                document.getElementById('teamEarned').innerText = "$" + (approvedCount * 0.054).toFixed(3);
+                
+                updateMilestoneView(approvedCount);
+                renderLedger('all');
+            });
+        }
+
+        function updateMilestoneView(count) {
+            const milestones = [1, 10, 25, 50, 100];
+            milestones.forEach(m => {
+                const el = document.getElementById(`m-${m}`);
+                if(el) {
+                    if(count >= m) el.classList.add('active');
+                    else el.classList.remove('active');
+                }
+            });
+        }
+
+        window.filterTeam = (filter, el) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            renderLedger(filter);
+        };
+
+        function renderLedger(filter) {
+            const list = document.getElementById('teamList');
+            list.innerHTML = "";
+            
+            const filtered = fullTeam.filter(u => {
+                if(filter === 'all') return true;
+                if(filter === 'pending') return u.status.includes('pending');
+                return u.status === filter;
+            });
+            
+            if(filtered.length === 0) {
+                list.innerHTML = `<p style="padding:40px; text-align:center; color:#ccc; font-size:12px;">Node Filter Empty</p>`;
+                return;
+            }
+
+            filtered.forEach(u => {
+                const initial = (u.name || "N")[0];
+                const statusLabel = u.status === 'approved' ? 'Active' : 'Waiting';
+                
+                list.innerHTML += `
+                    <div class="t-item">
+                        <div class="t-avatar">${initial}</div>
+                        <div class="t-info"><div class="t-name">${u.name}</div></div>
+                        <div class="t-status s-${u.status}">${statusLabel}</div>
+                    </div>`;
+            });
+        }
+
+        // 3. GLOBAL RANKING
+        function syncLeaderboard() {
+            const lbQ = query(collection(db, "pending_users"), orderBy("balance", "desc"), limit(10));
+            onSnapshot(lbQ, (snap) => {
+                const lb = document.getElementById('leaderboard');
+                lb.innerHTML = "";
+                let rank = 1;
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    lb.innerHTML += `
+                        <div class="lb-item">
+                            <div class="lb-rank">${rank}</div>
+                            <div class="lb-info"><div class="lb-name">${d.name}</div></div>
+                            <div class="lb-val">$${(d.balance || 0).toFixed(2)}</div>
+                        </div>`;
+                    rank++;
+                });
+            });
+        }
+
+        // 4. PROTOCOL ACTIONS
+        window.copyReferral = () => {
+            const link = document.getElementById('refLink').innerText;
+            if(link.includes("Protocol Locked")) return alert("Activate account to unlock link.");
+            
+            navigator.clipboard.writeText(link);
+            const toast = document.getElementById('toast');
+            toast.classList.add('show'); 
+            setTimeout(() => toast.classList.remove('show'), 2500);
+            if(navigator.vibrate) navigator.vibrate(50);
+        };
+
+        window.share = (platform) => {
+            const link = document.getElementById('refLink').innerText;
+            if(link.includes("Protocol Locked")) return;
+            const text = `Join NEXRA Global Hub and process technical nodes for daily USD! Enroll here: ${link}`;
+            
+            if(platform === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
+            else if(platform === 'telegram') window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`);
+            else if(platform === 'native' && navigator.share) navigator.share({ title: 'NEXRA Invitation', text: text, url: link });
+        };
+
+        // 5. AI BOT DIALOGUE
+        window.toggleChat = () => document.getElementById('chatBot').classList.toggle('open');
+        window.botAsk = (id) => {
+            const box = document.getElementById('chatBody');
+            const questions = ["How much per invite?", "Milestone rewards logic?", "My partner status is 'Waiting'?"];
+            const answers = [
+                "You earn exactly $0.054 commission for every partner who completes the verification protocol.",
+                "Milestones are extra bonuses. For example, reaching 100 partners unlocks a massive $15.00 cash bonus instantly.",
+                "Waiting status means they registered but haven't paid the $2 activation fee yet. Direct them to the payment portal."
+            ];
+            
+            box.innerHTML += `<div class="msg-bot" style="align-self:flex-end; background:var(--black); color:#fff; border-radius: 18px 18px 4px 18px;">${questions[id-1]}</div>`;
+            setTimeout(() => {
+                box.innerHTML += `<div class="msg-bot">${answers[id-1]}</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 600);
+        };
+    </script>
+</body>
+</html>

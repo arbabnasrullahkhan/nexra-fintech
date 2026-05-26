@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Technical Node Terminal</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --blue: #007aff; --red: #d32f2f; --brown: #5d4037; --gray-bg: #f8f9fa;
+            --border: rgba(0, 0, 0, 0.05);
+        }
+
+        /* 1. MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100dvh; 
+            overflow: hidden; background: var(--white); 
+            font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; 
+        }
+
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px);
+            padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);
+        }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+        .quota-badge { background: var(--black); color: #fff; padding: 6px 14px; border-radius: 1000px; font-size: 10px; font-weight: 900; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        .viewport { width: 100%; height: calc(100% - 140px); display: flex; align-items: center; justify-content: center; padding: 20px; padding-bottom: env(safe-area-inset-bottom); }
+        .terminal-container { width: 100%; max-width: 420px; position: relative; perspective: 1000px; }
+
+        /* 2. DYNAMIC TASK CARD STYLING */
+        .node-card {
+            background: #fff; border: 1px solid var(--border); border-radius: 40px;
+            padding: 30px; width: 100%; position: relative; overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08); 
+            animation: springIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
+        }
+
+        /* Normal Theme */
+        .node-card.theme-standard { background: #fff; color: var(--black); }
+        .node-card.theme-standard .node-desc { color: #777; }
+
+        /* External Sponsor Theme (Full Red) */
+        .node-card.theme-sponsor { background: linear-gradient(145deg, #e53935, #c62828); color: #fff; border: none; box-shadow: 0 30px 60px rgba(211, 47, 47, 0.3); }
+        .node-card.theme-sponsor .hologram-ripple { background: radial-gradient(circle, #fff 0%, transparent 70%); opacity: 0.2; }
+        .node-card.theme-sponsor .node-name { color: #fff; }
+        .node-card.theme-sponsor .node-desc { color: rgba(255,255,255,0.8); }
+        .node-card.theme-sponsor .learn-more { color: #ffeb3b; }
+        .node-card.theme-sponsor .vote-btn { background: rgba(0,0,0,0.2); border-color: transparent; }
+        .node-card.theme-sponsor .vote-btn svg { fill: #fff; opacity: 0.7; }
+        .node-card.theme-sponsor .vote-btn span { color: rgba(255,255,255,0.7); }
+        .node-card.theme-sponsor .btn-submit { background: #fff; color: #c62828; }
+
+        /* Company Branded Theme (Full Brown) */
+        .node-card.theme-branded { background: linear-gradient(145deg, #6d4c41, #4e342e); color: #fff; border: none; box-shadow: 0 30px 60px rgba(93, 64, 55, 0.3); }
+        .node-card.theme-branded .hologram-ripple { background: radial-gradient(circle, #fff 0%, transparent 70%); opacity: 0.2; }
+        .node-card.theme-branded .node-name { color: #fff; }
+        .node-card.theme-branded .node-desc { color: rgba(255,255,255,0.8); }
+        .node-card.theme-branded .learn-more { color: #ffeb3b; }
+        .node-card.theme-branded .vote-btn { background: rgba(0,0,0,0.2); border-color: transparent; }
+        .node-card.theme-branded .vote-btn svg { fill: #fff; opacity: 0.7; }
+        .node-card.theme-branded .vote-btn span { color: rgba(255,255,255,0.7); }
+        .node-card.theme-branded .btn-submit { background: #fff; color: #4e342e; }
+
+        .image-stage {
+            width: 100%; height: 160px; margin-top: 5px;
+            position: relative; display: flex; align-items: center; justify-content: center;
+        }
+        .hologram-ripple {
+            position: absolute; width: 110px; height: 110px;
+            background: radial-gradient(circle, var(--green) 0%, transparent 70%);
+            border-radius: 50%; opacity: 0.12; animation: ripple 2.5s infinite;
+        }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.15; } 100% { transform: scale(2.2); opacity: 0; } }
+
+        .node-png { width: 85%; height: 85%; object-fit: contain; z-index: 2; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15)); }
+
+        .node-info { text-align: center; margin: 20px 0; }
+        .node-name { font-family: 'Outfit'; font-size: 24px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 5px; }
+        .node-desc { font-size: 13px; font-weight: 500; line-height: 1.4; padding: 0 10px; }
+        
+        .learn-more { display: inline-flex; align-items: center; gap: 5px; color: var(--green); font-size: 11px; font-weight: 800; text-decoration: none; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+        .learn-more:active { transform: scale(0.95); }
+
+        /* 3. VOTE BUTTONS */
+        .vote-row { display: flex; gap: 15px; margin: 20px 0; }
+        .vote-btn {
+            flex: 1; height: 70px; border-radius: 20px; border: 2.5px solid var(--gray-bg);
+            background: var(--gray-bg); cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+        }
+        .vote-btn span { font-size: 9px; font-weight: 900; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+        .vote-btn svg { width: 22px; height: 22px; fill: #ccc; transition: 0.3s; }
+        
+        /* Selected States (Adapts per theme slightly via JS/CSS structure) */
+        .vote-btn.agree.selected { border-color: var(--green); background: #fff; box-shadow: 0 10px 20px rgba(0, 200, 83, 0.1); }
+        .vote-btn.agree.selected svg { fill: var(--green); transform: scale(1.1); }
+        .vote-btn.agree.selected span { color: var(--green); }
+        
+        .vote-btn.disagree.selected { border-color: var(--red); background: #fff; box-shadow: 0 10px 20px rgba(255, 71, 87, 0.1); }
+        .vote-btn.disagree.selected svg { fill: var(--red); transform: scale(1.1); }
+        .vote-btn.disagree.selected span { color: var(--red); }
+
+        .btn-submit {
+            width: 100%; padding: 20px; border-radius: 20px; border: none;
+            background: var(--black); color: #fff; font-size: 14px;
+            font-weight: 900; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); letter-spacing: 1px;
+        }
+        .btn-submit:active { transform: scale(0.96); }
+        .btn-submit:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+        /* 4. FINISH VIEW */
+        .finish-view { display: none; text-align: center; background: #fff; border-radius: 40px; padding: 40px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); border: 1px solid var(--border); animation: springIn 0.8s ease; }
+        .finish-icon { font-size: 60px; color: var(--green); margin-bottom: 20px; filter: drop-shadow(0 10px 20px rgba(0,200,83,0.3)); }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; transition: 0.2s; }
+        .dock-link:active { transform: scale(0.85); }
+        .dock-link.active { color: #fff; }
+
+        #bootLoader { position: fixed; inset: 0; background: #fff; z-index: 5000; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 15px; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #eee; border-top-color: var(--black); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+        @keyframes springIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="bootLoader"><div class="spinner"></div><p style="font-size:10px; font-weight:800; letter-spacing:1px; color:#999;">SYNCING GLOBAL POOL...</p></div>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <img src="../assets/ui/name.png" style="height:18px; mix-blend-mode:multiply;">
+        <div class="quota-badge"><span id="doneCount">0</span> / <span id="totalLimit">--</span></div>
+    </header>
+
+    <main class="viewport">
+        <div class="terminal-container">
+            <!-- Active Node Card -->
+            <div id="activeCard" class="node-card theme-standard" style="display:none;">
+                <div class="image-stage">
+                    <div class="hologram-ripple"></div>
+                    <img id="prodImg" src="" class="node-png">
+                </div>
+
+                <div class="node-info">
+                    <h4 class="node-name" id="taskName">Loading...</h4>
+                    <p class="node-desc" id="taskDesc">Fetching technical parameters...</p>
+                    <a href="#" id="taskLink" target="_blank" class="learn-more">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <div class="vote-row">
+                    <button class="vote-btn agree" id="btnAgree" onclick="handleVote('positive')">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        <span>Confirm</span>
+                    </button>
+                    <button class="vote-btn disagree" id="btnDisagree" onclick="handleVote('negative')">
+                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                        <span>Reject</span>
+                    </button>
+                </div>
+
+                <button class="btn-submit" id="submitBtn" onclick="processNode()" disabled>SYNC WORK</button>
+            </div>
+
+            <!-- Finish View -->
+            <div id="finishView" class="finish-view">
+                <i class="fa-solid fa-circle-check finish-icon"></i>
+                <h1 style="font-family:'Outfit'; font-weight:900;">Node Completed</h1>
+                <p style="color:#888; font-size:13px; margin-top:10px; line-height: 1.5; font-weight:500;">You have maximized your tier quota for today. The technical pool will automatically refresh at Midnight GMT.</p>
+                <button class="btn-submit" style="margin-top:30px;" onclick="location.href='home.html'">Return to Command Hub</button>
+            </div>
+        </div>
+    </main>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link active"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <!-- Sweet Romantic Chime Sound -->
+    <audio id="sfxDone" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
+
+    <!-- FIREBASE & LOGIC ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, increment, collection, getDocs, 
+            serverTimestamp, runTransaction, updateDoc, getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userData = {};
+        let tasksPool =[];
+        let currentIdx = 0;
+        let quotaLimit = 10;
+        let selectedVote = null;
+        let audioUnlocked = false;
+
+        // Dynamic Config Variables from Admin Panel
+        let globalTaskRates = { "Bronze": 0.000345, "Gold": 0.0004, "Platinum": 0.00045, "Heroic": 0.0005 };
+        let globalTaskLimits = { "Bronze": 10, "Gold": 12, "Platinum": 15, "Heroic": 20 };
+
+        // 1. SESSION GUARD & REAL-TIME CONFIG SYNC
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                await fetchAdminConfigurations();
+                initTerminal(user.uid);
+            }
+        });
+
+        // 2. FETCH ADMIN SETTINGS DYNAMICALLY
+        async function fetchAdminConfigurations() {
+            try {
+                // Fetch Rates/Limits if configured in settings/task_rates
+                const ratesSnap = await getDoc(doc(db, "settings", "task_rates"));
+                if(ratesSnap.exists()) {
+                    const data = ratesSnap.data();
+                    // Merge dynamic rates if they exist, fallback to default
+                    globalTaskRates = { ...globalTaskRates, ...data.rates };
+                    globalTaskLimits = { ...globalTaskLimits, ...data.limits };
+                }
+            } catch (error) {
+                console.warn("Using default system rates.");
+            }
+        }
+
+        // 3. TERMINAL INITIALIZATION & MIDNIGHT RESET
+        async function initTerminal(uid) {
+            onSnapshot(doc(db, "pending_users", uid), async (snap) => {
+                if(!snap.exists()) return;
+                userData = snap.data();
+                
+                // MIDNIGHT RESET PROTOCOL (12:00 AM)
+                const now = new Date();
+                const todayStr = now.toDateString(); // e.g. "Wed May 06 2026"
+                
+                if (userData.last_task_reset !== todayStr) {
+                    await updateDoc(doc(db, "pending_users", uid), {
+                        daily_tasks_done: 0,
+                        last_task_reset: todayStr
+                    });
+                    return; // Re-trigger via onSnapshot
+                }
+
+                // Apply Dynamic Tier Limits
+                const userLevel = userData.level || "Bronze";
+                quotaLimit = globalTaskLimits[userLevel] || 10;
+                
+                const done = userData.daily_tasks_done || 0;
+                document.getElementById('doneCount').innerText = done;
+                document.getElementById('totalLimit').innerText = quotaLimit;
+
+                if (done >= quotaLimit) {
+                    showFinish();
+                } else {
+                    currentIdx = done;
+                    if(tasksPool.length === 0) await processDailyRotationPool();
+                    else renderCard();
+                }
+                document.getElementById('bootLoader').style.display = 'none';
+            });
+        }
+
+        // 4. DAILY RANDOM ROTATION & SPONSOR PRIORITY ALGORITHM
+        async function processDailyRotationPool() {
+            const snap = await getDocs(collection(db, "tasks_pool"));
+            let allTasks =[];
+            snap.forEach(d => {
+                const taskData = d.data();
+                // Filter by level permission if needed
+                if(!taskData.required_badge || taskData.required_badge === userData.level || taskData.required_badge === "All") {
+                    allTasks.push({ id: d.id, ...taskData });
+                }
+            });
+
+            // Separate tasks by Type
+            const sponsored = allTasks.filter(t => t.type === 'sponsor' || t.type === 'branded');
+            const normal = allTasks.filter(t => t.type !== 'sponsor' && t.type !== 'branded');
+
+            // Generate a Seed based on Current Date (ensures 24h stability)
+            const now = new Date();
+            const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+
+            // Seeded Shuffle for Normal Tasks (Prevents 5-day duplicates via rotating subsets if large pool)
+            let shuffledNormal = normal.map(a => ({
+                sort: (a.id.charCodeAt(0) * a.id.charCodeAt(a.id.length-1)) ^ seed, 
+                value: a
+            })).sort((a, b) => a.sort - b.sort).map(a => a.value);
+
+            // Combine Arrays: Sponsored Always First, Normal Rotated Second
+            tasksPool = [...sponsored, ...shuffledNormal];
+
+            renderCard();
+        }
+
+        // 5. UI RENDERER & THEME ENGINE
+        function renderCard() {
+            const task = tasksPool[currentIdx % tasksPool.length];
+            if(!task) return;
+
+            const card = document.getElementById('activeCard');
+            card.style.display = 'block';
+            
+            // Dynamic Theme Application
+            card.className = "node-card"; // Clear old themes
+            if(task.type === "sponsor") card.classList.add('theme-sponsor');
+            else if(task.type === "branded") card.classList.add('theme-branded');
+            else card.classList.add('theme-standard');
+
+            document.getElementById('taskName').innerText = task.name;
+            document.getElementById('taskDesc').innerText = task.desc;
+            document.getElementById('prodImg').src = `../assets/task/${task.img}`;
+            
+            const linkEl = document.getElementById('taskLink');
+            if(task.link) {
+                linkEl.href = task.link;
+                linkEl.style.display = "inline-flex";
+            } else {
+                linkEl.style.display = "none";
+            }
+
+            document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = "SYNC WORK";
+            selectedVote = null;
+        }
+
+        window.handleVote = (type) => {
+            // Unlock Audio Engine (iOS restriction bypass)
+            if(!audioUnlocked) {
+                const sfx = document.getElementById('sfxDone');
+                sfx.play().then(()=> { sfx.pause(); sfx.currentTime = 0; audioUnlocked = true; }).catch(e => console.log("Audio prep"));
+            }
+
+            document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('selected'));
+            if(type === 'positive') document.getElementById('btnAgree').classList.add('selected');
+            else document.getElementById('btnDisagree').classList.add('selected');
+            
+            selectedVote = type;
+            document.getElementById('submitBtn').disabled = false;
+            if(navigator.vibrate) navigator.vibrate(35);
+        };
+
+        // 6. ATOMIC SECURE SUBMISSION
+        window.processNode = async () => {
+            if(!selectedVote || !auth.currentUser) return;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "ENCRYPTING LEDGER...";
+
+            const task = tasksPool[currentIdx % tasksPool.length];
+            const uid = auth.currentUser.uid;
+            
+            // Apply Dynamic Payouts
+            const userLevel = userData.level || "Bronze";
+            const reward = globalTaskRates[userLevel] || 0.000345;
+
+            try {
+                await runTransaction(db, async (txn) => {
+                    const userRef = doc(db, "pending_users", uid);
+                    const taskRef = doc(db, "tasks_pool", task.id);
+                    
+                    const field = selectedVote === 'positive' ? 'votes_up' : 'votes_down';
+                    
+                    // Increment Task Analytics
+                    txn.update(taskRef, { 
+                        [field]: increment(1), 
+                        total_clicks: increment(1) 
+                    });
+                    
+                    // Update User Wallet & Quota
+                    txn.update(userRef, { 
+                        balance: increment(reward), 
+                        daily_tasks_done: increment(1) 
+                    });
+                });
+
+                // Success Audio & Confetti
+                document.getElementById('sfxDone').play().catch(e=>{});
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 }, colors:['#00c853', '#ffffff', '#ffcc00'] });
+                if(navigator.vibrate) navigator.vibrate([30, 50, 30]);
+                
+                // Next Card Animation
+                const card = document.getElementById('activeCard');
+                card.style.transform = "translateX(-150%) scale(0.9) rotate(-5deg)";
+                card.style.opacity = "0";
+
+                setTimeout(() => {
+                    card.style.transform = "translateX(0) scale(1) rotate(0)";
+                    card.style.opacity = "1";
+                    // Note: 'currentIdx' and UI update automatically via the onSnapshot listener on 'pending_users'
+                }, 500);
+
+            } catch (e) {
+                console.error("Protocol Sync Error:", e);
+                btn.disabled = false;
+                btn.innerText = "RETRY SYNC";
+            }
+        };
+
+        function showFinish() {
+            document.getElementById('activeCard').style.display = 'none';
+            document.getElementById('finishView').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

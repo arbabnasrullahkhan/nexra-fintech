@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Comms & Notification Center</title>
+    
+    <!-- Enterprise Assets -->
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000;
+            --pure-white: #ffffff;
+            --nexra-green: #00c853;
+            --nexra-blue: #007aff;
+            --nexra-red: #ff3b30;
+            --gray-light: #f2f2f7;
+            --border-subtle: rgba(0,0,0,0.06);
+            --chat-bg: #e5ddd5;
+            --admin-bubble: #e7ffdb;
+            --font-main: 'Inter', sans-serif;
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. ARCHITECTURAL RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100dvh; overflow: hidden; background: var(--pure-white); color: var(--pure-black); font-family: var(--font-main); }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border-subtle) 1px, transparent 1px), linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); }
+        .back-btn { font-size: 20px; cursor: pointer; color: var(--pure-black); background:none; border:none; padding: 5px; }
+
+        .tab-bar { display: flex; padding: 12px 20px; gap: 10px; background: var(--pure-white); border-bottom: 1px solid var(--border-subtle); }
+        .tab { flex: 1; padding: 12px; border-radius: 16px; background: var(--gray-light); font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.3s; color: #888; text-transform: uppercase; letter-spacing: 0.5px; position: relative; }
+        .tab.active { background: var(--pure-black); color: var(--pure-white); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .notif-pulse { position: absolute; top: 8px; right: 12px; width: 8px; height: 8px; background: var(--nexra-red); border-radius: 50%; border: 2px solid #fff; animation: pulseRed 1.5s infinite; }
+
+        .viewport { height: calc(100% - 135px); overflow-y: auto; padding: 20px; -webkit-overflow-scrolling: touch; }
+
+        /* 2. ACTIVITY LOG (ECOSYSTEM FEED) */
+        #feed-view { display: block; animation: fadeIn 0.4s ease; }
+        
+        .log-item { display: flex; gap: 15px; padding: 18px; background: #fff; border: 1px solid var(--border-subtle); border-radius: 22px; margin-bottom: 12px; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        .log-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .log-body { flex: 1; }
+        .log-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+        .log-desc { font-size: 11px; color: #666; font-weight: 500; line-height: 1.4; }
+        
+        /* Red Card Broadcasts */
+        .broadcast-card-red { background: var(--nexra-red); color: #fff; border-radius: 30px; padding: 30px 25px; margin-bottom: 15px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(255, 59, 48, 0.2); }
+        .broadcast-card-red::after { content: ""; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+        .bc-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.15); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; }
+        .bc-title { font-family: var(--font-head); font-size: 22px; font-weight: 900; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .bc-msg { font-size: 14px; opacity: 0.9; line-height: 1.6; font-weight: 500; margin-bottom: 20px; }
+        .bc-image { width: 100%; aspect-ratio: 16/9; border-radius: 18px; object-fit: cover; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2); }
+        .bc-btn { background: #fff; color: var(--nexra-red); border: none; padding: 16px 25px; border-radius: 16px; font-weight: 900; font-size: 13px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+        .bc-btn:active { transform: scale(0.96); opacity: 0.9; }
+        .bc-timer { font-size: 10px; font-weight: 900; background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 100px; display: inline-block; margin-top: 15px; letter-spacing: 1px; }
+
+        /* 3. NEURAL CHAT (SUPPORT) */
+        #chat-view { display: none; flex-direction: column; height: 100%; background: var(--chat-bg); background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); animation: fadeIn 0.4s ease; }
+        .chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+        
+        .bubble-wrap { display: flex; flex-direction: column; max-width: 85%; position: relative; }
+        .bubble-wrap.user { align-self: flex-end; }
+        .bubble-wrap.official { align-self: flex-start; }
+
+        .bubble { padding: 12px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; font-weight: 500; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .user .bubble { background: var(--nexra-green); color: #fff; border-bottom-right-radius: 2px; }
+        .official .bubble { background: var(--pure-white); color: var(--pure-black); border-bottom-left-radius: 2px; }
+        
+        .node-media { width: 100%; border-radius: 12px; margin-bottom: 5px; display: block; cursor: pointer; transition: 0.3s; }
+        .node-media:active { opacity: 0.8; }
+        
+        .expiry-tag { font-size: 8px; font-weight: 800; color: rgba(0,0,0,0.3); text-transform: uppercase; display: block; margin-top: 4px; text-align: right; }
+        .user .expiry-tag { color: rgba(255,255,255,0.7); }
+
+        .status-pill { font-size: 10px; font-weight: 900; background: rgba(0,0,0,0.05); color: #777; padding: 4px 12px; border-radius: 100px; align-self: center; margin: 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Input Area */
+        .chat-footer { background: #f0f0f0; padding: 10px 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(0,0,0,0.05); }
+        #msgInput { flex: 1; border: none; outline: none; padding: 12px 18px; border-radius: 25px; background: #fff; font-size: 14px; font-weight: 600; font-family: inherit; }
+        .icon-btn { width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: 0.3s; }
+        .btn-cam { background: #fff; color: #888; }
+        .btn-dispatch { background: #075e54; color: #fff; }
+        .btn-dispatch:active { transform: scale(0.9); }
+
+        /* Lockdown UI */
+        .lockdown-notice { background: #fffbe6; border: 1px solid #ffe58f; padding: 15px; border-radius: 18px; text-align: center; margin: 10px; }
+        .lockdown-notice b { font-size: 12px; color: #856404; display: block; margin-bottom: 4px; }
+        .lockdown-notice span { font-size: 10px; color: #999; font-weight: 700; }
+
+        /* 4. IMAGE PORTAL */
+        .portal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .portal-img { max-width: 100%; max-height: 80vh; border-radius: 15px; transform: scale(0.9); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .portal-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 30px; cursor: pointer; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseRed { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <button class="back-btn" onclick="location.href='home.html'"><i class="fa-solid fa-chevron-left"></i></button>
+        <div style="font-family:'Outfit'; font-weight:900; font-size:17px; letter-spacing: 0.5px;">SYSTEM COMMS</div>
+        <div style="width:35px"></div>
+    </header>
+
+    <div class="tab-bar">
+        <div class="tab active" id="tab-feed" onclick="switchProtocol('feed')">Ecosystem Feed</div>
+        <div class="tab" id="tab-chat" onclick="switchProtocol('chat')">Neural Support<div class="notif-pulse" id="chatPulse" style="display:none;"></div></div>
+    </div>
+
+    <main class="viewport">
+        <!-- 1. FEED SECTION -->
+        <div id="feed-view">
+            <div id="unifiedFeed">
+                <p style="text-align:center; padding:50px; color:#ccc; font-size:11px; font-weight:800; text-transform:uppercase;">Node Handshake...</p>
+            </div>
+        </div>
+
+        <!-- 2. CHAT SECTION -->
+        <div id="chat-view">
+            <div class="chat-container" id="chatThread">
+                <!-- Syncing Messages -->
+            </div>
+            
+            <div id="restrictionArea"></div>
+
+            <div class="chat-footer" id="inputBar">
+                <input type="file" id="imageNode" hidden accept="image/*" onchange="processImageNode(this)">
+                <button class="icon-btn btn-cam" onclick="document.getElementById('imageNode').click()"><i class="fa-solid fa-camera"></i></button>
+                <input type="text" id="msgInput" placeholder="Enter command..." onkeypress="if(event.key==='Enter') executeNeuralSend()">
+                <button class="icon-btn btn-dispatch" onclick="executeNeuralSend()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FULL SCREEN PORTAL -->
+    <div class="portal-overlay" id="imagePortal" onclick="closePortal()">
+        <span class="portal-close">&times;</span>
+        <img src="" id="portalImg" class="portal-img">
+    </div>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            collection, addDoc, onSnapshot, query, where, serverTimestamp, doc, updateDoc, deleteDoc, getDoc, getDocs, orderBy, limit 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userEmail = null;
+        let userUID = null;
+        let userData = null;
+        let consecutiveCount = 0;
+        let isRestricted = false;
+
+        // 1. IDENTITY HANDSHAKE
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userEmail = user.email;
+                userUID = user.uid;
+                
+                // Fetch User Details for dynamic referral links
+                const uSnap = await getDoc(doc(db, "pending_users", user.uid));
+                if(uSnap.exists()) userData = uSnap.data();
+
+                syncEcosystemFeed();
+                syncNeuralChat();
+                checkRestrictionStatus();
+            } else {
+                window.location.href = "../auth/login.html";
+            }
+        });
+
+        // --- ECOSYSTEM FEED ENGINE (RED CARDS) ---
+        function syncEcosystemFeed() {
+            onSnapshot(query(collection(db, "notifications")), (snap) => {
+                const feedEl = document.getElementById('unifiedFeed');
+                let all = [];
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    if(d.user_email === "all" || d.user_email === userEmail) all.push({ id: doc.id, ...d });
+                });
+                
+                all.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                feedEl.innerHTML = "";
+
+                all.forEach(item => {
+                    if(item.user_email === "all") {
+                        renderBroadcast(item, feedEl);
+                    } else {
+                        renderActivityLog(item, feedEl);
+                    }
+                });
+            });
+        }
+
+        function renderBroadcast(bc, container) {
+            // Check for expiry
+            if(bc.expiry) {
+                const now = new Date().getTime();
+                if(now > bc.expiry) return; // Expired, skip
+            }
+
+            const refLink = `https://nexra.ct.ws/auth/register.html?ref=${userData?.nexra_id || 'direct'}`;
+            const msgProcessed = bc.message.replace("[REF_LINK]", refLink);
+            
+            // Convert Links to Buttons
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const finalMsg = msgProcessed.replace(urlRegex, "");
+            const detectedLink = msgProcessed.match(urlRegex);
+
+            container.innerHTML += `
+                <div class="broadcast-card-red" id="bc-${bc.id}">
+                    <div class="bc-icon"><i class="fa-solid ${bc.icon_type || 'fa-bullhorn'}"></i></div>
+                    <h3 class="bc-title">${bc.title}</h3>
+                    ${bc.image_url ? `<img src="${bc.image_url}" class="bc-image">` : ""}
+                    <p class="bc-msg">${finalMsg}</p>
+                    ${detectedLink ? `<a href="${detectedLink[0]}" target="_blank" class="bc-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> OPEN PROTOCOL</a>` : ""}
+                    ${bc.expiry ? `<div class="bc-timer" id="timer-${bc.id}">CALCULATING TIMELINE...</div>` : ""}
+                </div>`;
+
+            if(bc.expiry) startBCTimer(bc.id, bc.expiry);
+        }
+
+        function startBCTimer(id, expiry) {
+            const intv = setInterval(() => {
+                const el = document.getElementById(`timer-${id}`);
+                if(!el) { clearInterval(intv); return; }
+                const now = new Date().getTime();
+                const diff = expiry - now;
+                if(diff <= 0) { 
+                    document.getElementById(`bc-${id}`).remove();
+                    clearInterval(intv);
+                } else {
+                    const h = Math.floor((diff % 86400000) / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000);
+                    const s = Math.floor((diff % 60000) / 1000);
+                    el.innerText = `NODE EXPIRES IN: ${h}H ${m}M ${s}S`;
+                }
+            }, 1000);
+        }
+
+        function renderActivityLog(log, container) {
+            let icon = "fa-bolt";
+            if(log.type === "payout") icon = "fa-money-bill-transfer";
+            if(log.type === "security") icon = "fa-shield-halved";
+
+            container.innerHTML += `
+                <div class="log-item">
+                    <div class="log-icon"><i class="fa-solid ${icon}"></i></div>
+                    <div class="log-body">
+                        <div class="log-title">${log.title}</div>
+                        <div class="log-desc">${log.message}</div>
+                    </div>
+                </div>`;
+        }
+
+        // --- NEURAL CHAT ENGINE ---
+        function syncNeuralChat() {
+            const q = query(collection(db, "support_messages"), where("user_email", "==", userEmail));
+            onSnapshot(q, (snap) => {
+                const chatEl = document.getElementById('chatThread');
+                let msgs = [];
+                let uCount = 0;
+                
+                snap.forEach(d => {
+                    const data = d.data();
+                    msgs.push({ id: d.id, ...data });
+                });
+
+                msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0));
+
+                // 15-Minute Purge Logic (Auto-Delete after admin view)
+                const now = new Date().getTime();
+                msgs = msgs.filter(m => {
+                    if(m.admin_viewed_at) {
+                        const ageMs = now - m.admin_viewed_at.toMillis();
+                        if(ageMs > (15 * 60 * 1000)) {
+                            deleteDoc(doc(db, "support_messages", m.id));
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                // Anti-Spam Counter (Consecutive User Messages)
+                consecutiveCount = 0;
+                for (let i = msgs.length - 1; i >= 0; i--) {
+                    if(msgs[i].sender === 'user') consecutiveCount++;
+                    else break;
+                }
+                updateSpamUI();
+
+                chatEl.innerHTML = "";
+                msgs.forEach(m => {
+                    const isOfficial = m.sender === 'admin';
+                    const timeStr = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "";
+                    
+                    chatEl.innerHTML += `
+                        <div class="bubble-wrap ${isOfficial ? 'official' : 'user'}">
+                            <div class="bubble">
+                                ${m.media ? `<img src="${m.media}" class="node-media" onclick="openPortal('${m.media}')">` : ""}
+                                ${m.message ? `<div>${m.message}</div>` : ""}
+                                <span class="expiry-tag">${timeStr}</span>
+                            </div>
+                        </div>`;
+                });
+                chatEl.scrollTop = chatEl.scrollHeight;
+            });
+        }
+
+        // --- CHAT PROTOCOLS ---
+        window.executeNeuralSend = async () => {
+            if(isRestricted) return;
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            if(!text) return;
+
+            if(consecutiveCount >= 20) {
+                applySpamRestriction();
+                return;
+            }
+
+            await dispatchMessage(text, null);
+            input.value = "";
+            
+            // Bot Handshake
+            handleBotReplies(text);
+        };
+
+        window.processImageNode = (input) => {
+            if(isRestricted) return;
+            if(input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    await dispatchMessage("Image Node Dispatched", e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        async function dispatchMessage(msg, media) {
+            try {
+                await addDoc(collection(db, "support_messages"), {
+                    user_email: userEmail,
+                    uid: userUID,
+                    message: msg,
+                    media: media, // Base64 Compressed
+                    sender: 'user',
+                    timestamp: serverTimestamp(),
+                    admin_viewed_at: null
+                });
+            } catch(e) { alert("Handshake Error."); }
+        }
+
+        function handleBotReplies(text) {
+            const low = text.toLowerCase();
+            let botMsg = null;
+            if(low === "hi" || low === "hello") botMsg = "Hello Partner. Protocol active. How can I assist your node?";
+            if(low.includes("help")) botMsg = "Concierge Node: Type 'Withdraw' for payout rules or 'Payment' for TRX help.";
+            
+            if(botMsg) {
+                setTimeout(async () => {
+                    await addDoc(collection(db, "support_messages"), {
+                        user_email: userEmail,
+                        message: botMsg,
+                        sender: 'admin',
+                        timestamp: serverTimestamp()
+                    });
+                }, 1000);
+            }
+        }
+
+        // --- SPAM & SECURITY ---
+        function updateSpamUI() {
+            const bar = document.getElementById('inputBar');
+            if(consecutiveCount >= 15) {
+                document.getElementById('restrictionArea').innerHTML = `
+                    <div class="lockdown-notice">
+                        <b>SPAM WARNING: ${consecutiveCount}/20</b>
+                        <span>Limit reached = 4 hour lockdown. Wait for Admin response.</span>
+                    </div>`;
+            } else {
+                document.getElementById('restrictionArea').innerHTML = "";
+            }
+        }
+
+        async function applySpamRestriction() {
+            const lockTime = new Date().getTime() + (4 * 60 * 60 * 1000);
+            await updateDoc(doc(db, "pending_users", userUID), {
+                chat_restricted_until: lockTime
+            });
+            checkRestrictionStatus();
+        }
+
+        function checkRestrictionStatus() {
+            onSnapshot(doc(db, "pending_users", userUID), (snap) => {
+                const d = snap.data();
+                const now = new Date().getTime();
+                
+                if(d.chat_restricted_until && d.chat_restricted_until > now) {
+                    isRestricted = true;
+                    document.getElementById('inputBar').style.opacity = "0.3";
+                    document.getElementById('inputBar').style.pointerEvents = "none";
+                    document.getElementById('msgInput').placeholder = "PROTOCOL RESTRICTED";
+                } else {
+                    isRestricted = false;
+                    document.getElementById('inputBar').style.opacity = "1";
+                    document.getElementById('inputBar').style.pointerEvents = "auto";
+                    document.getElementById('msgInput').placeholder = "Enter command...";
+                }
+            });
+        }
+
+        // --- UI UTILS ---
+        window.switchProtocol = (v) => {
+            document.getElementById('feed-view').style.display = v === 'feed' ? 'block' : 'none';
+            document.getElementById('chat-view').style.display = v === 'chat' ? 'flex' : 'none';
+            document.getElementById('tab-feed').classList.toggle('active', v === 'feed');
+            document.getElementById('tab-chat').classList.toggle('active', v === 'chat');
+        };
+
+        window.openPortal = (src) => {
+            document.getElementById('portalImg').src = src;
+            document.getElementById('imagePortal').style.display = "flex";
+            setTimeout(() => { document.getElementById('portalImg').style.transform = "scale(1)"; }, 10);
+        };
+
+        window.closePortal = () => {
+            document.getElementById('portalImg').style.transform = "scale(0.9)";
+            setTimeout(() => { document.getElementById('imagePortal').style.display = "none"; }, 300);
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

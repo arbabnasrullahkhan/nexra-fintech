@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <title>NEXRA | Global Command Center</title>
+    <meta name="description" content="Unlock global wealth with NEXRA. The world's most secure fintech task ecosystem.">
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000; --pure-white: #ffffff; --nexra-green: #00c853; 
+            --nexra-gold: #ffcc00; --nexra-blue: #3742fa; --nexra-red: #ff4757;
+            --border: rgba(0, 0, 0, 0.06); --gray-bg: #f8f9fa;
+            --vault-grad: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 100%);
+            --font-head: 'Outfit', sans-serif; --font-main: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background-color: var(--pure-white); color: var(--pure-black); font-family: var(--font-main); -webkit-font-smoothing: antialiased; user-select: none; touch-action: pan-y; }
+
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 2000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; border-radius: 9px; cursor: pointer; }
+        .h-name { height: 18px; mix-blend-mode: multiply; }
+        .h-actions { display: flex; gap: 18px; align-items: center; }
+        .h-icon { font-size: 20px; color: var(--pure-black); cursor: pointer; position: relative; }
+        .h-dot { position: absolute; top: -1px; right: -1px; width: 8px; height: 8px; background: var(--nexra-green); border-radius: 50%; border: 2px solid #fff; }
+        .profile-dp { width: 32px; height: 32px; border-radius: 50%; background: var(--pure-black); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase; }
+
+        .viewport { width: 100%; max-width: 1100px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 35px 0 15px; padding: 0 5px; }
+        .section-header h2 { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+        .section-header span { font-size: 11px; font-weight: 700; color: var(--nexra-green); }
+
+        .info-card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        
+        .geo-banner { background: #f0f7ff; color: var(--nexra-blue); padding: 12px 20px; border-radius: 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border: 1px solid rgba(55, 66, 250, 0.1); }
+
+        .vault-card { background: var(--vault-grad); color: #fff; padding: 30px 24px; border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.18); margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        .v-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; position: relative; z-index: 5; }
+        .v-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2.5px; opacity: 0.5; }
+        .v-eye { cursor: pointer; font-size: 18px; opacity: 0.7; padding: 5px; transition: 0.2s; }
+        .v-main { display: flex; align-items: baseline; gap: 8px; margin-bottom: 22px; position: relative; z-index: 5; }
+        .v-symbol { font-size: 24px; font-weight: 500; color: var(--nexra-green); }
+        .v-balance { font-family: var(--font-head); font-size: clamp(36px, 10vw, 50px); font-weight: 900; letter-spacing: -2.5px; }
+        .v-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; position: relative; z-index: 5; }
+        .v-w-lbl { font-size: 9px; text-transform: uppercase; opacity: 0.4; font-weight: 800; display: block;}
+        .v-w-val { font-size: 14px; font-weight: 700; color: var(--nexra-green); }
+        .halo-coin { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); padding: 7px 15px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.05); }
+        .halo-white { width: 22px; height: 22px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .halo-white img { width: 75%; mix-blend-mode: multiply; }
+        .halo-txt { font-size: 13px; font-weight: 800; color: var(--nexra-gold); }
+
+        .activity-box { height: 240px; background: #fff; border: 1px solid var(--border); border-radius: 24px; overflow: hidden; position: relative; margin-bottom: 35px; }
+        #activity-feed { padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .act-item { display: flex; align-items: center; gap: 12px; font-size: 12px; animation: slideDown 0.4s ease; }
+        .act-initial { width: 30px; height: 30px; border-radius: 10px; background: var(--gray-bg); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; }
+        .act-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--nexra-green); margin-left: auto; box-shadow: 0 0 8px var(--nexra-green); }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0, 0, 0, 0.94); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 3000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; }
+        .dock-link.active { color: #fff; }
+        .dock-link.active::after { content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--nexra-green); border-radius: 50%; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.reload()" alt="Logo">
+        <img src="../assets/ui/name.png" class="h-name">
+        <div class="h-actions">
+            <div class="h-icon" onclick="location.href='notifications.html'"><i class="fa-regular fa-bell"></i><div class="h-dot"></div></div>
+            <div class="profile-dp" id="userInitial" onclick="location.href='profile.html'">?</div>
+        </div>
+    </header>
+
+    <main class="viewport">
+        
+        <div class="geo-banner" id="geoTarget">
+            <i class="fa-solid fa-location-dot"></i> Synchronizing Ecosystem Node...
+        </div>
+
+        <!-- THE MASTER VAULT -->
+        <div class="vault-card">
+            <div class="v-top"><span class="v-tag">Primary Ecosystem Vault</span><i class="fa-solid fa-eye v-eye" id="eyeBtn" onclick="toggleVault()"></i></div>
+            <div class="v-main"><span class="v-symbol">$</span><span class="v-balance" id="v-bal">0.0000</span></div>
+            <div class="v-footer">
+                <div class="v-withdrawn"><span class="v-w-lbl">Total Payout</span><span class="v-w-val" id="v-withdrawn">$0.00</span></div>
+                <div class="halo-coin"><div class="halo-white"><img src="../assets/ui/logo.png" alt="Nexra"></div><span class="halo-txt"><span id="v-coins">0</span> COINS</span></div>
+            </div>
+        </div>
+
+<!-- HTML -->
+<div class="ios-hub-container">
+    <div class="ios-hub-grid">
+        <div class="ios-item" onclick="location.href='profile.html'"><div class="ios-widget w-profile"><svg stroke="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><span class="ios-lbl">Profile</span></div>
+        <div class="ios-item" onclick="location.href='vip.html'"><div class="ios-widget w-vip"><svg stroke="currentColor" viewBox="0 0 24 24"><polygon points="2 20 22 20 20 8 16 14 12 4 8 14 4 8 2 20"></polygon></svg></div><span class="ios-lbl">VIP</span></div>
+        <!-- 4. Lucky Spin -->
+        <div class="ios-item" onclick="location.href='spin.html'">
+            <div class="ios-widget w-spin">
+                <svg stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <line x1="12" y1="2" x2="12" y2="9"></line>
+                    <line x1="12" y1="15" x2="12" y2="22"></line>
+                    <line x1="2" y1="12" x2="9" y2="12"></line>
+                    <line x1="15" y1="12" x2="22" y2="12"></line>
+                </svg>
+            </div>
+            <span class="ios-lbl">Spin</span>
+        </div>
+   <!-- 5. Social Growth -->
+        <div class="ios-item" onclick="location.href='social.html'">
+            <div class="ios-widget w-social">
+                <svg stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                    <line x1="7" y1="2" x2="7" y2="22"></line>
+                    <line x1="17" y1="2" x2="17" y2="22"></line>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <line x1="2" y1="7" x2="7" y2="7"></line>
+                    <line x1="2" y1="17" x2="7" y2="17"></line>
+                    <line x1="17" y1="17" x2="22" y2="17"></line>
+                    <line x1="17" y1="7" x2="22" y2="7"></line>
+                </svg>
+            </div>
+            <span class="ios-lbl">Social</span>
+        </div>
+
+        <!-- 6. Trust Reviews -->
+        <div class="ios-item" onclick="location.href='review.html'">
+            <div class="ios-widget w-reviews">
+                <svg stroke="currentColor" viewBox="0 0 24 24">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+            </div>
+            <span class="ios-lbl">Reviews</span>
+        </div>
+
+        <!-- 7. Team Network -->
+        <div class="ios-item" onclick="location.href='refer.html'">
+            <div class="ios-widget w-team">
+                <svg stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <span class="ios-lbl">Team</span>
+        </div>
+<!-- 8. Help Center -->
+        <div class="ios-item" onclick="location.href='help/support.html'">
+            <div class="ios-widget w-help">
+                <svg stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+                    <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+                    <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+                    <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+                </svg>
+            </div>
+            <span class="ios-lbl">Support</span>
+        </div>
+    </div>
+</div>
+
+        <!-- EARNING CHANNELS (Master 4-Node Grid) -->
+<style>
+    /* Professional Grid Adaptation */
+    .eco-grid { 
+        display: grid; 
+        grid-template-columns: 1fr; 
+        gap: 12px; 
+        margin-bottom: 35px; 
+    }
+
+    @media (min-width: 700px) {
+        .eco-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+    }
+
+    .eco-card { 
+        background: #fff; 
+        border: 1px solid var(--border); 
+        padding: 18px; 
+        border-radius: 24px; 
+        display: flex; 
+        align-items: center; 
+        gap: 15px; 
+        cursor: pointer; 
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+
+    .eco-card:active { 
+        transform: scale(0.98); 
+        background: var(--gray-bg); 
+    }
+
+    .e-img { 
+        width: 46px; 
+        height: 46px; 
+        border-radius: 14px; 
+        background: var(--gray-bg); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 18px; 
+        flex-shrink: 0;
+    }
+
+    .e-info { flex: 1; }
+    .e-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; color: var(--pure-black); }
+    .e-info p { font-size: 10px; color: #888; font-weight: 500; line-height: 1.2; }
+    .e-rew { 
+        text-align: right; 
+        font-weight: 900; 
+        font-size: 11px; 
+        color: var(--nexra-green); 
+        background: #e0fff0;
+        padding: 4px 10px;
+        border-radius: 100px;
+    }
+</style>
+
+<div class="section-header"><h2>Work Ecosystem</h2></div>
+<div class="eco-grid">
+    <!-- Channel 1: Tasks -->
+    <div class="eco-card" onclick="location.href='tasks.html'">
+        <div class="e-img" style="color: var(--pure-black);">
+            <i class="fa-solid fa-microchip"></i>
+        </div>
+        <div class="e-info">
+            <h4>Technical Processing</h4>
+            <p>Micro-node verification tasks</p>
+        </div>
+        <div class="e-rew">+$0.0003</div>
+    </div>
+
+ <!-- other upload -->
+</div>
+        
+<style>
+    .ios-hub-container { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 32px; padding: 25px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 30px; }
+    .ios-hub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 15px; }
+    .ios-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+    .ios-widget { width: 100%; aspect-ratio: 1/1; max-width: 60px; border-radius: 22%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .ios-widget svg { width: 24px; height: 24px; fill: none; stroke-width: 2.2; }
+    .ios-item:active { transform: scale(0.9); }
+    .ios-lbl { font-size: 10px; font-weight: 700; color: #333; }
+    .w-profile { background: #e5f0ff; color: #007aff; }
+    .w-vip { background: #fffbe6; color: #f1c40f; }
+    .w-streak { background: #ffe5e5; color: #ff3b30; }
+    .w-spin { background: #fff4e0; color: #ff9500; }
+    .w-social { background: #f0e6ff; color: #5856d6; }
+    .w-reviews { background: #ffe5e8; color: #ff2d55; }
+    .w-team { background: #e0fff0; color: #00c853; }
+    .w-help { background: #e5f9f9; color: #32ade6; }
+</style>
+        
+        
+        
+        <!-- ========================================== -->
+<!-- 🚀 NEXRA INTEGRATED VIRAL COMPONENTS        -->
+<!-- ========================================== -->
+
+<!-- 1. ELITE EARNER PREVIEW (Inspire Section) -->
+<section class="dashboard-section">
+    <div class="section-header">
+        <h2>Elite Global Portfolio</h2>
+        <span>Verified Node</span>
+    </div>
+    <div class="elite-portfolio">
+        <div class="portfolio-head">
+            <div class="user-profile-block">
+                <div class="dp-frame">A</div>
+                <div class="user-meta-info">
+                    <b>Ali's Vault</b>
+                    <div class="vip-tag-glow">
+                        <i class="fa-solid fa-crown"></i> Legend VIP
+                    </div>
+                </div>
+            </div>
+            <div class="live-income">
+                <div class="live-indicator">
+                    <i class="fa-solid fa-circle" style="font-size:6px; animation: blink 1s infinite;"></i>
+                    Live Yield
+                </div>
+                <h3 id="elite-bal">$845.2045</h3>
+            </div>
+        </div>
+        <div class="portfolio-stats">
+            <div class="stat-pill">
+                <span>Direct Referrals</span>
+                <b>150 Partners</b>
+            </div>
+            <div class="stat-pill" style="text-align: right;">
+                <span>Nodes Processed</span>
+                <b>4,502 Verified</b>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. MARKET INTELLIGENCE (Real BTC + Neural NEXRA) -->
+<section class="dashboard-section">
+    <div class="section-header">
+        <h2>Market Intelligence</h2>
+        <span id="updateTimer" class="live-tag">● Live Syncing</span>
+    </div>
+    <div class="market-grid">
+        <div class="chart-card">
+            <div class="card-meta">
+                <i class="fa-brands fa-bitcoin" style="color:#f7931a"></i>
+                <span>BTC / USD</span>
+            </div>
+            <div class="price-display" id="btc-price">$ --,---</div>
+            <!-- Standard Placeholder for Chart - Real Fetch logic below -->
+            <div class="chart-mini-container">
+                <div id="tradingview_btc_mini"></div>
+            </div>
+        </div>
+        <div class="chart-card">
+            <div class="card-meta">
+                <img src="../assets/ui/logo.png" style="width:16px; mix-blend-mode: multiply;">
+                <span>NEXRA INDEX</span>
+            </div>
+            <div class="price-display" id="nexra-price">$0.00345</div>
+            <div class="chart-box">
+                <canvas id="nexraChart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. NETWORK EXPANSION (Share & Claim 3 Coins) -->
+<section class="dashboard-section">
+    <div class="share-reward-box">
+        <div class="share-inner">
+            <div class="reward-glow-icon">
+                <i class="fa-solid fa-link"></i>
+            </div>
+            <div class="share-content">
+                <h3 class="outfit-font">Deploy Protocol</h3>
+                <p id="copyEarnStatus">Expand the node network to earn <span class="gold-text">3 COINS</span>.</p>
+            </div>
+            <button class="btn-copy-earn" id="btnCopyEarn" onclick="executeCopyEarnProtocol()">
+                <i class="fa-solid fa-copy"></i> <span>COPY & CLAIM</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- 4. ACTIVITY PULSE -->
+<section class="dashboard-section">
+    <div class="section-header"><h2>Ecosystem Pulse</h2></div>
+    <div class="activity-box"><div id="activity-feed"></div></div>
+</section>
+
+<!-- 5. TRUST & SECURITY PROTOCOL -->
+<section class="dashboard-section trust-section">
+    <div class="section-header">
+        <h2>Security Protocol</h2>
+        <span>Verified</span>
+    </div>
+    <div class="trust-grid">
+        <div class="trust-item"><i class="fa-solid fa-shield-halved"></i><span>AES-256</span></div>
+        <div class="trust-item"><i class="fa-solid fa-robot"></i><span>Anti-Bot</span></div>
+        <div class="trust-item"><i class="fa-solid fa-file-contract"></i><span>AML</span></div>
+        <div class="trust-item"><i class="fa-solid fa-user-check"></i><span>Audit</span></div>
+    </div>
+</section>
+
+<!-- 6. FOOTER & FLOATING SUPPORT -->
+<a href="#" target="_blank" class="wa-fab" id="floatingWA">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<footer class="main-footer">
+    <img src="../assets/ui/logo.png" class="footer-logo" alt="NEXRA">
+    <div class="footer-links">
+        <a href="help/privacy.html">Privacy</a>
+        <a href="help/terms.html">Terms</a>
+        <a href="help/support.html">Help</a>
+    </div>
+    <p class="footer-copy">© 2026 NEXRA GLOBAL PROTOCOL. UNLOCKING WEALTH.</p>
+    <div class="sync-status">SYSTEM LIQUIDITY SYNCED: <span id="lastSyncedTime">JUST NOW</span></div>
+</footer>
+
+<!-- ========================================== -->
+<!-- 🎨 PREMIUM RESPONSIVE CSS                  -->
+<!-- ========================================== -->
+<style>
+    /* Global Section Settings */
+    .dashboard-section { margin-bottom: 35px; width: 100%; animation: fadeIn 0.8s ease; }
+    .outfit-font { font-family: 'Outfit', sans-serif; }
+
+    /* Elite Portfolio Style */
+    .elite-portfolio { background: linear-gradient(145deg, #050505, #1a1a1a); color: #fff; border-radius: 30px; padding: 25px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .portfolio-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+    .user-profile-block { display: flex; align-items: center; gap: 12px; }
+    .dp-frame { width: 45px; height: 45px; background: #fff; border-radius: 12px; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #ffcc00; }
+    .vip-tag-glow { font-size: 9px; color: #ffcc00; font-weight: 900; text-transform: uppercase; margin-top: 3px; letter-spacing: 1px; }
+    .live-income { text-align: right; }
+    .live-income h3 { font-family: 'Outfit'; font-size: 22px; color: #00c853; }
+    .live-indicator { font-size: 8px; font-weight: 800; color: #00ff00; text-transform: uppercase; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+    .portfolio-stats { display: grid; grid-template-columns: 1fr 1fr; background: rgba(255,255,255,0.04); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .stat-pill span { font-size: 9px; color: #777; text-transform: uppercase; display: block; }
+    .stat-pill b { font-size: 14px; color: #eee; }
+
+    /* Market Grid */
+    .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    @media (max-width: 600px) { .market-grid { grid-template-columns: 1fr; } }
+    .chart-card { background: #ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius: 28px; padding: 20px; height: 230px; display: flex; flex-direction: column; }
+    .card-meta { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; color: #999; text-transform: uppercase; margin-bottom: 10px; }
+    .price-display { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+    .chart-box { flex: 1; min-height: 100px; }
+    .chart-mini-container { flex:1; width: 100%; border-radius: 15px; overflow: hidden; }
+
+    /* Share reward Box */
+    .share-reward-box { background: #000; color: #fff; border-radius: 30px; padding: 25px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+    .share-inner { display: flex; align-items: center; gap: 20px; position: relative; z-index: 5; }
+    @media (max-width: 500px) { .share-inner { flex-direction: column; text-align: center; } }
+    .reward-glow-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.08); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffcc00; border: 1.5px solid rgba(255,204,0,0.2); }
+    .share-content h3 { font-size: 18px; margin-bottom: 4px; }
+    .share-content p { font-size: 11px; opacity: 0.6; font-weight: 600; }
+    .gold-text { color: #ffcc00; }
+    .btn-copy-earn { background: #fff; color: #000; border: none; padding: 15px 25px; border-radius: 16px; font-weight: 900; font-size: 12px; cursor: pointer; transition: 0.3s; margin-left: auto; }
+    @media (max-width: 500px) { .btn-copy-earn { width: 100%; } }
+    .btn-copy-earn:active { transform: scale(0.95); background: #00c853; color: #fff; }
+
+    /* Trust Grid */
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    @media (max-width: 480px) { .trust-grid { grid-template-columns: 1fr 1fr; } }
+    .trust-item { background: #fff; border: 1px solid rgba(0,0,0,0.05); padding: 15px 5px; border-radius: 18px; text-align: center; display: flex; flex-direction: column; gap: 8px; }
+    .trust-item i { font-size: 18px; color: #000; opacity: 0.8; }
+    .trust-item span { font-size: 9px; font-weight: 800; color: #999; text-transform: uppercase; }
+
+    /* Footer & Floating Button */
+    .main-footer { text-align: center; padding: 50px 20px 120px; border-top: 1px solid rgba(0,0,0,0.05); background: #fff; }
+    .footer-logo { width: 40px; opacity: 0.3; margin-bottom: 20px; }
+    .footer-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; }
+    .footer-links a { text-decoration: none; font-size: 11px; font-weight: 700; color: #999; }
+    .footer-copy { font-size: 10px; color: #ccc; letter-spacing: 1px; font-weight: 800; }
+    .sync-status { font-size: 8px; font-weight: 900; color: #00c853; margin-top: 10px; }
+
+    .wa-fab { position: fixed; bottom: 110px; right: 20px; width: 55px; height: 55px; background: #25D366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 10px 25px rgba(37,211,102,0.3); z-index: 1000; text-decoration: none; animation: floatWa 3s infinite ease-in-out; border: 2px solid #fff; }
+    @keyframes floatWa { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+</style>
+
+<!-- ========================================== -->
+<!-- ⚙️ LOGIC ENGINE (FIREBASE & MARKETS)       -->
+<!-- ========================================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+<script type="module">
+    import { auth, db, doc, getDoc, updateDoc, increment, onAuthStateChanged } from "../assets/js/firebase-config.js";
+
+    let nexraPrice = 0.00345;
+    let userDocRef = null;
+
+    // 1. BTC Live Fetch (Binance)
+    async function fetchBTC() {
+        try {
+            const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+            const data = await res.json();
+            const price = parseFloat(data.price);
+            document.getElementById('btc-price').innerText = `$${price.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        } catch (e) { console.warn("Binance Limit"); }
+    }
+
+    // 2. NEXRA Chart Initialize
+    const ntx = document.getElementById('nexraChart').getContext('2d');
+    const nChart = new Chart(ntx, {
+        type: 'line',
+        data: {
+            labels: ['','','','','','','','','',''],
+            datasets: [{
+                data: [310, 340, 325, 360, 345, 380, 370, 395, 410, 345],
+                borderColor: '#00c853',
+                borderWidth: 3,
+                fill: true,
+                backgroundColor: 'rgba(0, 200, 83, 0.05)',
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+    });
+
+    // 3. Auth and Firebase Node Binding
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            userDocRef = doc(db, "pending_users", user.uid);
+            const userSnap = await getDoc(userDocRef);
+            if (userSnap.exists()) {
+                const data = userSnap.data();
+                // Check if link copy already done today
+                const today = new Date().toDateString();
+                if(data.last_link_copy_date === today) {
+                    const btn = document.getElementById('btnCopyEarn');
+                    btn.disabled = true;
+                    btn.innerHTML = "LIMIT REACHED";
+                }
+            }
+            loadGlobalConfig();
+        }
+    });
+
+    // 4. Copy and Earn Execution
+    window.executeCopyEarnProtocol = async () => {
+        if(!userDocRef) return;
+        const btn = document.getElementById('btnCopyEarn');
+        btn.disabled = true;
+
+        const userSnap = await getDoc(userDocRef);
+        const data = userSnap.data();
+        const nexId = data.nexra_id || 'direct';
+        const today = new Date().toDateString();
+
+        navigator.clipboard.writeText(`https://nexra.ct.ws/auth/register.html?ref=${nexId}`);
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } });
+
+        try {
+            await updateDoc(userDocRef, {
+                coins: increment(3),
+                last_link_copy_date: today
+            });
+            document.getElementById('copyEarnStatus').innerHTML = "Success! <span style='color:#00c853'>+3 Coins Synchronized.</span>";
+            btn.innerHTML = "CLAIMED";
+        } catch (e) {
+            console.error("Write Protocol Failure", e);
+            btn.disabled = false;
+        }
+    };
+
+    // 5. Global Link Loader
+    async function loadGlobalConfig() {
+        const snap = await getDoc(doc(db, "settings", "app"));
+        if (snap.exists()) {
+            document.getElementById('floatingWA').href = snap.data().wa_link || "#";
+        }
+    }
+
+    // 6. Real-time Market Tickers
+    setInterval(() => {
+        fetchBTC();
+        // Simulate Nexra Neural Flux
+        const flux = (Math.random() * 0.00010) - 0.00004;
+        nexraPrice += flux;
+        document.getElementById('nexra-price').innerText = `$${nexraPrice.toFixed(5)}`;
+        nChart.data.datasets[0].data.shift();
+        nChart.data.datasets[0].data.push(Math.floor(nexraPrice * 100000));
+        nChart.update();
+    }, 5000);
+
+    fetchBTC();
+    // External TradingView Widget for Desktop/Tablets
+    new TradingView.MediumWidget({"symbols": [["BTCUSD|1d"]], "chartOnly": true, "width": "100%", "height": "100%", "container_id": "tradingview_btc_mini"});
+</script>
+      
+
+    </main>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link active"><i class="fa-solid fa-house"></i></a>
+           <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <script type="module">
+        import { auth, db, doc, onSnapshot, updateDoc, increment, onAuthStateChanged, getDocs, collection, query, where, setDoc, getDoc } from "../assets/js/firebase-config.js";
+
+        let userBal = 0, isPrivate = false, userDocRef = null, currentUserData = null;
+
+        // 1. POWERFUL AUTH HANDLER & AUTO-ID FIXER
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "../auth/login.html";
+                return;
+            }
+
+            // Attempt 1: Connect via UID (Optimal)
+            const uidRef = doc(db, "pending_users", user.uid);
+            const uidSnap = await getDoc(uidRef);
+
+            if (uidSnap.exists()) {
+                userDocRef = uidRef;
+                startRealTimeSync();
+            } else {
+                // Attempt 2: Search via Email (Fallback for older accounts)
+                const q = query(collection(db, "pending_users"), where("email", "==", user.email));
+                const querySnap = await getDocs(q);
+
+                if (!querySnap.empty) {
+                    const oldDoc = querySnap.docs[0];
+                    const data = oldDoc.data();
+                    
+                    // CRITICAL FIX: Convert Email-based record to UID-based record
+                    await setDoc(doc(db, "pending_users", user.uid), {
+                        ...data,
+                        uid: user.uid // Ensure UID is stored
+                    });
+                    
+                    userDocRef = doc(db, "pending_users", user.uid);
+                    startRealTimeSync();
+                } else {
+                    console.error("Critical: Identity Node Missing.");
+                }
+            }
+
+            // Capture Location
+            fetch('https://get.geojs.io/v1/ip/geo.json')
+                .then(res => res.json())
+                .then(data => {
+                    if(data.country && userDocRef) {
+                        document.getElementById('geoTarget').innerHTML = `<i class="fa-solid fa-earth-americas"></i> Welcome Partner from ${data.country}`;
+                        updateDoc(userDocRef, { last_ip: data.ip, location: data.country }).catch(()=>{});
+                    }
+                }).catch(() => {});
+        });
+
+        // 2. REAL-TIME DATA STREAM
+        function startRealTimeSync() {
+            onSnapshot(userDocRef, (snap) => {
+                if (snap.exists()) {
+                    currentUserData = snap.data();
+                    updateUI(currentUserData);
+                }
+            });
+        }
+
+        function updateUI(data) {
+            userBal = data.balance || 0;
+            document.getElementById('v-bal').innerText = isPrivate ? "*****" : userBal.toFixed(4);
+            document.getElementById('v-withdrawn').innerText = `$${(data.withdrawn || 0).toFixed(2)}`;
+            document.getElementById('v-coins').innerText = data.coins || 0;
+            document.getElementById('userInitial').innerText = (data.name || "N")[0].toUpperCase();
+        }
+
+        window.toggleVault = () => {
+            isPrivate = !isPrivate;
+            const eyeBtn = document.getElementById('eyeBtn');
+            eyeBtn.className = isPrivate ? "fa-solid fa-eye-slash v-eye" : "fa-solid fa-eye v-eye";
+            document.getElementById('v-bal').innerText = isPrivate ? "*****" : userBal.toFixed(4);
+        };
+
+        // 3. ACTIVITY FEED
+        const names = ["Ali", "Ahmed", "Bilal", "Usman", "Maria", "Noah", "Emma", "Sana"];
+        const acts = ["withdrew $0.75", "processed Data Node", "harvested 50 Coins", "activated VIP"];
+        const feed = document.getElementById('activity-feed');
+
+        function addAct() {
+            if(!feed) return;
+            const n = names[Math.floor(Math.random() * names.length)];
+            const a = acts[Math.floor(Math.random() * acts.length)];
+            const i = document.createElement('div'); 
+            i.className = 'act-item';
+            i.innerHTML = `<div class="act-initial">${n[0]}</div><div style="flex:1"><b>${n}</b> <i style="color:#888; font-style:normal; margin-left:5px;">${a}</i></div><div class="act-dot"></div>`;
+            feed.prepend(i); 
+            if(feed.children.length > 5) feed.removeChild(feed.lastChild);
+        }
+        for(let j=0; j<5; j++) addAct();
+        setInterval(addAct, 6000);
+    </script>
+</body>
+</html>

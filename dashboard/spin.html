@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Fortune Friday</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --gold: #ffcc00; --gray-light: #f4f4f7; --border: rgba(0, 0, 0, 0.08);
+            --red: #ff3b30; --blue: #007aff;
+        }
+
+        /* 1. MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--white); color: var(--black); font-family: 'Inter', sans-serif; touch-action: pan-y; -webkit-user-select: none; }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+        .bal-pill { background: var(--black); color: #fff; padding: 6px 14px; border-radius: 100px; font-size: 10px; font-weight: 800; }
+
+        .viewport { width: 100%; max-width: 500px; margin: 0 auto; height: calc(100% - 130px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+
+        /* 2. THE WHEEL UI */
+        .wheel-container { position: relative; width: 320px; height: 320px; margin-bottom: 40px; animation: slideUp 0.8s ease; }
+        #wheelCanvas { width: 100%; height: 100%; border-radius: 50%; border: 8px solid var(--black); box-shadow: 0 20px 50px rgba(0,0,0,0.15); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); background: #fff; }
+        
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 30px; height: 40px; background: var(--black); clip-path: polygon(50% 100%, 0 0, 100% 0); z-index: 10; }
+        .center-hub { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: var(--white); border-radius: 50%; border: 4px solid var(--black); display: flex; align-items: center; justify-content: center; z-index: 5; }
+        .center-hub img { width: 60%; mix-blend-mode: multiply; }
+
+        /* 3. CONTROLS */
+        .spin-btn { width: 100%; max-width: 280px; padding: 20px; border-radius: 20px; border: none; background: var(--black); color: #fff; font-size: 16px; font-weight: 900; letter-spacing: 1px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .spin-btn:active { transform: scale(0.95); }
+        .spin-btn:disabled { background: var(--gray-light); color: #bbb; cursor: not-allowed; box-shadow: none; }
+
+        .timer-msg { font-size: 11px; font-weight: 800; color: #999; margin-top: 25px; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; line-height: 1.6; }
+        #countdown { color: var(--black); font-weight: 900; font-size: 18px; display: block; margin-top: 5px; }
+
+        /* 4. MODERN MODAL POPUP */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-card { background: #fff; width: 100%; max-width: 350px; border-radius: 30px; padding: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: springIn 0.5s ease; }
+        .modal-icon { font-size: 50px; margin-bottom: 20px; }
+        .modal-title { font-family: 'Outfit'; font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+        .modal-p { font-size: 13px; color: #666; font-weight: 600; line-height: 1.5; margin-bottom: 25px; }
+        .btn-modal { width: 100%; padding: 15px; border-radius: 15px; border: none; background: var(--black); color: #fff; font-weight: 900; cursor: pointer; transition: 0.2s; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0, 0, 0, 0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; }
+        .dock-link.active { color: #fff; }
+
+        @keyframes springIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <div style="font-family:'Outfit'; font-weight:900; font-size:16px; letter-spacing:0.5px;">FORTUNE FRIDAY</div>
+        <div class="bal-pill" id="headerBal">$0.0000</div>
+    </header>
+
+    <main class="viewport">
+        
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="center-hub"><img src="../assets/ui/logo.png"></div>
+            <canvas id="wheelCanvas" width="500" height="500"></canvas>
+        </div>
+
+        <button class="spin-btn" id="spinBtn" onclick="initiateSpinHandshake()" disabled>SYNCHRONIZING...</button>
+        
+        <div class="timer-msg" id="timerArea">
+            Next Fortune Window opens in:
+            <span id="countdown">--:--:--</span>
+        </div>
+
+    </main>
+
+    <!-- Error/Success Modal -->
+    <div class="modal-overlay" id="statusModal">
+        <div class="modal-card">
+            <div id="modalIcon" class="modal-icon"></div>
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalMsg" class="modal-p"></p>
+            <button class="btn-modal" onclick="closeStatusModal()">PROCEED</button>
+        </div>
+    </div>
+
+
+    <audio id="sfxReward" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
+    <audio id="sfxError" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3" preload="auto"></audio>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, updateDoc, increment, addDoc, collection, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userUID = null;
+        let userData = null;
+        let isSpinning = false;
+        let tryCount = 0; // Local session tracker for 2nd attempt logic
+
+        // 1. WHEEL DESIGN & DATA
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const rewards = [
+            { label: '5 Coins', val: 5, type: 'coin', color: '#ffffff', canWin: true }, 
+            { label: '$50.00', val: 50.00, type: 'usd', color: '#f4f4f7', canWin: false }, // High Price
+            { label: '500 Coins', val: 500, type: 'coin', color: '#ffffff', canWin: true }, 
+            { label: '$100.00', val: 100.00, type: 'usd', color: '#00c853', canWin: false }, // High Price
+            { label: '$0.001', val: 0.001, type: 'usd', color: '#ffffff', canWin: true },  
+            { label: '$10.00', val: 10.00, type: 'usd', color: '#f4f4f7', canWin: false }, // High Price
+            { label: '100 Coins', val: 100, type: 'coin', color: '#ffffff', canWin: true }, 
+            { label: '$25.00', val: 25.00, type: 'usd', color: '#f4f4f7', canWin: false }  // High Price
+        ];
+
+        function drawWheel() {
+            const arc = (2 * Math.PI) / rewards.length;
+            rewards.forEach((r, i) => {
+                const angle = i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = r.color;
+                ctx.moveTo(250, 250);
+                ctx.arc(250, 250, 242, angle, angle + arc);
+                ctx.fill();
+                ctx.strokeStyle = "rgba(0,0,0,0.1)";
+                ctx.stroke();
+                ctx.save();
+                ctx.translate(250, 250);
+                ctx.rotate(angle + arc / 2);
+                ctx.fillStyle = (r.color === '#00c853') ? '#fff' : '#000';
+                ctx.font = 'bold 16px Inter';
+                ctx.fillText(r.label, 110, 10);
+                ctx.restore();
+            });
+        }
+        drawWheel();
+
+        // 2. AUTH & STATE SYNC
+        onAuthStateChanged(auth, (user) => {
+            if(!user) window.location.href = "../auth/login.html";
+            else {
+                userUID = user.uid;
+                onSnapshot(doc(db, "pending_users", user.uid), (snap) => {
+                    if(!snap.exists()) return;
+                    userData = snap.data();
+                    document.getElementById('headerBal').innerText = `$${(userData.balance || 0).toFixed(4)}`;
+                    evaluateDay();
+                });
+            }
+        });
+
+        function evaluateDay() {
+            const now = new Date();
+            const isFriday = now.getDay() === 5;
+            const lastSpin = userData.last_spin_date || "";
+            const btn = document.getElementById('spinBtn');
+
+            if (isFriday && lastSpin !== now.toDateString() && !isSpinning) {
+                btn.disabled = false;
+                btn.innerText = "OPEN FORTUNE NODE";
+                document.getElementById('timerArea').innerHTML = "<span style='color:var(--green); font-weight:800;'>FRIDAY WINDOW ACTIVE</span>";
+            } else {
+                btn.disabled = true;
+                btn.innerText = (lastSpin === now.toDateString()) ? "NODE COMPLETED" : "NODE LOCKED";
+                startCountdown();
+            }
+        }
+
+        function startCountdown() {
+            const el = document.getElementById('countdown');
+            setInterval(() => {
+                const now = new Date();
+                let target = new Date();
+                target.setDate(now.getDate() + (5 - now.getDay() + 7) % 7);
+                if (now.getDay() === 5 && userData.last_spin_date === now.toDateString()) target.setDate(now.getDate() + 7);
+                target.setHours(0, 0, 0, 0);
+                const diff = target - now;
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                el.innerText = `${d}d ${h}h ${m}m ${s}s`;
+            }, 1000);
+        }
+
+        // 3. SPIN LOGIC
+        window.initiateSpinHandshake = () => {
+            if(isSpinning) return;
+            isSpinning = true;
+            document.getElementById('spinBtn').disabled = true;
+
+            let targetIdx;
+            if(tryCount === 0) {
+                // First try: 50% chance hit a "High Price" to trigger fake error
+                const triggerError = Math.random() > 0.5;
+                if(triggerError) {
+                    const forbidden = [1, 3, 5, 7];
+                    targetIdx = forbidden[Math.floor(Math.random() * forbidden.length)];
+                } else {
+                    const safe = [0, 2, 4, 6];
+                    targetIdx = safe[Math.floor(Math.random() * safe.length)];
+                }
+            } else {
+                // 2nd try: Always hit a valid win
+                const safe = [0, 2, 4, 6];
+                targetIdx = safe[Math.floor(Math.random() * safe.length)];
+            }
+
+            const sliceSize = 360 / rewards.length;
+            const targetDeg = (targetIdx * sliceSize) + (sliceSize / 2);
+            const totalRotation = (360 * 10) + (360 - targetDeg);
+
+            canvas.style.transform = `rotate(${totalRotation}deg)`;
+
+            setTimeout(() => { processResult(targetIdx); }, 5200);
+        };
+
+        async function processResult(idx) {
+            const prize = rewards[idx];
+
+            // FAILURE PATH (TRY 0)
+            if(!prize.canWin && tryCount === 0) {
+                tryCount = 1;
+                document.getElementById('sfxError').play();
+                showStatusModal(
+                    'fa-solid fa-triangle-exclamation', 
+                    '#ff3b30', 
+                    'Handshake Timeout', 
+                    ['Cloud Sync Error', 'Internet Protocol Lag', 'Neural Link Interrupted'][Math.floor(Math.random()*3)] + '. Your session is preserved. Please try again.',
+                    'RE-INITIALIZE'
+                );
+                // Reset wheel position
+                canvas.style.transition = "none";
+                canvas.style.transform = "rotate(0deg)";
+                setTimeout(() => { 
+                    canvas.style.transition = "transform 5s cubic-bezier(0.15, 0, 0.15, 1)";
+                    isSpinning = false;
+                    evaluateDay(); 
+                }, 200);
+                return;
+            }
+
+            // SUCCESS PATH
+            try {
+                const userRef = doc(db, "pending_users", userUID);
+                const updates = { last_spin_date: new Date().toDateString() };
+                
+                if(prize.type === 'usd') updates.balance = increment(prize.val);
+                else updates.coins = increment(prize.val);
+
+                await updateDoc(userRef, updates);
+
+                // Notifications
+                await addDoc(collection(db, "notifications"), {
+                    user_email: auth.currentUser.email,
+                    title: "Friday Fortune Logged",
+                    message: `You successfully harvested ${prize.label} from the ecosystem node.`,
+                    type: "system",
+                    timestamp: serverTimestamp()
+                });
+
+                document.getElementById('sfxReward').play();
+                showStatusModal(
+                    'fa-solid fa-circle-check', 
+                    '#00c853', 
+                    'Yield Synchronized', 
+                    `The node verification was successful. ${prize.label} has been liquified into your primary vault.`,
+                    'FINALIZE'
+                );
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                isSpinning = false;
+                
+            } catch (err) {
+                alert("Cloud Protocol Failure.");
+                isSpinning = false;
+            }
+        }
+
+        // MODAL HELPERS
+        function showStatusModal(icon, color, title, msg, btn) {
+            document.getElementById('modalIcon').innerHTML = `<i class="${icon}" style="color:${color}"></i>`;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMsg').innerText = msg;
+            document.querySelector('.btn-modal').innerText = btn;
+            document.getElementById('statusModal').style.display = 'flex';
+        }
+
+        window.closeStatusModal = () => {
+            document.getElementById('statusModal').style.display = 'none';
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

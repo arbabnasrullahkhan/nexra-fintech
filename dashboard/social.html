@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Social Pro Hub</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000; --pure-white: #ffffff; --nexra-green: #00c853; 
+            --nexra-blue: #1e90ff; --gray-light: #f4f4f7; --border: rgba(0, 0, 0, 0.06); 
+            --font-head: 'Outfit', sans-serif; --red: #ff3b30;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--pure-white); color: var(--pure-black); font-family: 'Inter', sans-serif; touch-action: pan-y; -webkit-user-select: none; }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; cursor: pointer; }
+        .bal-pill { background: var(--pure-black); color: #fff; padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; }
+
+        .viewport { width: 100%; max-width: 800px; margin: 0 auto; padding: 20px; padding-bottom: 120px; }
+
+        .social-hero { background: var(--pure-black); color: #fff; padding: 30px 24px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; }
+        .social-hero::after { content: ""; position: absolute; top: -20%; right: -10%; width: 200px; height: 200px; background: var(--nexra-blue); filter: blur(80px); opacity: 0.3; }
+        .hero-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--nexra-blue); letter-spacing: 2px; margin-bottom: 8px; display: block; position:relative; z-index:2;}
+        .hero-title { font-family: var(--font-head); font-size: 28px; font-weight: 900; margin-bottom: 15px; position:relative; z-index:2;}
+        
+        .reward-range { display: inline-flex; align-items: center; gap: 10px; background: rgba(30, 144, 255, 0.15); padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(30, 144, 255, 0.2); position:relative; z-index:2; }
+        .reward-range b { color: var(--nexra-blue); font-size: 14px; }
+
+        .section-title { font-size: 15px; font-weight: 800; margin-bottom: 15px; padding-left: 5px; display: flex; justify-content: space-between; }
+        .guide-box { background: var(--gray-light); border-radius: 24px; padding: 20px; margin-bottom: 25px; border: 1px solid var(--border); }
+        .guide-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+        .guide-item:last-child { margin-bottom: 0; }
+        .guide-item i { color: var(--nexra-green); font-size: 14px; margin-top: 2px; }
+        .guide-item p { font-size: 12px; font-weight: 700; color: #555; line-height: 1.4; }
+
+        .form-card { background: #fff; border: 1px solid var(--border); border-radius: 28px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .platform-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+        .plat-btn { height: 45px; border-radius: 14px; border: 2px solid var(--gray-light); background: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: 0.2s; }
+        .plat-btn.active { border-color: var(--pure-black); background: var(--gray-light); }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #888; letter-spacing: 0.5px; }
+        .form-group input, .form-group select { width: 100%; padding: 16px; border-radius: 15px; border: 1.5px solid var(--gray-light); background: var(--gray-light); font-size: 14px; font-weight: 700; outline: none; transition: 0.2s; font-family: inherit; color: var(--pure-black); }
+        .form-group input:focus { border-color: var(--pure-black); background: #fff; }
+
+        .btn-submit { width: 100%; padding: 18px; border-radius: 18px; border: none; background: var(--pure-black); color: #fff; font-size: 14px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 12px; }
+        .btn-submit:active { transform: scale(0.96); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Audit Item Card */
+        .audit-item { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; position: relative; }
+        .a-row { display: flex; align-items: center; gap: 15px; }
+        .a-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--gray-light); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--nexra-blue); }
+        .a-info { flex: 1; min-width: 0; }
+        .a-info h5 { font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .a-info p { font-size: 10px; color: #999; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+        
+        .a-status { font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; position: absolute; top: 20px; right: 20px; }
+        .s-pending { background: #fff4e0; color: #ff9f43; }
+        .s-paid { background: #e0fff0; color: var(--nexra-green); }
+        .s-rejected { background: #fee2e2; color: var(--red); }
+
+        .a-metrics { display: flex; justify-content: space-between; background: var(--gray-light); padding: 10px 15px; border-radius: 12px; }
+        .m-pill { display: flex; flex-direction: column; }
+        .m-pill span { font-size: 8px; color: #aaa; font-weight: 800; text-transform: uppercase; }
+        .m-pill b { font-size: 11px; font-weight: 800; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+        .dock-link.active::after { content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--nexra-green); border-radius: 50%; }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <div style="font-family:'Outfit'; font-weight:900; font-size:16px;">SOCIAL PRO</div>
+        <div class="bal-pill" id="topBal">$0.0000</div>
+    </header>
+
+    <main class="viewport">
+        
+        <section class="social-hero">
+            <span class="hero-tag">Identity Influence</span>
+            <h1 class="hero-title">Video Monetization</h1>
+            <div class="reward-range">
+                <i class="fa-solid fa-gem" style="color:var(--nexra-blue)"></i>
+                <b>Vault Payout: <span id="minPay">$0.54</span> - <span id="maxPay">$10.00</span></b>
+            </div>
+        </section>
+
+        <div class="section-header"><h2>Current Node Target</h2></div>
+        <div class="guide-box">
+            <div class="guide-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>Requirement: <span id="targetMetric">500+ Likes & 3000+ Views</span></p>
+            </div>
+            <div class="guide-item">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>Engagement: 150+ Technical Comments</p>
+            </div>
+            <div class="guide-item">
+                <i class="fa-solid fa-hashtag"></i>
+                <p>Tags: #NEXRA #DigitalWealth #Fintech</p>
+            </div>
+        </div>
+
+        <div class="section-header"><h2>Submission Portal</h2></div>
+        <section class="form-card">
+            <div class="platform-grid" id="pGrid">
+                <div class="plat-btn active" onclick="setPlat('TikTok', this)" style="color:#ff0050"><i class="fa-brands fa-tiktok"></i></div>
+                <div class="plat-btn" onclick="setPlat('YouTube', this)" style="color:#ff0000"><i class="fa-brands fa-youtube"></i></div>
+                <div class="plat-btn" onclick="setPlat('Facebook', this)" style="color:#1877f2"><i class="fa-brands fa-facebook"></i></div>
+                <div class="plat-btn" onclick="setPlat('Instagram', this)" style="color:#e1306c"><i class="fa-brands fa-instagram"></i></div>
+            <div class="plat-btn" onclick="setPlat('X', this)">
+    <i class="fa-solid fa-link"></i>
+</div>
+
+            </div>
+
+            <form id="socialForm">
+                <div class="form-group">
+                    <label>Video URL / Node Link</label>
+                    <input type="url" id="postLink" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label>Receiving Settlement Method</label>
+                    <select id="payGateway" required>
+                        <option value="Binance (USDT)">Binance (USDT)</option>
+                        <option value="JazzCash">JazzCash (PK)</option>
+                        <option value="EasyPaisa">EasyPaisa (PK)</option>
+                        <option value="SadaPay">SadaPay (PK)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Account Official Title</label>
+                    <input type="text" id="payTitle" placeholder="Full Registered Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Account Number / ID</label>
+                    <input type="text" id="payInfo" placeholder="Number or Wallet ID" required>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="subBtn">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> DISPATCH TO AUDIT
+                </button>
+            </form>
+        </section>
+
+        <div class="section-header"><h2>Identity Ledger</h2></div>
+        <div id="auditList">
+            <p style="padding:40px; text-align:center; color:#ccc; font-size:12px; font-weight:700;">SYNCING LEDGER...</p>
+        </div>
+
+    </main>
+ 
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, collection, addDoc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userEmail = null;
+        let selectedPlat = "TikTok";
+        let currentTargetStr = "500 Likes & 3000 Views";
+
+        // 1. AUTH & DATA INITIALIZATION
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userEmail = user.email;
+                syncSocialSettings();
+                syncUserBalance();
+                loadSubmissionHistory();
+            } else {
+                window.location.href = "../auth/login.html";
+            }
+        });
+
+        // 2. FETCH ADMIN SETTINGS (Real-Time Pricing & Targets)
+        function syncSocialSettings() {
+            onSnapshot(doc(db, "settings", "social_pro"), (snap) => {
+                if(snap.exists()) {
+                    const d = snap.data();
+                    document.getElementById('minPay').innerText = `$${(d.min_reward || 0.54).toFixed(2)}`;
+                    document.getElementById('maxPay').innerText = `$${(d.max_reward || 10.00).toFixed(2)}`;
+                    currentTargetStr = d.target_text || "500 Likes & 3000 Views";
+                    document.getElementById('targetMetric').innerText = currentTargetStr;
+                }
+            });
+        }
+
+        function syncUserBalance() {
+            onSnapshot(doc(db, "pending_users", auth.currentUser.uid), (snap) => {
+                if(snap.exists()) {
+                    document.getElementById('topBal').innerText = `$${(snap.data().balance || 0).toFixed(4)}`;
+                }
+            });
+        }
+
+        // 3. LOAD HISTORY (Real-Time)
+        function loadSubmissionHistory() {
+            const q = query(
+                collection(db, "social_submissions"), 
+                where("user_email", "==", userEmail), 
+                orderBy("timestamp", "desc")
+            );
+
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('auditList');
+                if(snap.empty) {
+                    list.innerHTML = `<p style="padding:40px; text-align:center; color:#ccc; font-size:12px; font-weight:700;">No submissions found in ledger.</p>`;
+                    return;
+                }
+
+                list.innerHTML = "";
+                snap.forEach(d => {
+                    const s = d.data();
+                    const status = s.status || "pending";
+                    const icon = getIcon(s.platform);
+                    const time = s.timestamp ? s.timestamp.toDate().toLocaleDateString() : "Syncing...";
+
+                    list.innerHTML += `
+                        <div class="audit-item">
+                            <span class="a-status s-${status}">${status}</span>
+                            <div class="a-row">
+                                <div class="a-icon"><i class="fa-brands ${icon}"></i></div>
+                                <div class="a-info">
+                                    <h5>${s.post_link}</h5>
+                                    <p>${time} • ${s.gateway}</p>
+                                </div>
+                            </div>
+                            <div class="a-metrics">
+                                <div class="m-pill"><span>Aimed Target</span><b>${s.target_at_submission || "Standard"}</b></div>
+                                <div class="m-pill" style="text-align:right;"><span>Potential</span><b>$0.54 - $10.00</b></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }, (err) => {
+                console.error("Ledger Sync Restricted:", err.message);
+            });
+        }
+
+        // 4. SUBMISSION LOGIC
+        document.getElementById('socialForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('subBtn');
+            btn.disabled = true;
+            btn.innerText = "ENCRYPTING...";
+
+            const payload = {
+                user_email: userEmail,
+                uid: auth.currentUser.uid,
+                platform: selectedPlat,
+                post_link: document.getElementById('postLink').value.trim(),
+                gateway: document.getElementById('payGateway').value,
+                account_title: document.getElementById('payTitle').value.trim(),
+                payment_id: document.getElementById('payInfo').value.trim(),
+                target_at_submission: currentTargetStr,
+                status: "pending",
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "social_submissions"), payload);
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
+                e.target.reset();
+                alert("Protocol Success: Video node sent for audit.");
+            } catch (err) {
+                alert("Handshake Error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> DISPATCH TO AUDIT`;
+            }
+        };
+
+        window.setPlat = (p, el) => {
+            selectedPlat = p;
+            document.querySelectorAll('.plat-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        };
+
+        function getIcon(p) {
+            if(p==='TikTok') return 'fa-tiktok';
+            if(p==='YouTube') return 'fa-youtube';
+            if(p==='Facebook') return 'fa-facebook';
+            if(p==='Instagram') return 'fa-instagram';
+            return 'fa-link';
+        }
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

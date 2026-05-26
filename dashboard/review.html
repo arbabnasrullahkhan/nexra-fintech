@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Community Trust Ledger</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --blue: #007aff; --gold: #ffcc00; --gray-bg: #f2f2f7; 
+            --border: rgba(0,0,0,0.06); --font-head: 'Outfit', sans-serif;
+            --red: #ff3b30;
+        }
+
+        /* 1. LAYOUT RESET & APP FEEL */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; border-radius: 9px; }
+        .h-title { font-family: var(--font-head); font-size: 16px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        .viewport { width: 100%; max-width: 650px; margin: 0 auto; padding: 20px; padding-bottom: 120px; }
+
+        /* 2. TRUST ANALYTICS HEADER */
+        .trust-summary { display: flex; align-items: center; gap: 20px; background: var(--gray-bg); padding: 25px; border-radius: 28px; margin-bottom: 30px; border: 1px solid var(--border); }
+        .rating-big { font-size: 48px; font-weight: 900; font-family: var(--font-head); letter-spacing: -2px; line-height: 1; }
+        .rating-meta h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+        .rating-meta p { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .stars-gold { color: var(--gold); font-size: 12px; display: flex; gap: 3px; }
+
+        /* 3. INPUT CARD */
+        .submit-card { background: #fff; border: 1px solid var(--border); border-radius: 32px; padding: 25px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); position: relative; }
+        .stars-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .star-input { font-size: 26px; color: #eee; cursor: pointer; transition: 0.2s; }
+        .star-input.active { color: var(--gold); transform: scale(1.1); }
+        
+        textarea { width: 100%; padding: 18px; border-radius: 20px; border: 2px solid var(--gray-bg); background: var(--gray-bg); font-size: 14px; font-weight: 600; outline: none; font-family: inherit; resize: none; height: 110px; transition: 0.3s; color: var(--black); }
+        textarea:focus { border-color: var(--black); background: #fff; }
+        
+        .btn-post { width: 100%; padding: 18px; border-radius: 18px; border: none; background: var(--black); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-post:active { transform: scale(0.97); }
+
+        /* 4. MODERN REVIEW CARDS */
+        .rev-card { background: #fff; border: 1px solid var(--border); border-radius: 30px; padding: 25px; margin-bottom: 18px; position: relative; animation: slideUp 0.5s ease; }
+        .rev-top { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .rev-avatar { width: 45px; height: 45px; border-radius: 14px; background: var(--black); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; text-transform: uppercase; border: 1px solid var(--border); }
+        .rev-name { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        .verified-tag { font-size: 9px; font-weight: 900; color: var(--green); text-transform: uppercase; background: #e0fff0; padding: 3px 8px; border-radius: 100px; }
+        .rev-text { font-size: 14px; color: #444; font-weight: 500; line-height: 1.6; margin-bottom: 15px; white-space: pre-wrap; }
+        
+        /* Admin Response */
+        .official-badge { background: #f0f7ff; border-radius: 20px; padding: 18px; border-left: 4px solid var(--blue); margin-top: 15px; position: relative; }
+        .admin-tag { font-size: 10px; font-weight: 900; color: var(--blue); text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+        .admin-msg { font-size: 13px; color: #555; font-weight: 600; line-height: 1.5; }
+
+        .rev-actions { display: flex; gap: 20px; border-top: 1px solid var(--gray-bg); padding-top: 15px; }
+        .act-btn { font-size: 13px; font-weight: 700; color: #999; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .act-btn.liked { color: var(--red); }
+        .act-btn:active { transform: scale(0.8); }
+
+        .owner-tools { position: absolute; top: 25px; right: 25px; display: flex; gap: 12px; }
+        .tool-icon { color: #ddd; cursor: pointer; font-size: 14px; padding: 5px; }
+        .tool-icon:hover { color: var(--black); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 5. DOCK */
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <div class="h-title">Community Trust</div>
+        <div style="width:34px"></div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Trust Analytics -->
+        <section class="trust-summary">
+            <div class="rating-big">4.9</div>
+            <div class="rating-meta">
+                <h4>Global Satisfaction</h4>
+                <div class="stars-gold">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p>Based on <span id="totalReviewsCount">0</span> Reviews</p>
+            </div>
+        </section>
+
+        <!-- Submission Form -->
+        <section class="submit-card">
+            <h2 style="font-size:15px; font-weight:900; margin-bottom:12px; font-family: var(--font-head);">Publish Ledger Post</h2>
+            <div class="stars-row" id="starInputRow">
+                <i class="fa-solid fa-star star-input" data-v="1"></i>
+                <i class="fa-solid fa-star star-input" data-v="2"></i>
+                <i class="fa-solid fa-star star-input" data-v="3"></i>
+                <i class="fa-solid fa-star star-input" data-v="4"></i>
+                <i class="fa-solid fa-star star-input" data-v="5"></i>
+            </div>
+            <textarea id="revText" placeholder="Share your withdrawal proof or node experience..."></textarea>
+            <button class="btn-post" id="postBtn" onclick="executeReviewHandshake()">Dispatch to Community</button>
+        </section>
+
+        <!-- Feed -->
+        <div id="reviewFeed">
+            <div style="text-align:center; padding:40px; color:#ccc; font-weight:700;">Syncing Real-time Feed...</div>
+        </div>
+
+    </main>
+
+ 
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, 
+            deleteDoc, arrayUnion, arrayRemove, getDoc, where, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userUID = null;
+        let userData = null;
+        let selectedStars = 0;
+        let editId = null;
+
+        // 1. AUTH & IDENTITY HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                userUID = user.uid;
+                // Fetch user display name from pending_users
+                onSnapshot(doc(db, "pending_users", user.uid), (snap) => {
+                    if(snap.exists()) userData = snap.data();
+                });
+                initReviewLedger();
+            }
+        });
+
+        // 2. STAR RATING INTERACTION
+        document.querySelectorAll('.star-input').forEach(s => {
+            s.onclick = () => {
+                selectedStars = parseInt(s.dataset.v);
+                document.querySelectorAll('.star-input').forEach(x => {
+                    x.classList.toggle('active', x.dataset.v <= selectedStars);
+                });
+            };
+        });
+
+        // 3. SUBMISSION ENGINE
+        window.executeReviewHandshake = async () => {
+            const postBtn = document.getElementById('postBtn');
+            let text = document.getElementById('revText').value.trim();
+            
+            if(!selectedStars) return alert("Select a star rating protocol.");
+            if(!text) return alert("Feedback text required for ledger sync.");
+
+            postBtn.disabled = true;
+            postBtn.innerText = "SYNCHRONIZING...";
+
+            try {
+                if(editId) {
+                    await updateDoc(doc(db, "community_reviews", editId), { 
+                        text: text, 
+                        rating: selectedStars,
+                        editedAt: serverTimestamp()
+                    });
+                    editId = null;
+                } else {
+                    await addDoc(collection(db, "community_reviews"), {
+                        uid: userUID,
+                        user_email: auth.currentUser.email,
+                        user_name: userData.name || "Partner",
+                        text: text,
+                        rating: selectedStars,
+                        likes: [],
+                        timestamp: serverTimestamp()
+                    });
+                }
+
+                document.getElementById('revText').value = "";
+                selectedStars = 0;
+                document.querySelectorAll('.star-input').forEach(x => x.classList.remove('active'));
+                postBtn.innerText = "Dispatch to Community";
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+            } catch (e) {
+                alert("Handshake Fail: Check connection.");
+            } finally {
+                postBtn.disabled = false;
+            }
+        };
+
+        // 4. REAL-TIME LEDGER SYNC
+        function initReviewLedger() {
+            const q = query(collection(db, "community_reviews"), orderBy("timestamp", "desc"));
+            
+            onSnapshot(q, (snap) => {
+                const feed = document.getElementById('reviewFeed');
+                document.getElementById('totalReviewsCount').innerText = snap.size;
+                feed.innerHTML = "";
+                
+                snap.forEach(docSnap => {
+                    const r = docSnap.data();
+                    const id = docSnap.id;
+                    const isLiked = r.likes?.includes(auth.currentUser.email);
+                    const isOwner = r.uid === userUID;
+                    const initials = (r.user_name || "N").charAt(0).toUpperCase();
+
+                    feed.innerHTML += `
+                        <div class="rev-card">
+                            ${isOwner ? `
+                                <div class="owner-tools">
+                                    <i class="fa-solid fa-pen-nib tool-icon" onclick="prepareEdit('${id}', '${r.text.replace(/'/g, "\\'")}', ${r.rating})"></i>
+                                    <i class="fa-solid fa-trash-can tool-icon" onclick="purgeReview('${id}')"></i>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="rev-top">
+                                <div class="rev-avatar">${initials}</div>
+                                <div class="rev-meta">
+                                    <div class="rev-name">${r.user_name || "Partner"} <span class="verified-tag">Verified</span></div>
+                                    <div class="stars-gold">${'<i class="fa-solid fa-star"></i>'.repeat(r.rating || 0)}</div>
+                                </div>
+                            </div>
+
+                            <p class="rev-text">${r.text}</p>
+
+                            ${r.reply ? `
+                                <div class="official-badge">
+                                    <div class="admin-tag">Nexra Official <i class="fa-solid fa-circle-check"></i></div>
+                                    <p class="admin-msg">${r.reply}</p>
+                                </div>
+                            ` : ''}
+
+                            <div class="rev-actions">
+                                <div class="act-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${id}', ${isLiked}, '${r.user_email}', '${r.uid}')">
+                                    <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> ${r.likes ? r.likes.length : 0}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // 5. OWNER CONTROLS
+        window.prepareEdit = (id, text, stars) => {
+            editId = id;
+            document.getElementById('revText').value = text;
+            selectedStars = stars;
+            document.querySelectorAll('.star-input').forEach(x => {
+                x.classList.toggle('active', x.dataset.v <= stars);
+            });
+            document.getElementById('postBtn').innerText = "Sync Changes";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.purgeReview = async (id) => {
+            if(confirm("Protocol Warning: Permanently delete your post from the ledger?")) {
+                await deleteDoc(doc(db, "community_reviews", id));
+            }
+        };
+
+        // 6. INTERACTION & NOTIFICATION HANDSHAKE
+        window.toggleLike = async (id, liked, ownerEmail, ownerUID) => {
+            if(navigator.vibrate) navigator.vibrate(40);
+            const ref = doc(db, "community_reviews", id);
+            
+            try {
+                await updateDoc(ref, { 
+                    likes: liked ? arrayRemove(auth.currentUser.email) : arrayUnion(auth.currentUser.email) 
+                });
+
+                // Dispatch notification to post owner
+                if(!liked && ownerUID !== userUID) {
+                    await addDoc(collection(db, "notifications"), {
+                        user_email: ownerEmail,
+                        title: "Node Interaction",
+                        message: `${userData.name} appreciated your community post.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                }
+            } catch(e) { console.error("Like handshake fail."); }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

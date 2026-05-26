@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Power Staking Node</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+ 
+    <style>
+        :root {
+            --pure-black: #000000; --pure-white: #ffffff; --nexra-green: #00c853; 
+            --nexra-blue: #3742fa; --nexra-gold: #ffcc00; --nexra-red: #ff4757;
+            --gray-bg: #f8f9fa; --border: rgba(0, 0, 0, 0.08);
+            --vault-grad: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 100%);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--pure-white); color: var(--pure-black); font-family: 'Inter', sans-serif; touch-action: pan-y; }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+        .h-right { display: flex; align-items: center; gap: 12px; }
+        .coin-pill { background: var(--pure-black); color: var(--nexra-gold); padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .coin-icon-sm { width: 18px; height: 18px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .coin-icon-sm img { width: 70%; mix-blend-mode: multiply; }
+        .profile-initial { width: 32px; height: 32px; border-radius: 50%; background: var(--nexra-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; text-transform: uppercase; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        .viewport { width: 100%; max-width: 800px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+
+        /* HERO CARD */
+        .stake-hero { background: var(--vault-grad); color: #fff; padding: 30px 24px; border-radius: 32px; position: relative; overflow: hidden; margin-bottom: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
+        .stake-hero::before { content: ""; position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: var(--nexra-blue); filter: blur(70px); opacity: 0.3; }
+        .pulse-core { width: 70px; height: 70px; background: #fff; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255,255,255,0.4); position: relative; z-index: 2; }
+        .pulse-core img { width: 60%; mix-blend-mode: multiply; }
+        .hero-val { font-family: 'Outfit'; font-size: 32px; font-weight: 900; letter-spacing: -1px; }
+
+        /* ACTION AREA */
+        .action-card { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 28px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .section-title { font-size: 15px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-group input { width: 100%; padding: 18px; border-radius: 16px; border: 2px solid var(--gray-bg); background: var(--gray-bg); font-size: 16px; font-weight: 800; outline: none; transition: 0.3s; color: var(--pure-black); font-family: inherit; }
+        .input-group input:focus { border-color: var(--nexra-blue); background: #fff; }
+        
+        .select-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        select { width: 100%; padding: 14px; border-radius: 14px; border: 2px solid var(--gray-bg); background: var(--gray-bg); font-size: 13px; font-weight: 700; outline: none; cursor: pointer; color: var(--pure-black); font-family: inherit; }
+
+        .btn-stake { width: 100%; padding: 20px; border-radius: 18px; border: none; background: var(--nexra-blue); color: #fff; font-size: 15px; font-weight: 900; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-stake:active { transform: scale(0.96); }
+
+        /* ACTIVE SLOTS */
+        .slot-card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 22px; position: relative; margin-bottom: 15px; animation: fadeIn 0.5s ease; }
+        .slot-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .slot-badge { background: var(--gray-bg); padding: 5px 12px; border-radius: 100px; font-size: 9px; font-weight: 900; text-transform: uppercase; color: #888; }
+        
+        .yield-box { display: flex; justify-content: space-between; align-items: center; background: var(--gray-bg); padding: 15px; border-radius: 18px; margin-bottom: 15px; }
+        .yield-val { font-size: 18px; font-weight: 900; color: var(--nexra-green); font-family: 'Outfit'; }
+        .timer-val { font-size: 12px; font-weight: 800; color: #555; }
+
+        .slot-actions { display: flex; gap: 10px; }
+        .btn-harvest { flex: 1; padding: 14px; border-radius: 12px; border: none; font-size: 12px; font-weight: 800; cursor: pointer; background: var(--pure-black); color: #fff; transition: 0.2s; }
+        .btn-cancel { flex: 1; padding: 14px; border-radius: 12px; border: none; font-size: 12px; font-weight: 800; cursor: pointer; background: #fee2e2; color: var(--nexra-red); }
+        .btn-harvest:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* LOG BOX */
+        .history-box { background: #fff; border: 1px solid var(--border); border-radius: 28px; padding: 20px; margin-top: 30px; }
+        .hist-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--gray-bg); }
+        .hist-item:last-child { border-bottom: none; }
+        .hist-info b { font-size: 13px; color: var(--pure-black); display: block; margin-bottom: 2px; }
+        .hist-info span { font-size: 10px; color: #999; font-weight: 700; text-transform: uppercase; }
+        .hist-val { font-size: 14px; font-weight: 900; color: var(--nexra-blue); }
+
+        /* MODALS */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 5000; padding: 25px; }
+        .modal-content { background: #fff; width: 100%; max-width: 350px; border-radius: 35px; padding: 35px; text-align: center; animation: springIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-icon { font-size: 50px; color: var(--nexra-red); margin-bottom: 20px; }
+        .modal-btn { width: 100%; padding: 16px; border-radius: 16px; border: none; background: var(--pure-black); color: #fff; font-weight: 900; font-size: 14px; cursor: pointer; margin-top: 15px; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+
+        @keyframes springIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <div style="font-family:'Outfit'; font-weight:900; font-size:17px; letter-spacing:0.5px;">POWER STAKING</div>
+        <div class="h-right">
+            <div class="coin-pill">
+                <div class="coin-icon-sm"><img src="../assets/ui/logo.png"></div>
+                <span id="userCoins">0</span>
+            </div>
+            <div class="profile-initial" id="profileInit">?</div>
+        </div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Hero Section -->
+        <section class="stake-hero">
+            <div class="pulse-core"><img src="../assets/ui/logo.png"></div>
+            <span class="hero-lbl">Cloud Mining Protocol</span>
+            <div class="hero-val" id="totalActiveStaked">0 COINS</div>
+            <p style="font-size:10px; opacity:0.6; margin-top:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.5px;">Node Usage: <span id="capacity">0/3</span></p>
+        </section>
+
+        <!-- Deployment Form -->
+        <div class="action-card">
+            <div class="section-header"><h2>Deploy New Node</h2><span>Min: <b id="minStakeLbl">300</b></span></div>
+            
+            <div class="input-group">
+                <input type="number" id="stakeInput" placeholder="Amount of Coins">
+            </div>
+
+            <div class="select-group">
+                <select id="lockPeriod">
+                    <option value="90">90 Days Protocol ($2.00)</option>
+                    <option value="180">180 Days Protocol ($4.00)</option>
+                    <option value="365">365 Days Protocol ($10.00)</option>
+                    <option value="730">730 Days Protocol ($50.00)</option>
+                </select>
+                <div style="background:var(--gray-bg); padding:14px; border-radius:14px; font-size:11px; font-weight:800; text-align:center;">Yield Target: USD</div>
+            </div>
+
+            <button class="btn-stake" id="deployBtn" onclick="initiateStakeProtocol()">
+                <i class="fa-solid fa-bolt"></i> DEPLOY POWER NODE
+            </button>
+        </div>
+
+        <!-- Active Slots -->
+        <div class="section-header"><h2>Active Nodes</h2></div>
+        <div id="slotContainer">
+            <p style="text-align:center; padding:30px; color:#ccc; font-size:12px; font-weight:700;">Scanning active nodes...</p>
+        </div>
+
+        <!-- Conversion Shortcut -->
+        <div class="action-card" style="margin-top: 30px; text-align: center;">
+            <p style="font-size:12px; font-weight:600; color:#888; margin-bottom:15px;">Have extra coins? Instant liquidity available.</p>
+            <button class="btn-stake" style="background:var(--nexra-green);" onclick="openConvertProtocol()">
+                <i class="fa-solid fa-rotate"></i> CONVERT COINS TO USD
+            </button>
+        </div>
+
+        <!-- History Log -->
+        <div class="section-header" style="margin-top: 40px;"><h2>System Ledger</h2></div>
+        <div class="history-box" id="historyContainer">
+            <p style="text-align:center; padding:20px; color:#ccc; font-size:12px;">Syncing ledger...</p>
+        </div>
+
+    </main>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="balanceModal">
+        <div class="modal-content">
+            <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <h2 style="font-family:'Outfit'; font-weight:900;">Liquidity Gap</h2>
+            <p style="font-size:13px; color:#666; margin-top:10px; line-height:1.5;">Your coin balance is insufficient to initiate this staking protocol. Expand your network to earn more.</p>
+            <button class="modal-btn" onclick="closeModal('balanceModal')">RETRY</button>
+        </div>
+    </div>
+
+    <!-- Conversion Modal -->
+    <div class="modal-overlay" id="convertModal">
+        <div class="modal-content">
+            <div class="modal-icon" style="color:var(--nexra-green);"><i class="fa-solid fa-coins"></i></div>
+            <h2 style="font-family:'Outfit'; font-weight:900;">Liquify Coins</h2>
+            <p style="font-size:12px; color:#888; margin-top:5px; font-weight:600;">15% Protocol Tax applied to all USD conversions.</p>
+            <div class="input-group" style="margin-top: 20px;">
+                <input type="number" id="convertInput" placeholder="Amount to Convert">
+            </div>
+            <button class="modal-btn" style="background:var(--nexra-green);" onclick="submitConversionHandshake()">SYNC CONVERSION</button>
+            <button class="modal-btn" style="background:none; color:#999; margin-top:5px;" onclick="closeModal('convertModal')">ABORT</button>
+        </div>
+    </div>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <!-- Romantic Audio Chime -->
+    <audio id="sfxDone" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, updateDoc, increment, serverTimestamp, collection, 
+            addDoc, query, where, arrayUnion, arrayRemove, limit 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userUID = null;
+        let userData = null;
+        let activeSlots = [];
+
+        // 1. AUTH & REAL-TIME SYNC
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                userUID = user.uid;
+                syncMiningProtocol(user.uid);
+                syncMiningLedger(user.uid);
+            }
+        });
+
+        function syncMiningProtocol(uid) {
+            const userRef = doc(db, "pending_users", uid);
+            onSnapshot(userRef, (snap) => {
+                if(!snap.exists()) return;
+                userData = snap.data();
+                activeSlots = userData.staking_slots || [];
+                
+                // Header Sync
+                document.getElementById('userCoins').innerText = (userData.coins || 0).toLocaleString();
+                document.getElementById('profileInit').innerText = (userData.name || "N")[0].toUpperCase();
+                
+                // Capacity Sync
+                document.getElementById('capacity').innerText = `${activeSlots.length}/3`;
+                let totalS = 0;
+                activeSlots.forEach(s => totalS += s.amount);
+                document.getElementById('totalActiveStaked').innerText = totalS.toLocaleString() + " COINS";
+
+                renderNodes();
+            });
+        }
+
+        // 2. NODE DEPLOYMENT LOGIC
+        window.initiateStakeProtocol = async () => {
+            const amount = parseInt(document.getElementById('stakeInput').value);
+            const days = parseInt(document.getElementById('lockPeriod').value);
+
+            if(activeSlots.length >= 3) return alert("Protocol Limit: Max 3 active nodes allowed.");
+            if(!amount || amount < 300) return alert("Minimum Node Deployment: 300 Coins.");
+            
+            if(amount > (userData.coins || 0)) {
+                document.getElementById('balanceModal').style.display = 'flex';
+                return;
+            }
+
+            const btn = document.getElementById('deployBtn');
+            btn.disabled = true;
+            btn.innerText = "DEPLOYING...";
+
+            // Yield Matrix: 300 coins based logic
+            const baseReturns = { 90: 2, 180: 4, 365: 10, 730: 50 };
+            const expectedYield = (amount / 300) * baseReturns[days];
+
+            const newSlot = {
+                id: "node_" + Date.now(),
+                amount: amount,
+                days: days,
+                start_time: Date.now(),
+                target_yield: expectedYield,
+                status: "active"
+            };
+
+            try {
+                const userRef = doc(db, "pending_users", userUID);
+                await updateDoc(userRef, {
+                    coins: increment(-amount),
+                    staking_slots: arrayUnion(newSlot)
+                });
+
+                // Log Deployment
+                await addDoc(collection(db, "transactions"), {
+                    uid: userUID,
+                    type: "stake_deployed",
+                    amount: amount,
+                    timestamp: serverTimestamp()
+                });
+
+                document.getElementById('stakeInput').value = "";
+                document.getElementById('sfxDone').play();
+                confetti({ particleCount: 100, origin: { y: 0.8 } });
+            } catch(e) { alert("Handshake Error."); }
+            btn.disabled = false;
+            btn.innerHTML = `<i class="fa-solid fa-bolt"></i> DEPLOY POWER NODE`;
+        };
+
+        // 3. RENDER ACTIVE NODES
+        function renderNodes() {
+            const container = document.getElementById('slotContainer');
+            if(activeSlots.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding:30px; color:#ccc; font-size:12px; font-weight:700;">No active technical nodes found.</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            activeSlots.forEach(slot => {
+                const now = Date.now();
+                const elapsed = now - slot.start_time;
+                const totalDuration = slot.days * 24 * 60 * 60 * 1000;
+                const progress = Math.min(elapsed / totalDuration, 1);
+                
+                const isReady = elapsed >= totalDuration;
+                const isCancellable = elapsed < 10000; // 10s Error Window
+
+                const card = document.createElement('div');
+                card.className = 'slot-card';
+                card.innerHTML = `
+                    <div class="slot-header">
+                        <span class="slot-badge">${slot.days} Days Node</span>
+                        <div style="font-weight:900; font-size:12px;">Locked: ${slot.amount}</div>
+                    </div>
+                    <div class="yield-box">
+                        <div class="yield-val">$${(slot.target_yield * progress).toFixed(4)}</div>
+                        <div class="timer-val" id="timer-${slot.id}">Synchronizing...</div>
+                    </div>
+                    <div class="slot-actions">
+                        <button class="btn-harvest" id="btn-harvest-${slot.id}" ${!isReady ? 'disabled' : ''} onclick="harvestYield('${slot.id}')">
+                            ${isReady ? 'HARVEST YIELD' : 'CALIBRATING'}
+                        </button>
+                        ${isCancellable ? `<button class="btn-cancel" onclick="recallNode('${slot.id}', ${slot.amount})">CANCEL (10s)</button>` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+                updateTimerDisplay(slot.id, slot.start_time, totalDuration);
+            });
+        }
+
+        function updateTimerDisplay(id, start, duration) {
+            const intv = setInterval(() => {
+                const el = document.getElementById('timer-'+id);
+                if(!el) { clearInterval(intv); return; }
+                
+                const remaining = duration - (Date.now() - start);
+                if(remaining <= 0) {
+                    el.innerText = "YIELD READY";
+                    el.style.color = "var(--nexra-green)";
+                    document.getElementById('btn-harvest-'+id).disabled = false;
+                    document.getElementById('btn-harvest-'+id).innerText = "HARVEST YIELD";
+                    clearInterval(intv);
+                } else {
+                    const d = Math.floor(remaining / 86400000);
+                    const h = Math.floor((remaining % 86400000) / 3600000);
+                    const m = Math.floor((remaining % 3600000) / 60000);
+                    const s = Math.floor((remaining % 60000) / 1000);
+                    el.innerText = `${d}d ${h}h ${m}m ${s}s`;
+                }
+            }, 1000);
+        }
+
+        // 4. HARVEST & RECALL
+        window.harvestYield = async (id) => {
+            const slot = activeSlots.find(x => x.id === id);
+            if(!slot) return;
+            try {
+                const userRef = doc(db, "pending_users", userUID);
+                await updateDoc(userRef, {
+                    balance: increment(slot.target_yield),
+                    coins: increment(slot.amount),
+                    staking_slots: arrayRemove(slot)
+                });
+                await addDoc(collection(db, "transactions"), {
+                    uid: userUID,
+                    type: "stake_harvested",
+                    amount: slot.target_yield.toFixed(4),
+                    timestamp: serverTimestamp()
+                });
+                confetti({ particleCount: 150 });
+            } catch(e) { alert("Sync Error."); }
+        };
+
+        window.recallNode = async (id, amount) => {
+            const slot = activeSlots.find(x => x.id === id);
+            if(!slot) return;
+            if(confirm("Recall technical node? Coins will be refunded to vault instantly.")){
+                const userRef = doc(db, "pending_users", userUID);
+                await updateDoc(userRef, {
+                    coins: increment(amount),
+                    staking_slots: arrayRemove(slot)
+                });
+            }
+        };
+
+        // 5. CONVERSION HANDSHAKE
+        window.openConvertProtocol = () => document.getElementById('convertModal').style.display = 'flex';
+        window.submitConversionHandshake = async () => {
+            const amt = parseInt(document.getElementById('convertInput').value);
+            if(!amt || amt < 100) return alert("Minimum Conversion: 100 Coins.");
+            if(amt > (userData.coins || 0)) return alert("Liquidity Gap: Insufficient Coins.");
+
+            try {
+                await updateDoc(doc(db, "pending_users", userUID), { coins: increment(-amt) });
+                await addDoc(collection(db, "transactions"), {
+                    uid: userUID,
+                    type: "conversion_request",
+                    amount: amt,
+                    status: "pending",
+                    timestamp: serverTimestamp()
+                });
+                alert("Protocol Dispatched. Auditor will liquify to USD shortly.");
+                closeModal('convertModal');
+            } catch(e) { alert("Sync Failed."); }
+        };
+
+        // 6. LEDGER SYNC
+        function syncMiningLedger(uid) {
+            const q = query(collection(db, "transactions"), where("uid", "==", uid), limit(10));
+            onSnapshot(q, (snap) => {
+                const container = document.getElementById('historyContainer');
+                container.innerHTML = "";
+                if(snap.empty) {
+                    container.innerHTML = `<p style="text-align:center; padding:20px; color:#ccc; font-size:11px;">No records in ledger.</p>`;
+                    return;
+                }
+                snap.forEach(doc => {
+                    const t = doc.data();
+                    const date = t.timestamp ? t.timestamp.toDate().toLocaleDateString() : "Pending";
+                    container.innerHTML += `
+                        <div class="hist-item">
+                            <div class="hist-info"><b>${t.type.replace(/_/g, ' ')}</b><span>${date}</span></div>
+                            <div class="hist-val">${t.amount}</div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

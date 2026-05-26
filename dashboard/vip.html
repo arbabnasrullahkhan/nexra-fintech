@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Rank Sovereignty Hub</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #000000; --surface: #ffffff; --green: #00c853; 
+            --gold: #ffcc00; --blue: #007aff; --red: #ff3b30;
+            --gray-bg: #f8f9fa; --border: rgba(0,0,0,0.06);
+            --vault-grad: linear-gradient(145deg, #0a0a0a 0%, #1c1c1c 100%);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--surface); color: var(--primary); font-family: 'Inter', sans-serif; touch-action: pan-y; }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.85); backdrop-filter: blur(25px); padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+
+        .viewport { width: 100%; max-width: 800px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+
+        /* STATUS HERO */
+        .status-hero { background: var(--vault-grad); color: #fff; padding: 35px 24px; border-radius: 32px; text-align: center; margin-bottom: 25px; box-shadow: 0 20px 45px rgba(0,0,0,0.15); position: relative; overflow: hidden; }
+        .hero-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 10px; display: block; }
+        .hero-rank { font-family: 'Outfit'; font-size: 36px; font-weight: 900; letter-spacing: -1px; color: var(--gold); text-transform: uppercase; }
+        
+        .join-count-box { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); padding: 10px 20px; border-radius: 100px; margin-top: 20px; font-size: 13px; font-weight: 800; }
+        .join-count-box b { color: var(--green); }
+
+        /* DYNAMIC MASTERY GRID */
+        .mastery-grid { display: flex; flex-direction: column; gap: 15px; }
+        
+        .rank-card { background: #fff; border: 1.5px solid var(--border); border-radius: 30px; padding: 25px; position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: cardFadeIn 0.5s ease backwards; }
+        .rank-card.active { border-color: var(--primary); background: var(--gray-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        
+        .rank-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .rank-name { display: flex; align-items: center; gap: 12px; font-family: 'Outfit'; font-size: 20px; font-weight: 800; }
+        .rank-name i { font-size: 22px; }
+        .rank-fee { font-size: 10px; font-weight: 900; color: #888; background: var(--gray-bg); padding: 5px 12px; border-radius: 100px; text-transform: uppercase; }
+
+        .benefit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .benefit-item { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #555; }
+        .benefit-item i { color: var(--green); font-size: 14px; }
+
+        .progress-mini { width: 100%; height: 8px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(0,0,0,0.02); }
+        .progress-fill { height: 100%; background: var(--primary); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); width: 0%; }
+
+        .btn-upgrade { width: 100%; padding: 18px; border-radius: 20px; border: none; font-size: 14px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.3s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-upgrade:disabled { background: var(--gray-bg); color: #ccc; cursor: not-allowed; }
+        .btn-upgrade.claimable { background: var(--primary); color: var(--surface); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-upgrade.owned { background: var(--green); color: var(--surface); cursor: default; }
+        .btn-upgrade.pending { background: var(--blue); color: #fff; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <div style="font-family:'Outfit'; font-weight:900; font-size:17px; letter-spacing:0.5px;">RANK SOVEREIGNTY</div>
+        <div style="width:34px"></div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Identity Status Hero -->
+        <section class="status-hero">
+            <span class="hero-lbl">Identity Status Protocol</span>
+            <div class="hero-rank" id="userLevel">SYNCHRONIZING...</div>
+            <div class="join-count-box">
+                <i class="fa-solid fa-network-wired"></i>
+                Handshaked Partners: <b id="activeJoins">0</b>
+            </div>
+        </section>
+
+        <!-- Mastery Grid (Dynamic Container) -->
+        <div class="mastery-grid" id="tierContainer">
+            <!-- Tiers injected via Firebase Node Engine -->
+            <p style="text-align:center; padding:50px; color:#ccc; font-weight:800; font-size:12px; letter-spacing:1px;">CONNECTING TO SYSTEM ARCHITECTURE...</p>
+        </div>
+
+        <p style="text-align:center; font-size:10px; color:#aaa; margin-top:40px; font-weight:700; line-height:1.5;">
+            <i class="fa-solid fa-shield-halved"></i><br>
+            All rank upgrades are audited by the global ledger.<br>
+            Fraudulent partner data triggers a permanent node block.
+        </p>
+
+    </main>
+
+    <nav class="dock">
+        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <!-- Success Chime -->
+    <audio id="sfxSuccess" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, query, where, collection, getDocs, addDoc, serverTimestamp, orderBy 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentUID = null;
+        let myNexraID = "";
+        let userPartnersCount = 0;
+        let pendingRequests = [];
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if(!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                currentUID = user.uid;
+                syncSystemNodes(user.uid);
+            }
+        });
+
+        // 2. DATA SYNCHRONIZATION ENGINE
+        function syncSystemNodes(uid) {
+            // First: Sync User Data & Pending Requests
+            onSnapshot(doc(db, "pending_users", uid), async (snap) => {
+                if(!snap.exists()) return;
+                const d = snap.data();
+                myNexraID = d.nexra_id;
+                const currentLevel = d.level || "Bronze";
+                document.getElementById('userLevel').innerText = currentLevel;
+                
+                // Get active requests to prevent duplicate button clicks
+                const qReq = query(collection(db, "vip_requests"), where("uid", "==", uid), where("status", "==", "pending"));
+                const reqSnap = await getDocs(qReq);
+                pendingRequests = reqSnap.docs.map(doc => doc.data().requested_level);
+
+                if(myNexraID) {
+                    // Fetch real-time verified partner count
+                    const qTeam = query(
+                        collection(db, "pending_users"), 
+                        where("referral_id", "==", myNexraID), 
+                        where("status", "==", "approved")
+                    );
+                    const teamSnap = await getDocs(qTeam);
+                    userPartnersCount = teamSnap.size;
+                    document.getElementById('activeJoins').innerText = userPartnersCount;
+
+                    // Finally: Load all tiers from the global config
+                    loadDynamicTiers(currentLevel);
+                }
+            });
+        }
+
+        // 3. DYNAMIC TIER LOADER (ADMIN PANEL SYNC)
+        async function loadDynamicTiers(userLevel) {
+            const tierContainer = document.getElementById('tierContainer');
+            // Fetch tiers ordered by requirement ascending
+            const qTiers = query(collection(db, "vip_tiers"), orderBy("req_referrals", "asc"));
+            const tierSnap = await getDocs(qTiers);
+
+            if(tierSnap.empty) {
+                tierContainer.innerHTML = "<p style='text-align:center; color:#999;'>No tiers found in system.</p>";
+                return;
+            }
+
+            tierContainer.innerHTML = "";
+            tierSnap.forEach(tDoc => {
+                const tier = tDoc.data();
+                const rankName = tier.rank_name;
+                const target = tier.req_referrals;
+                const multiplier = tier.multiplier || "1.00";
+                const dailyNodes = tier.daily_tasks || "10";
+                const icon = tier.icon_svg_class || "fa-medal";
+                const color = tier.color_hex || "#95a5a6";
+
+                const progress = Math.min((userPartnersCount / target) * 100, 100);
+                const isOwned = userLevel === rankName;
+                const isPending = pendingRequests.includes(rankName);
+
+                // Determine Button State
+                let btnHtml = "";
+                if(isOwned) {
+                    btnHtml = `<button class="btn-upgrade owned" disabled>Rank sovereignty active</button>`;
+                } else if(isPending) {
+                    btnHtml = `<button class="btn-upgrade pending" disabled><i class="fa-solid fa-clock-rotate-left"></i> Awaiting Audit</button>`;
+                } else if(userPartnersCount >= target) {
+                    btnHtml = `<button class="btn-upgrade claimable" onclick="initiateHandshake('${rankName}', ${target})">Claim ${rankName} Node</button>`;
+                } else {
+                    btnHtml = `<button class="btn-upgrade" disabled>Locked: ${target - userPartnersCount} Partners Needed</button>`;
+                }
+
+                const cardHtml = `
+                    <div class="rank-card ${isOwned ? 'active' : ''}">
+                        <div class="rank-header">
+                            <div class="rank-name"><i class="fa-solid ${icon}" style="color:${color}"></i> ${rankName}</div>
+                            <span class="rank-fee">Sync Node</span>
+                        </div>
+                        <div class="benefit-row">
+                            <div class="benefit-item"><i class="fa-solid fa-circle-check"></i> ${dailyNodes} Daily Nodes</div>
+                            <div class="benefit-item"><i class="fa-solid fa-circle-check"></i> Multiplier: ${multiplier}x</div>
+                        </div>
+                        <div class="progress-mini"><div class="progress-fill" style="width: ${progress}%; background: ${color}"></div></div>
+                        ${btnHtml}
+                    </div>
+                `;
+                tierContainer.innerHTML += cardHtml;
+            });
+        }
+
+        // 4. HANDSHAKE PROTOCOL (One-to-One Resolution)
+        window.initiateHandshake = async (rank, target) => {
+            const msg = `Initialize ${rank} Upgrade Audit?\n\n- Handshake Logic: Partners ${userPartnersCount}/${target}\n- Status: Eligible\n\nYour request will be dispatched to NEXRA Auditors. Proceed?`;
+            
+            if(confirm(msg)) {
+                try {
+                    await addDoc(collection(db, "vip_requests"), {
+                        uid: currentUID,
+                        user_email: auth.currentUser.email,
+                        requested_level: rank,
+                        current_level: document.getElementById('userLevel').innerText,
+                        status: "pending",
+                        timestamp: serverTimestamp()
+                    });
+
+                    // Real-time Notification Node
+                    await addDoc(collection(db, "notifications"), {
+                        user_email: auth.currentUser.email,
+                        title: "Sovereignty Audit Dispatched",
+                        message: `Upgrade request for ${rank} rank has been logged. Auditor verification is in queue.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+
+                    document.getElementById('sfxSuccess').play();
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    alert("Handshake initiated. Status updated in ledger.");
+                    // The onSnapshot on user data will re-trigger the UI update automatically
+
+                } catch(e) { 
+                    alert("Handshake Failure: Identity node timeout.");
+                    console.error(e);
+                }
+            }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

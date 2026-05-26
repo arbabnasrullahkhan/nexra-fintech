@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Daily Streak Protocol</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pure-black: #000000;
+            --pure-white: #ffffff;
+            --nexra-green: #00c853;
+            --nexra-gold: #ffcc00;
+            --gray-light: #f4f4f7;
+            --border: rgba(0, 0, 0, 0.08);
+            --red: #ff3b30;
+        }
+
+        /* 1. MASTER RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100%; overflow-x: hidden; 
+            background: var(--pure-white); color: var(--pure-black); font-family: 'Inter', sans-serif;
+            touch-action: pan-y; -webkit-user-select: none;
+        }
+
+        .bg-mesh {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 35px 35px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+        }
+
+        header {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px);
+            padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .h-logo { width: 34px; height: 34px; cursor: pointer; }
+        .bal-pill { background: var(--pure-black); color: #fff; padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; }
+
+        .viewport { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 120px; }
+
+        /* 2. DASHBOARD STATS */
+        .stats-hero { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+        .stat-box { background: var(--pure-black); color: #fff; padding: 15px 5px; border-radius: 20px; text-align: center; }
+        .stat-box span { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; font-weight: 800; display: block; }
+        .stat-box h2 { font-family: 'Outfit'; font-size: 16px; margin-top: 5px; color: var(--nexra-green); }
+        .stat-box h2.gold { color: var(--nexra-gold); }
+
+        /* 3. REWARD GRID */
+        .reward-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .day-box { 
+            background: #fff; border: 1.5px solid var(--border); border-radius: 22px; 
+            padding: 20px 10px; text-align: center; position: relative; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .day-box.active { border-color: var(--pure-black); background: #fff; transform: scale(1.02); z-index: 5; box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
+        .day-box.completed { border-color: var(--nexra-green); background: #f0fff4; }
+        .day-box.completed .day-amt { opacity: 0.2; }
+        .day-box.completed .status-icon { display: block; }
+
+        .day-box.day-7 { 
+            grid-column: span 3; display: flex; align-items: center; 
+            justify-content: space-between; padding: 22px 25px; 
+            background: linear-gradient(135deg, #ffffff 0%, #fffdf0 100%); 
+        }
+
+        .day-num { font-size: 9px; font-weight: 900; color: #bbb; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .day-amt { font-size: 14px; font-weight: 900; color: var(--pure-black); }
+        .day-7 .day-amt { font-size: 18px; color: var(--nexra-gold); }
+
+        .status-icon { width: 18px; height: 18px; display: none; margin: 8px auto 0; color: var(--nexra-green); }
+        .day-7 .status-icon { margin: 0; }
+
+        /* 4. ACTION AREA */
+        .action-zone { text-align: center; margin-top: 30px; }
+        .btn-claim {
+            width: 100%; padding: 20px; border-radius: 24px; border: none;
+            background: var(--pure-black); color: #fff; font-size: 15px;
+            font-weight: 900; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        .btn-claim:disabled { background: var(--gray-light); color: #bbb; cursor: not-allowed; box-shadow: none; }
+        
+        .ready-to-claim { animation: pulseGreen 2s infinite; }
+        @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(0, 200, 83, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); } }
+
+        .timer-wrap { margin-top: 20px; font-size: 11px; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 1.5px; }
+        #countdown { color: var(--pure-black); font-weight: 900; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; }
+        .dock-link.active { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
+        <img src="../assets/ui/name.png" style="height:18px; mix-blend-mode:multiply;">
+        <div class="bal-pill" id="headerBal">$0.0000</div>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Top Dashboard Columns -->
+        <section class="stats-hero">
+            <div class="stat-box">
+                <span>Lifetime $</span>
+                <h2 id="totalStreaksUSD">$0.00</h2>
+            </div>
+            <div class="stat-box">
+                <span>Total Coins</span>
+                <h2 id="totalStreaksCoins" class="gold">0</h2>
+            </div>
+            <div class="stat-box">
+                <span>Remaining</span>
+                <h2 id="remainingClaims">--</h2>
+            </div>
+        </section>
+
+        <!-- 7-Day Cycle Grid -->
+        <div class="reward-grid" id="rewardGrid">
+            <div class="day-box" id="day-1"><span class="day-num">Day 1</span><div class="day-amt">1 Coin</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            <div class="day-box" id="day-2"><span class="day-num">Day 2</span><div class="day-amt">$0.0001</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            <div class="day-box" id="day-3"><span class="day-num">Day 3</span><div class="day-amt">2 Coins</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            <div class="day-box" id="day-4"><span class="day-num">Day 4</span><div class="day-amt">$0.002</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            <div class="day-box" id="day-5"><span class="day-num">Day 5</span><div class="day-amt">3 Coins</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            <div class="day-box" id="day-6"><span class="day-num">Day 6</span><div class="day-amt">$0.005</div><i class="fa-solid fa-circle-check status-icon"></i></div>
+            
+            <div class="day-box day-7" id="day-7">
+                <div style="text-align:left"><span class="day-num">Protocol Milestone</span><div style="font-family:'Outfit'; font-weight:900; font-size:18px;">DAY 7 BONUS</div></div>
+                <div class="day-amt">5 COINS</div>
+                <i class="fa-solid fa-circle-check status-icon"></i>
+            </div>
+        </div>
+
+        <div class="action-zone">
+            <button class="btn-claim" id="claimBtn" onclick="executeClaimProtocol()" disabled>SYNCHRONIZING...</button>
+            <div class="timer-wrap">PROTOCOL UNLOCK: <span id="countdown">--:--:--</span></div>
+        </div>
+
+        <p style="text-align:center; font-size:10px; color:#aaa; margin-top:40px; font-weight:700; line-height:1.5;">
+            <i class="fa-solid fa-clock"></i> CYCLE RESET: Rewards synchronize at 12:00 AM.<br>
+            A 48-hour inactivity window will trigger a Node Reset.
+        </p>
+
+    </main>
+
+
+
+    <audio id="sfxReward" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3" preload="auto"></audio>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, updateDoc, increment, serverTimestamp, addDoc, collection 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let userUID = null;
+        let userData = null;
+
+        // 1. AUTH INITIALIZATION
+        onAuthStateChanged(auth, (user) => {
+            if(!user) {
+                window.location.href = "../auth/login.html";
+            } else {
+                userUID = user.uid;
+                startRealTimeStreak(user.uid);
+            }
+        });
+
+        // 2. STREAK ENGINE
+        function startRealTimeStreak(uid) {
+            const userRef = doc(db, "pending_users", uid);
+            
+            onSnapshot(userRef, async (snap) => {
+                if(!snap.exists()) return;
+                userData = snap.data();
+                
+                const now = new Date();
+                const lastClaim = userData.last_streak_claim ? userData.last_streak_claim.toDate() : new Date(0);
+                let currentStreak = userData.streak_count || 0;
+
+                // 48-Hour Miss Detection
+                const diffHours = (now - lastClaim) / (1000 * 60 * 60);
+                if (diffHours >= 48 && currentStreak > 0) {
+                    await updateDoc(userRef, { streak_count: 0 });
+                    currentStreak = 0;
+                }
+
+                // Reset cycle logic: If new day starts and we were at 7, reset back to 0
+                const isNewCalendarDay = now.toDateString() !== lastClaim.toDateString();
+                if(isNewCalendarDay && currentStreak >= 7) {
+                    await updateDoc(userRef, { streak_count: 0 });
+                    currentStreak = 0;
+                }
+
+                // Update Dashboard
+                document.getElementById('headerBal').innerText = `$${(userData.balance || 0).toFixed(4)}`;
+                document.getElementById('totalStreaksUSD').innerText = `$${(userData.total_streak_earned_usd || 0).toFixed(4)}`;
+                document.getElementById('totalStreaksCoins').innerText = (userData.total_streak_earned_coins || 0).toLocaleString();
+                document.getElementById('remainingClaims').innerText = userData.remaining_claims || 25;
+
+                syncUIGrid(currentStreak, lastClaim);
+                startMidnightTimer();
+            });
+        }
+
+        function syncUIGrid(count, lastClaim) {
+            const now = new Date();
+            const claimedToday = now.toDateString() === lastClaim.toDateString();
+            const btn = document.getElementById('claimBtn');
+
+            // Reset UI States
+            document.querySelectorAll('.day-box').forEach(b => b.classList.remove('completed', 'active'));
+
+            // Mark checkmarks for days claimed in current cycle
+            for(let i=1; i <= count; i++) {
+                document.getElementById(`day-${i}`).classList.add('completed');
+            }
+
+            if (!claimedToday) {
+                const nextDayIdx = (count % 7) + 1;
+                document.getElementById(`day-${nextDayIdx}`).classList.add('active');
+                
+                btn.disabled = false;
+                btn.classList.add('ready-to-claim');
+                btn.innerText = "CLAIM DAY " + nextDayIdx + " REWARD";
+            } else {
+                btn.disabled = true;
+                btn.classList.remove('ready-to-claim');
+                btn.innerText = "NEXT REWARD AT MIDNIGHT";
+            }
+        }
+
+        // 3. MIDNIGHT RESET TIMER
+        function startMidnightTimer() {
+            const timerEl = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                const now = new Date();
+                const midnight = new Date();
+                midnight.setHours(24, 0, 0, 0); 
+
+                const diff = midnight - now;
+                if(diff <= 0) {
+                    clearInterval(interval);
+                    location.reload(); 
+                }
+
+                const h = Math.floor(diff / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                timerEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        // 4. CLAIM HANDSHAKE
+        window.executeClaimProtocol = async () => {
+            if(document.getElementById('claimBtn').disabled) return;
+            
+            const btn = document.getElementById('claimBtn');
+            btn.disabled = true;
+            btn.innerText = "AUTHENTICATING...";
+
+            const nextDay = (userData.streak_count || 0) + 1;
+            let type = "usd", val = 0;
+
+            // Strict Reward Matrix
+            switch(nextDay) {
+                case 1: type = "coin"; val = 1; break;
+                case 2: type = "usd"; val = 0.0001; break;
+                case 3: type = "coin"; val = 2; break;
+                case 4: type = "usd"; val = 0.002; break;
+                case 5: type = "coin"; val = 3; break;
+                case 6: type = "usd"; val = 0.005; break;
+                case 7: type = "coin"; val = 5; break;
+            }
+
+            try {
+                const userRef = doc(db, "pending_users", userUID);
+                const batch_updates = {
+                    streak_count: increment(1),
+                    last_streak_claim: serverTimestamp(),
+                    total_streak_claims: increment(1),
+                    remaining_claims: increment(-1)
+                };
+
+                if(type === "coin") {
+                    batch_updates.coins = increment(val);
+                    batch_updates.total_streak_earned_coins = increment(val);
+                } else {
+                    batch_updates.balance = increment(val);
+                    batch_updates.total_streak_earned_usd = increment(val);
+                }
+
+                await updateDoc(userRef, batch_updates);
+
+                // Log to Global Comms
+                await addDoc(collection(db, "notifications"), {
+                    user_email: auth.currentUser.email,
+                    title: "Reward Verified",
+                    message: `Successfully collected Day ${nextDay} yield: ${val} ${type.toUpperCase()}.`,
+                    type: "system",
+                    timestamp: serverTimestamp()
+                });
+
+                document.getElementById('sfxReward').play();
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                
+            } catch (err) {
+                console.error(err);
+                btn.disabled = false;
+                btn.innerText = "RETRY CLAIM";
+            }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
