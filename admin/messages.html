@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Support Command & Intelligence</title>
+    
+    <!-- Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0b0b0b;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-info: #3742fa;
+            --accent-error: #ff3b30;
+            --gray-bg: #f2f3f5;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --admin-bubble: #e7ffdb;
+            --user-bubble: #ffffff;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. ARCHITECTURE RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--gray-bg); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* 2. MESSAGING INTERFACE */
+        .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        header {
+            height: 75px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+
+        .messaging-workspace { flex: 1; display: flex; overflow: hidden; background: #e5ddd5; background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); }
+
+        /* THREADS SIDEBAR */
+        .threads-panel { width: 380px; background: #fff; border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; }
+        .inbox-header { padding: 25px; border-bottom: 1px solid #f8f9fa; }
+        .search-node { background: #f4f7f9; border-radius: 14px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; }
+        .search-node input { border: none; outline: none; background: transparent; font-size: 13px; font-weight: 600; width: 100%; }
+
+        .threads-list { flex: 1; overflow-y: auto; scrollbar-width: none; }
+        .thread-item { padding: 20px 25px; border-bottom: 1px solid #fcfcfc; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.2s; position: relative; }
+        .thread-item:hover { background: #fafafa; }
+        .thread-item.active { background: #f0f2f5; border-left: 4px solid var(--primary); }
+
+        .user-avatar { width: 50px; height: 50px; border-radius: 15px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-family: 'Outfit'; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+        .thread-info { flex: 1; min-width: 0; }
+        .user-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .user-name { font-size: 14px; font-weight: 800; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .msg-time { font-size: 10px; font-weight: 700; color: #999; }
+        .msg-meta { display: flex; justify-content: space-between; align-items: center; }
+        .msg-preview { font-size: 12px; color: #777; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+        .unread-pill { background: var(--accent-success); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px; margin-left: 10px; }
+
+        /* CHAT TERMINAL */
+        .chat-terminal { flex: 1; display: flex; flex-direction: column; position: relative; border-right: 1px solid var(--border-subtle); }
+        .terminal-header { padding: 12px 25px; background: rgba(255,255,255,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        
+        .chat-stream { flex: 1; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: thin; }
+        .bubble { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; font-weight: 500; line-height: 1.5; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .bubble-admin { align-self: flex-end; background: var(--admin-bubble); border-bottom-right-radius: 2px; }
+        .bubble-user { align-self: flex-start; background: var(--user-bubble); border-bottom-left-radius: 2px; }
+        
+        .bubble-img { width: 100%; border-radius: 8px; margin-bottom: 8px; cursor: pointer; display: block; border: 1px solid rgba(0,0,0,0.05); }
+        .btn-download-node { 
+            background: var(--primary); color: #fff; border: none; padding: 8px 14px; 
+            border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; 
+            display: inline-flex; align-items: center; gap: 8px; text-decoration: none; 
+            transition: 0.2s;
+        }
+        .btn-download-node:hover { opacity: 0.9; }
+        .btn-download-node svg { width: 12px; height: 12px; stroke: #fff; }
+
+        .terminal-footer { padding: 15px 25px; background: #f0f2f5; border-top: 1px solid var(--border-subtle); }
+        .input-cluster { display: flex; align-items: center; gap: 12px; }
+        .input-cluster input { flex: 1; padding: 14px 20px; border-radius: 25px; border: 1px solid #ddd; outline: none; font-family: inherit; font-size: 14px; font-weight: 500; }
+        .btn-send { width: 45px; height: 45px; border-radius: 50%; background: #075e54; color: #fff; border: none; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+
+        /* USER INTEL SIDEBAR */
+        .user-intel { width: 340px; background: #fff; display: flex; flex-direction: column; transition: var(--transition-smooth); }
+        .intel-scroll { flex: 1; overflow-y: auto; padding: 30px; }
+        .intel-dp { width: 90px; height: 90px; border-radius: 30px; background: #f0f3f5; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 900; font-family: 'Outfit'; border: 4px solid var(--gray-bg); }
+        
+        .data-card { background: var(--gray-bg); border-radius: 20px; padding: 18px; margin-bottom: 20px; border: 1px solid var(--border-subtle); }
+        .data-point { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 12px; }
+        .data-point:last-child { border: none; }
+        .data-point label { font-size: 9px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 0.5px; }
+        .data-point b { font-weight: 800; color: #1a1a1a; text-align: right; max-width: 60%; word-break: break-all; }
+
+        .intel-actions { padding: 25px 30px; border-top: 1px solid var(--border-subtle); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-ctrl { padding: 14px; border-radius: 12px; border: none; font-size: 11px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-work { background: var(--accent-info); color: #fff; grid-column: span 2; }
+        .btn-block { background: var(--accent-error); color: #fff; }
+        .btn-unblock { background: var(--accent-success); color: #fff; }
+
+        /* BROADCAST MODAL */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 25px; }
+        .modal-box { background: #fff; width: 100%; max-width: 550px; border-radius: 35px; padding: 40px; position: relative; animation: modalIn 0.4s ease; }
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } }
+        
+        .bc-field { margin-bottom: 20px; text-align: left; }
+        .bc-field label { display: block; font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; margin-bottom: 8px; }
+        .bc-field input, .bc-field textarea { width: 100%; padding: 16px; border-radius: 15px; border: 2px solid #f0f3f5; background: #f8f9fa; font-size: 14px; font-weight: 700; outline: none; font-family: inherit; }
+        .bc-field textarea { height: 100px; resize: none; }
+        
+        .bc-img-preview { width: 100%; aspect-ratio: 16/9; border-radius: 20px; background: #f8f9fa; margin-bottom: 20px; object-fit: cover; border: 2px dashed #ddd; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .bc-img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* MOBILE ADAPTIVE */
+        @media (max-width: 1200px) { .threads-panel { width: 300px; } .user-intel { width: 280px; } }
+        @media (max-width: 1100px) { .admin-sidebar { position: fixed; left: -100%; } .admin-sidebar.open { left: 0; } .mob-trigger { display: block; } }
+        @media (max-width: 950px) { 
+            .user-intel { position: fixed; right: -100%; top: 0; height: 100%; z-index: 4500; box-shadow: -20px 0 60px rgba(0,0,0,0.1); width: 320px; }
+            .user-intel.open { right: 0; }
+        }
+        @media (max-width: 768px) { 
+            .threads-panel { width: 100%; } 
+            .chat-terminal { display: none; position: fixed; inset: 0; z-index: 4000; } 
+            .chat-terminal.mobile-open { display: flex; } 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Overview</a>
+                <a href="users.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> User Registry</a>
+                <a href="messages.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Neural Comms</a>
+                <a href="withdrawals.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Settlements</a>
+                <div class="nav-label">Broadcast</div>
+                <a href="javascript:void(0)" onclick="toggleBroadcastModal()" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 19V6M5 12l7-7 7 7"></path></svg> Dispatch Alert</a>
+            </div>
+        </aside>
+
+        <!-- MAIN TERMINAL -->
+        <main class="admin-main">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">NODE CHAT HUB</h1>
+                </div>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div class="role-pill" id="systemStatus">Ledger Active</div>
+                    <div class="avatar" id="adminInitial">N</div>
+                </div>
+            </header>
+
+            <div class="messaging-workspace">
+                <!-- THREADS SIDEBAR -->
+                <aside class="threads-panel">
+                    <div class="inbox-header">
+                        <div class="search-node">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#99a2ad" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="threadSearch" placeholder="Search node identity..." oninput="filterThreads()">
+                        </div>
+                    </div>
+                    <div class="threads-list" id="threadContainer">
+                        <!-- Real-time Threads Injected -->
+                    </div>
+                </aside>
+
+                <!-- CHAT TERMINAL -->
+                <section class="chat-terminal" id="chatTerminal">
+                    <div class="terminal-header">
+                        <div style="display:flex; align-items:center; gap:12px; cursor:pointer;" onclick="toggleIntelPanel()">
+                            <div class="user-avatar" id="activeAvatar" style="width:38px; height:38px; font-size:15px; border-radius:10px;">?</div>
+                            <div>
+                                <div class="user-name" id="activeName">Protocol Selection</div>
+                                <div id="activeStatus" style="font-size:9px; font-weight:900; color:var(--accent-info); text-transform:uppercase;">Handshake Awaiting</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:15px;">
+                            <div onclick="toggleIntelPanel()" style="cursor:pointer;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#99a2ad" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
+                            <div onclick="closeChatMobile()" class="mob-trigger"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#99a2ad" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>
+                        </div>
+                    </div>
+
+                    <div class="chat-stream" id="chatStream">
+                        <!-- Conversation Sync -->
+                    </div>
+
+                    <div class="terminal-footer">
+                        <div class="input-cluster">
+                            <input type="text" id="adminReply" placeholder="Enter secure neural response..." onkeypress="if(event.key==='Enter') executeDispatch()">
+                            <button class="btn-send" onclick="executeDispatch()"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USER INTEL PANEL -->
+                <aside class="user-intel" id="intelPanel">
+                    <div class="intel-scroll">
+                        <div class="intel-dp" id="intelDP">?</div>
+                        <h3 style="text-align:center; font-family:'Outfit'; margin-bottom:30px;" id="intelName">Node Details</h3>
+                        
+                        <div class="nav-label">Identity Intel</div>
+                        <div class="data-card">
+                            <div class="data-point"><label>Email</label><b id="intelEmail">---</b></div>
+                            <div class="data-point"><label>Gender</label><b id="intelGender">---</b></div>
+                            <div class="data-point"><label>System Key</label><b id="intelKey">---</b></div>
+                        </div>
+
+                        <div class="nav-label">Vault Metadata</div>
+                        <div class="data-card">
+                            <div class="data-point"><label>Protocol ID</label><b id="intelID">---</b></div>
+                            <div class="data-point"><label>Asset Balance</label><b id="intelBal">$0.00</b></div>
+                            <div class="data-point"><label>Cleared Funds</label><b id="intelPaid">$0.00</b></div>
+                        </div>
+
+                        <div class="nav-label">Audit Logs</div>
+                        <div class="data-card">
+                            <div class="data-point"><label>Region</label><b id="intelCountry">---</b></div>
+                            <div class="data-point"><label>Identity IP</label><b id="intelIP">0.0.0.0</b></div>
+                            <div class="data-point"><label>Identity Status</label><b id="intelStatus">---</b></div>
+                        </div>
+                    </div>
+
+                    <div class="intel-actions">
+                        <button class="btn-ctrl btn-work" onclick="markIdentityCompleted()">Protocol: Work Completed</button>
+                        <button class="btn-ctrl" id="protocolActionBtn" onclick="toggleNodeAccess()">Block Node</button>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- BROADCAST OVERLAY -->
+    <div class="modal-overlay" id="bcModal">
+        <div class="modal-box">
+            <h2 style="font-family:'Outfit'; font-weight:900;">Global Broadcast Protocol</h2>
+            <p style="font-size:12px; color:#999; margin:10px 0 25px;">Dispatch a high-impact red card to all active ecosystem nodes.</p>
+            
+            <div class="bc-img-preview" id="imgPrevContainer">
+                <span id="imgPlaceholder">16:9 Protocol Preview</span>
+                <img src="" id="bcFinalImg" style="display:none;">
+            </div>
+
+            <div class="bc-field">
+                <label>Node Title</label>
+                <input type="text" id="bcTitle" placeholder="e.g. System Settlement Complete">
+            </div>
+            <div class="bc-field">
+                <label>Image Node URL (16:9)</label>
+                <input type="url" id="bcImgUrl" placeholder="https://domain.com/image.jpg" oninput="previewBroadcastImg(this.value)">
+            </div>
+            <div class="bc-field">
+                <label>Dispatch Body</label>
+                <textarea id="bcBody" placeholder="Enter message parameters..."></textarea>
+            </div>
+            <div class="bc-field">
+                <label>Action Handshake (Optional Link)</label>
+                <input type="url" id="bcLink" placeholder="https://nexra.ct.ws/target">
+            </div>
+
+            <div style="display:flex; gap:12px; margin-top:10px;">
+                <button onclick="dispatchGlobalBroadcast()" style="flex:2; background:var(--accent-error); color:#fff; border:none; padding:18px; border-radius:18px; font-weight:900; cursor:pointer;">EXECUTE DISPATCH</button>
+                <button onclick="toggleBroadcastModal()" style="flex:1; background:var(--gray-bg); color:#999; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer;">ABORT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE SYSTEM ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, query, where, getDocs, updateDoc, 
+            addDoc, serverTimestamp, getDoc, orderBy, deleteDoc, increment, runTransaction 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentActiveEmail = null;
+        let masterUsersData = [];
+        let conversationThreads = [];
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+            else document.getElementById('adminInitial').innerText = user.email[0].toUpperCase();
+        });
+
+        // 2. SYNCHRONIZE ECOSYSTEM THREADS
+        function initializeNeuralSync() {
+            // Monitor all messages
+            const qMsgs = query(collection(db, "support_messages"), orderBy("timestamp", "desc"));
+            onSnapshot(qMsgs, (snap) => {
+                const rawMsgs = [];
+                snap.forEach(d => rawMsgs.push({ id: d.id, ...d.data() }));
+                
+                // Group by email to create ranked threads
+                const threads = {};
+                rawMsgs.forEach(m => {
+                    if(!threads[m.user_email]) {
+                        threads[m.user_email] = {
+                            email: m.user_email,
+                            latestMsg: m.message,
+                            latestTime: m.timestamp,
+                            unreadCount: 0
+                        };
+                    }
+                    if(m.sender === 'user' && !m.adminViewed) {
+                        threads[m.user_email].unreadCount++;
+                    }
+                });
+
+                conversationThreads = Object.values(threads);
+                synchronizeUserRegistry();
+            });
+        }
+        initializeNeuralSync();
+
+        function synchronizeUserRegistry() {
+            onSnapshot(collection(db, "pending_users"), (snap) => {
+                masterUsersData = [];
+                snap.forEach(d => masterUsersData.push({ id: d.id, ...d.data() }));
+                renderThreads();
+                if(currentActiveEmail) syncChatBubbles(currentActiveEmail);
+            });
+        }
+
+        // 3. THREAD RENDERER
+        function renderThreads() {
+            const container = document.getElementById('threadContainer');
+            container.innerHTML = "";
+
+            conversationThreads.forEach(thread => {
+                const user = masterUsersData.find(u => u.email === thread.email) || { name: "Prospect Node" };
+                const timeStr = thread.latestTime ? new Date(thread.latestTime.seconds * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "...";
+                
+                const div = document.createElement('div');
+                div.className = `thread-item ${currentActiveEmail === thread.email ? 'active' : ''}`;
+                div.onclick = () => selectActiveNode(thread.email, user);
+
+                div.innerHTML = `
+                    <div class="user-avatar">${(user.name || "U")[0].toUpperCase()}</div>
+                    <div class="thread-info">
+                        <div class="user-name-row">
+                            <span class="user-name">${user.name || thread.email}</span>
+                            <span class="msg-time">${timeStr}</span>
+                        </div>
+                        <div class="msg-meta">
+                            <div class="msg-preview">${thread.latestMsg}</div>
+                            ${thread.unreadCount > 0 ? `<span class="unread-pill">${thread.unreadCount} messages</span>` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // 4. CONVERSATION HANDSHAKE
+        function selectActiveNode(email, user) {
+            currentActiveEmail = email;
+            
+            // UI Updates
+            document.getElementById('activeName').innerText = user.name || email;
+            document.getElementById('activeAvatar').innerText = (user.name || "U")[0].toUpperCase();
+            document.getElementById('activeStatus').innerText = user.status === 'blocked' ? 'RESTRICTED NODE' : 'IDENTITY VERIFIED';
+            document.getElementById('activeStatus').style.color = user.status === 'blocked' ? 'var(--accent-error)' : 'var(--accent-info)';
+            
+            // Intel Payload
+            document.getElementById('intelDP').innerText = (user.name || "U")[0].toUpperCase();
+            document.getElementById('intelName').innerText = user.name || "Identity View";
+            document.getElementById('intelEmail').innerText = email;
+            document.getElementById('intelGender').innerText = user.gender || "---";
+            document.getElementById('intelKey').innerText = user.password || "••••••••";
+            document.getElementById('intelBal').innerText = `$${(user.balance || 0).toFixed(4)}`;
+            document.getElementById('intelPaid').innerText = `$${(user.withdrawn || 0).toFixed(2)}`;
+            document.getElementById('intelID').innerText = user.nexra_id || "UNVERIFIED";
+            document.getElementById('intelCountry').innerText = user.country || "---";
+            document.getElementById('intelIP').innerText = user.last_ip || "0.0.0.0";
+            document.getElementById('intelStatus').innerText = user.status ? user.status.toUpperCase() : "ACTIVE";
+
+            const actBtn = document.getElementById('protocolActionBtn');
+            actBtn.innerText = user.status === 'blocked' ? 'UNBLOCK NODE' : 'BLOCK NODE';
+            actBtn.className = `btn-ctrl ${user.status === 'blocked' ? 'btn-unblock' : 'btn-block'}`;
+
+            document.getElementById('chatTerminal').classList.add('mobile-open');
+            syncChatBubbles(email);
+            markThreadRead(email);
+        }
+
+        function syncChatBubbles(email) {
+            const q = query(collection(db, "support_messages"), where("user_email", "==", email));
+            onSnapshot(q, (snap) => {
+                const stream = document.getElementById('chatStream');
+                let msgs = [];
+                snap.forEach(d => msgs.push({ id: d.id, ...d.data() }));
+                msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0));
+
+                stream.innerHTML = "";
+                msgs.forEach(m => {
+                    const isAdmin = m.sender === 'admin';
+                    const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "";
+                    
+                    let mediaHTML = "";
+                    if(m.media) {
+                        mediaHTML = `
+                            <img src="${m.media}" class="bubble-img" onclick="window.open('${m.media}')">
+                            <button class="btn-download-node" onclick="triggerLocalDownload('${m.media}', '${m.id}')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                DOWNLOAD NODE
+                            </button>
+                        `;
+                    }
+
+                    stream.innerHTML += `
+                        <div class="bubble ${isAdmin ? 'bubble-admin' : 'bubble-user'}">
+                            ${mediaHTML}
+                            <div style="word-break:break-word;">${m.message}</div>
+                            <div style="font-size:8px; opacity:0.4; text-align:right; margin-top:5px; font-weight:800;">${time}</div>
+                        </div>
+                    `;
+                });
+                stream.scrollTop = stream.scrollHeight;
+            });
+        }
+
+        // 5. DISPATCH PROTOCOLS
+        window.executeDispatch = async () => {
+            const input = document.getElementById('adminReply');
+            const val = input.value.trim();
+            if(!val || !currentActiveEmail) return;
+
+            try {
+                await addDoc(collection(db, "support_messages"), {
+                    user_email: currentActiveEmail,
+                    message: val,
+                    sender: 'admin',
+                    timestamp: serverTimestamp(),
+                    adminViewed: true
+                });
+                input.value = "";
+            } catch(e) { alert("Handshake Fail."); }
+        };
+
+        window.triggerLocalDownload = (dataUrl, id) => {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = `NEXRA_NODE_${id}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        async function markThreadRead(email) {
+            const q = query(collection(db, "support_messages"), where("user_email", "==", email), where("adminViewed", "==", false));
+            const snap = await getDocs(q);
+            snap.forEach(async (d) => {
+                await updateDoc(doc(db, "support_messages", d.id), { adminViewed: true });
+            });
+        }
+
+        window.toggleNodeAccess = async () => {
+            if(!currentActiveEmail) return;
+            const userNode = masterUsersData.find(u => u.email === currentActiveEmail);
+            const newStatus = userNode.status === 'blocked' ? 'approved' : 'blocked';
+            
+            if(confirm(`Veto Node status to ${newStatus.toUpperCase()}?`)) {
+                await updateDoc(doc(db, "pending_users", userNode.id), { status: newStatus });
+                alert("Protocol Updated.");
+            }
+        };
+
+        window.markIdentityCompleted = async () => {
+            if(!currentActiveEmail) return;
+            const userNode = masterUsersData.find(u => u.email === currentActiveEmail);
+            await updateDoc(doc(db, "pending_users", userNode.id), { account_marking: "Work Completed" });
+            alert("Node marked as finalized.");
+        };
+
+        // 6. GLOBAL BROADCAST ENGINE
+        window.dispatchGlobalBroadcast = async () => {
+            const title = document.getElementById('bcTitle').value.trim();
+            const msg = document.getElementById('bcBody').value.trim();
+            const img = document.getElementById('bcImgUrl').value.trim();
+            const link = document.getElementById('bcLink').value.trim();
+
+            if(!title || !msg) return alert("Node parameters incomplete.");
+
+            try {
+                await addDoc(collection(db, "notifications"), {
+                    user_email: "all",
+                    title: title,
+                    message: msg,
+                    image_url: img || null,
+                    action_link: link || null,
+                    timestamp: serverTimestamp(),
+                    icon_type: "fa-bullhorn"
+                });
+                alert("Global SMTP Broadcast Complete.");
+                toggleBroadcastModal();
+            } catch(e) { alert("Dispatch Failure."); }
+        };
+
+        // 7. UI HELPERS
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        window.closeChatMobile = () => document.getElementById('chatTerminal').classList.remove('mobile-open');
+        window.toggleIntelPanel = () => document.getElementById('intelPanel').classList.toggle('open');
+        window.toggleBroadcastModal = () => {
+            const modal = document.getElementById('bcModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        };
+        window.previewBroadcastImg = (url) => {
+            const img = document.getElementById('bcFinalImg');
+            const placeholder = document.getElementById('imgPlaceholder');
+            if(url) {
+                img.src = url;
+                img.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+        };
+
+        window.filterThreads = () => {
+            const val = document.getElementById('threadSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.thread-item');
+            items.forEach(i => {
+                const name = i.querySelector('.user-name').innerText.toLowerCase();
+                i.style.display = name.includes(val) ? 'flex' : 'none';
+            });
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

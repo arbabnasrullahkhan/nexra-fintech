@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | User Intelligence Hub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-warning: #ff9f43;
+            --accent-info: #3742fa;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT AREA */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .header-title { font-family: 'Outfit'; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+
+        /* 2. DATA WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .top-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .stat-mini { background: #fff; padding: 20px; border-radius: 22px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 5px; }
+        .stat-mini span { font-size: 9px; font-weight: 800; color: #99a2ad; text-transform: uppercase; }
+        .stat-mini b { font-family: 'Outfit'; font-size: 20px; font-weight: 900; }
+
+        .search-row { display: flex; gap: 15px; margin-bottom: 25px; align-items: center; }
+        .search-box { flex: 1; position: relative; }
+        .search-box input {
+            width: 100%; padding: 16px 20px 16px 50px; border-radius: 16px;
+            border: 1px solid var(--border-subtle); background: var(--surface);
+            font-size: 14px; font-weight: 600; outline: none; transition: 0.3s;
+        }
+        .search-box svg { position: absolute; left: 18px; top: 16px; width: 20px; height: 20px; color: #99a2ad; }
+
+        .region-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+        .region-btn {
+            padding: 12px 24px; border-radius: 14px; background: #fff;
+            border: 1px solid var(--border-subtle); font-size: 12px; font-weight: 700;
+            white-space: nowrap; cursor: pointer; transition: 0.3s;
+        }
+        .region-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* Table Card */
+        .table-card {
+            background: var(--surface); border-radius: 32px; border: 1px solid var(--border-subtle);
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; font-size: 11px; text-transform: uppercase; color: #99a2ad; padding: 20px; border-bottom: 1px solid #f8f9fa; }
+        td { padding: 18px 20px; font-size: 13px; font-weight: 600; border-bottom: 1px solid #f8f9fa; }
+        
+        .user-cell { display: flex; align-items: center; gap: 12px; }
+        .u-avatar {
+            width: 42px; height: 42px; border-radius: 12px; background: #f0f3f5;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: var(--primary); font-family: 'Outfit';
+        }
+        .u-name { font-weight: 800; font-size: 14px; color: #111; }
+        .u-email { font-size: 11px; color: #99a2ad; font-weight: 500; display: block; }
+
+        .status-badge {
+            padding: 5px 12px; border-radius: 8px; font-size: 9px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .st-active { background: #e0fff0; color: var(--accent-success); }
+        .st-expired { background: #fff0f0; color: var(--accent-error); border: 1px dashed var(--accent-error); }
+        .st-pending { background: #fff4e0; color: var(--accent-warning); }
+        .st-banned { background: #000; color: #fff; }
+
+        /* 3. MODAL: FULL IDENTITY EXPOSURE */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(15px); z-index: 5000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-box {
+            background: #fff; width: 100%; max-width: 850px; border-radius: 40px;
+            max-height: 92vh; overflow-y: auto; padding: 45px; position: relative;
+            animation: modalIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalIn { from { transform: scale(0.95) translateY(30px); opacity: 0; } }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; }
+        .profile-title-area { display: flex; gap: 20px; align-items: center; }
+        .profile-lg-avatar { width: 90px; height: 90px; border-radius: 28px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 900; font-family: 'Outfit'; }
+
+        .section-label { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #99a2ad; letter-spacing: 2px; margin: 35px 0 15px; border-bottom: 1px solid #f8f9fa; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .section-label svg { width: 14px; height: 14px; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        @media (max-width: 768px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .info-block { display: flex; flex-direction: column; gap: 6px; }
+        .info-block label { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; }
+        .info-block b { font-size: 14px; font-weight: 800; color: #1a1a1a; word-break: break-all; }
+        .pass-container { display: flex; align-items: center; gap: 10px; }
+        .pass-toggle { cursor: pointer; color: var(--accent-info); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        .interaction-bar { display: flex; gap: 12px; margin-top: 30px; }
+        .btn-handshake { 
+            padding: 14px 24px; border-radius: 14px; border: 1.5px solid var(--border-subtle);
+            background: #fff; display: flex; align-items: center; gap: 10px;
+            font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit;
+        }
+        .btn-handshake:hover { border-color: var(--primary); background: #f8f9fa; }
+        .wa-theme { color: #25D366; border-color: #25D366; }
+        .msg-theme { color: var(--accent-info); border-color: var(--accent-info); }
+
+        .protocol-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 40px; }
+        .btn-core { padding: 18px; border-radius: 16px; border: none; font-size: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-core:active { transform: scale(0.96); }
+        .btn-update { background: var(--primary); color: #fff; }
+        .btn-veto { background: #fee2e2; color: var(--accent-error); }
+        .btn-delete { background: #000; color: #fff; }
+        .btn-vip { background: var(--accent-warning); color: #000; }
+
+        /* 4. MOBILE VIEW */
+        .mobile-list { display: none; flex-direction: column; gap: 15px; }
+        .m-user-card { background: #fff; border: 1px solid var(--border-subtle); border-radius: 28px; padding: 25px; }
+
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: #99a2ad; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item svg { width: 22px; height: 22px; stroke-width: 2.2; }
+        .nav-item span { font-size: 9px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+            .table-card { display: none; }
+            .mobile-list { display: flex; }
+            .top-stats { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .protocol-actions { grid-template-columns: 1fr 1fr; }
+            .top-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                    Overview
+                </a>
+                <a href="users.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                    User Registry
+                </a>
+                <a href="verifications.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Audit
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 class="header-title">USER INTELLIGENCE</h1>
+                </div>
+                <div class="admin-pill" id="syncStatus">ECOSYSTEM SYNC: OK</div>
+            </header>
+
+            <div class="workspace">
+                
+                <!-- Operation Stats -->
+                <div class="top-stats">
+                    <div class="stat-mini"><span>Total Nodes</span><b id="stat-total">0</b></div>
+                    <div class="stat-mini"><span>Active Nodes</span><b id="stat-active" style="color:var(--accent-success)">0</b></div>
+                    <div class="stat-mini"><span>Payment Wait</span><b id="stat-wait" style="color:var(--accent-warning)">0</b></div>
+                    <div class="stat-mini"><span>Expired (1H+)</span><b id="stat-expired" style="color:var(--accent-error)">0</b></div>
+                </div>
+
+                <div class="search-row">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="userInput" placeholder="Filter by Name, ID, or Email Identity..." oninput="triggerFilter()">
+                    </div>
+                </div>
+
+                <div class="region-tabs">
+                    <button class="region-btn active" onclick="setRegion('all', this)">Global Nodes</button>
+                    <button class="region-btn" onclick="setRegion('Pakistan', this)">Pakistan</button>
+                    <button class="region-btn" onclick="setRegion('International', this)">International</button>
+                </div>
+
+                <!-- DESKTOP DATABASE VIEW -->
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Identity Handshake</th>
+                                <th>Protocol ID</th>
+                                <th>Regional Node</th>
+                                <th>Vault Asset</th>
+                                <th>Status</th>
+                                <th>Audit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userLedger">
+                            <!-- Injected by Node Engine -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MOBILE FEED -->
+                <div class="mobile-list" id="userMobileLedger">
+                    <!-- Injected by Node Engine -->
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE BOTTOM DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="verifications.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Audit</span></a>
+        </nav>
+    </div>
+
+    <!-- MODAL: A-Z IDENTITY DISCLOSURE -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="user-profile-header">
+                    <div class="large-avatar" id="m-avatar">?</div>
+                    <div>
+                        <h2 id="m-name" style="font-family:'Outfit'; font-weight:900; font-size:26px;">User Profile</h2>
+                        <span id="m-id" style="color:var(--accent-success); font-weight:800; font-size:12px; letter-spacing:1.2px;">NODE_PENDING</span>
+                    </div>
+                </div>
+                <div style="cursor:pointer;" onclick="closeModal()">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+
+            <!-- Handshake Channels -->
+            <div class="interaction-bar">
+                <a href="#" target="_blank" class="btn-handshake wa-theme" id="wa-link">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.353-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.074 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.87 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.408 0 12.044c0 2.123.555 4.197 1.613 6.041l-1.713 6.251 6.391-1.677c1.776.969 3.774 1.481 5.808 1.481h.004c6.635 0 12.049-5.41 12.051-12.047a11.85 11.82 0 00-3.483-8.39z"/></svg>
+                    WhatsApp Identity Audit
+                </a>
+                <a href="#" class="btn-handshake msg-theme" id="msg-link">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Neural Support Dispatch
+                </a>
+            </div>
+
+            <div class="section-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Identity Parameters</div>
+            <div class="info-grid">
+                <div class="info-block"><label>Email Node</label><b id="m-email">---</b></div>
+                <div class="info-block">
+                    <label>System Access Key</label>
+                    <div class="pass-container"><b id="m-pass" data-val="---">••••••••</b><span class="pass-toggle" onclick="togglePassExpose()">Expose</span></div>
+                </div>
+                <div class="info-block"><label>Phone Identity</label><b id="m-phone">---</b></div>
+                <div class="info-block"><label>Vault Balance</label><b id="m-bal" style="color:var(--accent-success)">$0.0000</b></div>
+                <div class="info-block"><label>Sovereignty Rank</label><b id="m-level">---</b></div>
+                <div class="info-block"><label>Gender Node</label><b id="m-gender">---</b></div>
+            </div>
+
+            <div class="section-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Audit & Handshake Records</div>
+            <div class="info-grid">
+                <div class="info-block"><label>Joining Timestamp</label><b id="m-joined">---</b></div>
+                <div class="info-block"><label>Regional Node</label><b id="m-country">---</b></div>
+                <div class="info-block"><label>Protocol Status</label><b id="m-status">---</b></div>
+                <div class="info-block" style="grid-column: span 2;"><label>Exact Residential Node</label><b id="m-address">---</b></div>
+                <div class="info-block"><label>Session IP</label><b id="m-ip">0.0.0.0</b></div>
+            </div>
+
+            <div class="section-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Authority Protocols</div>
+            <div class="protocol-actions">
+                <button class="btn-core btn-update" onclick="adjustFundsProtocol()">Inject Asset</button>
+                <button class="btn-core btn-update" onclick="setRankProtocol()">Veto Rank</button>
+                <button class="btn-core btn-veto" id="ban-btn" onclick="toggleRestriction()">Restrict Node</button>
+                <button class="btn-core btn-delete" onclick="purgeNodeLedger()">Purge Node Identity</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE NODE ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            collection, onSnapshot, doc, updateDoc, deleteDoc, query, where, getDocs, serverTimestamp, increment 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let allUsers = [];
+        let filteredUsers = [];
+        let activeRegion = 'all';
+        let activeUID = null;
+        let isPassVisible = false;
+
+        // 1. MASTER AUTH GUARD
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME LEDGER SYNCHRONIZER
+        onSnapshot(collection(db, "pending_users"), (snap) => {
+            allUsers = [];
+            let active = 0, waiting = 0, expired = 0;
+            const now = new Date().getTime();
+
+            snap.forEach(userDoc => {
+                const u = { id: userDoc.id, ...userDoc.data() };
+                allUsers.push(u);
+
+                if(u.status === 'approved') active++;
+                if(u.status === 'pending_payment') {
+                    waiting++;
+                    // Check for 1-Hour Expiry Logic
+                    if(u.timestamp) {
+                        const joinedTime = u.timestamp.seconds * 1000;
+                        if((now - joinedTime) > (60 * 60 * 1000)) expired++;
+                    }
+                }
+            });
+
+            document.getElementById('stat-total').innerText = snap.size;
+            document.getElementById('stat-active').innerText = active;
+            document.getElementById('stat-wait').innerText = waiting;
+            document.getElementById('stat-expired').innerText = expired;
+
+            triggerFilter();
+        });
+
+        // 3. UI GENERATOR ENGINE
+        function renderInterface() {
+            const tbody = document.getElementById('userLedger');
+            const mobile = document.getElementById('userMobileLedger');
+            tbody.innerHTML = ""; mobile.innerHTML = "";
+
+            filteredUsers.forEach(u => {
+                const now = new Date().getTime();
+                const joinedTime = u.timestamp ? u.timestamp.seconds * 1000 : now;
+                const isExpired = (u.status === 'pending_payment' && (now - joinedTime) > (60 * 60 * 1000));
+                
+                let badgeClass = u.status === 'approved' ? 'st-active' : (u.status === 'banned' ? 'st-banned' : 'st-pending');
+                let statusText = isExpired ? 'EXPIRED' : (u.status === 'approved' ? 'Active' : (u.status === 'banned' ? 'Banned' : 'Wait'));
+                if(isExpired) badgeClass = 'st-expired';
+
+                // Desktop Row
+                tbody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="u-avatar">${u.name ? u.name[0].toUpperCase() : 'U'}</div>
+                                <div><span class="u-name">${u.name}</span><span class="u-email">${u.email}</span></div>
+                            </div>
+                        </td>
+                        <td><code>${u.nexra_id || 'HANDSHAKING...'}</code></td>
+                        <td>${u.country}</td>
+                        <td><span style="color:var(--accent-success)">$${(u.balance || 0).toFixed(4)}</span></td>
+                        <td><span class="status-badge ${badgeClass}">${statusText}</span></td>
+                        <td><button class="btn-manage" onclick="openAuditNode('${u.id}')">Audit</button></td>
+                    </tr>
+                `;
+
+                // Mobile Card
+                mobile.innerHTML += `
+                    <div class="m-user-card">
+                        <div class="user-cell">
+                            <div class="u-avatar">${u.name ? u.name[0].toUpperCase() : 'U'}</div>
+                            <div><span class="u-name">${u.name}</span><span class="u-email">${u.email}</span></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-top:20px; align-items:center;">
+                            <span class="status-badge ${badgeClass}">${statusText}</span>
+                            <button class="btn-manage" onclick="openAuditNode('${u.id}')">Examine Node</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 4. IDENTITY AUDIT & HANDSHAKE RESOLUTION
+        window.openAuditNode = (uid) => {
+            const u = allUsers.find(x => x.id === uid);
+            if(!u) return;
+
+            activeUID = uid;
+            isPassVisible = false;
+
+            document.getElementById('m-avatar').innerText = u.name ? u.name[0].toUpperCase() : '?';
+            document.getElementById('m-name').innerText = u.name;
+            document.getElementById('m-id').innerText = u.nexra_id || 'ID_PROTOCOL_PENDING';
+            document.getElementById('m-email').innerText = u.email;
+            document.getElementById('m-pass').innerText = "••••••••";
+            document.getElementById('m-pass').setAttribute('data-val', u.password || 'N/A');
+            document.getElementById('m-phone').innerText = u.phone || 'N/A';
+            document.getElementById('m-bal').innerText = `$${(u.balance || 0).toFixed(4)}`;
+            document.getElementById('m-level').innerText = u.level || 'Bronze';
+            document.getElementById('m-joined').innerText = u.timestamp ? new Date(u.timestamp.seconds * 1000).toLocaleString() : 'N/A';
+            document.getElementById('m-country').innerText = u.country;
+            document.getElementById('m-address').innerText = u.address || 'No residential node provided.';
+            document.getElementById('m-ip').innerText = u.last_ip || '0.0.0.0';
+            document.getElementById('m-status').innerText = u.status.toUpperCase();
+
+            // WhatsApp Premium SMTP
+            const waMsg = `Hello ${u.name}! 👋\n\nThis is NEXRA Official Audit Team. Your identity node is active in our ledger.\n\n📧 Email: ${u.email}\n🆔 Protocol ID: ${u.nexra_id || 'Pending'}\n💰 Vault Asset: $${(u.balance || 0).toFixed(2)}\n\nVisit our hub: https://nexra.ct.ws\n\nPlease let us know if you require technical assistance.`;
+            document.getElementById('wa-link').href = `https://wa.me/${u.phone?.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(waMsg)}`;
+            
+            // Messaging Hub Redirect
+            document.getElementById('msg-link').onclick = (e) => {
+                e.preventDefault();
+                window.location.href = `messages.html?thread=${u.email}`;
+            };
+
+            document.getElementById('ban-btn').innerText = u.status === 'banned' ? 'Unrestrict Node' : 'Veto Node Access';
+            document.getElementById('userModal').style.display = 'flex';
+        };
+
+        window.togglePassExpose = () => {
+            const passEl = document.getElementById('m-pass');
+            isPassVisible = !isPassVisible;
+            passEl.innerText = isPassVisible ? passEl.getAttribute('data-val') : "••••••••";
+            document.querySelector('.pass-toggle').innerText = isPassVisible ? "Hide" : "Expose";
+        };
+
+        window.closeModal = () => document.getElementById('userModal').style.display = 'none';
+
+        window.adjustFundsProtocol = async () => {
+            const value = prompt("Enter USD node value to inject (use - to deduct):");
+            if(value && !isNaN(value)) {
+                await updateDoc(doc(db, "pending_users", activeUID), { balance: increment(parseFloat(value)) });
+                alert("Vault Handshake Complete.");
+            }
+        };
+
+        window.setRankProtocol = async () => {
+            const rank = prompt("Enter Target Sovereignty Rank (Bronze, Gold, Platinum, Heroic):");
+            if(rank) {
+                await updateDoc(doc(db, "pending_users", activeUID), { level: rank });
+                alert("Node Rank Updated.");
+            }
+        };
+
+        window.toggleRestriction = async () => {
+            const u = allUsers.find(x => x.id === activeUID);
+            const nextStatus = u.status === 'banned' ? 'approved' : 'banned';
+            await updateDoc(doc(db, "pending_users", activeUID), { status: nextStatus });
+            alert(`Node is now ${nextStatus.toUpperCase()}`);
+            closeModal();
+        };
+
+        window.purgeNodeLedger = async () => {
+            if(confirm("CRITICAL PROTOCOL: Permanently purge this user node and all associated data from the NEXRA ledger? This cannot be undone.")){
+                await deleteDoc(doc(db, "pending_users", activeUID));
+                alert("Node Successfully Purged.");
+                closeModal();
+            }
+        };
+
+        // 5. FILTER & SEARCH HANDSHAKES
+        window.setRegion = (region, el) => {
+            document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            activeRegion = region;
+            triggerFilter();
+        };
+
+        window.triggerFilter = () => {
+            const term = document.getElementById('userInput').value.toLowerCase();
+            filteredUsers = allUsers.filter(u => {
+                const matchesSearch = (u.name?.toLowerCase().includes(term) || u.email?.toLowerCase().includes(term) || u.nexra_id?.toLowerCase().includes(term));
+                const matchesRegion = activeRegion === 'all' || (activeRegion === 'International' ? u.country !== 'Pakistan' : u.country === activeRegion);
+                return matchesSearch && matchesRegion;
+            });
+            renderInterface();
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

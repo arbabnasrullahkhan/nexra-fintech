@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Social Growth Audit</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-info: #3742fa;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .admin-pill { background: var(--primary); color: #fff; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; }
+
+        /* 2. AUDIT WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .filter-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; flex: 1; }
+        .tab-btn {
+            padding: 10px 20px; border-radius: 12px; background: transparent; border: none;
+            font-size: 12px; font-weight: 800; cursor: pointer; color: #99a2ad; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* Audit Grid */
+        .audit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        
+        .audit-card {
+            background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 35px;
+            padding: 30px; position: relative; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .audit-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
+
+        .platform-node { position: absolute; top: 25px; right: 25px; opacity: 0.15; }
+        .platform-node svg { width: 32px; height: 32px; }
+
+        .u-dp { width: 44px; height: 44px; border-radius: 14px; background: #f0f3f5; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--primary); font-size: 16px; }
+        .u-email { font-size: 11px; color: #99a2ad; font-weight: 700; margin-top: 2px; }
+
+        .info-node { background: var(--bg-body); border-radius: 20px; padding: 18px; margin: 5px 0; display: flex; flex-direction: column; gap: 10px; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; }
+        .info-lbl { font-size: 9px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-val { font-size: 13px; font-weight: 800; color: #111; }
+
+        /* Reward Selection Chips */
+        .reward-chip-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+        .reward-chip {
+            padding: 8px 12px; border-radius: 10px; background: #fff; border: 1.5px solid #eee;
+            font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.2s;
+        }
+        .reward-chip:hover { border-color: var(--primary); }
+        .reward-chip.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        .link-node {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: #f0f3f5; color: var(--primary); padding: 16px; border-radius: 16px;
+            text-decoration: none; font-size: 12px; font-weight: 800; transition: 0.3s;
+            margin-top: 10px; border: 1.5px solid transparent;
+        }
+        .link-node:hover { border-color: var(--primary); background: #fff; }
+
+        /* Actions Control */
+        .action-node { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn-audit {
+            padding: 16px; border-radius: 14px; border: none; font-size: 11px;
+            font-weight: 900; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 8px; transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-approve { background: var(--accent-success); color: #fff; }
+        .btn-reject { background: #fee2e2; color: var(--accent-error); }
+        .btn-audit:active { transform: scale(0.96); }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 30px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+            .audit-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .filter-tabs { gap: 5px; }
+            .tab-btn { padding: 10px 12px; font-size: 10px; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Identity</div>
+                <a href="users.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> User Registry</a>
+                <div class="nav-label">Protocol</div>
+                <a href="social-audit.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Social Growth</a>
+                <a href="withdrawals.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg> Settlements</a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">SOCIAL AUDIT</h1>
+                </div>
+                <div id="countBadge" style="font-size:11px; font-weight:800; color:var(--accent-info);">SYNCING...</div>
+            </header>
+
+            <div class="workspace">
+                <div class="filter-header">
+                    <div class="filter-tabs">
+                        <button class="tab-btn active" id="btn-pending" onclick="switchAuditSection('pending')">Audit Queue</button>
+                        <button class="tab-btn" id="btn-paid" onclick="switchAuditSection('paid')">Handshaked Ledger</button>
+                        <button class="tab-btn" id="btn-rejected" onclick="switchAuditSection('rejected')">Vetoed Archive</button>
+                    </div>
+                </div>
+
+                <div class="audit-grid" id="auditFeed">
+                    <!-- Real-time nodes injected here -->
+                </div>
+
+                <!-- Null State -->
+                <div id="null-state" style="display:none; text-align:center; padding:100px 20px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#eef1f4" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3 style="color:#cbd5e0; margin-top:15px; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:1px;">Ecosystem Ledger Empty</h3>
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE BOTTOM DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="social-audit.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg><span>Social</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- CORE AUDIT ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, query, where, getDocs, 
+            serverTimestamp, runTransaction, increment 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentSection = 'pending';
+        let socialNodes = [];
+        let rewardMap = {}; 
+
+        // 1. IDENTITY HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME LEDGER SYNCHRONIZER
+        function synchronizeSocialLedger() {
+            onSnapshot(collection(db, "social_submissions"), (snap) => {
+                const countBadge = document.getElementById('countBadge');
+                socialNodes = [];
+                let pendCount = 0;
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    socialNodes.push({ id: d.id, ...data });
+                    if(data.status === 'pending') pendCount++;
+                });
+
+                countBadge.innerText = `AWAITING AUDIT: ${pendCount}`;
+                renderAuditSurface();
+            });
+        }
+        synchronizeSocialLedger();
+
+        // 3. UI SURFACE RENDERER
+        function renderAuditSurface() {
+            const feed = document.getElementById('auditFeed');
+            const empty = document.getElementById('null-state');
+            
+            const filtered = socialNodes.filter(n => n.status === currentSection)
+                                       .sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+            feed.innerHTML = "";
+
+            if(filtered.length === 0) {
+                empty.style.display = "block";
+                return;
+            }
+            empty.style.display = "none";
+
+            filtered.forEach(node => {
+                const isPending = node.status === 'pending';
+                const platformIcon = getProtocolIcon(node.platform);
+                
+                const card = document.createElement('div');
+                card.className = 'audit-card';
+                card.innerHTML = `
+                    <div class="platform-node">${platformIcon}</div>
+                    
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:15px;">
+                        <div class="u-dp">${node.user_email[0].toUpperCase()}</div>
+                        <div>
+                            <div style="font-weight:900; font-size:14px;">Identity Node</div>
+                            <div class="u-email">${node.user_email}</div>
+                        </div>
+                    </div>
+
+                    <div class="info-node">
+                        <div class="info-row"><span class="info-lbl">Account Holder</span><span class="info-val">${node.account_title || '---'}</span></div>
+                        <div class="info-row"><span class="info-lbl">Submission Node</span><span class="info-val" style="color:var(--accent-info)">${node.target_at_submission || 'Standard'}</span></div>
+                        <div class="info-row"><span class="info-lbl">Gateway</span><span class="info-val">${node.gateway}</span></div>
+                    </div>
+
+                    <a href="${node.post_link}" target="_blank" class="link-node">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        OPEN PROTOCOL LINK
+                    </a>
+
+                    ${isPending ? `
+                    <div style="margin-top:15px;">
+                        <span class="info-lbl" style="margin-bottom:10px; display:block;">Authorize Reward Node</span>
+                        <div class="reward-chip-container">
+                            <div class="reward-chip" onclick="selectRewardNode('${node.id}', 0.54, this)">$0.54</div>
+                            <div class="reward-chip" onclick="selectRewardNode('${node.id}', 1.00, this)">$1.00</div>
+                            <div class="reward-chip" onclick="selectRewardNode('${node.id}', 5.00, this)">$5.00</div>
+                            <div class="reward-chip" onclick="selectRewardNode('${node.id}', 10.0, this)">$10.0</div>
+                        </div>
+                    </div>
+
+                    <div class="action-node">
+                        <button class="btn-audit btn-approve" onclick="authorizeSocialReward('${node.id}', '${node.user_email}')">
+                            AUTHORIZE
+                        </button>
+                        <button class="btn-audit btn-reject" onclick="vetoSocialSubmission('${node.id}', '${node.user_email}')">
+                            VETO
+                        </button>
+                    </div>
+                    ` : `
+                    <div style="margin-top:15px; background:var(--bg-body); padding:15px; border-radius:20px; text-align:center;">
+                        <span class="info-lbl">Finalized Handshake</span>
+                        <div style="font-weight:900; color:${node.status === 'paid' ? 'var(--accent-success)' : 'var(--accent-error)'}; font-size:13px; margin-top:5px;">
+                            ${node.status === 'paid' ? 'SETTLED: $' + (node.finalized_reward || 0.54) : 'VETOED / REJECTED'}
+                        </div>
+                    </div>
+                    `}
+                `;
+                feed.appendChild(card);
+            });
+        }
+
+        // 4. HANDSHAKE AUTHORIZATION (One-to-One Resolution)
+        window.authorizeSocialReward = async (subId, email) => {
+            const reward = rewardMap[subId];
+            if(!reward) return alert("Select reward chip first.");
+
+            try {
+                // Resolution: Find user by Email to get correct Document Reference
+                const userQ = query(collection(db, "pending_users"), where("email", "==", email));
+                const userSnap = await getDocs(userQ);
+
+                if(userSnap.empty) {
+                    throw new Error("Identity node not found in ecosystem.");
+                }
+
+                const userDocRef = userSnap.docs[0].ref;
+                const subRef = doc(db, "social_submissions", subId);
+
+                await runTransaction(db, async (txn) => {
+                    // Finalize submission
+                    txn.update(subRef, { 
+                        status: "paid",
+                        finalized_reward: reward,
+                        handshake_completed: serverTimestamp() 
+                    });
+
+                    // Add liquid USD to user node
+                    txn.update(userDocRef, {
+                        balance: increment(reward)
+                    });
+
+                    // Send verified notification
+                    const notifRef = doc(collection(db, "notifications"));
+                    txn.set(notifRef, {
+                        user_email: userSnap.docs[0].id, // Handles both UID and Email based IDs
+                        title: "Social Growth Settled",
+                        message: `Handshake Success. Your video node yielded a reward of $${reward.toFixed(2)}. Vault refilled.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                });
+
+                alert("Protocol Success: Liquidity dispatched.");
+            } catch (err) {
+                console.error("Breach Detected:", err);
+                alert("Authorization Failure: " + err.message);
+            }
+        };
+
+        window.vetoSocialSubmission = async (subId, email) => {
+            if(!confirm("Veto this social node? Node will be archived in Rejected Archive.")) return;
+
+            try {
+                const userQ = query(collection(db, "pending_users"), where("email", "==", email));
+                const userSnap = await getDocs(userQ);
+
+                await runTransaction(db, async (txn) => {
+                    txn.update(doc(db, "social_submissions", subId), {
+                        status: "rejected",
+                        finalized_at: serverTimestamp()
+                    });
+
+                    if(!userSnap.empty) {
+                        const notifRef = doc(collection(db, "notifications"));
+                        txn.set(notifRef, {
+                            user_email: userSnap.docs[0].id,
+                            title: "Social Node Rejected",
+                            message: "Auditor vetoed your video submission. Protocol criteria not met.",
+                            type: "system",
+                            timestamp: serverTimestamp()
+                        });
+                    }
+                });
+                alert("Veto Finalized.");
+            } catch (err) { alert("Action restricted."); }
+        };
+
+        // 5. UTILS
+        window.selectRewardNode = (nodeId, val, el) => {
+            rewardMap[nodeId] = val;
+            el.parentElement.querySelectorAll('.reward-chip').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        };
+
+        window.switchAuditSection = (view) => {
+            currentSection = view;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + view).classList.add('active');
+            renderAuditSurface();
+        };
+
+        function getProtocolIcon(plat) {
+            const registry = {
+                'TikTok': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V2a5 5 0 0 0 5 5"></path></svg>`,
+                'YouTube': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2c.46-1.72.46-5.33.46-5.33s0-3.61-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>`,
+                'Facebook': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>`,
+                'Instagram': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`,
+                'X': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733-16z M4 20l6.768-6.768 M13.232 10.768L20 4"></path></svg>`
+            };
+            return registry[plat] || `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="2" x2="12" y2="22"></line></svg>`;
+        }
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

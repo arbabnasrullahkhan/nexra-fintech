@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Global Maintenance Hub</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+
+        /* 2. SECURITY WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .maint-hero {
+            background: #fff; border: 1px solid var(--border-subtle); border-radius: 35px;
+            padding: 40px; margin-bottom: 30px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+
+        .maint-info h2 { font-family: 'Outfit'; font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+        .maint-info p { font-size: 14px; color: #99a2ad; font-weight: 600; }
+
+        /* Neural Switch Toggle */
+        .switch { position: relative; display: inline-block; width: 80px; height: 40px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { 
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+            background-color: #eee; transition: .4s; border-radius: 40px;
+            display: flex; align-items: center; padding: 0 6px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 28px; width: 28px;
+            left: 6px; background-color: white; transition: .4s;
+            border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        input:checked + .slider { background-color: var(--accent-error); }
+        input:checked + .slider:before { transform: translateX(40px); }
+        .slider-label { font-size: 10px; font-weight: 900; color: #fff; margin-left: auto; display: none; text-transform: uppercase; }
+        input:checked ~ .slider .slider-label { display: block; margin-right: 35px; margin-left: 0; }
+
+        /* Control Grid */
+        .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .control-card { background: #fff; border-radius: 30px; border: 1px solid var(--border-subtle); padding: 30px; }
+        .card-title { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
+        .card-title svg { width: 22px; height: 22px; color: var(--primary); }
+        .card-title h3 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .form-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .form-field label { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 1px; }
+        .form-field input, .form-field textarea {
+            width: 100%; padding: 16px; border-radius: 16px; border: 2px solid #f8f9fa;
+            background: #f8f9fa; font-size: 14px; font-weight: 700; outline: none; transition: 0.3s;
+            font-family: inherit; color: var(--primary);
+        }
+        .form-field input:focus, .form-field textarea:focus { border-color: var(--primary); background: #fff; }
+        .form-field textarea { height: 120px; resize: none; line-height: 1.5; }
+
+        .btn-dispatch {
+            width: 100%; padding: 18px; border-radius: 15px; border: none;
+            background: var(--primary); color: #fff; font-size: 13px; font-weight: 800;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-dispatch:active { transform: scale(0.96); }
+
+        /* Status Mini Card */
+        .live-stat-card {
+            background: var(--primary); color: #fff; border-radius: 25px; padding: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .stat-group span { font-size: 10px; opacity: 0.5; font-weight: 800; text-transform: uppercase; }
+        .stat-group h4 { font-family: 'Outfit'; font-size: 24px; font-weight: 900; color: var(--accent-warning); }
+
+        /* 3. MOBILE BOTTOM DOCK */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .maint-hero { flex-direction: column; text-align: center; gap: 20px; }
+            .control-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Overview</a>
+                <div class="nav-label">Security Hub</div>
+                <a href="maintenance.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> System Lock
+                </a>
+                <a href="fraud.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Surveillance
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">SYSTEM SOVEREIGNTY</h1>
+                </div>
+                <div style="font-size:11px; font-weight:800; color:var(--accent-success); display:flex; align-items:center; gap:8px;">
+                    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg> HANDSHAKE LIVE
+                </div>
+            </header>
+
+            <div class="workspace">
+                
+                <!-- MASTER LOCK HERO -->
+                <div class="maint-hero">
+                    <div class="maint-info">
+                        <h2>Ecosystem Protocol Lockdown</h2>
+                        <p>Manually restrict user access for technical optimizations.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="maintSwitch" onchange="toggleMasterLock()">
+                        <span class="slider"><span class="slider-label">Locked</span></span>
+                    </label>
+                </div>
+
+                <div class="control-grid">
+                    
+                    <!-- 1. RESUME TIMELINE -->
+                    <div class="control-card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <h3>Technical Resume Time</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Protocol Resume Date/Time</label>
+                            <input type="datetime-local" id="resumeTime">
+                        </div>
+                        <div class="form-field">
+                            <label>Maintenance Message Node</label>
+                            <input type="text" id="maintMsg" placeholder="System upgrade in progress...">
+                        </div>
+                        <button class="btn-dispatch" onclick="authorizeResumeTimeline()">Authorise Timeline</button>
+                    </div>
+
+                    <!-- 2. NEURAL BROADCAST DISPATCH -->
+                    <div class="control-card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <h3>Neural Broadcast (SMTP)</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Broadcast Header</label>
+                            <input type="text" id="bcHeader" placeholder="Global Update Notification">
+                        </div>
+                        <div class="form-field">
+                            <label>Dispatch Body Parameters</label>
+                            <textarea id="bcBody" placeholder="Enter message dispatch to all user nodes..."></textarea>
+                        </div>
+                        <button class="btn-dispatch" style="background:var(--accent-info);" onclick="dispatchEcosystemAlert()">Dispatch Global Alert</button>
+                    </div>
+
+                </div>
+
+                <!-- Handshake Pulse stat -->
+                <div class="live-stat-card">
+                    <div class="stat-group">
+                        <span>Nodes currently locked</span>
+                        <h4 id="lockedNodesCount">0 Handshaking</h4>
+                    </div>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-warning)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="verifications.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Audit</span></a>
+            <a href="maintenance.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Lock</span></a>
+        </nav>
+    </div>
+
+    <!-- SYSTEM ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, getDoc, updateDoc, onSnapshot, serverTimestamp, collection, addDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const appRef = doc(db, "settings", "app");
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME SYSTEM STATE SYNC
+        async function loadSystemState() {
+            onSnapshot(appRef, (snap) => {
+                if(snap.exists()){
+                    const d = snap.data();
+                    document.getElementById('maintSwitch').checked = d.maintenance || false;
+                    document.getElementById('resumeTime').value = d.maint_end_time || "";
+                    document.getElementById('maintMsg').value = d.maint_text || "";
+                }
+            });
+
+            // Count users on Checkpoint page (Simplified logic: active status check)
+            onSnapshot(collection(db, "pending_users"), (snap) => {
+                let handshaking = 0;
+                snap.forEach(doc => {
+                    // Logic: If maintenance is ON, all active but non-admin users are locked
+                    if(document.getElementById('maintSwitch').checked && doc.data().status === 'approved') {
+                        handshaking++;
+                    }
+                });
+                document.getElementById('lockedNodesCount').innerText = `${handshaking} Handshaking`;
+            });
+        }
+        loadSystemState();
+
+        // 3. MASTER LOCK PROTOCOL
+        window.toggleMasterLock = async () => {
+            const isLocked = document.getElementById('maintSwitch').checked;
+            try {
+                await updateDoc(appRef, { 
+                    maintenance: isLocked,
+                    lock_authorized_at: serverTimestamp() 
+                });
+                alert("Protocol Notice: Ecosystem " + (isLocked ? "LOCKED" : "UNLOCKED") + ".");
+            } catch (e) { alert("Handshake Fail."); }
+        };
+
+        // 4. TIMELINE AUTHORIZATION
+        window.authorizeResumeTimeline = async () => {
+            const time = document.getElementById('resumeTime').value;
+            const msg = document.getElementById('maintMsg').value;
+
+            if(!time) return alert("Select a technical resume timeline.");
+
+            try {
+                await updateDoc(appRef, {
+                    maint_end_time: time,
+                    maint_text: msg || "System upgrade in progress.",
+                    timeline_updated_at: serverTimestamp()
+                });
+                alert("Timeline Authorized Successfully.");
+            } catch (e) { alert("Protocol Sync Failure."); }
+        };
+
+        // 5. GLOBAL NEURAL BROADCAST
+        window.dispatchEcosystemAlert = async () => {
+            const header = document.getElementById('bcHeader').value.trim();
+            const body = document.getElementById('bcBody').value.trim();
+
+            if(!header || !body) return alert("Alert parameters incomplete.");
+
+            if(confirm("Dispatch this alert node to ALL verified ecosystem partners?")) {
+                try {
+                    await addDoc(collection(db, "notifications"), {
+                        user_email: "all",
+                        title: header,
+                        message: body,
+                        type: "broadcast",
+                        timestamp: serverTimestamp()
+                    });
+                    alert("Dispatch Successful. Broadcast synchronized.");
+                    document.getElementById('bcHeader').value = "";
+                    document.getElementById('bcBody').value = "";
+                } catch (e) { alert("Dispatch Vetoed by Server."); }
+            }
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

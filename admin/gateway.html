@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Gateway Orchestrator</title>
+    
+    <!-- Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-info: #3742fa;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. ARCHITECTURAL RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .admin-pill { background: var(--primary); color: #fff; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; }
+
+        /* 2. GATEWAY WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #fff; border: 1px solid var(--border-subtle); padding: 20px; border-radius: 22px;
+            display: flex; flex-direction: column; gap: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+        .stat-card span { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card b { font-family: 'Outfit'; font-size: 22px; font-weight: 900; }
+
+        /* Gateway Control Form */
+        .control-card {
+            background: var(--surface); border-radius: 35px; border: 1px solid var(--border-subtle);
+            padding: 30px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        .field label { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; }
+        .field input, .field select {
+            width: 100%; padding: 16px; border-radius: 16px; border: 1.5px solid #f0f3f5;
+            background: #f8f9fa; font-size: 14px; font-weight: 700; outline: none; transition: 0.3s; font-family: inherit;
+        }
+        .field input:focus { border-color: var(--primary); background: #fff; }
+
+        .btn-deploy {
+            background: var(--primary); color: #fff; border: none; padding: 18px 40px;
+            border-radius: 18px; font-weight: 900; font-size: 13px; cursor: pointer;
+            margin-top: 25px; display: inline-flex; align-items: center; gap: 12px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-deploy:active { transform: scale(0.96); }
+
+        /* Filter Tabs */
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 25px; overflow-x: auto; scrollbar-width: none; }
+        .tab-btn {
+            padding: 10px 22px; border-radius: 12px; background: #fff; border: 1.5px solid var(--border-subtle);
+            font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; white-space: nowrap;
+        }
+        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* Gateway Grid */
+        .gateway-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px; }
+
+        .gw-card {
+            background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 32px;
+            padding: 25px; position: relative; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .gw-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
+
+        .gw-head { display: flex; justify-content: space-between; align-items: flex-start; }
+        .coin-meta { display: flex; align-items: center; gap: 12px; }
+        .coin-icon { width: 44px; height: 44px; border-radius: 12px; object-fit: contain; background: #f8f9fa; padding: 5px; }
+        .coin-info h4 { font-family: 'Outfit'; font-size: 16px; font-weight: 900; line-height: 1.2; }
+        .coin-info span { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; }
+
+        .status-pill { padding: 5px 12px; border-radius: 8px; font-size: 9px; font-weight: 900; text-transform: uppercase; }
+        .st-active { background: #e0fff0; color: var(--accent-success); }
+        .st-disabled { background: #f4f7f9; color: #99a2ad; }
+
+        .qr-node {
+            width: 100%; aspect-ratio: 1/1; background: #f8f9fa; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            border: 1px solid #f0f3f5;
+        }
+        .qr-node img { width: 85%; height: 85%; object-fit: contain; }
+
+        .address-box {
+            background: #f8f9fa; padding: 12px; border-radius: 14px; font-family: monospace;
+            font-size: 12px; font-weight: 800; color: var(--accent-info); word-break: break-all;
+            text-align: center; border: 1px dashed #ddd; cursor: pointer;
+        }
+
+        .gw-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .act-btn {
+            flex: 1; height: 42px; border-radius: 12px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .btn-edit { background: #f0f3f5; color: var(--primary); }
+        .btn-delete { background: #fee2e2; color: var(--accent-error); }
+        .act-btn svg { width: 18px; height: 18px; }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1200px) { .gateway-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .gateway-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="NEXRA">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Overview</a>
+                <div class="nav-label">Financial Management</div>
+                <a href="gateway.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                    Payment Gateways
+                </a>
+                <a href="withdrawals.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1v22m5-18H7.5a3.5 3.5 0 0 0 0 7h9a3.5 3.5 0 0 1 0 7H6"></path></svg> Settlements</a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">GATEWAY ORCHESTRATOR</h1>
+                </div>
+                <div class="admin-pill">NODE AUTHORITY</div>
+            </header>
+
+            <div class="workspace">
+                <!-- Sync Analytics -->
+                <div class="stats-row">
+                    <div class="stat-card"><span>Total Crypto Nodes</span><b id="stat-total">0</b></div>
+                    <div class="stat-card"><span>Active Channels</span><b id="stat-active" style="color:var(--accent-success)">0</b></div>
+                    <div class="stat-card"><span>Disabled Protocols</span><b id="stat-disabled" style="color:var(--accent-error)">0</b></div>
+                </div>
+
+                <!-- Deployment Form -->
+                <div class="control-card">
+                    <h3 style="font-family:'Outfit'; font-weight:800; margin-bottom:20px;" id="formTitle">Deploy New Gateway Node</h3>
+                    <form id="gatewayForm">
+                        <input type="hidden" id="editId">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label>Coin Name (e.g. USDT, BTC)</label>
+                                <input type="text" id="gCoin" placeholder="USDT" required>
+                            </div>
+                            <div class="field">
+                                <label>Protocol Title (e.g. TRC20, BEP20)</label>
+                                <input type="text" id="gTitle" placeholder="Binance TRC20" required>
+                            </div>
+                            <div class="field">
+                                <label>Holder Name</label>
+                                <input type="text" id="gHolder" placeholder="Official NEXRA Vault" required>
+                            </div>
+                            <div class="field">
+                                <label>Regional Classification</label>
+                                <select id="gType">
+                                    <option value="both">Both (Global)</option>
+                                    <option value="local">Pakistan Local</option>
+                                    <option value="international">International Only</option>
+                                </select>
+                            </div>
+                            <div class="field" style="grid-column: span 2;">
+                                <label>Wallet Address / Node ID</label>
+                                <input type="text" id="gAddress" placeholder="Txxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" required>
+                            </div>
+                            <div class="field">
+                                <label>Asset Icon Name (e.g. usdt)</label>
+                                <input type="text" id="gIcon" placeholder="usdt" required>
+                            </div>
+                            <div class="field">
+                                <label>Status</label>
+                                <select id="gStatus">
+                                    <option value="true">Active (Online)</option>
+                                    <option value="false">Disabled (Offline)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-deploy" id="submitBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
+                            Synchronize Node
+                        </button>
+                    </form>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="tab-btn active" onclick="setRegionFilter('all', this)">All Nodes</button>
+                    <button class="tab-btn" onclick="setRegionFilter('local', this)">Pakistan</button>
+                    <button class="tab-btn" onclick="setRegionFilter('international', this)">International</button>
+                </div>
+
+                <!-- Real-time Gateway Grid -->
+                <div class="gateway-grid" id="gatewayContainer">
+                    <!-- Dynamic cards injected here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="null-state" style="display:none; text-align:center; padding:100px 20px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line><path d="M9 17s1.5-2 3-2 3 2 3 2"></path></svg>
+                    <h3 style="color:#aaa; margin-top:15px; font-weight:800; text-transform:uppercase; font-size:12px; letter-spacing:1px;">No Gateway Nodes Found</h3>
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE NAV -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="gateway.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg><span>Gateways</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1v22m5-18H7.5a3.5 3.5 0 0 0 0 7h9a3.5 3.5 0 0 1 0 7H6"></path></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- CORE SYSTEM ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, setDoc, addDoc, deleteDoc, getDoc, query, where, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let allGateways = [];
+        let activeRegion = 'all';
+
+        // 1. IDENTITY GUARD
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME DATA SYNCHRONIZER
+        function synchronizeGateways() {
+            onSnapshot(collection(db, "getway"), (snap) => {
+                allGateways = [];
+                let activeCount = 0; let disabledCount = 0;
+                
+                snap.forEach(d => {
+                    const data = d.data();
+                    allGateways.push({ id: d.id, ...data });
+                    if(data.isActive) activeCount++; else disabledCount++;
+                });
+
+                document.getElementById('stat-total').innerText = snap.size;
+                document.getElementById('stat-active').innerText = activeCount;
+                document.getElementById('stat-disabled').innerText = disabledCount;
+
+                renderGatewayInterface();
+            });
+        }
+        synchronizeGateways();
+
+        // 3. UI RENDERER
+        function renderGatewayInterface() {
+            const container = document.getElementById('gatewayContainer');
+            const empty = document.getElementById('null-state');
+            
+            const filtered = allGateways.filter(g => {
+                if(activeRegion === 'all') return true;
+                return g.type === activeRegion || g.type === 'both';
+            });
+
+            container.innerHTML = "";
+            if(filtered.length === 0) { empty.style.display = "block"; return; }
+            empty.style.display = "none";
+
+            filtered.forEach(gateway => {
+                const card = document.createElement('div');
+                card.className = 'gw-card';
+                
+                const statusClass = gateway.isActive ? 'st-active' : 'st-disabled';
+                const statusText = gateway.isActive ? 'Online' : 'Offline';
+
+                card.innerHTML = `
+                    <div class="gw-head">
+                        <div class="coin-meta">
+                            <img src="../assets/pay/${gateway.icon}.png" class="coin-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3081/3081840.png'">
+                            <div class="coin-info">
+                                <h4>${gateway.name}</h4>
+                                <span>${gateway.title}</span>
+                            </div>
+                        </div>
+                        <span class="status-pill ${statusClass}">${statusText}</span>
+                    </div>
+
+                    <div class="qr-node">
+                        <img src="../assets/pay/qr/${gateway.icon}.jpeg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span style="display:none; font-size:10px; color:#ccc; font-weight:800;">ASSET NOT FOUND</span>
+                    </div>
+
+                    <div class="address-box" title="Click to copy protocol" onclick="navigator.clipboard.writeText('${gateway.number}'); alert('Handshake: Address Copied');">
+                        ${gateway.number}
+                    </div>
+
+                    <div style="font-size:10px; font-weight:800; color:#99a2ad; text-transform:uppercase; text-align:center;">
+                        HOLDER: ${gateway.holder || gateway.title}
+                    </div>
+
+                    <div class="gw-actions">
+                        <button class="act-btn btn-edit" onclick="editProtocolNode('${gateway.id}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button class="act-btn btn-delete" onclick="terminateProtocolNode('${gateway.id}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 4. CRUD PROTOCOL HANDLERS
+        document.getElementById('gatewayForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editId').value;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+
+            const payload = {
+                name: document.getElementById('gCoin').value.trim(),
+                title: document.getElementById('gTitle').value.trim(),
+                holder: document.getElementById('gHolder').value.trim(),
+                number: document.getElementById('gAddress').value.trim(),
+                icon: document.getElementById('gIcon').value.trim().toLowerCase(),
+                type: document.getElementById('gType').value,
+                isActive: document.getElementById('gStatus').value === "true",
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                if(editId) {
+                    await setDoc(doc(db, "getway", editId), payload, { merge: true });
+                    alert("Gateway Node Synchronized.");
+                } else {
+                    await addDoc(collection(db, "getway"), payload);
+                    alert("Gateway Node Deployed.");
+                }
+                resetCommandForm();
+            } catch (err) { alert("Handshake Error."); }
+            btn.disabled = false;
+        };
+
+        window.editProtocolNode = async (id) => {
+            const gw = allGateways.find(x => x.id === id);
+            if(!gw) return;
+
+            document.getElementById('editId').value = id;
+            document.getElementById('gCoin').value = gw.name;
+            document.getElementById('gTitle').value = gw.title;
+            document.getElementById('gHolder').value = gw.holder || "";
+            document.getElementById('gAddress').value = gateway.number; // fixed ref from old code
+            document.getElementById('gAddress').value = gw.number;
+            document.getElementById('gIcon').value = gw.icon;
+            document.getElementById('gType').value = gw.type || "both";
+            document.getElementById('gStatus').value = gw.isActive.toString();
+
+            document.getElementById('formTitle').innerText = "Modify Protocol Node";
+            document.getElementById('submitBtn').innerText = "SYNC MODIFICATIONS";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.terminateProtocolNode = async (id) => {
+            if(confirm("Permanently terminate this gateway node?")) {
+                await deleteDoc(doc(db, "getway", id));
+            }
+        };
+
+        function resetCommandForm() {
+            document.getElementById('editId').value = "";
+            document.getElementById('gatewayForm').reset();
+            document.getElementById('formTitle').innerText = "Deploy New Gateway Node";
+            document.getElementById('submitBtn').innerText = "Synchronize Node";
+        }
+
+        // 5. UTILS
+        window.setRegionFilter = (region, el) => {
+            activeRegion = region;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            renderGatewayInterface();
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

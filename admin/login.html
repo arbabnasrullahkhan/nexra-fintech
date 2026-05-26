@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Admin Access</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #000000; --white: #ffffff; --border: rgba(0,0,0,0.08); }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: #fff; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%); }
+        
+        .login-card { width: 90%; max-width: 420px; padding: 40px; border-radius: 40px; background: #fff; box-shadow: 0 30px 60px rgba(0,0,0,0.12); border: 1px solid var(--border); text-align: center; animation: slideUp 0.6s ease; }
+        .logo { width: 70px; height: 70px; margin-bottom: 20px; mix-blend-mode: multiply; }
+        h1 { font-family: 'Outfit'; font-weight: 900; font-size: 28px; letter-spacing: -1px; margin-bottom: 10px; }
+        p { color: #888; font-size: 13px; font-weight: 600; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .field { text-align: left; margin-bottom: 20px; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #aaa; letter-spacing: 1px; margin-bottom: 8px; display: block; padding-left: 5px; }
+        input { width: 100%; padding: 18px; border-radius: 18px; border: 1.5px solid #eee; background: #f9f9f9; font-size: 15px; font-weight: 700; outline: none; transition: 0.3s; color: var(--black); }
+        input:focus { border-color: var(--black); background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        
+        .btn-access { width: 100%; padding: 20px; border-radius: 20px; border: none; background: var(--black); color: #fff; font-size: 16px; font-weight: 900; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-access:active { transform: scale(0.96); }
+        .btn-access:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="login-card">
+        <img src="../assets/ui/logo.png" class="logo">
+        <h1>Core Authority</h1>
+        <p>Master Control Panel</p>
+        
+        <div class="field">
+            <label>Master Email</label>
+            <input type="email" id="email" placeholder="arbabnasru@gmail.com" autocomplete="email">
+        </div>
+        <div class="field">
+            <label>Access Key</label>
+            <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        
+        <button class="btn-access" id="loginBtn" onclick="attemptLogin()">AUTHENTICATE</button>
+    </div>
+
+    <script type="module">
+        import { auth, db, doc, getDoc, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "../assets/js/firebase-config.js";
+
+        const loginBtn = document.getElementById('loginBtn');
+        const emailInput = document.getElementById('email');
+        const passInput = document.getElementById('pass');
+
+        // --- SESSION PERSISTENCE & INACTIVITY PROTOCOL ---
+        let logoutTimer;
+
+        function resetInactivityTimer() {
+            if (logoutTimer) clearTimeout(logoutTimer);
+            
+            // Set for 30 minutes (1800000 milliseconds)
+            logoutTimer = setTimeout(() => {
+                handleAutoLogout();
+            }, 30 * 60 * 1000);
+        }
+
+        async function handleAutoLogout() {
+            try {
+                await signOut(auth);
+                alert("Security Protocol: Session expired due to 30 minutes of inactivity.");
+                window.location.reload();
+            } catch (error) {
+                console.error("Logout Error:", error);
+            }
+        }
+
+        // Setup listeners to detect activity and reset timer
+        function setupActivityListeners() {
+            window.onload = resetInactivityTimer;
+            window.onmousemove = resetInactivityTimer;
+            window.onmousedown = resetInactivityTimer; 
+            window.ontouchstart = resetInactivityTimer;
+            window.onclick = resetInactivityTimer;
+            window.onkeypress = resetInactivityTimer;
+        }
+
+        // --- AUTH STATE OBSERVER ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // If user is already logged in, check authorization
+                const email = user.email.toLowerCase();
+                
+                // Primary Admin Authorization Check
+                if (email === 'arbabnasru@gmail.com') {
+                    setupActivityListeners();
+                    // Redirect to dashboard if already on login page
+                    if (window.location.pathname.includes('login.html')) {
+                        window.location.href = "index.html";
+                    }
+                } else {
+                    // Future Logic: Check 'admins' collection for Moderator/Office Boy roles
+                    const adminRef = doc(db, "admins", user.uid);
+                    const adminSnap = await getDoc(adminRef);
+
+                    if (adminSnap.exists()) {
+                        setupActivityListeners();
+                        if (window.location.pathname.includes('login.html')) {
+                            window.location.href = "index.html";
+                        }
+                    } else {
+                        // Unauthorized access attempt
+                        await signOut(auth);
+                        alert("ACCESS DENIED: Identity not recognized by Core Authority.");
+                    }
+                }
+            }
+        });
+
+        // --- ATTEMPT LOGIN ---
+        window.attemptLogin = async () => {
+            const e = emailInput.value.trim().toLowerCase();
+            const p = passInput.value;
+
+            if (!e || !p) {
+                alert("Protocol Error: Email and Access Key are required.");
+                return;
+            }
+
+            // For now, restricting login strictly to your master email
+            // This can be expanded to allow other emails if they exist in the "admins" collection
+            if (e !== 'arbabnasru@gmail.com') {
+                // We let Firebase try to authenticate first, then we check roles
+                // This keeps personal data protected until auth is confirmed
+            }
+
+            loginBtn.innerText = "VERIFYING...";
+            loginBtn.disabled = true;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, e, p);
+                const user = userCredential.user;
+
+                // Secondary check for the email requested
+                if (user.email.toLowerCase() === 'arbabnasru@gmail.com') {
+                    window.location.href = "index.html";
+                } else {
+                    // Check Firestore for roles (Moderator, etc.)
+                    const adminRef = doc(db, "admins", user.uid);
+                    const adminSnap = await getDoc(adminRef);
+                    
+                    if (adminSnap.exists()) {
+                        window.location.href = "index.html";
+                    } else {
+                        await signOut(auth);
+                        alert("ACCESS DENIED: Unauthorized User.");
+                        loginBtn.innerText = "AUTHENTICATE";
+                        loginBtn.disabled = false;
+                    }
+                }
+            } catch (err) {
+                let errorMsg = "Authentication Failed.";
+                if (err.code === 'auth/wrong-password') errorMsg = "Invalid Access Key.";
+                if (err.code === 'auth/user-not-found') errorMsg = "Identity not found.";
+                
+                alert("ERROR: " + errorMsg);
+                loginBtn.innerText = "AUTHENTICATE";
+                loginBtn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Global Protocol Settings</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-info: #3742fa;
+            --accent-warning: #ff9f43;
+            --accent-error: #ff3b30;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .header-title { font-family: 'Outfit'; font-size: 18px; font-weight: 900; }
+
+        /* 2. SETTINGS ENGINE WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 25px;
+            margin-bottom: 100px;
+        }
+
+        .setting-card {
+            background: var(--surface);
+            border-radius: 32px;
+            padding: 30px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
+        .card-header svg { width: 22px; height: 22px; color: var(--accent-info); }
+        .card-header h3 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .form-field { display: flex; flex-direction: column; gap: 8px; }
+        .form-field label { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 1px; padding-left: 5px; }
+        
+        .input-group { position: relative; display: flex; align-items: center; }
+        .input-group svg { position: absolute; left: 15px; width: 16px; height: 16px; color: #cbd5e0; }
+        .input-group input, .input-group textarea {
+            width: 100%; padding: 14px 15px 14px 45px; border-radius: 14px;
+            border: 1.5px solid #f0f3f5; background: #f8f9fa;
+            font-size: 14px; font-weight: 700; outline: none; transition: 0.3s;
+            color: var(--primary); font-family: inherit;
+        }
+        .input-group input:focus { border-color: var(--primary); background: var(--surface); }
+
+        .btn-sync {
+            width: 100%; padding: 16px; border-radius: 15px; border: none;
+            background: var(--primary); color: #fff; font-size: 13px;
+            font-weight: 800; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-sync:active { transform: scale(0.96); }
+
+        /* Tutorial Specific Design */
+        .tutorial-block {
+            border: 1px solid #f0f3f5; padding: 15px; border-radius: 20px; background: #fcfdfe;
+        }
+        .tutorial-label { font-size: 11px; font-weight: 900; color: var(--primary); margin-bottom: 12px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .settings-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="NEXRA">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Core Control</div>
+                <a href="index.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Overview</a>
+                <a href="users.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> User Manager</a>
+                <a href="settings.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Global Settings</a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div>
+                    <h1 class="header-title">ECOSYSTEM ENGINE</h1>
+                </div>
+                <div style="font-size:11px; font-weight:800; color:var(--accent-success); display:flex; align-items:center; gap:8px;">
+                    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg> CLOUD HANDSHAKE ACTIVE
+                </div>
+            </header>
+
+            <div class="workspace">
+                <div class="settings-grid">
+                    
+                    <!-- SECTION 1: NODE FEES -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22m5-18H7.5a3.5 3.5 0 0 0 0 7h9a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            <h3>Enrollment Protocol</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Pakistan Node (PKR)</label>
+                            <div class="input-group">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg>
+                                <input type="number" id="fee_pk" placeholder="550">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>International Node (USD)</label>
+                            <div class="input-group">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                                <input type="number" id="fee_int" placeholder="4">
+                            </div>
+                        </div>
+                        <button class="btn-sync" onclick="syncEcosystemProtocol('fees')">Update Activation Node</button>
+                    </div>
+
+                    <!-- SECTION 2: SETTLEMENT LIMITS -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                            <h3>Settlement Protocol</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Min Withdrawal ($)</label>
+                            <div class="input-group">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                <input type="number" id="w_min" step="0.01" placeholder="0.75">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>Max Withdrawal ($)</label>
+                            <div class="input-group">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                                <input type="number" id="w_max" placeholder="500">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>Audit Tax Rate (%)</label>
+                            <div class="input-group">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+                                <input type="number" id="tax_rate" placeholder="5">
+                            </div>
+                        </div>
+                        <button class="btn-sync" onclick="syncEcosystemProtocol('limits')">Update Settlement Nodes</button>
+                    </div>
+
+                    <!-- SECTION 3: SOCIAL HANDSHAKE LINKS -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            <h3>Support & Presence</h3>
+                        </div>
+                        <div class="form-field"><label>WhatsApp Link</label><input type="url" id="wa_link" style="padding-left:15px; background:#f8f9fa; border-radius:12px; border:1.5px solid #eee; padding:12px;" placeholder="https://wa.me/..."></div>
+                        <div class="form-field"><label>Telegram Link</label><input type="url" id="tg_link" style="padding-left:15px; background:#f8f9fa; border-radius:12px; border:1.5px solid #eee; padding:12px;" placeholder="https://t.me/..."></div>
+                        <div class="form-field"><label>Facebook Link</label><input type="url" id="fb_link" style="padding-left:15px; background:#f8f9fa; border-radius:12px; border:1.5px solid #eee; padding:12px;" placeholder="https://facebook.com/..."></div>
+                        <div class="form-field"><label>YouTube Link</label><input type="url" id="yt_link" style="padding-left:15px; background:#f8f9fa; border-radius:12px; border:1.5px solid #eee; padding:12px;" placeholder="https://youtube.com/..."></div>
+                        <button class="btn-sync" onclick="syncEcosystemProtocol('socials')">Update Identity Nodes</button>
+                    </div>
+
+                    <!-- SECTION 4: LEARNING HUB MANAGER (3 VIDEOS) -->
+                    <div class="setting-card" style="grid-column: span 1;">
+                        <div class="card-header">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2c.46-1.72.46-5.33.46-5.33s0-3.61-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                            <h3>Homepage Video Hub</h3>
+                        </div>
+
+                        <!-- Video Node 1 -->
+                        <div class="tutorial-block">
+                            <span class="tutorial-label">Card 1: Registration Guide</span>
+                            <div class="form-field"><label>Title</label><input type="text" id="v1_title" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>YouTube ID</label><input type="text" id="v1_id" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>Tag (e.g. Tutorial)</label><input type="text" id="v1_tag" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                        </div>
+
+                        <!-- Video Node 2 -->
+                        <div class="tutorial-block">
+                            <span class="tutorial-label">Card 2: Usage Guide</span>
+                            <div class="form-field"><label>Title</label><input type="text" id="v2_title" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>YouTube ID</label><input type="text" id="v2_id" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>Tag</label><input type="text" id="v2_tag" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                        </div>
+
+                        <!-- Video Node 3 -->
+                        <div class="tutorial-block">
+                            <span class="tutorial-label">Card 3: Withdrawal Guide</span>
+                            <div class="form-field"><label>Title</label><input type="text" id="v3_title" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>YouTube ID</label><input type="text" id="v3_id" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                            <div class="form-field"><label>Tag</label><input type="text" id="v3_tag" style="padding:10px; border-radius:10px; border:1px solid #eee;"></div>
+                        </div>
+
+                        <button class="btn-sync" onclick="syncLearningHubProtocol()">Update Learning Hub</button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="verifications.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg><span>Audit</span></a>
+            <a href="settings.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Engine</span></a>
+        </nav>
+    </div>
+
+    <!-- FIREBASE ARCHITECTURE -->
+    <script type="module">
+        import { auth, db, doc, getDoc, updateDoc, setDoc, serverTimestamp } from "../assets/js/firebase-config.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const appRef = doc(db, "settings", "app");
+        const tutorialRef = doc(db, "settings", "tutorials");
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. DATA SYNCHRONIZATION ON LOAD
+        async function loadAllConfigurations() {
+            try {
+                // Load App Settings
+                const appSnap = await getDoc(appRef);
+                if(appSnap.exists()) {
+                    const d = appSnap.data();
+                    document.getElementById('fee_pk').value = d.fee_pk || 550;
+                    document.getElementById('fee_int').value = d.fee_int || 4;
+                    document.getElementById('w_min').value = d.withdraw_min || 0.75;
+                    document.getElementById('w_max').value = d.withdraw_max || 500;
+                    document.getElementById('tax_rate').value = d.tax_rate || 5;
+                    document.getElementById('wa_link').value = d.wa_link || "";
+                    document.getElementById('tg_link').value = d.tg_link || "";
+                    document.getElementById('fb_link').value = d.fb_link || "";
+                    document.getElementById('yt_link').value = d.yt_link || "";
+                }
+
+                // Load Tutorial Hub Settings
+                const tutSnap = await getDoc(tutorialRef);
+                if(tutSnap.exists()) {
+                    const d = tutSnap.data();
+                    document.getElementById('v1_title').value = d.reg_title || "";
+                    document.getElementById('v1_id').value = d.reg_id || "";
+                    document.getElementById('v1_tag').value = d.reg_tag || "";
+                    
+                    document.getElementById('v2_title').value = d.usage_title || "";
+                    document.getElementById('v2_id').value = d.usage_id || "";
+                    document.getElementById('v2_tag').value = d.usage_tag || "";
+
+                    document.getElementById('v3_title').value = d.withdraw_title || "";
+                    document.getElementById('v3_id').value = d.withdraw_id || "";
+                    document.getElementById('v3_tag').value = d.withdraw_tag || "";
+                }
+            } catch (e) { console.error("Initial Sync Failed."); }
+        }
+        loadAllConfigurations();
+
+        // 3. ISOLATED SECTOR UPDATES
+        window.syncEcosystemProtocol = async (sector) => {
+            let payload = {};
+            
+            if(sector === 'fees') {
+                payload = {
+                    fee_pk: Number(document.getElementById('fee_pk').value),
+                    fee_int: Number(document.getElementById('fee_int').value)
+                };
+            } else if(sector === 'limits') {
+                payload = {
+                    withdraw_min: Number(document.getElementById('w_min').value),
+                    withdraw_max: Number(document.getElementById('w_max').value),
+                    tax_rate: Number(document.getElementById('tax_rate').value)
+                };
+            } else if(sector === 'socials') {
+                payload = {
+                    wa_link: document.getElementById('wa_link').value.trim(),
+                    tg_link: document.getElementById('tg_link').value.trim(),
+                    fb_link: document.getElementById('fb_link').value.trim(),
+                    yt_link: document.getElementById('yt_link').value.trim()
+                };
+            }
+
+            try {
+                await updateDoc(appRef, { ...payload, updated_at: serverTimestamp() });
+                alert("Protocol Sync: " + sector.toUpperCase() + " nodes updated successfully.");
+            } catch (e) {
+                await setDoc(appRef, payload);
+                alert("Protocol Initiated: " + sector.toUpperCase() + " nodes established.");
+            }
+        };
+
+        // 4. LEARNING HUB (TUTORIALS) SYNC
+        window.syncLearningHubProtocol = async () => {
+            const payload = {
+                reg_title: document.getElementById('v1_title').value.trim(),
+                reg_id: document.getElementById('v1_id').value.trim(),
+                reg_tag: document.getElementById('v1_tag').value.trim(),
+
+                usage_title: document.getElementById('v2_title').value.trim(),
+                usage_id: document.getElementById('v2_id').value.trim(),
+                usage_tag: document.getElementById('v2_tag').value.trim(),
+
+                withdraw_title: document.getElementById('v3_title').value.trim(),
+                withdraw_id: document.getElementById('v3_id').value.trim(),
+                withdraw_tag: document.getElementById('v3_tag').value.trim(),
+                
+                last_update: serverTimestamp()
+            };
+
+            try {
+                await updateDoc(tutorialRef, payload);
+                alert("Homepage Learning Hub Handshake Success.");
+            } catch (e) {
+                await setDoc(tutorialRef, payload);
+                alert("Learning Hub Protocol Initiated.");
+            }
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | VIP Sovereignty Command</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-warning: #ff9f43;
+            --accent-info: #3742fa;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+
+        /* 2. DATA WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        /* Revenue Audit Bar */
+        .revenue-bar {
+            background: var(--primary); color: #fff; padding: 30px; border-radius: 35px;
+            margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); position: relative; overflow: hidden;
+        }
+        .revenue-bar::after { content: ""; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: var(--accent-info); filter: blur(60px); opacity: 0.15; }
+        
+        .rev-item span { font-size: 10px; opacity: 0.5; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+        .rev-item h3 { font-family: 'Outfit'; font-size: 32px; font-weight: 900; margin-top: 5px; }
+
+        /* Command Cards */
+        .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 35px; }
+        @media (max-width: 900px) { .control-grid { grid-template-columns: 1fr; } }
+
+        .control-card { background: #fff; border-radius: 30px; border: 1px solid var(--border-subtle); padding: 30px; }
+        .card-title { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
+        .card-title h3 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .form-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .form-field label { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 1px; }
+        .form-field input, .form-field select {
+            width: 100%; padding: 16px; border-radius: 16px; border: 2px solid #f8f9fa;
+            background: #f8f9fa; font-size: 14px; font-weight: 700; outline: none; transition: 0.3s;
+            font-family: inherit; color: var(--primary);
+        }
+        .form-field input:focus { border-color: var(--primary); background: #fff; }
+
+        .btn-dispatch {
+            width: 100%; padding: 18px; border-radius: 15px; border: none;
+            background: var(--primary); color: #fff; font-size: 12px; font-weight: 900;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-dispatch:active { transform: scale(0.96); }
+
+        /* VIP Queue Registry */
+        .vip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        
+        .audit-card {
+            background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 32px;
+            padding: 25px; position: relative; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.01);
+            overflow: hidden;
+        }
+
+        .tier-marker { position: absolute; top: 0; right: 0; width: 60px; height: 60px; clip-path: polygon(100% 0, 0 0, 100% 100%); opacity: 0.8; }
+
+        .user-block { display: flex; align-items: center; gap: 12px; }
+        .u-dp { width: 40px; height: 40px; border-radius: 10px; background: #f0f3f5; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+        .u-email { font-size: 11px; color: #99a2ad; font-weight: 700; word-break: break-all; }
+
+        .req-box { background: var(--bg-body); border-radius: 20px; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .req-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; }
+        .req-lbl { font-size: 9px; color: #99a2ad; text-transform: uppercase; }
+
+        .action-row { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn-audit {
+            padding: 14px; border-radius: 12px; border: none; font-size: 11px;
+            font-weight: 900; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 8px; transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-approve { background: var(--primary); color: #fff; }
+        .btn-reject { background: #fee2e2; color: var(--accent-error); }
+        .btn-audit:active { transform: scale(0.95); }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 30px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+            .vip-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .revenue-bar { padding: 20px; }
+            .rev-item h3 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Core Control</div>
+                <a href="index.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Overview</a>
+                <a href="users.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> Users</a>
+                <a href="vip-control.html" class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg> VIP Sovereignty</a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">VIP ARCHITECTURE</h1>
+                </div>
+                <div id="pendingBadge" style="font-size:11px; font-weight:800; color:var(--accent-warning);">QUEUE: 0 AUDITS</div>
+            </header>
+
+            <div class="workspace">
+                
+                <!-- Financial Audit Node -->
+                <div class="revenue-bar">
+                    <div class="rev-item">
+                        <span>Expected Handshake Revenue</span>
+                        <h3 id="totalRevenue">$0.00</h3>
+                    </div>
+                    <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" style="opacity:0.3;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                </div>
+
+                <div class="control-grid">
+                    <!-- SECTION A: TIER CARD DEFINITION -->
+                    <div class="control-card">
+                        <div class="card-title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                            <h3>Card Node Registry</h3>
+                        </div>
+                        <form id="tierForm">
+                            <input type="hidden" id="editTierId">
+                            <div class="form-field">
+                                <label>Rank Identifier (e.g. Gold)</label>
+                                <input type="text" id="rankName" placeholder="Node Name" required>
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                                <div class="form-field"><label>Partners Required</label><input type="number" id="reqRefs" placeholder="12" required></div>
+                                <div class="form-field"><label>Task Yield ($)</label><input type="number" id="nodeYield" step="0.000001" placeholder="0.0004" required></div>
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                                <div class="form-field"><label>Daily Nodes</label><input type="number" id="dailyTasks" placeholder="12" required></div>
+                                <div class="form-field"><label>Brand Color (Hex)</label><input type="text" id="tierColor" placeholder="#ffcc00" required></div>
+                            </div>
+                            <button type="submit" class="btn-dispatch">Authorize Node Card</button>
+                        </form>
+                    </div>
+
+                    <!-- SECTION B: AUDIT CONFIG -->
+                    <div class="control-card">
+                        <div class="card-title">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                            <h3>Handshake Fee Config</h3>
+                        </div>
+                        <div class="form-field">
+                            <label>Base Upgrade Fee (PKR)</label>
+                            <input type="number" id="baseFeePkr" placeholder="400">
+                        </div>
+                        <div class="form-field">
+                            <label>Base Upgrade Fee (USD)</label>
+                            <input type="number" id="baseFeeUsd" placeholder="2.00">
+                        </div>
+                        <button class="btn-dispatch" style="background:var(--accent-info);" onclick="syncFeeNode()">Sync Ecosystem Fees</button>
+                    </div>
+                </div>
+
+                <!-- LIVE AUDIT FEED -->
+                <div style="margin-bottom:20px; padding:0 5px;"><h3 style="font-family:'Outfit'; font-weight:800; font-size:16px;">UPGRADE HANDSHAKE QUEUE</h3></div>
+                <div class="vip-grid" id="auditFeed">
+                    <!-- Real-time requests injected here -->
+                    <div style="text-align:center; padding:100px 20px; color:#ccc; font-weight:800; font-size:14px; grid-column: 1/-1;">SYNCHRONIZING WITH LEDGER...</div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="vip-control.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg><span>VIP</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- CORE SYSTEM ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, query, where, getDocs, updateDoc, 
+            addDoc, serverTimestamp, runTransaction, getDoc, setDoc, deleteDoc, increment
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentAuditNodes = [];
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. TIER ARCHITECTURE SYNC (For User Cards)
+        document.getElementById('tierForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editTierId').value;
+            const rank = document.getElementById('rankName').value.trim();
+            
+            const tierData = {
+                rank_name: rank,
+                req_referrals: Number(document.getElementById('reqRefs').value),
+                daily_tasks: Number(document.getElementById('dailyTasks').value),
+                multiplier: Number(document.getElementById('nodeYield').value),
+                color_hex: document.getElementById('tierColor').value.trim(),
+                icon_svg_class: "fa-medal",
+                updated_at: serverTimestamp()
+            };
+
+            try {
+                // Tier nodes saved in 'vip_tiers' collection for frontend vip.html
+                if(editId) {
+                    await updateDoc(doc(db, "vip_tiers", editId), tierData);
+                } else {
+                    await addDoc(collection(db, "vip_tiers"), tierData);
+                }
+
+                // Also update the global task rates reference
+                const ratesRef = doc(db, "settings", "task_rates");
+                const ratesSnap = await getDoc(ratesRef);
+                let currentRates = ratesSnap.exists() ? ratesSnap.data().rates : {};
+                let currentReqs = ratesSnap.exists() ? ratesSnap.data().requirements : {};
+                
+                currentRates[rank] = tierData.multiplier;
+                currentReqs[rank] = tierData.req_referrals;
+
+                await setDoc(ratesRef, {
+                    rates: currentRates,
+                    requirements: currentReqs,
+                    updated_at: serverTimestamp()
+                }, { merge: true });
+
+                alert("Protocol Success: Tier architecture updated.");
+                document.getElementById('tierForm').reset();
+                document.getElementById('editTierId').value = "";
+            } catch (err) { alert("Deployment Error."); }
+        };
+
+        // 3. ECOSYSTEM REVENUE SYNC
+        async function loadEcosystemFees() {
+            const snap = await getDoc(doc(db, "settings", "app"));
+            if(snap.exists()){
+                const d = snap.data();
+                document.getElementById('baseFeePkr').value = d.vip_fee_pkr || 400;
+                document.getElementById('baseFeeUsd').value = d.vip_fee_usd || 2;
+            }
+        }
+        loadEcosystemFees();
+
+        window.syncFeeNode = async () => {
+            try {
+                await updateDoc(doc(db, "settings", "app"), {
+                    vip_fee_pkr: Number(document.getElementById('baseFeePkr').value),
+                    vip_fee_usd: Number(document.getElementById('baseFeeUsd').value),
+                    fee_sync_at: serverTimestamp()
+                });
+                alert("Handshake Complete: System fees synchronized.");
+            } catch (e) { alert("Sync Error."); }
+        };
+
+        // 4. REAL-TIME QUEUE SYNCHRONIZER
+        function synchronizeAuditQueue() {
+            const q = query(collection(db, "vip_requests"), where("status", "==", "pending"));
+            onSnapshot(q, (snap) => {
+                const feed = document.getElementById('auditFeed');
+                let revTotal = 0;
+
+                document.getElementById('pendingBadge').innerText = `QUEUE: ${snap.size} AUDITS`;
+
+                feed.innerHTML = "";
+                if (snap.empty) {
+                    feed.innerHTML = `<div style="text-align:center; padding:50px; color:#ccc; grid-column:1/-1;">NO UPGRADE HANDSHAKES AWAITING</div>`;
+                    document.getElementById('totalRevenue').innerText = "$0.00";
+                    return;
+                }
+
+                snap.forEach(requestDoc => {
+                    const r = requestDoc.data();
+                    const id = requestDoc.id;
+                    revTotal += parseFloat(r.fee_pkr || 0) / 280; // Approximate USD
+
+                    const div = document.createElement('div');
+                    div.className = 'audit-card';
+                    div.innerHTML = `
+                        <div class="tier-marker" style="background:${r.requested_level === 'Heroic' ? '#ff3b30' : '#3742fa'}"></div>
+                        <div class="user-block">
+                            <div class="u-dp">${r.user_email[0].toUpperCase()}</div>
+                            <div class="u-email">${r.user_email}</div>
+                        </div>
+                        <div class="req-box">
+                            <div class="req-row"><span class="req-lbl">Current</span><span>${r.current_level}</span></div>
+                            <div class="req-row"><span class="req-lbl">Upgrade</span><b style="color:var(--accent-info)">${r.requested_level}</b></div>
+                            <div class="req-row"><span class="req-lbl">Fee Node</span><b style="color:var(--accent-success)">${r.fee_pkr} PKR</b></div>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn-audit btn-approve" onclick="authorizeVipHandshake('${id}', '${r.uid || r.user_email}', '${r.requested_level}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Authorize
+                            </button>
+                            <button class="btn-audit btn-reject" onclick="vetoVipHandshake('${id}', '${r.uid || r.user_email}')">Veto</button>
+                        </div>
+                    `;
+                    feed.appendChild(div);
+                });
+                document.getElementById('totalRevenue').innerText = "$" + revTotal.toFixed(2);
+            });
+        }
+        synchronizeAuditQueue();
+
+        // 5. HANDSHAKE RESOLUTION (Approve)
+        window.authorizeVipHandshake = async (reqId, identity, targetRank) => {
+            if(!confirm("Authorize rank upgrade protocol?")) return;
+
+            try {
+                // Resolution: Find user document (Handles both Email and UID based IDs)
+                let userRef;
+                if(identity.includes('@')) {
+                    const q = query(collection(db, "pending_users"), where("email", "==", identity));
+                    const snap = await getDocs(q);
+                    if(snap.empty) throw "Identity node missing.";
+                    userRef = snap.docs[0].ref;
+                } else {
+                    userRef = doc(db, "pending_users", identity);
+                }
+
+                await runTransaction(db, async (txn) => {
+                    const reqRef = doc(db, "vip_requests", reqId);
+                    
+                    txn.update(reqRef, { 
+                        status: "approved",
+                        finalized_at: serverTimestamp() 
+                    });
+
+                    txn.update(userRef, { 
+                        level: targetRank 
+                    });
+
+                    // SMTP Notification Node
+                    const notifRef = doc(collection(db, "notifications"));
+                    txn.set(notifRef, {
+                        user_email: identity,
+                        title: "Ecosystem Level Up",
+                        message: `Audit Complete. Your identity node has been upgraded to ${targetRank} rank.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                });
+
+                alert("Protocol Complete: User node upgraded.");
+            } catch (err) { alert("Authorization Failure: " + err); }
+        };
+
+        // 6. VETO HANDSHAKE (Reject)
+        window.vetoVipHandshake = async (reqId, identity) => {
+            if(!confirm("Veto this upgrade? Handshake will be archived as rejected.")) return;
+
+            try {
+                await updateDoc(doc(db, "vip_requests", reqId), { 
+                    status: "rejected",
+                    finalized_at: serverTimestamp() 
+                });
+
+                await addDoc(collection(db, "notifications"), {
+                    user_email: identity,
+                    title: "Upgrade Node Vetoed",
+                    message: "Verification failed. Auditor vetoed the upgrade request due to payment mismatch.",
+                    type: "system",
+                    timestamp: serverTimestamp()
+                });
+
+                alert("Veto Handshake Logged.");
+            } catch (err) { alert("Veto Failure."); }
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

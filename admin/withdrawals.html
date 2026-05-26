@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Payout Terminal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+
+        /* 2. DATA WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; }
+
+        .summary-bar {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;
+        }
+        .summary-node {
+            background: #fff; border: 1px solid var(--border-subtle); padding: 20px; border-radius: 22px;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .summary-node span { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 1px; }
+        .summary-node b { font-family: 'Outfit'; font-size: 24px; font-weight: 900; }
+
+        .filter-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 15px; }
+        .tab-btn {
+            padding: 10px 25px; border-radius: 12px; background: transparent; border: none;
+            font-size: 13px; font-weight: 700; cursor: pointer; color: #99a2ad; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* Payout Table */
+        .table-card {
+            background: var(--surface); border-radius: 32px; border: 1px solid var(--border-subtle);
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; font-size: 11px; text-transform: uppercase; color: #99a2ad; padding: 20px; border-bottom: 1px solid #f8f9fa; }
+        td { padding: 18px 20px; font-size: 13px; font-weight: 600; border-bottom: 1px solid #f8f9fa; }
+
+        .user-cell { display: flex; align-items: center; gap: 12px; }
+        .user-dp { width: 38px; height: 38px; border-radius: 10px; background: #f0f3f5; display: flex; align-items: center; justify-content: center; font-weight: 800; text-transform: uppercase; }
+        .user-meta { display: flex; flex-direction: column; }
+        .user-email { font-size: 11px; color: #99a2ad; font-weight: 500; }
+
+        .gateway-pill { font-size: 11px; font-weight: 800; color: #111; background: #f0f3f5; padding: 6px 12px; border-radius: 100px; display: inline-flex; align-items: center; gap: 6px; }
+        .acc-details { font-family: monospace; font-size: 14px; color: var(--accent-success); margin-top: 4px; display: block; }
+
+        .amount-group { line-height: 1.2; }
+        .net-val { color: var(--accent-success); font-weight: 900; font-size: 15px; }
+        .gross-val { font-size: 10px; color: #99a2ad; text-decoration: line-through; }
+
+        /* Control Buttons */
+        .action-cluster { display: flex; gap: 8px; }
+        .btn-action {
+            width: 40px; height: 40px; border-radius: 12px; border: none; display: flex;
+            align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;
+        }
+        .btn-approve { background: var(--accent-success); color: #fff; }
+        .btn-reject { background: #fee2e2; color: var(--accent-error); }
+        .btn-block { background: var(--primary); color: #fff; }
+        .btn-action:active { transform: scale(0.9); }
+        .btn-action svg { width: 18px; height: 18px; }
+
+        /* MOBILE CARDS */
+        .mobile-feed { display: none; flex-direction: column; gap: 15px; }
+        .payout-card { background: #fff; border: 1px solid var(--border-subtle); border-radius: 28px; padding: 25px; position: relative; }
+        .card-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .card-label { font-size: 9px; font-weight: 800; color: #99a2ad; text-transform: uppercase; }
+        .card-val { font-size: 14px; font-weight: 800; }
+
+        /* MOBILE NAV */
+        .mobile-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 80px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center;
+        }
+        .m-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: #99a2ad; }
+        .m-item.active { color: var(--primary); }
+        .m-item svg { width: 22px; height: 22px; }
+        .m-item span { font-size: 9px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+            .table-card { display: none; }
+            .mobile-feed { display: flex; }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav { display: flex; }
+            .workspace { padding-bottom: 100px; }
+            .summary-bar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="Nexra">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg> Overview
+                </a>
+                <div class="nav-label">Management</div>
+                <a href="users.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> Users
+                </a>
+                <a href="verifications.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Verifications
+                </a>
+                <a href="withdrawals.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Payout Queue
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">PAYOUT SETTLEMENT</h1>
+                </div>
+                <div class="admin-pill">FINANCIAL AUDIT</div>
+            </header>
+
+            <div class="workspace">
+                <!-- Liquidity Stats -->
+                <div class="summary-bar">
+                    <div class="summary-node"><span>Active Requests</span><b id="stat-count">0</b></div>
+                    <div class="summary-node"><span>Pending Volume</span><b id="stat-volume">$0.00</b></div>
+                    <div class="summary-node"><span>Net Settlement</span><b id="stat-net" style="color:var(--accent-success)">$0.00</b></div>
+                </div>
+
+                <div class="filter-tabs">
+                    <button class="tab-btn active" id="tab-pend" onclick="switchPayoutView('pending')">Process Queue</button>
+                    <button class="tab-btn" id="tab-hist" onclick="switchPayoutView('history')">Audit History</button>
+                </div>
+
+                <!-- Desktop Ledger -->
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Partner Identity</th>
+                                <th>Target Gateway</th>
+                                <th>Account Details</th>
+                                <th>Settlement Value</th>
+                                <th>Audit Control</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payoutTableBody">
+                            <!-- Injected by Node engine -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Ledger -->
+                <div class="mobile-feed" id="payoutMobileGrid">
+                    <!-- Injected by Node engine -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="null-state" style="display:none; text-align:center; padding:100px 20px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#eef1f4" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3 style="color:#cbd5e0; margin-top:15px; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:1px;">Settlement Queue Clear</h3>
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE NAV -->
+        <nav class="mobile-nav">
+            <a href="index.html" class="m-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="m-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="withdrawals.html" class="m-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg><span>Money</span></a>
+            <a href="messages.html" class="m-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Comms</span></a>
+        </nav>
+    </div>
+
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, query, where, getDocs, updateDoc,
+            serverTimestamp, runTransaction, addDoc, orderBy, deleteDoc, increment
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentFilter = 'pending';
+        let withdrawalNodes = [];
+
+        // 1. MASTER AUTH HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME DATA SYNC
+        function synchronizePayoutQueue() {
+            onSnapshot(collection(db, "withdrawal_requests"), (snap) => {
+                withdrawalNodes = [];
+                let vol = 0; let net = 0; let pendingCount = 0;
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    withdrawalNodes.push({ id: d.id, ...data });
+                    if(data.status === 'pending') {
+                        vol += data.requested_amount;
+                        net += data.net_payout;
+                        pendingCount++;
+                    }
+                });
+
+                document.getElementById('stat-count').innerText = pendingCount;
+                document.getElementById('stat-volume').innerText = "$" + vol.toFixed(2);
+                document.getElementById('stat-net').innerText = "$" + net.toFixed(2);
+
+                renderPayoutInterface();
+            });
+        }
+        synchronizePayoutQueue();
+
+        // 3. UI SURFACE RENDERER
+        function renderPayoutInterface() {
+            const tbody = document.getElementById('payoutTableBody');
+            const grid = document.getElementById('payoutMobileGrid');
+            const empty = document.getElementById('null-state');
+            
+            const filtered = withdrawalNodes.filter(n => {
+                if(currentFilter === 'pending') return n.status === 'pending';
+                return n.status === 'approved' || n.status === 'rejected';
+            }).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+            tbody.innerHTML = ""; grid.innerHTML = "";
+            
+            if(filtered.length === 0) {
+                empty.style.display = "block";
+                return;
+            }
+            empty.style.display = "none";
+
+            filtered.forEach(req => {
+                const isPending = req.status === 'pending';
+                
+                // Table Rendering
+                tbody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-dp">${req.user_email[0].toUpperCase()}</div>
+                                <div class="user-meta">
+                                    <div style="font-weight:900;">${req.account_name}</div>
+                                    <div class="user-email">${req.user_email}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><div class="gateway-pill">${req.method}</div></td>
+                        <td>
+                            <span class="acc-details">${req.account_number}</span>
+                            <span style="font-size:10px; color:#99a2ad; font-weight:700;">UID: ${req.uid.substring(0,8)}</span>
+                        </td>
+                        <td>
+                            <div class="amount-group">
+                                <div class="net-val">$${req.net_payout.toFixed(2)}</div>
+                                <div class="gross-val">$${req.requested_amount.toFixed(2)}</div>
+                            </div>
+                        </td>
+                        <td>
+                            ${isPending ? `
+                            <div class="action-cluster">
+                                <button class="btn-action btn-approve" title="Mark as Sent" onclick="authorizePayoutSettlement('${req.id}', '${req.uid}', ${req.net_payout})">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                                <button class="btn-action btn-reject" title="Reject Request" onclick="vetoPayoutSettlement('${req.id}', '${req.uid}', ${req.requested_amount})">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                                <button class="btn-action btn-block" title="Block Node" onclick="blockFraudNode('${req.id}', '${req.uid}', ${req.requested_amount})">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                                </button>
+                            </div>` : `<span style="font-size:11px; font-weight:900; color:#99a2ad;">${req.status.toUpperCase()}</span>`}
+                        </td>
+                    </tr>
+                `;
+
+                // Mobile Card Rendering
+                grid.innerHTML += `
+                    <div class="payout-card">
+                        <div class="card-row"><span class="card-label">Identity</span><span class="card-val">${req.account_name}</span></div>
+                        <div class="card-row"><span class="card-label">Method</span><span class="card-val">${req.method}</span></div>
+                        <div class="card-row"><span class="card-label">Address</span><span class="card-val acc-details">${req.account_number}</span></div>
+                        <div class="card-row" style="background:var(--bg-body); padding:15px; border-radius:18px; margin-top:10px;">
+                            <span class="card-label" style="color:var(--accent-success)">NET DISPATCH</span>
+                            <span class="card-val net-val">$${req.net_payout.toFixed(2)}</span>
+                        </div>
+                        ${isPending ? `
+                        <div style="display:flex; gap:10px; margin-top:15px;">
+                            <button class="btn-action btn-approve" style="flex:2" onclick="authorizePayoutSettlement('${req.id}', '${req.uid}', ${req.net_payout})"><b>MARK AS SENT</b></button>
+                            <button class="btn-action btn-reject" style="flex:1" onclick="vetoPayoutSettlement('${req.id}', '${req.uid}', ${req.requested_amount})">REJECT</button>
+                            <button class="btn-action btn-block" style="flex:1" onclick="blockFraudNode('${req.id}', '${req.uid}', ${req.requested_amount})">BLOCK</button>
+                        </div>` : `<div style="text-align:center; padding-top:10px; font-size:11px; font-weight:800; color:#99a2ad;">NODE FINALIZED: ${req.status.toUpperCase()}</div>`}
+                    </div>
+                `;
+            });
+        }
+
+        // 4. AUTHORIZATION HANDSHAKE (Approve)
+        window.authorizePayoutSettlement = async (id, uid, netAmt) => {
+            if(!confirm("Authorize settlement for $"+netAmt+"? Ensure transfer is manually completed.")) return;
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const userRef = doc(db, "pending_users", uid);
+                    const reqRef = doc(db, "withdrawal_requests", id);
+                    
+                    const userSnap = await transaction.get(userRef);
+                    if(userSnap.data().status === 'blocked') throw "Security Error: Cannot process payout for a blocked node.";
+
+                    transaction.update(reqRef, { 
+                        status: "approved",
+                        finalized_at: serverTimestamp() 
+                    });
+
+                    transaction.update(userRef, {
+                        withdrawn: increment(netAmt)
+                    });
+
+                    const notifRef = doc(collection(db, "notifications"));
+                    transaction.set(notifRef, {
+                        user_email: uid,
+                        title: "Settlement Successfully Synced",
+                        message: `Audit Complete. A net settlement of $${netAmt} has been dispatched to your target account.`,
+                        type: "payout",
+                        timestamp: serverTimestamp()
+                    });
+                });
+
+                alert("Protocol Success: Liquidity Dispatched.");
+            } catch (err) { alert("Handshake Error: " + err); }
+        };
+
+        // 5. VETO HANDSHAKE (Reject & Refund)
+        window.vetoPayoutSettlement = async (id, uid, grossAmt) => {
+            const reason = prompt("Enter Protocol Veto Reason (e.g. Invalid Account):");
+            if(reason === null) return;
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const userRef = doc(db, "pending_users", uid);
+                    const reqRef = doc(db, "withdrawal_requests", id);
+
+                    transaction.update(reqRef, { 
+                        status: "rejected",
+                        rejection_reason: reason,
+                        finalized_at: serverTimestamp() 
+                    });
+
+                    transaction.update(userRef, {
+                        balance: increment(grossAmt),
+                        withdraw_count: increment(-1) 
+                    });
+
+                    const notifRef = doc(collection(db, "notifications"));
+                    transaction.set(notifRef, {
+                        user_email: uid,
+                        title: "Settlement Vetoed (Refunded)",
+                        message: `Auditor Notice: ${reason}. Total amount of $${grossAmt} was returned to your vault.`,
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                });
+
+                alert("Veto Finalized: Assets returned to user node.");
+            } catch (err) { alert("Refund Protocol Error."); }
+        };
+
+        // 6. BLOCK FRAUD NODE PROTOCOL
+        window.blockFraudNode = async (id, uid, grossAmt) => {
+            if(!confirm("SECURITY WARNING: Permanently block this node? Current settlement will be auto-vetoed.")) return;
+
+            try {
+                await runTransaction(db, async (transaction) => {
+                    const userRef = doc(db, "pending_users", uid);
+                    const reqRef = doc(db, "withdrawal_requests", id);
+
+                    transaction.update(userRef, {
+                        status: "blocked",
+                        blocked_at: serverTimestamp()
+                    });
+
+                    transaction.update(reqRef, { 
+                        status: "rejected",
+                        rejection_reason: "Security Block: Node Restricted by Authority.",
+                        finalized_at: serverTimestamp() 
+                    });
+
+                    const notifRef = doc(collection(db, "notifications"));
+                    transaction.set(notifRef, {
+                        user_email: uid,
+                        title: "NODE RESTRICTED",
+                        message: "Your ecosystem node has been permanently restricted due to audit failure.",
+                        type: "system",
+                        timestamp: serverTimestamp()
+                    });
+                });
+
+                alert("Security Protocol Complete: Node Restricted.");
+            } catch (err) { alert("Blocking Protocol Failure."); }
+        };
+
+        // 7. VIEW SWITCHING
+        window.switchPayoutView = (view) => {
+            currentFilter = view;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(view === 'history' ? 'tab-hist' : 'tab-pend').classList.add('active');
+            renderPayoutInterface();
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>```

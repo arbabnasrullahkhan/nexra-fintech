@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Review Moderation</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-info: #3742fa;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .admin-pill { background: var(--primary); color: #fff; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; }
+
+        /* 2. MODERATION WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .summary-stats {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;
+        }
+        .summary-card {
+            background: #fff; border: 1px solid var(--border-subtle); padding: 25px; border-radius: 30px;
+            display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .summary-info span { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 1px; }
+        .summary-info h3 { font-family: 'Outfit'; font-size: 28px; font-weight: 900; margin-top: 5px; }
+
+        /* Review Grid */
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        
+        .rev-card {
+            background: var(--surface); border: 1px solid var(--border-subtle); border-radius: 32px;
+            padding: 30px; position: relative; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.01);
+        }
+        .rev-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.03); }
+
+        .status-tag {
+            position: absolute; top: 25px; right: 25px; font-size: 9px; font-weight: 900;
+            padding: 5px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .tag-pending { background: #fff4e0; color: var(--accent-warning); }
+        .tag-replied { background: #e0f0ff; color: var(--accent-info); }
+
+        .user-intel { display: flex; align-items: center; gap: 12px; }
+        .user-dp { width: 44px; height: 44px; border-radius: 14px; background: #f0f3f5; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--primary); font-size: 16px; }
+        .user-name { font-weight: 800; font-size: 15px; color: #111; }
+        .user-email { font-size: 11px; color: #99a2ad; font-weight: 500; display: block; }
+
+        .rating-stars { display: flex; gap: 3px; color: var(--accent-warning); margin: 5px 0; }
+        .rev-text { font-size: 13.5px; color: #4a5568; line-height: 1.6; font-weight: 500; background: #f8f9fa; padding: 18px; border-radius: 20px; min-height: 80px; }
+
+        /* Reply Interface */
+        .reply-node { margin-top: 10px; display: flex; flex-direction: column; gap: 12px; }
+        .reply-node textarea {
+            width: 100%; height: 80px; border-radius: 18px; border: 1.5px solid #eef1f4;
+            background: #fff; padding: 15px; font-family: inherit; font-size: 13px;
+            font-weight: 600; outline: none; transition: 0.3s; resize: none;
+        }
+        .reply-node textarea:focus { border-color: var(--primary); background: #fff; }
+
+        .action-cluster { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+        .btn-action {
+            padding: 14px; border-radius: 12px; border: none; font-size: 11px;
+            font-weight: 900; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 8px; transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-reply { background: var(--primary); color: #fff; }
+        .btn-delete { background: #fee2e2; color: var(--accent-error); }
+        .btn-action:active { transform: scale(0.96); }
+        .btn-action svg { width: 14px; height: 14px; }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .summary-stats { grid-template-columns: 1fr; }
+            .review-grid { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="NEXRA">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Core Control</div>
+                <a href="index.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Overview
+                </a>
+                <div class="nav-label">Management</div>
+                <a href="users.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> Users
+                </a>
+                <a href="review-manager.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 4.5z"></path></svg> Trust Ledger
+                </a>
+                <a href="withdrawals.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg> Settlements
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">REVIEW AUDIT</h1>
+                </div>
+                <div class="admin-pill">Primary Moderator</div>
+            </header>
+
+            <div class="workspace">
+                <!-- Operation Stats -->
+                <div class="summary-stats">
+                    <div class="summary-card">
+                        <div class="summary-info"><span>Total Community Posts</span><h3 id="stat-total">0</h3></div>
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-info"><span>Unreplied Nodes</span><h3 id="stat-pending" style="color:var(--accent-info)">0</h3></div>
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--accent-info)" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Review Feed Grid -->
+                <div class="review-grid" id="auditList">
+                    <!-- Real-time reviews injected here -->
+                    <div style="text-align:center; padding:100px 20px; color:#ccc; font-weight:800; font-size:14px; grid-column: 1/-1;">SYNCHRONIZING WITH LEDGER...</div>
+                </div>
+
+                <!-- Null State -->
+                <div id="null-state" style="display:none; text-align:center; padding:100px 20px; grid-column: 1/-1;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#eef1f4" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3 style="color:#cbd5e0; margin-top:15px; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:1px;">No Reviews Found</h3>
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="review-manager.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9L21 4.5z"></path></svg><span>Reviews</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- CORE MODERATION ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, updateDoc, collection, query, orderBy, 
+            deleteDoc, serverTimestamp, getDoc, addDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // 1. IDENTITY HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME LEDGER SYNCHRONIZER
+        function synchronizeReviews() {
+            const q = query(collection(db, "community_reviews"), orderBy("timestamp", "desc"));
+            
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('auditList');
+                const empty = document.getElementById('null-state');
+                
+                document.getElementById('stat-total').innerText = snap.size;
+                let pendingReplyCount = 0;
+                
+                list.innerHTML = "";
+
+                if(snap.empty) {
+                    empty.style.display = "block";
+                    return;
+                }
+                empty.style.display = "none";
+
+                snap.forEach(revDoc => {
+                    const r = revDoc.data();
+                    const id = revDoc.id;
+                    const hasReply = !!r.reply;
+                    if(!hasReply) pendingReplyCount++;
+
+                    const card = `
+                        <div class="rev-card">
+                            <span class="status-tag ${hasReply ? 'tag-replied' : 'tag-pending'}">
+                                ${hasReply ? 'Officially Replied' : 'Awaiting Response'}
+                            </span>
+                            
+                            <div class="user-intel">
+                                <div class="user-dp">${(r.user_name || 'U')[0].toUpperCase()}</div>
+                                <div>
+                                    <span class="user-name">${r.user_name || 'Partner Node'}</span>
+                                    <span class="user-email">${r.user_email}</span>
+                                </div>
+                            </div>
+
+                            <div class="rating-stars">
+                                ${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}
+                            </div>
+
+                            <div class="rev-text">${r.text}</div>
+                            
+                            <div class="reply-node">
+                                <textarea id="reply-field-${id}" placeholder="Enter official protocol response...">${r.reply || ''}</textarea>
+                                <div class="action-cluster">
+                                    <button class="btn-action btn-reply" onclick="executeReplyProtocol('${id}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                        ${hasReply ? 'Update Protocol' : 'Finalize Reply'}
+                                    </button>
+                                    <button class="btn-action btn-delete" onclick="purgeReviewProtocol('${id}')">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        Veto
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.innerHTML += card;
+                });
+
+                document.getElementById('stat-pending').innerText = pendingReplyCount;
+            });
+        }
+        synchronizeReviews();
+
+        // 3. REPLY DISPATCH PROTOCOL (One-to-One Handshake)
+        window.executeReplyProtocol = async (id) => {
+            const field = document.getElementById(`reply-field-${id}`);
+            const text = field.value.trim();
+
+            if(!text) {
+                alert("Protocol Notice: Response body cannot be empty.");
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "community_reviews", id);
+                await updateDoc(docRef, {
+                    reply: text,
+                    replied_at: serverTimestamp(),
+                    moderated_by: "NEXRA_OFFICIAL"
+                });
+
+                // Auto-Notification Dispatch to User Hub
+                const snap = await getDoc(docRef);
+                const reviewData = snap.data();
+                
+                await addDoc(collection(db, "notifications"), {
+                    user_email: reviewData.user_email,
+                    title: "Official Reply Received",
+                    message: "An auditor has responded to your community post. Check the Trust Ledger.",
+                    type: "system",
+                    timestamp: serverTimestamp()
+                });
+
+                alert("Protocol Success: Reply synchronized globally.");
+            } catch (err) {
+                alert("Handshake Failure: Authorization denied.");
+            }
+        };
+
+        // 4. PURGE PROTOCOL (One-to-One Veto)
+        window.purgeReviewProtocol = async (id) => {
+            const verification = confirm("CRITICAL WARNING: This will permanently purge this review node from the global ledger. This action is irreversible. Proceed?");
+            
+            if(verification) {
+                try {
+                    await deleteDoc(doc(db, "community_reviews", id));
+                    alert("Veto Complete: Review Purged.");
+                } catch (err) {
+                    alert("Authorization Error.");
+                }
+            }
+        };
+
+        // 5. UI ADAPTIVE UTILS
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

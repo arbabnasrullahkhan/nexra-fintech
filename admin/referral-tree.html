@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Network Tree Intelligence</title>
+    
+    <!-- Enterprise Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-info: #3742fa;
+            --accent-warning: #ff9f43;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN VIEWPORT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .admin-pill { background: var(--primary); color: #fff; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; }
+
+        /* 2. EXPLORER WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .explorer-header {
+            background: #fff; border: 1px solid var(--border-subtle); border-radius: 35px;
+            padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .explorer-header h3 { font-family: 'Outfit'; font-weight: 900; margin-bottom: 10px; }
+        .explorer-header p { font-size: 13px; color: #99a2ad; font-weight: 600; }
+
+        .search-node {
+            width: 100%; display: flex; align-items: center; background: var(--bg-body); 
+            border-radius: 18px; padding: 0 20px; margin-top: 20px; 
+            border: 1.5px solid transparent; transition: 0.3s;
+        }
+        .search-node:focus-within { border-color: var(--primary); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .search-node input { flex: 1; padding: 18px; border: none; outline: none; background: transparent; font-size: 15px; font-weight: 700; color: var(--primary); font-family: inherit; }
+        .search-node svg { color: #99a2ad; }
+
+        /* Branch Stats */
+        .branch-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+        .mini-node { background: var(--primary); color: #fff; padding: 20px; border-radius: 25px; text-align: center; }
+        .mini-node span { font-size: 9px; text-transform: uppercase; opacity: 0.5; letter-spacing: 1px; font-weight: 800; }
+        .mini-node b { font-family: 'Outfit'; font-size: 24px; margin-top: 5px; display: block; }
+
+        /* Tree Visualization */
+        .tree-container { background: #fff; border: 1px solid var(--border-subtle); border-radius: 35px; padding: 30px; min-height: 400px; position: relative; }
+        .tree-label { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #99a2ad; letter-spacing: 2px; margin-bottom: 20px; display: block; }
+        
+        .node-list { display: flex; flex-direction: column; gap: 12px; }
+        .user-node {
+            display: flex; align-items: center; gap: 15px; padding: 15px 20px; 
+            background: var(--bg-body); border-radius: 20px; border: 1.5px solid transparent;
+            cursor: pointer; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .user-node:hover { border-color: var(--primary); transform: translateX(8px); background: #fff; }
+        
+        .node-avatar {
+            width: 44px; height: 44px; border-radius: 14px; background: var(--primary); 
+            color: #fff; display: flex; align-items: center; justify-content: center; 
+            font-weight: 900; font-size: 16px; font-family: 'Outfit';
+        }
+        .node-info { flex: 1; min-width: 0; }
+        .node-name { font-size: 14px; font-weight: 800; color: #111; display: block; margin-bottom: 2px; }
+        .node-protocol { font-size: 11px; font-weight: 800; color: var(--accent-info); text-transform: uppercase; }
+
+        .node-tag { 
+            font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 100px; 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .node-active { background: #e0fff0; color: var(--accent-success); }
+        .node-waiting { background: #fff4e0; color: var(--accent-warning); }
+
+        /* 3. MOBILE ADAPTIVE */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .branch-stats { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="NEXRA">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Overview
+                </a>
+                <div class="nav-label">Network Intelligence</div>
+                <a href="referral-tree.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12L3 20l3.5-8L3 4l19 8z"></path></svg> Genealogy Tree
+                </a>
+                <a href="analytics.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Analytics</a>
+                <div class="nav-label">Management</div>
+                <a href="users.html" class="menu-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> Users</a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">GENEALOGY EXPLORER</h1>
+                </div>
+                <div class="admin-pill">Primary Audit</div>
+            </header>
+
+            <div class="workspace">
+                
+                <!-- Search Interface -->
+                <div class="explorer-header">
+                    <h3>Network Downline Handshake</h3>
+                    <p>Trace any user’s invitation branch by Protocol ID or Identity Email.</p>
+                    
+                    <div class="search-node">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="treeInput" placeholder="Enter NEXRA-PK-001 or name@domain.com" onkeyup="if(event.key === 'Enter') triggerNetworkDeepDive()">
+                    </div>
+                </div>
+
+                <!-- Intelligence Results -->
+                <div id="intelligenceView" style="display:none;">
+                    <div class="branch-stats">
+                        <div class="mini-node">
+                            <span>Branch Size</span>
+                            <b id="val-team-size">0 Nodes</b>
+                        </div>
+                        <div class="mini-node" style="background: var(--accent-info);">
+                            <span>Active Partners</span>
+                            <b id="val-active-size">0 Handshaked</b>
+                        </div>
+                        <div class="mini-node" style="background: var(--accent-success);">
+                            <span>Branch Liquidity</span>
+                            <b id="val-revenue">$0.00</b>
+                        </div>
+                    </div>
+
+                    <div class="tree-container">
+                        <span class="tree-label" id="rootLabel">Downline Registry: Root Node</span>
+                        <div class="node-list" id="networkList">
+                            <!-- Hierarchical list injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" style="text-align:center; padding:100px 20px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#eef1f4" stroke-width="2" style="margin-bottom:20px;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <h3 style="color:#cbd5e0; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:1px;">Awaiting Search Handshake</h3>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="users.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Users</span></a>
+            <a href="referral-tree.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12L3 20l3.5-8L3 4l19 8z"></path></svg><span>Tree</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- CORE GENEALOGY ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            collection, query, where, getDocs, doc, getDoc, onSnapshot 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // 1. IDENTITY GUARD
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. NETWORK EXPLORATION HANDSHAKE
+        window.triggerNetworkDeepDive = async () => {
+            const input = document.getElementById('treeInput').value.trim();
+            if(!input) return;
+
+            const intelligenceView = document.getElementById('intelligenceView');
+            const emptyState = document.getElementById('empty-state');
+            const listContainer = document.getElementById('networkList');
+            const rootLabel = document.getElementById('rootLabel');
+
+            // Find the Root User first
+            let targetNodeId = null;
+            let targetUserData = null;
+
+            try {
+                // Check if input is Email or NEXRA-ID
+                let rootQuery;
+                if(input.includes('@')) {
+                    rootQuery = query(collection(db, "pending_users"), where("email", "==", input.toLowerCase()));
+                } else {
+                    rootQuery = query(collection(db, "pending_users"), where("nexra_id", "==", input));
+                }
+
+                const rootSnap = await getDocs(rootQuery);
+                if(rootSnap.empty) {
+                    alert("Handshake Failure: Identity node not found in ecosystem.");
+                    return;
+                }
+
+                targetUserData = rootSnap.docs[0].data();
+                targetNodeId = targetUserData.nexra_id;
+
+                intelligenceView.style.display = "block";
+                emptyState.style.display = "none";
+                rootLabel.innerText = "Active Downline Nodes for " + (targetUserData.name || targetNodeId);
+
+                // Fetch all users where referral_id matches this node
+                fetchAndRenderDownline(targetNodeId, listContainer);
+
+            } catch (err) {
+                console.error("DeepDive Error:", err);
+                alert("Protocol Error.");
+            }
+        };
+
+        // 3. RECURSIVE DOWNLINE FETCHER
+        async function fetchAndRenderDownline(refID, container) {
+            container.innerHTML = "<div style='text-align:center; padding:20px; color:#99a2ad; font-size:12px; font-weight:800;'>MAPPING BRANCH NODES...</div>";
+
+            const q = query(collection(db, "pending_users"), where("referral_id", "==", refID));
+            const snap = await getDocs(q);
+
+            container.innerHTML = "";
+            let teamTotal = 0;
+            let activeTotal = 0;
+
+            if(snap.empty) {
+                container.innerHTML = "<div style='text-align:center; padding:40px; color:#ccc; font-weight:800;'>ROOT NODE HAS NO DOWNLINES</div>";
+                updateBranchStats(0, 0, 0);
+                return;
+            }
+
+            snap.forEach(userDoc => {
+                const u = userDoc.data();
+                teamTotal++;
+                if(u.status === 'approved') activeTotal++;
+
+                const nodeItem = document.createElement('div');
+                nodeItem.className = 'user-node';
+                nodeItem.onclick = () => {
+                    document.getElementById('treeInput').value = u.nexra_id;
+                    triggerNetworkDeepDive();
+                };
+
+                const statusClass = u.status === 'approved' ? 'node-active' : 'node-waiting';
+                const statusText = u.status === 'approved' ? 'ACTIVE' : 'WAIT';
+
+                nodeItem.innerHTML = `
+                    <div class="node-avatar">${(u.name || 'U')[0].toUpperCase()}</div>
+                    <div class="node-info">
+                        <span class="node-name">${u.name} (${u.country || 'GL'})</span>
+                        <span class="node-protocol">ID: ${u.nexra_id || 'CALIBRATING'}</span>
+                    </div>
+                    <span class="node-tag ${statusClass}">${statusText}</span>
+                `;
+                container.appendChild(nodeItem);
+            });
+
+            // Revenue calculation: $2 per approved activation node
+            const branchRevenue = activeTotal * 2;
+            updateBranchStats(teamTotal, activeTotal, branchRevenue);
+        }
+
+        function updateBranchStats(total, active, revenue) {
+            document.getElementById('val-team-size').innerText = `${total} Nodes`;
+            document.getElementById('val-active-size').innerText = `${active} Handshaked`;
+            document.getElementById('val-revenue').innerText = `$${revenue.toFixed(2)}`;
+        }
+
+        // 4. UI ADAPTIVE UTILS
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEXRA ADMIN | Recruitment Command Hub</title>
+    
+    <!-- Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --surface: #ffffff;
+            --accent-success: #00c853;
+            --accent-error: #ff3b30;
+            --accent-warning: #ff9f43;
+            --accent-info: #3742fa;
+            --bg-body: #f4f7f9;
+            --border-subtle: rgba(0,0,0,0.06);
+            --sidebar-width: 280px;
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* 1. LAYOUT ARCHITECTURE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { 
+            width: 100%; height: 100vh; 
+            overflow: hidden; 
+            background: var(--bg-body); 
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+
+        /* SIDEBAR (DESKTOP) */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--primary);
+            color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-head {
+            padding: 30px 25px;
+            display: flex; align-items: center; gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar-head img { width: 40px; height: 42px; border-radius: 10px; background: #fff; padding: 4px; }
+        .sidebar-head h2 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; }
+
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 20px 15px; scrollbar-width: none; }
+        .nav-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1.5px; margin: 20px 10px 10px; }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+            color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+            font-weight: 600; border-radius: 14px; transition: 0.3s; margin-bottom: 4px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: var(--surface); }
+        .menu-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+        /* MAIN CONTENT */
+        .main-viewport { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        header {
+            height: 75px; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle); display: flex;
+            justify-content: space-between; align-items: center; padding: 0 30px; z-index: 1000;
+        }
+        .mob-trigger { display: none; cursor: pointer; padding: 5px; }
+        .admin-pill { background: var(--primary); color: #fff; font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 100px; text-transform: uppercase; }
+
+        /* 2. RECRUITMENT WORKSPACE */
+        .workspace { flex: 1; overflow-y: auto; padding: 25px; scrollbar-width: thin; }
+
+        .analytics-row {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #fff; border: 1px solid var(--border-subtle); padding: 22px; border-radius: 24px;
+            display: flex; flex-direction: column; gap: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+        .stat-card span { font-size: 10px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card b { font-family: 'Outfit'; font-size: 24px; font-weight: 900; }
+
+        .control-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; flex-wrap: wrap; }
+        .search-node { flex: 1; min-width: 280px; position: relative; }
+        .search-node input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 16px; border: 1px solid var(--border-subtle); background: #fff; font-size: 14px; font-weight: 600; outline: none; }
+        .search-node svg { position: absolute; left: 18px; top: 15px; width: 18px; height: 18px; color: #99a2ad; }
+
+        .filter-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+        .tab-btn {
+            padding: 10px 22px; border-radius: 12px; background: #fff; border: 1px solid var(--border-subtle);
+            font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; white-space: nowrap; color: #99a2ad;
+        }
+        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* Applicant List */
+        .applicant-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 50px; }
+        .applicant-row {
+            background: #fff; border: 1px solid var(--border-subtle); border-radius: 24px;
+            padding: 18px 25px; display: grid; grid-template-columns: 1.5fr 1fr 1fr 0.8fr 1fr;
+            align-items: center; gap: 20px; transition: 0.3s; cursor: pointer;
+        }
+        .applicant-row:hover { transform: translateX(5px); border-color: var(--primary); }
+
+        .cand-info { display: flex; align-items: center; gap: 12px; }
+        .cand-dp { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; background: #f0f3f5; border: 1px solid #eee; }
+        .cand-name { font-size: 14px; font-weight: 800; color: #111; }
+        .cand-sub { font-size: 11px; color: #99a2ad; font-weight: 600; }
+
+        .score-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 900; color: var(--accent-success); background: #e0fff0; padding: 6px 14px; border-radius: 100px; }
+        .role-badge { font-size: 10px; font-weight: 900; background: #f0f4ff; color: var(--accent-info); padding: 5px 12px; border-radius: 8px; text-transform: uppercase; }
+
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot-Pending { background: var(--accent-warning); }
+        .dot-Shortlisted { background: var(--accent-info); }
+        .dot-Hired { background: var(--accent-success); }
+
+        /* 3. MODAL: NEURAL PROFILE VIEWER */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px); z-index: 5000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-box {
+            background: #fff; width: 100%; max-width: 1000px; border-radius: 40px;
+            max-height: 92vh; overflow-y: auto; padding: 45px; position: relative;
+            animation: modalIn 0.4s ease; scrollbar-width: thin;
+        }
+        @keyframes modalIn { from { transform: scale(0.95) translateY(20px); opacity: 0; } }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 35px; }
+        .close-btn { cursor: pointer; color: #99a2ad; transition: 0.2s; padding: 5px; }
+        .close-btn:hover { color: var(--primary); }
+
+        .profile-grid { display: grid; grid-template-columns: 320px 1fr; gap: 45px; }
+        @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } }
+
+        .profile-side { display: flex; flex-direction: column; gap: 25px; }
+        .large-portrait { width: 100%; aspect-ratio: 1/1; border-radius: 35px; object-fit: cover; border: 4px solid #f8f9fa; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
+        .intel-card { background: #f8f9fa; border-radius: 22px; padding: 22px; border: 1px solid #f0f0f0; }
+        .intel-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 13px; }
+        .intel-row label { font-size: 9px; font-weight: 800; color: #99a2ad; text-transform: uppercase; letter-spacing: 0.5px; }
+        .intel-row b { font-weight: 800; color: #111; text-align: right; max-width: 65%; word-break: break-all; }
+
+        .profile-main h3 { font-family: 'Outfit'; font-size: 18px; font-weight: 800; margin: 30px 0 15px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--primary); border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
+        .profile-main h3:first-child { margin-top: 0; }
+
+        .scenario-box { background: #f0f4ff; color: #444; padding: 22px; border-radius: 22px; font-size: 13.5px; font-weight: 600; line-height: 1.6; margin-bottom: 15px; border-left: 5px solid var(--accent-info); }
+        .scenario-box i { font-style: normal; color: var(--primary); font-weight: 800; display: block; margin-bottom: 5px; }
+
+        .action-footer {
+            position: sticky; bottom: -45px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 25px 0; display: flex; gap: 12px; border-top: 1px solid #eee; margin-top: 40px; z-index: 10;
+        }
+        .btn-protocol {
+            flex: 1; padding: 16px; border-radius: 16px; border: none; font-size: 12px;
+            font-weight: 900; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-hire { background: var(--primary); color: #fff; }
+        .btn-short { background: #f0f3f5; color: var(--primary); }
+        .btn-wa { background: #25D366; color: #fff; }
+        .btn-veto { background: #fee2e2; color: var(--accent-error); }
+        .btn-protocol:active { transform: scale(0.96); }
+
+        /* 4. MOBILE BOTTOM DOCK */
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 85px; background: #fff; border-top: 1px solid var(--border-subtle);
+            z-index: 4000; justify-content: space-around; align-items: center; padding: 0 10px;
+        }
+        .b-item { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; color: #99a2ad; }
+        .b-item.active { color: var(--primary); }
+        .b-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
+        .b-item span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        @media (max-width: 1100px) {
+            .admin-sidebar { position: fixed; left: -100%; }
+            .admin-sidebar.open { left: 0; box-shadow: 20px 0 60px rgba(0,0,0,0.2); }
+            .mob-trigger { display: block; }
+            .applicant-row { grid-template-columns: 1.5fr 1fr 1fr; }
+            .hide-mob { display: none; }
+        }
+        @media (max-width: 768px) {
+            .bottom-nav { display: flex; }
+            .workspace { padding-bottom: 110px; }
+            .analytics-row { grid-template-columns: 1fr 1fr; }
+            .applicant-row { grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; border-radius: 20px; }
+            .modal-box { padding: 25px; border-radius: 30px; }
+            .action-footer { flex-direction: column; bottom: -25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <img src="../assets/ui/logo.png" alt="NEXRA">
+                <h2>NEXRA ADMIN</h2>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-label">Protocol</div>
+                <a href="index.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Overview
+                </a>
+                <div class="nav-label">Recruitment</div>
+                <a href="join_nexra.html" class="menu-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg> Talent Audit
+                </a>
+                <a href="users.html" class="menu-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> User Registry
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <main class="main-viewport">
+            <header>
+                <div class="header-left">
+                    <div class="mob-trigger" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </div>
+                    <h1 style="font-family:'Outfit'; font-size:18px; font-weight:900;">TALENT POOL AUDIT</h1>
+                </div>
+                <div class="admin-pill">Chief Talent Auditor</div>
+            </header>
+
+            <div class="workspace">
+                
+                <!-- Recruitment Intel Stats -->
+                <div class="analytics-row">
+                    <div class="stat-card"><span>Ecosystem Apps</span><b id="val-total">0</b></div>
+                    <div class="stat-card"><span>Audit Pending</span><b id="val-pending" style="color:var(--accent-warning)">0</b></div>
+                    <div class="stat-card"><span>Shortlisted</span><b id="val-short" style="color:var(--accent-info)">0</b></div>
+                    <div class="stat-card"><span>Hierarchy Hired</span><b id="val-hired" style="color:var(--accent-success)">0</b></div>
+                </div>
+
+                <!-- Control Bar -->
+                <div class="control-header">
+                    <div class="search-node">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="talentSearch" placeholder="Search by name, node ID or email..." oninput="filterApplicants()">
+                    </div>
+                    <div class="filter-tabs">
+                        <button class="tab-btn active" onclick="setTalentFilter('Pending', this)">Pending</button>
+                        <button class="tab-btn" onclick="setTalentFilter('Shortlisted', this)">Shortlisted</button>
+                        <button class="tab-btn" onclick="setTalentFilter('Hired', this)">Hired</button>
+                    </div>
+                </div>
+
+                <!-- Applicant Feed -->
+                <div class="applicant-grid" id="talentFeed">
+                    <!-- Real-time data injected here -->
+                    <div style="text-align:center; padding:100px 20px; color:#ccc; font-weight:800; font-size:14px; letter-spacing:1px; text-transform:uppercase;">Decoding Identity Ledger...</div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="null-state" style="display:none; text-align:center; padding:100px 20px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#eef1f4" stroke-width="2" style="margin-bottom:15px;"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <h3 style="color:#cbd5e0; font-weight:800; text-transform:uppercase; font-size:14px; letter-spacing:1px;">No Nodes In This Sector</h3>
+                </div>
+            </div>
+        </main>
+
+        <!-- MOBILE DOCK -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Hub</span></a>
+            <a href="join_nexra.html" class="b-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><span>Talent</span></a>
+            <a href="withdrawals.html" class="b-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"></rect></svg><span>Money</span></a>
+        </nav>
+    </div>
+
+    <!-- MODAL: NEURAL DOSSIER VIEWER -->
+    <div class="modal-overlay" id="dossierModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h2 style="font-family:'Outfit'; font-weight:900; font-size:26px;" id="d-name">Identity Calibrating</h2>
+                    <p style="font-size:11px; font-weight:900; color:var(--accent-info); letter-spacing:1.5px; margin-top:5px;" id="d-role-id">NEX-HR-2026-XXXX</p>
+                </div>
+                <div class="close-btn" onclick="closeDossier()">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <aside class="profile-side">
+                    <img src="" id="d-portrait" class="large-portrait">
+                    
+                    <div class="intel-card">
+                        <div class="intel-row"><label>Target Role</label><b id="d-target-role">---</b></div>
+                        <div class="intel-row"><label>Experience</label><b id="d-exp">---</b></div>
+                        <div class="intel-row"><label>Salary Ask</label><b id="d-salary">---</b></div>
+                        <div class="intel-row"><label>Score</label><b id="d-match" style="color:var(--accent-success)">0%</b></div>
+                    </div>
+
+                    <div class="intel-card" style="background:var(--primary); color:#fff;">
+                        <div class="intel-row"><label style="color:rgba(255,255,255,0.4)">Country</label><b id="d-country">---</b></div>
+                        <div class="intel-row"><label style="color:rgba(255,255,255,0.4)">IP</label><b id="d-ip">0.0.0.0</b></div>
+                    </div>
+                </aside>
+
+                <div class="profile-main">
+                    <h3>Technical Communications</h3>
+                    <div class="intel-row"><label>Email</label><b id="d-email">---</b></div>
+                    <div class="intel-row"><label>WhatsApp</label><b id="d-whatsapp">---</b></div>
+
+                    <h3>Neural Logic Responses</h3>
+                    <div id="d-scenarios">
+                        <!-- Scenarios injected -->
+                    </div>
+
+                    <h3>Verification Documentation</h3>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                        <a href="" id="d-cv-link" target="_blank" class="intel-card" style="text-align:center; text-decoration:none;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line></svg>
+                            <div style="font-size:10px; font-weight:900; text-transform:uppercase; color:var(--primary);">Dossier PDF / CV</div>
+                        </a>
+                        <a href="" id="d-id-link" target="_blank" class="intel-card" style="text-align:center; text-decoration:none;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:10px;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle></svg>
+                            <div style="font-size:10px; font-weight:900; text-transform:uppercase; color:var(--primary);">Identity Screenshot</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <button class="btn-protocol btn-hire" onclick="authorizeHiring('Hired')">Hire Talent</button>
+                <button class="btn-protocol btn-short" onclick="authorizeHiring('Shortlisted')">Shortlist Node</button>
+                <button class="btn-protocol btn-wa" id="d-wa-trigger">WA Handshake</button>
+                <button class="btn-protocol btn-veto" onclick="vetoIdentityNode()">Reject & Purge</button>
+                <button class="btn-protocol btn-short" style="background:#000; color:#fff;" onclick="exportTalentDossier()">Export PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CORE SYSTEM ENGINE -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { 
+            doc, onSnapshot, collection, query, where, getDocs, updateDoc,
+            serverTimestamp, addDoc, deleteDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentTabFilter = 'Pending';
+        let talentRegistry = [];
+        let activeDossierId = null;
+
+        // 1. AUTH MASTER HANDSHAKE
+        onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== 'arbabnasru@gmail.com') window.location.href = "login.html";
+        });
+
+        // 2. REAL-TIME DATA SYNCHRONIZER
+        function synchronizeRecruitmentPool() {
+            onSnapshot(collection(db, "hireme_applications"), (snap) => {
+                talentRegistry = [];
+                let total = 0, pending = 0, short = 0, hired = 0;
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    talentRegistry.push({ id: d.id, ...data });
+                    total++;
+                    if(data.status === 'Pending') pending++;
+                    if(data.status === 'Shortlisted') short++;
+                    if(data.status === 'Hired') hired++;
+                });
+
+                document.getElementById('val-total').innerText = total;
+                document.getElementById('val-pending').innerText = pending;
+                document.getElementById('val-short').innerText = short;
+                document.getElementById('val-hired').innerText = hired;
+
+                renderTalentGrid();
+            });
+        }
+        synchronizeRecruitmentPool();
+
+        // 3. UI RENDERER
+        function renderTalentGrid() {
+            const feed = document.getElementById('talentFeed');
+            const empty = document.getElementById('null-state');
+            
+            const filtered = talentRegistry.filter(n => n.status === currentTabFilter)
+                                          .sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+            feed.innerHTML = "";
+            if(filtered.length === 0) {
+                empty.style.display = "block";
+                return;
+            }
+            empty.style.display = "none";
+
+            filtered.forEach(node => {
+                const row = document.createElement('div');
+                row.className = 'applicant-row';
+                row.onclick = () => openApplicantDossier(node.id);
+
+                row.innerHTML = `
+                    <div class="cand-info">
+                        <img src="${node.portrait || '../assets/ui/logo.png'}" class="cand-dp">
+                        <div>
+                            <div class="cand-name">${node.full_name}</div>
+                            <div class="cand-sub">${node.email}</div>
+                        </div>
+                    </div>
+                    <div class="hide-mob">
+                        <span class="role-badge">${node.target_role}</span>
+                        <div style="font-size:9px; color:#99a2ad; font-weight:800; margin-top:5px; text-transform:uppercase;">${node.country}</div>
+                    </div>
+                    <div class="score-pill">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        ${Math.round(node.skill_match || 0)}% Score
+                    </div>
+                    <div style="font-size:14px; font-weight:900;" class="hide-mob">$${node.salary_expect}</div>
+                    <div style="display:flex; align-items:center; gap:10px; justify-content:flex-end;">
+                        <span class="status-dot dot-${node.status}"></span>
+                        <span style="font-size:10px; font-weight:900; color:#777;">${node.status.toUpperCase()}</span>
+                    </div>
+                `;
+                feed.appendChild(row);
+            });
+        }
+
+        // 4. NEURAL DOSSIER HANDLER
+        window.openApplicantDossier = (id) => {
+            const node = talentRegistry.find(x => x.id === id);
+            if(!node) return;
+
+            activeDossierId = id;
+            
+            document.getElementById('d-name').innerText = node.full_name;
+            document.getElementById('d-role-id').innerText = node.role_id || "ID_PENDING";
+            document.getElementById('d-portrait').src = node.portrait || '../assets/ui/logo.png';
+            document.getElementById('d-target-role').innerText = node.target_role;
+            document.getElementById('d-exp').innerText = (node.exp_years || '0') + " Years";
+            document.getElementById('d-match').innerText = Math.round(node.skill_match || 0) + "%";
+            document.getElementById('d-salary').innerText = "$" + (node.salary_expect || '0');
+            document.getElementById('d-ip').innerText = node.ip || "0.0.0.0";
+            document.getElementById('d-country').innerText = node.country || "GL";
+            document.getElementById('d-email').innerText = node.email;
+            document.getElementById('d-whatsapp').innerText = node.whatsapp;
+
+            const scContainer = document.getElementById('d-scenarios');
+            scContainer.innerHTML = `
+                <div class="scenario-box"><i>Scenario: Conflict Handling</i>${node.all_data?.sc_1 || 'No response recorded.'}</div>
+                <div class="scenario-box"><i>Scenario: Fraud Detection</i>${node.all_data?.sc_2 || 'No response recorded.'}</div>
+            `;
+
+            document.getElementById('d-cv-link').href = node.cv_node || "#";
+            document.getElementById('d-id-link').href = node.id_proof || "#";
+
+            document.getElementById('d-wa-trigger').onclick = () => {
+                const msg = `NEXRA Official Handshake: Greetings ${node.full_name}, your dossier for ${node.target_role} has been audited. Let's schedule a neural interview.`;
+                window.open(`https://wa.me/${node.whatsapp.replace('+', '')}?text=${encodeURIComponent(msg)}`);
+            };
+
+            document.getElementById('dossierModal').style.display = 'flex';
+        };
+
+        window.closeDossier = () => document.getElementById('dossierModal').style.display = 'none';
+
+        // 5. DECISION ENGINE
+        window.authorizeHiring = async (status) => {
+            if(!activeDossierId) return;
+            const node = talentRegistry.find(x => x.id === activeDossierId);
+
+            try {
+                await updateDoc(doc(db, "hireme_applications", activeDossierId), {
+                    status: status,
+                    audit_timestamp: serverTimestamp()
+                });
+
+                // Auto-Notification
+                await addDoc(collection(db, "notifications"), {
+                    user_email: node.email,
+                    title: "Application Protocol Node: " + status,
+                    message: `Audit update: Your recruitment status is now ${status}. Wait for further handshake instructions.`,
+                    type: "system",
+                    timestamp: serverTimestamp()
+                });
+
+                alert("Protocol Updated: Talent node marked as " + status);
+                closeDossier();
+            } catch (err) { alert("Handshake Error."); }
+        };
+
+        window.vetoIdentityNode = async () => {
+            if(!activeDossierId) return;
+            if(!confirm("VETO WARNING: This will permanently purge this talent node and associated documentation from the global ledger. Action irreversible. Proceed?")) return;
+
+            try {
+                await deleteDoc(doc(db, "hireme_applications", activeDossierId));
+                alert("Protocol Complete: Identity Node Purged.");
+                closeDossier();
+            } catch (err) { alert("Authorization Denied."); }
+        };
+
+        window.exportTalentDossier = () => {
+            alert("Protocol Hook: Exporting PDF Dossier to Admin local storage...");
+            // Backend Node.js/PHP function should be triggered here
+        };
+
+        // 6. UTILS
+        window.setTalentFilter = (status, el) => {
+            currentTabFilter = status;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            renderTalentGrid();
+        };
+
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        window.filterApplicants = () => {
+            const val = document.getElementById('talentSearch').value.toLowerCase();
+            renderTalentGrid(talentRegistry.filter(n => n.full_name.toLowerCase().includes(val) || n.email.toLowerCase().includes(val)));
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
