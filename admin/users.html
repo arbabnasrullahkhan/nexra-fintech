@@ -483,7 +483,7 @@
             document.getElementById('m-status').innerText = u.status.toUpperCase();
 
             // WhatsApp Premium SMTP
-            const waMsg = `Hello ${u.name}! 👋\n\nThis is NEXRA Official Audit Team. Your identity node is active in our ledger.\n\n📧 Email: ${u.email}\n🆔 Protocol ID: ${u.nexra_id || 'Pending'}\n💰 Vault Asset: $${(u.balance || 0).toFixed(2)}\n\nVisit our hub: https://nexra.ct.ws\n\nPlease let us know if you require technical assistance.`;
+            const waMsg = `Hello ${u.name}! 👋\n\nThis is NEXRA Official Audit Team. Your identity node is active in our ledger.\n\n📧 Email: ${u.email}\n🆔 Protocol ID: ${u.nexra_id || 'Pending'}\n💰 Vault Asset: $${(u.balance || 0).toFixed(2)}\n\nVisit our hub: https://nexra-fintech.vercel.app\n\nPlease let us know if you require technical assistance.`;
             document.getElementById('wa-link').href = `https://wa.me/${u.phone?.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(waMsg)}`;
             
             // Messaging Hub Redirect
