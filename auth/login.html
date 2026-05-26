@@ -22,99 +22,181 @@
     <meta property="og:description" content="Sign in to your encrypted vault and start processing daily nodes.">
     <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
 
+    <!-- Preload Critical Assets -->
+    <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../assets/ui/logo.png">
     <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     
     <!-- Icons & Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --black: #000000; --white: #ffffff; --gray-light: #f8f9fa;
-            --gray-border: #e2e8f0; --text-muted: #8e8e93; --grid-line: rgba(0, 0, 0, 0.04);
-            --accent: #00c853; --blue: #007aff;
+            --black: #080808; 
+            --white: #ffffff; 
+            --gray-light: #f7f7f9;
+            --gray-border: #e2e2e7; 
+            --text-muted: #8e8e93; 
+            --grid-line: rgba(0, 0, 0, 0.04);
+            --error-red: #ff3b30;
             --font-head: 'Outfit', sans-serif;
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 1. LOCKDOWN: No Zoom, No Scroll */
+        /* LOCKDOWN: No Zoom, No Scroll, App-like Feel */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
-        html, body { width: 100%; height: 100dvh; overflow: hidden; position: fixed; background-color: var(--white); color: var(--black); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; }
+        html, body { 
+            width: 100%; height: 100dvh; overflow: hidden; position: fixed; 
+            background-color: var(--white); color: var(--black); 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+        }
 
-        /* 2. TECHNICAL GRID BACKGROUND */
+        /* TECHNICAL GRID BACKGROUND */
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
             background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
             background-size: 35px 35px;
             mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+            pointer-events: none;
         }
 
-        /* 3. LOGIN CARD */
-        .login-card { width: 90%; max-width: 420px; padding: 30px 20px; text-align: center; animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* CUSTOM TOAST NOTIFICATION */
+        .toast-container {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: var(--black); color: var(--white); padding: 14px 24px;
+            border-radius: 30px; font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            opacity: 0; visibility: hidden; z-index: 1000;
+            transition: all 0.5s var(--ease-spring);
+            width: 90%; max-width: 380px;
+        }
+        .toast-container.show {
+            transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible;
+        }
+        .toast-container i { color: var(--error-red); font-size: 16px; }
+
+        /* LOGIN CARD */
+        .login-card { 
+            width: 90%; max-width: 420px; padding: 30px 20px; text-align: center; 
+            will-change: transform, opacity;
+            animation: slideUpFade 0.8s var(--ease-spring) forwards; 
+        }
 
         header { margin-bottom: 40px; }
-        .logo { width: 75px; height: 75px; margin-bottom: 20px; mix-blend-mode: multiply; cursor: pointer; }
+        .logo { 
+            width: 75px; height: 75px; margin-bottom: 20px; 
+            mix-blend-mode: multiply; cursor: pointer; 
+            transition: transform 0.3s ease;
+        }
+        .logo:active { transform: scale(0.92); }
         h1 { font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 8px; }
-        p.subtitle { color: var(--text-muted); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+        p.subtitle { color: var(--text-muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
 
         /* Form Styling */
         form { display: flex; flex-direction: column; gap: 24px; text-align: left; }
         .field { display: flex; flex-direction: column; gap: 8px; position: relative; }
-        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); padding-left: 5px; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); padding-left: 5px; cursor: pointer; }
+        
+        .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
         
         input {
-            width: 100%; padding: 18px; border-radius: 16px; border: 1.5px solid var(--gray-border);
-            background: var(--gray-light); font-size: 15px; font-weight: 700; color: var(--black);
-            outline: none; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
+            width: 100%; padding: 18px 20px; border-radius: 16px; border: 1.5px solid var(--gray-border);
+            background: var(--gray-light); font-size: 15px; font-weight: 600; color: var(--black);
+            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
         }
-        input:focus { border-color: var(--black); background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        input::placeholder { color: #a1a1a6; font-weight: 500; }
+        input:focus { 
+            border-color: var(--black); background: var(--white); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); 
+        }
 
-        .eye-icon { position: absolute; right: 18px; top: 40px; color: var(--text-muted); cursor: pointer; padding: 5px; font-size: 18px; }
+        .eye-icon { 
+            position: absolute; right: 18px; color: var(--text-muted); 
+            cursor: pointer; padding: 5px; font-size: 17px; 
+            transition: color 0.2s ease;
+        }
+        .eye-icon:hover, .eye-icon.active { color: var(--black); }
 
-        .form-links { display: flex; justify-content: space-between; align-items: center; margin-top: -12px; padding: 0 5px; }
-        .form-links a { font-size: 13px; font-weight: 700; color: var(--black); text-decoration: none; }
+        .form-links { display: flex; justify-content: flex-end; align-items: center; margin-top: -12px; padding: 0 5px; }
+        .form-links a { font-size: 13px; font-weight: 700; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
+        .form-links a:active { opacity: 0.6; }
 
         /* Submit Button */
         .btn-login {
-            background: var(--black); color: #fff; padding: 20px; border: none; border-radius: 20px;
-            font-size: 16px; font-weight: 800; cursor: pointer; display: flex; justify-content: center;
-            align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            background: var(--black); color: var(--white); padding: 20px; border: none; border-radius: 20px;
+            font-size: 16px; font-weight: 700; cursor: pointer; display: flex; justify-content: center;
+            align-items: center; gap: 12px; transition: all 0.3s var(--ease-spring); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 100%;
         }
-        .btn-login:active { transform: scale(0.96); }
-        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-login:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-login:disabled { background: #333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn-register { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 35px; text-decoration: none; display: block; font-weight: 600; }
-        .btn-register b { color: var(--black); font-weight: 800; border-bottom: 2px solid var(--black); }
+        .btn-register { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 35px; text-decoration: none; display: block; font-weight: 500; }
+        .btn-register b { color: var(--black); font-weight: 800; border-bottom: 2px solid var(--black); padding-bottom: 2px; }
 
-        .loader { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        /* Modern Loader */
+        .loader { 
+            width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); 
+            border-top-color: var(--white); border-radius: 50%; 
+            animation: spin 0.8s linear infinite; display: none; 
+        }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { 
+            from { opacity: 0; transform: translateY(25px) translateZ(0); } 
+            to { opacity: 1; transform: translateY(0) translateZ(0); } 
+        }
 
+        /* Accessibility: Reduce Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            .login-card { animation: none; opacity: 1; transform: none; }
+            .toast-container { transition: none; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-grid"></div>
+    <!-- Technical Grid Layer -->
+    <div class="bg-grid" aria-hidden="true"></div>
 
-    <div class="login-card">
+    <!-- Custom Toast Notification -->
+    <div id="toast" class="toast-container" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="toastMessage">Security Alert</span>
+    </div>
+
+    <main class="login-card">
         <header>
-            <img src="../assets/ui/logo.png" alt="NEXRA Official" class="logo" onclick="location.href='../index.html'">
+            <img src="../assets/ui/logo.png" alt="NEXRA Official" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
             <h1>NEXRA</h1>
             <p class="subtitle">Ecosystem Entrance</p>
         </header>
 
-        <form id="loginForm">
+        <form id="loginForm" novalidate>
             <div class="field">
-                <label>Email Identity</label>
-                <input type="email" id="email" placeholder="Email" required autocomplete="username">
+                <label for="email">Email Identity</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="Enter your email" required autocomplete="username">
+                </div>
             </div>
 
             <div class="field">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="**********" required autocomplete="current-password">
-                <i class="fa-solid fa-eye eye-icon" id="togglePass"></i>
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="••••••••••" required autocomplete="current-password">
+                    <i class="fa-solid fa-eye eye-icon" id="togglePass" aria-label="Toggle password visibility" role="button" tabindex="0"></i>
+                </div>
             </div>
 
             <div class="form-links">
@@ -122,13 +204,13 @@
             </div>
 
             <button type="submit" class="btn-login" id="loginBtn">
-                <div class="loader" id="loader"></div>
-                <span id="btnText">Verify & Authorize</span>
+                <div class="loader" id="loader" aria-hidden="true"></div>
+                <span id="btnText" aria-live="polite">Verify & Authorize</span>
             </button>
         </form>
 
         <a href="register.html" class="btn-register">New to the community? <b>Join NEXRA</b></a>
-    </div>
+    </main>
 
     <!-- Firebase Integration Engine -->
     <script type="module">
@@ -136,26 +218,57 @@
         import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { doc, getDoc, setDoc, query, collection, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+        // DOM Elements
         const loginForm = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
         const loader = document.getElementById('loader');
         const btnText = document.getElementById('btnText');
         const passInput = document.getElementById('password');
         const togglePass = document.getElementById('togglePass');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
 
-        // Toggle Password visibility
-        togglePass.onclick = () => {
-            const type = passInput.type === 'password' ? 'text' : 'password';
-            passInput.type = type;
+        let toastTimeout;
+
+        // Custom Toast Function
+        const showToast = (message) => {
+            clearTimeout(toastTimeout);
+            toastMessage.innerText = message;
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4500);
+        };
+
+        // Toggle Password visibility with smooth icon transition
+        const togglePassword = () => {
+            const isPassword = passInput.type === 'password';
+            passInput.type = isPassword ? 'text' : 'password';
             togglePass.classList.toggle('fa-eye');
             togglePass.classList.toggle('fa-eye-slash');
+            togglePass.classList.toggle('active');
         };
+
+        togglePass.addEventListener('click', togglePassword);
+        // Accessibility for keyboard users
+        togglePass.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                togglePassword();
+            }
+        });
 
         loginForm.onsubmit = async (e) => {
             e.preventDefault();
             const emailInput = document.getElementById('email').value.trim().toLowerCase();
             const passwordInput = passInput.value;
 
+            if (!emailInput || !passwordInput) {
+                showToast("Please fill in all security fields.");
+                return;
+            }
+
+            // Secure UI State
             loginBtn.disabled = true;
             loader.style.display = 'block';
             btnText.innerText = "Authenticating...";
@@ -195,7 +308,7 @@
                 // 3. STATUS-BASED PROTOCOL ROUTING
                 const status = userData.status;
 
-                // Update Security Audit (IP & Login Time)
+                // Update Security Audit (IP & Login Time) Non-blocking
                 fetch('https://get.geojs.io/v1/ip/geo.json')
                     .then(res => res.json())
                     .then(async (geo) => {
@@ -203,13 +316,11 @@
                             last_ip: geo.ip || "unknown",
                             last_login: new Date().toISOString()
                         });
-                    }).catch(() => {});
+                    }).catch(() => { console.warn("Audit update gracefully bypassed."); });
 
                 // 4. ROUTE EXECUTION
-                if (status === "pending_payment" || status === "rejected") {
+                if (status === "pending_payment" || status === "rejected" || status === "pending_verification") {
                     window.location.replace("payment.html");
-                } else if (status === "pending_verification") {
-                    window.location.replace("payment.html"); // Shows the auditing screen
                 } else if (status === "approved") {
                     window.location.replace("checkpoint.html");
                 } else {
@@ -218,7 +329,7 @@
                 }
 
             } catch (error) {
-                let msg = "Invalid identity or access key. Please check your credentials.";
+                let msg = "Invalid identity or access key.";
                 
                 // If user doesn't exist in Auth system
                 if (error.code === 'auth/user-not-found') {
@@ -227,14 +338,19 @@
                 }
                 
                 if (error.code === 'auth/wrong-password') msg = "The access key entered is incorrect.";
+                if (error.code === 'auth/invalid-credential') msg = "Invalid identity or access key provided.";
+                if (error.code === 'auth/too-many-requests') msg = "Too many attempts. Vault locked temporarily.";
                 
-                alert("Security Alert: " + msg);
+                showToast(msg);
+                
+                // Reset UI State
                 loginBtn.disabled = false;
                 loader.style.display = 'none';
                 btnText.innerText = "Verify & Authorize";
             }
         };
 
+        // Prevent double-tap zoom on iOS Safari
         document.addEventListener('gesturestart', (e) => e.preventDefault());
     </script>
 </body>
