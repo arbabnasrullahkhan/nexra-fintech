@@ -13,189 +13,286 @@
     <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2024, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
     <meta name="author" content="NEXRA Global">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://nexra.ct.ws/auth/register.html">
+    
+    <!-- VERCEL DOMAIN MIGRATION -->
+    <link rel="canonical" href="https://nexra-fintech.vercel.app/auth/register.html">
 
     <!-- Social Graph (WhatsApp/FB/Telegram) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nexra.ct.ws/auth/register.html">
+    <meta property="og:url" content="https://nexra-fintech.vercel.app/auth/register.html">
     <meta property="og:title" content="NEXRA | $0.20 Welcome Bonus Activated">
     <meta property="og:description" content="Secure your spot in the global fintech node network. Real-time payouts. 100% Verified.">
-    <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
+    <meta property="og:image" content="https://nexra-fintech.vercel.app/assets/ui/logo.png">
 
+    <!-- Preload Critical Assets -->
+    <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Icons & Assets -->
     <link rel="icon" type="image/png" href="../assets/ui/logo.png">
     <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+    <meta name="theme-color" content="#ffffff">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
 <style>
     :root {
-        --pure-black: #000000;
+        --pure-black: #080808;
         --deep-gray: #111111;
-        --muted-text: #666666;
+        --muted-text: #8e8e93;
         --bg-white: #ffffff;
-        --border-light: #e0e0e0;
-        --input-fill: #f9f9f9;
+        --border-light: #e2e2e7;
+        --input-fill: #f7f7f9;
         --success: #00c853;
+        --error-red: #ff3b30;
         --grid-line: rgba(0, 0, 0, 0.04);
         --font-head: 'Outfit', sans-serif;
+        --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-    html, body { width: 100%; height: 100%; background-color: var(--bg-white); color: var(--pure-black); font-family: 'Inter', sans-serif; }
+    html, body { width: 100%; height: 100%; background-color: var(--bg-white); color: var(--pure-black); font-family: 'Inter', -apple-system, sans-serif; }
 
-    .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); background-size: 45px 45px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+    .bg-grid { 
+        position: fixed; inset: 0; z-index: -1; 
+        background-image: linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); 
+        background-size: 45px 45px; 
+        mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); 
+        -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); 
+        pointer-events: none;
+    }
 
-    .container { width: 100%; max-width: 500px; margin: 0 auto; padding: 40px 24px; position: relative; }
+    .container { 
+        width: 100%; max-width: 500px; margin: 0 auto; 
+        padding: 40px 24px; position: relative; 
+        animation: slideUpFade 0.8s var(--ease-spring) forwards;
+    }
 
+    /* CUSTOM TOAST NOTIFICATION */
+    .toast-container {
+        position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+        background: var(--pure-black); color: var(--bg-white); padding: 14px 24px;
+        border-radius: 30px; font-size: 13px; font-weight: 600;
+        display: flex; align-items: center; gap: 10px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        opacity: 0; visibility: hidden; z-index: 9999;
+        transition: all 0.5s var(--ease-spring);
+        width: 90%; max-width: 380px; text-align: left;
+    }
+    .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+    .toast-container i { color: var(--error-red); font-size: 16px; }
+
+    /* Header */
     header { text-align: center; margin-bottom: 35px; }
-    .logo { width: 75px; height: 75px; margin-bottom: 15px; mix-blend-mode: multiply; cursor: pointer; }
+    .logo { width: 75px; height: 75px; margin-bottom: 15px; mix-blend-mode: multiply; cursor: pointer; transition: transform 0.3s; }
+    .logo:active { transform: scale(0.92); }
     h1 { font-family: var(--font-head); font-size: 32px; font-weight: 900; letter-spacing: -1.5px; }
     .sub-link { font-size: 14px; margin-top: 8px; color: var(--muted-text); font-weight: 500; }
-    .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); }
+    .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); padding-bottom: 2px; }
 
+    /* Form Styles */
     .reg-form { display: flex; flex-direction: column; gap: 20px; }
-    .field { position: relative; display: flex; flex-direction: column; gap: 8px; }
-    label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pure-black); padding-left: 5px; }
+    .field { position: relative; display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pure-black); padding-left: 5px; cursor: pointer; }
+
+    .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; flex-direction: column; }
 
     input, select {
-        width: 100%; padding: 18px; background: var(--input-fill);
+        width: 100%; padding: 18px 20px; background: var(--input-fill);
         border: 1.5px solid var(--border-light); border-radius: 16px;
-        font-size: 15px; font-weight: 700; color: var(--pure-black); font-family: inherit;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 15px; font-weight: 600; color: var(--pure-black); font-family: inherit;
+        transition: all 0.3s var(--ease-spring); appearance: none;
     }
-    input:focus, select:focus { border-color: var(--pure-black); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
-    input[readonly] { background: #f1f1f1; color: #888; cursor: not-allowed; border-style: dashed; }
+    input::placeholder { color: #a1a1a6; font-weight: 500; }
+    input:focus, select:focus { border-color: var(--pure-black); background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+    
+    input[readonly].system-locked { background: #eeeeee; color: #888; cursor: not-allowed; border-style: dashed; }
+    select.locked { pointer-events: none; opacity: 0.7; background: #eeeeee; border-color: var(--border-light); }
 
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    .eye { position: absolute; right: 18px; top: 42px; color: var(--muted-text); cursor: pointer; padding: 5px; font-size: 18px; }
+    .eye { 
+        position: absolute; right: 18px; top: 20px; color: var(--muted-text); 
+        cursor: pointer; padding: 5px; font-size: 17px; transition: color 0.2s; 
+    }
+    .eye:hover, .eye.active { color: var(--pure-black); }
     
-    .strength-meter { height: 4px; background: #eee; border-radius: 10px; margin-top: -10px; overflow: hidden; display: none; }
+    .strength-meter { height: 4px; background: #eee; border-radius: 10px; margin-top: 8px; width: 95%; overflow: hidden; display: none; align-self: flex-start; margin-left: 10px; }
     .strength-bar { height: 100%; width: 0%; transition: 0.5s ease; }
 
     .btn-submit {
-        margin-top: 10px; background: var(--pure-black); color: #fff;
+        margin-top: 10px; background: var(--pure-black); color: var(--bg-white);
         padding: 20px; border-radius: 18px; border: none; font-size: 16px;
         font-weight: 800; cursor: pointer; display: flex; justify-content: center; 
-        align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); transition: 0.3s;
+        align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.3s var(--ease-spring);
     }
-    .btn-submit:active { transform: scale(0.96); }
-    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-submit:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .btn-submit:disabled { background: #333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
 
-    .loader { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .top-video-btn { position: absolute; top: 20px; right: 24px; background: var(--pure-black); color: #fff; border: none; padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 100; }
-    .chat-fab { position: fixed; bottom: 30px; left: 30px; background: var(--pure-black); color: #fff; width: 55px; height: 55px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: 0.3s; }
+    .loader { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: var(--bg-white); border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
     
-    .chat-overlay { position: fixed; bottom: -100%; left: 0; width: 100%; height: 70dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
-    .chat-overlay.open { bottom: 0; }
-    .chat-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-    .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-    .bot-msg { background: var(--input-fill); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; }
-    .opt-btn { background: #fff; border: 1.5px solid var(--pure-black); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; }
+    /* Top Buttons & FAB */
+    .top-video-btn { position: absolute; top: 20px; right: 24px; background: var(--pure-black); color: #fff; border: none; padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 100; transition: transform 0.2s; }
+    .top-video-btn:active { transform: scale(0.95); }
+    
+    .chat-fab { position: fixed; bottom: 30px; left: 30px; background: var(--pure-black); color: #fff; width: 55px; height: 55px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: transform 0.3s var(--ease-spring); }
+    .chat-fab:active { transform: scale(0.9); }
+    
+    /* Chat Overlay */
+    .chat-overlay { 
+        position: fixed; bottom: 0; left: 0; width: 100%; height: 75dvh; background: #fff; z-index: 2000; 
+        border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); 
+        transition: transform 0.6s var(--ease-spring); transform: translateY(100%);
+        display: flex; flex-direction: column; 
+    }
+    .chat-overlay.open { transform: translateY(0); }
+    .chat-header { padding: 25px; border-bottom: 1px solid #f1f1f1; display: flex; justify-content: space-between; align-items: center; }
+    .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
+    .bot-msg { background: var(--input-fill); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.4s ease forwards; }
+    .user-msg { background: var(--pure-black); color: #fff; padding: 15px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.4s ease forwards; }
+    .opt-btn { background: #fff; border: 1.5px solid var(--border-light); padding: 14px; border-radius: 14px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 10px; width: 100%; transition: all 0.2s; }
+    .opt-btn:active { background: var(--input-fill); border-color: var(--pure-black); }
 
-    .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
-    .popup-content { background: #fff; padding: 30px; border-radius: 30px; max-width: 420px; width: 100%; position: relative; text-align: center; }
-    .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 24px; color: #ccc; }
+    /* Modals with smooth animation */
+    .popup-overlay { 
+        position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+        opacity: 0; visibility: hidden; transition: all 0.4s ease; 
+    }
+    .popup-overlay.show { opacity: 1; visibility: visible; }
+    
+    .popup-content { 
+        background: #fff; padding: 30px; border-radius: 30px; max-width: 420px; width: 100%; position: relative; text-align: center;
+        transform: scale(0.9); transition: all 0.4s var(--ease-spring); box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+    .popup-overlay.show .popup-content { transform: scale(1); }
+    .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 24px; color: #a1a1a6; transition: color 0.2s; }
+    .popup-close:hover { color: var(--pure-black); }
+
+    /* Animations */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes slideUpFade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
 
     @media (max-width: 450px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
+    
+    <div class="bg-grid" aria-hidden="true"></div>
 
-    <div class="container">
+    <!-- Custom Toast Notification -->
+    <div id="toast" class="toast-container" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="toastMessage">Protocol Error</span>
+    </div>
+
+    <main class="container">
         <button class="top-video-btn" onclick="openVideoPopup()"><i class="fa-solid fa-circle-play"></i> Setup Guide</button>
 
         <header>
-            <img src="../assets/ui/logo.png" alt="NEXRA" class="logo" onclick="location.href='../index.html'">
+            <img src="../assets/ui/logo.png" alt="NEXRA Logo" class="logo" onclick="location.href='../index.html'">
             <h1>Begin Journey</h1>
             <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In</a></p>
         </header>
 
-        <form id="regForm" class="reg-form">
+        <form id="regForm" class="reg-form" novalidate>
             <div class="field">
-                <label>Node Referral ID</label>
-                <input type="text" id="ref_id" name="ref_id" readonly placeholder="Direct Protocol Entry">
+                <label for="ref_id">Node Referral ID</label>
+                <input type="text" id="ref_id" name="ref_id" class="system-locked" readonly placeholder="Direct Protocol Entry">
             </div>
 
             <div class="field">
-                <label>Full Legal Name</label>
+                <label for="name">Full Legal Name</label>
                 <input type="text" id="name" required placeholder="Enter Full Name">
             </div>
 
             <div class="field">
-                <label>Email Identity</label>
-                <input type="email" id="email" required placeholder="Email">
+                <label for="email">Email Identity</label>
+                <input type="email" id="email" required placeholder="name@example.com" autocomplete="username">
             </div>
 
             <div class="row">
                 <div class="field">
-                    <label>Country</label>
-                    <select id="country" required onchange="lockCountryAndSetDial()">
-                        <option value="" disabled selected>Select Region</option>
-                        <option value="Pakistan" data-dial="+92">Pakistan</option>
-                    </select>
+                    <label for="country">Country</label>
+                    <div style="position: relative;">
+                        <select id="country" required onchange="lockCountryAndSetDial()">
+                            <option value="" disabled selected>Select Region</option>
+                            <option value="Pakistan" data-dial="+92">Pakistan</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); font-size:12px; color:#888; pointer-events:none;"></i>
+                    </div>
                 </div>
                 <div class="field">
-                    <label>Gender</label>
-                    <select id="gender" required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Non-Binary">Non-Binary</option>
-                    </select>
+                    <label for="gender">Gender</label>
+                    <div style="position: relative;">
+                        <select id="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Non-Binary">Non-Binary</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); font-size:12px; color:#888; pointer-events:none;"></i>
+                    </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="field">
-                    <label>Secure Mobile</label>
-                    <input type="tel" id="phone" required placeholder="Select country first" readonly>
+                    <label for="phone">Secure Mobile</label>
+                    <input type="tel" id="phone" required placeholder="Select country first" readonly class="system-locked">
                 </div>
                 <div class="field">
-                    <label>Date of Birth</label>
+                    <label for="dob">Date of Birth</label>
                     <input type="date" id="dob" required>
                 </div>
             </div>
 
             <div class="field">
-                <label>Residential City</label>
+                <label for="address">Residential City</label>
                 <input type="text" id="address" required placeholder="Current City, State">
             </div>
 
             <div class="row">
                 <div class="field">
-                    <label>Primary Gateway</label>
-                    <select id="pay_method" required>
-                        <option value="EasyPaisa">EasyPaisa (PK)</option>
-                        <option value="JazzCash">JazzCash (PK)</option>
-                        <option value="SadaPay">SadaPay (PK)</option>
-                            
-                        <option value="Binance (USDT)">Binance (USDT)</option>
-                        <option value="Bank Transfer">Bank Transfer</option>
-                    </select>
+                    <label for="pay_method">Primary Gateway</label>
+                    <div style="position: relative;">
+                        <select id="pay_method" required>
+                            <option value="EasyPaisa">EasyPaisa (PK)</option>
+                            <option value="JazzCash">JazzCash (PK)</option>
+                            <option value="SadaPay">SadaPay (PK)</option>
+                            <option value="Binance (USDT)">Binance (USDT)</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); font-size:12px; color:#888; pointer-events:none;"></i>
+                    </div>
                 </div>
                 <div class="field">
-                    <label>Wallet / Account ID</label>
+                    <label for="pay_account">Wallet / Account ID</label>
                     <input type="text" id="pay_account" required placeholder="Number or Address">
                 </div>
             </div>
 
             <div class="field">
-                <label>Password</label>
-                <input type="password" id="pass" required placeholder="Min 8 characters">
-                <i class="fa-solid fa-eye eye" id="togglePass"></i>
-                <div class="strength-meter" id="meter"><div class="strength-bar" id="bar"></div></div>
+                <label for="pass">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="pass" required placeholder="Min 8 characters" autocomplete="new-password">
+                    <i class="fa-solid fa-eye eye" id="togglePass" aria-label="Toggle password visibility" role="button" tabindex="0"></i>
+                    <div class="strength-meter" id="meter"><div class="strength-bar" id="bar"></div></div>
+                </div>
             </div>
 
             <div style="display:flex; gap:12px; align-items:flex-start; padding: 5px;">
-                <input type="checkbox" required style="width:20px; height:20px; cursor:pointer;">
-                <p style="font-size:12px; color:var(--muted-text); line-height: 1.5;">I confirm my identity is real and I agree to the <a href="#" onclick="openTermsPopup()" style="color:var(--pure-black); font-weight:800;">NEXRA Node Protocols</a>.</p>
+                <input type="checkbox" id="termsCheck" required style="width:20px; height:20px; cursor:pointer; accent-color: var(--pure-black);">
+                <label for="termsCheck" style="font-size:12px; color:var(--muted-text); line-height: 1.5; text-transform: none; font-weight: 500;">
+                    I confirm my identity is real and I agree to the 
+                    <span onclick="openTermsPopup(); event.preventDefault();" style="color:var(--pure-black); font-weight:800; cursor:pointer; text-decoration:underline;">NEXRA Node Protocols</span>.
+                </label>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
@@ -207,7 +304,7 @@
         <div style="text-align:center; margin-top:30px; font-size:11px; font-weight:700; color:#aaa; letter-spacing:1px;">
             <i class="fa-solid fa-shield-halved"></i> SECURE CLOUD ENCRYPTION ACTIVE
         </div>
-    </div>
+    </main>
 
     <!-- AI Concierge Chatbot -->
     <div class="chat-fab" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
@@ -217,14 +314,16 @@
                 <h3 style="font-family:var(--font-head); font-size:18px;">NEXRA Concierge</h3>
                 <span style="font-size:10px; font-weight:800; color:var(--success);">● SYSTEM ONLINE</span>
             </div>
-            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px;" onclick="toggleChat()"></i>
+            <div style="padding: 10px; cursor:pointer;" onclick="toggleChat()">
+                <i class="fa-solid fa-chevron-down" style="font-size:20px;"></i>
+            </div>
         </div>
         <div class="chat-body" id="chatBody">
             <div class="bot-msg">Welcome to NEXRA. I am your automated assistant. Need help with the fee or registration?</div>
-            <div class="chat-options">
+            <div class="chat-options" id="chatOptions">
                 <button class="opt-btn" onclick="botReply('Why is there a fee?', 'The fee covers cloud server allocation and node activation for real-time USD liquidity.')">Why is there a fee?</button>
                 <button class="opt-btn" onclick="botReply('Is my data safe?', 'Yes. All Wallet IDs and keys are encrypted via AES-256 fragmented storage.')">Is my data safe?</button>
-                <button class="opt-btn" onclick="window.open( 'https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K' )">Talk to Admin Support</button>
+                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')">Talk to Admin Support</button>
             </div>
         </div>
     </div>
@@ -234,9 +333,9 @@
         <div class="popup-content">
             <i class="fa-solid fa-xmark popup-close" onclick="closeTermsPopup()"></i>
             <h2 style="font-family:var(--font-head); margin-bottom:15px;">Terms of Sovereignty</h2>
-            <div style="font-size:13px; color:#555; max-height:250px; overflow-y:auto; text-align:left; line-height:1.6;">
+            <div style="font-size:13px; color:#555; max-height:250px; overflow-y:auto; text-align:left; line-height:1.6; padding-right:5px;">
                 <p>1. <b>Single Node:</b> Exactly one account per physical device is allowed.</p><br>
-                <p>2. <b>Activation:</b> The $2 fee is spent on server costs and is non-refundable.</p><br>
+                <p>2. <b>Activation:</b> The fee is spent on server costs and is non-refundable.</p><br>
                 <p>3. <b>Tasks:</b> Automation bots are strictly forbidden and lead to account lock.</p>
             </div>
             <button class="btn-submit" style="width:100%; margin-top:20px;" onclick="closeTermsPopup()">I Understand</button>
@@ -245,9 +344,9 @@
 
     <!-- Video Modal -->
     <div id="videoPopup" class="popup-overlay">
-        <div class="popup-content" style="background:#000; padding:15px; max-width:650px;">
+        <div class="popup-content" style="background:#111; padding:15px; max-width:650px; border-radius: 20px;">
             <i class="fa-solid fa-circle-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;"></i>
-            <div style="width:100%; aspect-ratio:16/9; background:#111; border-radius:15px; overflow:hidden;">
+            <div style="width:100%; aspect-ratio:16/9; background:#000; border-radius:12px; overflow:hidden;">
                 <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/share/v/17QfdiALhb/?mibextid=wwXIfr" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
@@ -256,6 +355,17 @@
     <script type="module">
         import { auth, db, doc, setDoc, serverTimestamp, getDocs, collection } from "../assets/js/firebase-config.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Global Toast Logic
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+        const showToast = (message) => {
+            clearTimeout(toastTimeout);
+            toastMessage.innerText = message;
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+        };
 
         // 1. URL Referral Handling
         const urlParams = new URLSearchParams(window.location.search);
@@ -278,6 +388,7 @@
                 });
             });
 
+        // Smart Country Lock
         window.lockCountryAndSetDial = () => {
             const select = document.getElementById('country');
             const selected = select.options[select.selectedIndex];
@@ -286,9 +397,9 @@
             if(dial) {
                 phoneInput.value = dial + " ";
                 phoneInput.readOnly = false;
+                phoneInput.classList.remove('system-locked');
                 phoneInput.focus();
-                select.style.pointerEvents = "none";
-                select.style.background = "#eee";
+                select.classList.add('locked');
             }
         };
 
@@ -296,6 +407,7 @@
         const pInput = document.getElementById('pass');
         const pBar = document.getElementById('bar');
         const pMeter = document.getElementById('meter');
+        const togglePass = document.getElementById('togglePass');
 
         pInput.addEventListener('input', () => {
             let val = pInput.value;
@@ -305,12 +417,18 @@
             if(/[A-Z]/.test(val)) s += 30;
             if(/[0-9]/.test(val)) s += 30;
             pBar.style.width = s + "%";
-            pBar.style.backgroundColor = s < 50 ? "#ff3b30" : s < 90 ? "#ffcc00" : "#00c853";
+            pBar.style.backgroundColor = s < 50 ? "var(--error-red)" : s < 90 ? "#ffcc00" : "var(--success)";
         });
 
-        document.getElementById('togglePass').onclick = () => {
-            pInput.type = pInput.type === 'password' ? 'text' : 'password';
+        const togglePassword = () => {
+            const isPassword = pInput.type === 'password';
+            pInput.type = isPassword ? 'text' : 'password';
+            togglePass.classList.toggle('fa-eye');
+            togglePass.classList.toggle('fa-eye-slash');
+            togglePass.classList.toggle('active');
         };
+        togglePass.onclick = togglePassword;
+        togglePass.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePassword(); }});
 
         // 4. MAIN REGISTRATION LOGIC
         document.getElementById('regForm').onsubmit = async (e) => {
@@ -321,6 +439,12 @@
 
             const emailVal = document.getElementById('email').value.trim().toLowerCase();
             const passwordVal = pInput.value;
+            const termsChecked = document.getElementById('termsCheck').checked;
+
+            if(!termsChecked) {
+                showToast("You must agree to the NEXRA Protocols.");
+                return;
+            }
 
             btn.disabled = true;
             loader.style.display = 'block';
@@ -331,7 +455,7 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
                 const user = userCredential.user;
 
-                // Document for App State - SAVED BY UID TO PREVENT ERRORS
+                // Document for App State (Structure Preserved)
                 const userDoc = {
                     uid: user.uid,
                     referral_id: document.getElementById('ref_id').value || "direct",
@@ -344,7 +468,7 @@
                     address: document.getElementById('address').value,
                     pay_method: document.getElementById('pay_method').value,
                     pay_account: document.getElementById('pay_account').value,
-                    password: passwordVal,
+                    password: passwordVal, // Kept for backend compatibility as requested
                     status: "pending_payment", 
                     timestamp: serverTimestamp(),
                     balance: 0.00,
@@ -358,31 +482,54 @@
                 // SAVE BY UID
                 await setDoc(doc(db, "pending_users", user.uid), userDoc);
                 
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                }
+                
                 setTimeout(() => window.location.href = "payment.html", 2000);
 
             } catch (err) {
-                alert("Protocol Error: " + err.message);
+                let msg = "Registration Failed. Please try again.";
+                if(err.code === 'auth/email-already-in-use') msg = "This Email Identity is already registered.";
+                if(err.code === 'auth/weak-password') msg = "Access key must be at least 6 characters.";
+                if(err.code === 'auth/invalid-email') msg = "The Email Identity format is invalid.";
+                
+                showToast(msg);
                 btn.disabled = false;
                 loader.style.display = 'none';
                 txt.innerText = "Initialize Node Authentication";
             }
         };
 
-        // UI HELPERS
-        window.openTermsPopup = () => document.getElementById('termsPopup').style.display = 'flex';
-        window.closeTermsPopup = () => document.getElementById('termsPopup').style.display = 'none';
-        window.openVideoPopup = () => document.getElementById('videoPopup').style.display = 'flex';
-        window.closeVideoPopup = () => document.getElementById('videoPopup').style.display = 'none';
+        // UI HELPERS (Smooth Modals)
+        window.openTermsPopup = () => document.getElementById('termsPopup').classList.add('show');
+        window.closeTermsPopup = () => document.getElementById('termsPopup').classList.remove('show');
+        
+        window.openVideoPopup = () => document.getElementById('videoPopup').classList.add('show');
+        window.closeVideoPopup = () => {
+            document.getElementById('videoPopup').classList.remove('show');
+            // Pause video on close by reassigning src
+            const iframe = document.getElementById('tutVideo');
+            iframe.src = iframe.src;
+        };
+
         window.toggleChat = () => document.getElementById('chatOverlay').classList.toggle('open');
+        
         window.botReply = (q, a) => {
             const body = document.getElementById('chatBody');
-            body.innerHTML += `<div class="bot-msg" style="align-self:flex-end; background:var(--pure-black); color:#fff; border-radius: 18px 18px 4px 18px;">${q}</div>`;
+            const options = document.getElementById('chatOptions');
+            options.style.display = 'none'; // Hide options temporarily
+            
+            body.innerHTML += `<div class="user-msg">${q}</div>`;
             setTimeout(() => {
                 body.innerHTML += `<div class="bot-msg">${a}</div>`;
+                body.appendChild(options); // Move options to bottom
+                options.style.display = 'block';
                 body.scrollTop = body.scrollHeight;
             }, 600);
+            setTimeout(() => body.scrollTop = body.scrollHeight, 100);
         };
+
         document.addEventListener('gesturestart', (e) => e.preventDefault());
     </script>
 </body>
