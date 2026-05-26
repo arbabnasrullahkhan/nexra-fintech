@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Security Desk</title>
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #000000; --white: #ffffff; --border: rgba(0,0,0,0.06); --blue: #007aff; --gray: #f8f9fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%); }
+        header { position: sticky; top: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border); z-index: 100; }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+        .viewport { max-width: 450px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-family: 'Outfit'; font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 30px; }
+
+        .auth-status { background: var(--black); color: #fff; padding: 20px; border-radius: 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+        .sh-icon { font-size: 24px; color: var(--blue); }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; color: #999; letter-spacing: 1px; }
+        input { width: 100%; padding: 16px; border-radius: 15px; border: 1.5px solid var(--gray); background: var(--gray); font-size: 15px; font-weight: 700; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--black); background: #fff; }
+
+        .btn-update { width: 100%; padding: 18px; border-radius: 18px; border: none; background: var(--black); color: #fff; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .btn-update:active { transform: scale(0.96); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase;">Cloud Security</span>
+    </header>
+    <main class="viewport">
+        <h1>Access Control</h1>
+
+        <div class="auth-status">
+            <i class="fa-solid fa-shield-check sh-icon"></i>
+            <div>
+                <p style="font-size:13px; font-weight:800;">System Session: Encrypted</p>
+                <p style="font-size:10px; opacity:0.6;">Your IP is whitelisted for this node.</p>
+            </div>
+        </div>
+        
+        <form id="securityForm">
+            <div class="form-group">
+                <label>Update Access Key (Password)</label>
+                <input type="password" id="newPass" placeholder="Enter new secure key" required>
+            </div>
+            <button type="submit" class="btn-update">Encrypt & Save</button>
+        </form>
+    </main>
+</body>
+</html>

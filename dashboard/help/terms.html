@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Terms</title>
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #000000; --white: #ffffff; --border: rgba(0,0,0,0.06); --gray: #f8f9fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+        .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%); }
+        header { position: sticky; top: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border); z-index: 100; }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+        .viewport { max-width: 750px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-family: 'Outfit'; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 30px; }
+        .term-block { margin-bottom: 35px; }
+        .term-block h2 { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); margin-bottom: 12px; }
+        .term-block p { font-size: 14px; color: #555; font-weight: 500; }
+        .term-block b { color: var(--black); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase;">Usage Agreement</span>
+    </header>
+    <main class="viewport">
+        <h1>Terms of Service</h1>
+        
+        <div class="term-block">
+            <h2>1. Account Sovereignty</h2>
+            <p>Users must be at least 18 years of age. You are responsible for the secrecy of your <b>Access Key</b>. NEXRA Official will never ask for your password. Sharing accounts results in instant termination.</p>
+        </div>
+
+        <div class="term-block">
+            <h2>2. Anti-Fraud Protocol</h2>
+            <p>Our AI system monitors <b>IP Collisions</b>. Creating multiple accounts on the same device to farm referral bonuses is a violation of the protocol. All linked accounts will be banned, and pending balances will be nullified without refund.</p>
+        </div>
+
+        <div class="term-block">
+            <h2>3. Withdrawal Audits</h2>
+            <p>All payouts undergo a manual technical audit. NEXRA reserves the right to delay or reject payments if a user's task completion history is found to be automated, faked, or manipulated.</p>
+        </div>
+
+        <div class="term-block">
+            <h2>4. Protocol Changes</h2>
+            <p>NEXRA Global reserves the right to modify task rates, referral commissions, or system limits at any time to maintain ecosystem liquidity and server health.</p>
+        </div>
+    </main>
+</body>
+</html>

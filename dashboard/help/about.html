@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Ecosystem Intelligence</title>
+    
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --red: #ff3b30; --border: rgba(0,0,0,0.06); --gray-bg: #f8f9fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+
+        /* Architectural Grid Background */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 35px 35px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%);
+        }
+
+        header {
+            position: sticky; top: 0; background: rgba(255,255,255,0.85); 
+            backdrop-filter: blur(20px); padding: 15px 20px; display: flex; 
+            align-items: center; border-bottom: 1px solid var(--border); z-index: 100;
+        }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+
+        .viewport { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Hero Section */
+        .about-hero { text-align: center; margin-bottom: 50px; }
+        .f-logo { width: 90px; height: 90px; margin-bottom: 20px; border-radius: 22%; mix-blend-mode: multiply; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 5px; }
+        .version-tag { font-size: 10px; font-weight: 800; background: var(--gray-bg); padding: 5px 12px; border-radius: 100px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Content Cards */
+        .info-card { background: #fff; border: 1px solid var(--border); border-radius: 28px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .info-card h2 { font-family: 'Outfit'; font-size: 20px; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .info-card h2 i { color: var(--green); font-size: 18px; }
+        .info-card p { font-size: 14px; color: #555; font-weight: 500; }
+
+        /* IMPORTANT: FINANCIAL DISCLAIMER SECTION */
+        .risk-card { 
+            background: #fffcfc; border: 2px solid var(--red); border-radius: 28px; padding: 30px; margin-bottom: 40px; 
+            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.05);
+        }
+        .risk-card h2 { color: var(--red); font-family: 'Outfit'; font-size: 20px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .risk-card p { font-size: 14px; color: #444; font-weight: 700; line-height: 1.7; }
+        .highlight-red { color: var(--red); text-decoration: underline; }
+
+        /* Support Badges */
+        .badge-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 40px; opacity: 0.6; }
+        .s-badge { background: var(--gray-bg); border: 1px solid var(--border); padding: 8px 15px; border-radius: 10px; font-size: 10px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+
+        footer { text-align: center; margin-top: 50px; padding-bottom: 40px; }
+        .f-text { font-size: 11px; font-weight: 700; color: #ccc; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Protocol Overview</span>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Hero -->
+        <section class="about-hero">
+            <img src="../../assets/ui/logo.png" class="f-logo" alt="NEXRA">
+            <h1>NEXRA Ecosystem</h1>
+            <span class="version-tag">Core Build 4.0.5 Stable</span>
+        </section>
+
+        <!-- Mission -->
+        <div class="info-card">
+            <h2><i class="fa-solid fa-microchip"></i> Decentralized Tasks</h2>
+            <p>NEXRA is a high-performance technical node processing ecosystem. We provide a bridge for global partners to participate in micro-validation, data auditing, and social growth metrics. Our mission is to automate the flow of digital liquidity through active community work.</p>
+        </div>
+
+        <!-- Transparency -->
+        <div class="info-card">
+            <h2><i class="fa-solid fa-shield-halved"></i> Cloud Infrastructure</h2>
+            <p>Built on the latest AES-256 encryption standards, NEXRA ensures that every processed node and every referral connection is securely logged in the master ledger. We use manual audit protocols to maintain 100% payout accuracy across all supported gateways including EasyPaisa, SadaPay, and Binance.</p>
+        </div>
+
+        <!-- STRICT LIABILITY DISCLAIMER (Rupee Clause) -->
+        <div class="risk-card">
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> Liability Protocol</h2>
+            <p>NEXRA is a task-based work platform, NOT an investment scheme. Participation is voluntary. Please be advised that the <span class="highlight-red">NEXRA Protocol and its Admin team are NOT responsible for any financial losses,</span> transaction errors, or market fluctuations. We do not guarantee fixed profits. As per our legal framework, <span class="highlight-red">we are not accountable for a single rupee or cent of user-side capital risk.</span> Users process nodes at their own technical discretion.</p>
+        </div>
+
+        <div class="badge-row">
+            <div class="s-badge"><i class="fa-solid fa-lock"></i> SSL ENCRYPTED</div>
+            <div class="s-badge"><i class="fa-solid fa-robot"></i> ANTI-BOT AI</div>
+            <div class="s-badge"><i class="fa-solid fa-file-contract"></i> AML COMPLIANT</div>
+        </div>
+
+        <footer>
+            <p class="f-text">© 2024 NEXRA GLOBAL PROTOCOL. UNLOCKING WEALTH.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Disable Zoom
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

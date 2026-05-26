@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Privacy</title>
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #000000; --white: #ffffff; --border: rgba(0,0,0,0.06); --blue: #007aff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+        .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%); }
+        header { position: sticky; top: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border); z-index: 100; }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+        .viewport { max-width: 750px; margin: 0 auto; padding: 40px 20px; }
+        h1 { font-family: 'Outfit'; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 30px; }
+        
+        .sec-box { background: #f9f9fb; border-radius: 28px; padding: 30px; border: 1px solid var(--border); margin-bottom: 30px; }
+        .sec-box i { font-size: 30px; color: var(--blue); margin-bottom: 15px; }
+        .sec-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+        .sec-box p { font-size: 14px; color: #555; font-weight: 500; }
+        
+        .p-list { list-style: none; }
+        .p-list li { margin-bottom: 20px; padding-left: 30px; position: relative; font-size: 14px; color: #555; font-weight: 500; }
+        .p-list li::before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--blue); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase;">Data Protocol</span>
+    </header>
+    <main class="viewport">
+        <h1>Privacy Protocols</h1>
+        
+        <div class="sec-box">
+            <i class="fa-solid fa-fingerprint"></i>
+            <h3>AES-256 Cloud Encryption</h3>
+            <p>NEXRA uses military-grade encryption to secure your Wallet IDs, Account Numbers, and login credentials. Your data is fragmented and stored across decentralized technical nodes.</p>
+        </div>
+
+        <ul class="p-list">
+            <li><b>Identity Data:</b> We collect only necessary data (Email, Number) to verify your account status and prevent fraud.</li>
+            <li><b>No Third-Party Access:</b> NEXRA does not sell or share your activity logs with advertisers. Your earning history is 100% private.</li>
+            <li><b>IP Mapping:</b> We use IP addresses solely to protect the community from bot attacks and multi-account abuse.</li>
+            <li><b>Data Control:</b> Users can request account deactivation and data purging via the Concierge Support channel.</li>
+        </ul>
+    </main>
+</body>
+</html>

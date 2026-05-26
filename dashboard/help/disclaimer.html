@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Risk Protocol</title>
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #000000; --white: #ffffff; --border: rgba(0,0,0,0.06); --red: #ff3b30; --gray: #f8f9fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+        .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 30px 30px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%); }
+        header { position: sticky; top: 0; background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border); z-index: 100; }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+        .viewport { max-width: 750px; margin: 0 auto; padding: 40px 20px; }
+        .hero { text-align: center; margin-bottom: 40px; }
+        .hero img { width: 80px; border-radius: 20%; mix-blend-mode: multiply; margin-bottom: 15px; }
+        h1 { font-family: 'Outfit'; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; }
+        
+        .warning-card { background: #fffcfc; border: 2px solid var(--red); border-radius: 28px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(255, 59, 48, 0.05); }
+        .warning-card h2 { color: var(--red); font-family: 'Outfit'; font-size: 20px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+        .warning-card p { font-size: 14px; font-weight: 700; color: #444; }
+        
+        .info-card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; }
+        .info-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 10px; color: var(--black); text-transform: uppercase; letter-spacing: 1px; }
+        .info-card p { font-size: 13px; color: #666; font-weight: 500; }
+        .red-text { color: var(--red); font-weight: 800; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase;">Legal Disclaimer</span>
+    </header>
+    <main class="viewport">
+        <div class="hero">
+            <img src="../../assets/ui/logo.png" alt="NEXRA">
+            <h1>Risk Disclosure</h1>
+        </div>
+        
+        <div class="warning-card">
+            <h2>Non-Liability Protocol</h2>
+            <p>NEXRA Global Protocol is a technological interface for node processing. We are <span class="red-text">NOT a financial insurer or investment bank</span>. By using this app, you acknowledge that you are working at your own absolute risk. <span class="red-text">We are not responsible, accountable, or liable for a single rupee or cent of user capital under any circumstances.</span></p>
+        </div>
+
+        <div class="info-card">
+            <h3>No Profit Guarantee</h3>
+            <p>Earning is based strictly on successful node completion and community growth. NEXRA makes no promises regarding fixed income. If the platform faces technical downtime or external market shifts, users have no legal claim to compensation.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Zero Refund Policy</h3>
+            <p>The activation and server maintenance fees are <span class="red-text">100% non-refundable</span>. Once a protocol link is established, the transaction is final. No disputes will be entertained regarding entry liquidity.</p>
+        </div>
+    </main>
+</body>
+</html>

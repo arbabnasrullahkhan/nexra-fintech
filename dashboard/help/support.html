@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Concierge Hub</title>
+    
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #25d366; 
+            --blue: #0088cc; --nexra-blue: #007aff; --gray: #f8f9fa; 
+            --border: rgba(0,0,0,0.06); --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. LAYOUT RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; background: var(--white); color: var(--black); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255,255,255,0.85); backdrop-filter: blur(25px); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; }
+
+        .viewport { max-width: 600px; margin: 0 auto; padding: 30px 20px; padding-bottom: 100px; }
+
+        /* 2. HERO */
+        .support-hero { text-align: center; margin-bottom: 40px; animation: slideDown 0.6s ease; }
+        .hero-icon { width: 70px; height: 70px; background: var(--gray); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 30px; border: 1px solid var(--border); }
+        h1 { font-family: var(--font-head); font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; }
+        .hero-p { font-size: 14px; color: #888; font-weight: 500; line-height: 1.5; }
+
+        /* 3. NEURAL CHAT CARD (INTERNAL) */
+        .chat-card { background: var(--black); color: #fff; padding: 30px; border-radius: 32px; margin-bottom: 30px; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .chat-card::after { content: ""; position: absolute; top: -50%; right: -20%; width: 200px; height: 200px; background: var(--nexra-blue); filter: blur(60px); opacity: 0.3; }
+        
+        .chat-tag { font-size: 9px; font-weight: 900; background: var(--nexra-blue); color: #fff; padding: 4px 10px; border-radius: 100px; letter-spacing: 1px; display: inline-block; margin-bottom: 15px; }
+        .chat-title { font-family: var(--font-head); font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+        .chat-p { font-size: 12px; opacity: 0.6; margin-bottom: 25px; line-height: 1.4; }
+        
+        .btn-chat { background: var(--white); color: var(--black); width: 100%; padding: 18px; border-radius: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 14px; transition: 0.3s; position: relative; z-index: 5; }
+        .btn-chat:active { transform: scale(0.96); }
+
+        /* 4. EXTERNAL CHANNELS */
+        .channel-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #bbb; letter-spacing: 2px; margin-bottom: 15px; padding-left: 10px; }
+        .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
+        
+        .chan-btn { background: #fff; border: 1.5px solid var(--border); padding: 20px 15px; border-radius: 24px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.3s; }
+        .chan-btn i { font-size: 24px; }
+        .chan-btn span { font-size: 12px; font-weight: 800; color: var(--black); }
+        .chan-btn:active { transform: scale(0.95); background: var(--gray); }
+
+        .tg-style { color: var(--blue); }
+        .wa-style { color: var(--green); }
+
+        /* 5. PROTOCOL STATUS */
+        .status-box { background: var(--gray); border: 1px solid var(--border); padding: 20px; border-radius: 24px; }
+        .status-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .status-lbl { font-size: 11px; font-weight: 800; color: #999; text-transform: uppercase; }
+        .status-val { font-size: 11px; font-weight: 900; color: var(--green); }
+        .status-p { font-size: 11px; color: #aaa; font-weight: 500; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <a href="../profile.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Support Protocol</span>
+    </header>
+
+    <main class="viewport">
+        
+        <!-- Hero Header -->
+        <section class="support-hero">
+            <div class="hero-icon"><i class="fa-solid fa-headset"></i></div>
+            <h1>NEXRA Concierge</h1>
+            <p class="hero-p">Direct technical communication hub for the global earning ecosystem. Access secure neural channels below.</p>
+        </section>
+
+        <!-- Main Internal Chat Option -->
+        <section class="chat-card">
+            <span class="chat-tag">SECURE & PRIVATE</span>
+            <h2 class="chat-title">Internal Neural Chat</h2>
+            <p class="chat-p">Discuss TRX verification issues, account upgrades, or bugs directly with the NEXRA Audit Team inside the app.</p>
+            <a href="../notifications.html" class="btn-chat">
+                <i class="fa-solid fa-comment-dots"></i> Open neural session
+            </a>
+        </section>
+
+        <!-- External Official Channels -->
+        <div class="channel-title">Official Channels</div>
+        <div class="channel-grid">
+            <!-- Telegram -->
+            <a href="#" id="tgLink" target="_blank" class="chan-btn">
+                <i class="fa-brands fa-telegram tg-style"></i>
+                <span>Telegram</span>
+            </a>
+            <!-- WhatsApp Channel -->
+            <a href="#" id="waLink" target="_blank" class="chan-btn">
+                <i class="fa-brands fa-whatsapp wa-style"></i>
+                <span>WhatsApp</span>
+            </a>
+        </div>
+
+        <!-- System Latency Status -->
+        <div class="status-box">
+            <div class="status-row">
+                <span class="status-lbl">Support Protocol</span>
+                <span class="status-val">Operational</span>
+            </div>
+            <p class="status-p">Avg response time for internal neural messages: 15 - 45 Minutes. Manual auditing is active.</p>
+        </div>
+
+    </main>
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6-plrT8KdXgb_RUjpbYm-8awMgjewFAE",
+            authDomain: "nexra-82bb8.firebaseapp.com",
+            projectId: "nexra-82bb8",
+            storageBucket: "nexra-82bb8.firebasestorage.app",
+            messagingSenderId: "1034104540482",
+            appId: "1:1034104540482:web:a0a22621f0d927eeb7ccdb"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // SYNC OFFICIAL CHANNELS FROM ADMIN PANEL
+        // Note: Make sure you have a collection "settings" and document "app" 
+        // with fields 'tg_channel' and 'wa_channel'
+        const settingsRef = doc(db, "settings", "app");
+
+        onSnapshot(settingsRef, (snap) => {
+            if(snap.exists()) {
+                const data = snap.data();
+                if(data.tg_channel) document.getElementById('tgLink').href = data.tg_channel;
+                if(data.wa_channel) document.getElementById('waLink').href = data.wa_channel;
+            }
+        });
+
+        // Anti-Zoom
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

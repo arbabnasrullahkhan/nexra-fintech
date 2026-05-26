@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Identity Workspace</title>
+    
+    <link rel="icon" type="image/png" href="../../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --blue: #007aff; --gray-light: #f8f9fa; --border: rgba(0,0,0,0.06);
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. LAYOUT RESET & LOCK */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; background: var(--white); color: var(--black); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        header { position: sticky; top: 0; z-index: 1000; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); padding: 15px 22px; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+        .back-btn { font-size: 18px; color: var(--black); text-decoration: none; margin-right: 15px; cursor: pointer; border: none; background: none; }
+
+        .viewport { width: 100%; max-width: 500px; margin: 0 auto; padding: 30px 20px; padding-bottom: 100px; }
+
+        /* 2. FORM STYLING */
+        h1 { font-family: var(--font-head); font-size: 28px; font-weight: 900; letter-spacing: -1px; margin-bottom: 30px; text-align: center; }
+        
+        .edit-card { background: #fff; border: 1px solid var(--border); border-radius: 35px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 30px; }
+
+        .field-group { margin-bottom: 22px; }
+        label { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1.5px; margin-bottom: 10px; padding-left: 5px; }
+        
+        input, select, textarea { 
+            width: 100%; padding: 18px; border-radius: 18px; 
+            border: 2px solid var(--gray-light); background: var(--gray-light); 
+            font-size: 15px; font-weight: 700; outline: none; 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit; color: var(--black);
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--black); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.03); }
+        
+        textarea { height: 100px; resize: none; line-height: 1.5; }
+        input[readonly] { opacity: 0.5; cursor: not-allowed; border-style: dashed; }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* 3. SYNC BUTTON */
+        .btn-sync { 
+            width: 100%; padding: 20px; border-radius: 22px; border: none; 
+            background: var(--black); color: #fff; font-size: 16px; 
+            font-weight: 900; cursor: pointer; transition: 0.3s; 
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .btn-sync:active { transform: scale(0.96); }
+        .btn-sync:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .sync-icon { animation: rotate 2s linear infinite; display: none; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .security-note { font-size: 11px; text-align: center; color: #aaa; margin-top: 25px; font-weight: 700; line-height: 1.5; }
+
+        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0, 0, 0, 0.94); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 2000; box-shadow: 0 15px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.1); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
+        .dock-link.active { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <header>
+        <button class="back-btn" onclick="location.href='../profile.html'"><i class="fa-solid fa-chevron-left"></i></button>
+        <span style="font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Identity Workspace</span>
+    </header>
+
+    <main class="viewport">
+        <h1>Edit Identity</h1>
+
+        <div class="edit-card">
+            <form id="identityForm">
+                
+                <!-- Ecosystem Node Identity -->
+                <div class="field-group">
+                    <label>Node Email (Identifier)</label>
+                    <input type="email" id="userEmail" readonly placeholder="Synchronizing...">
+                </div>
+
+                <div class="field-group">
+                    <label>Official Name</label>
+                    <input type="text" id="userName" placeholder="Full Legal Name" required>
+                </div>
+
+                <div class="field-group">
+                    <label>Identity Bio</label>
+                    <textarea id="userBio" placeholder="Short ecosystem bio..."></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="field-group">
+                        <label>Gender</label>
+                        <select id="userGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Birth Date</label>
+                        <input type="date" id="userDOB">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Mobile Protocol</label>
+                    <input type="tel" id="userPhone" placeholder="+92 ...">
+                </div>
+
+                <div class="field-group">
+                    <label>Residential City</label>
+                    <input type="text" id="userLoc" placeholder="City, Country">
+                </div>
+
+                <div style="height: 1px; background: #eee; margin: 10px 0 25px;"></div>
+
+                <div class="field-group">
+                    <label>Primary Settlement Gateway</label>
+                    <select id="userPayMethod">
+                        <option value="EasyPaisa">EasyPaisa (PK)</option>
+                        <option value="JazzCash">JazzCash (PK)</option>
+                        <option value="SadaPay">SadaPay (PK)</option>
+                        <option value="Binance (USDT)">Binance (USDT)</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label>Settlement Address / ID</label>
+                    <input type="text" id="userPayAccount" placeholder="Wallet or Number">
+                </div>
+
+                <button type="submit" class="btn-sync" id="submitBtn">
+                    <i class="fa-solid fa-arrows-rotate sync-icon" id="syncIcon"></i>
+                    <span id="btnText">SYNC PROTOCOL DATA</span>
+                </button>
+            </form>
+        </div>
+
+        <p class="security-note">
+            <i class="fa-solid fa-shield-halved" style="color:var(--green)"></i><br>
+            Any modification to this node is logged in the NEXRA Auditor feed.<br>
+            Account email cannot be modified once handshaked.
+        </p>
+
+    </main>
+
+    <nav class="dock">
+        <a href="../home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
+        <a href="../refer.html" class="dock-link"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="../tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="../wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    </nav>
+
+    <!-- System Logic -->
+    <script type="module">
+        import { auth, db } from "../../assets/js/firebase-config.js";
+        import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        let currentUID = null;
+
+        // 1. AUTH WATCHER
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "../../auth/login.html";
+            } else {
+                currentUID = user.uid;
+                loadIdentityData(user.uid);
+            }
+        });
+
+        // 2. DATA FETCHER
+        async function loadIdentityData(uid) {
+            const userRef = doc(db, "pending_users", uid);
+            try {
+                const snap = await getDoc(userRef);
+                if(snap.exists()) {
+                    const d = snap.data();
+                    document.getElementById('userEmail').value = d.email || auth.currentUser.email;
+                    document.getElementById('userName').value = d.name || "";
+                    document.getElementById('userBio').value = d.bio || "";
+                    document.getElementById('userGender').value = d.gender || "Male";
+                    document.getElementById('userDOB').value = d.dob || "";
+                    document.getElementById('userPhone').value = d.phone || "";
+                    document.getElementById('userLoc').value = d.address || "";
+                    document.getElementById('userPayMethod').value = d.pay_method || "EasyPaisa";
+                    document.getElementById('userPayAccount').value = d.pay_account || "";
+                }
+            } catch (e) {
+                console.error("Protocol Sync Error:", e);
+            }
+        }
+
+        // 3. UPDATE ENGINE
+        document.getElementById('identityForm').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const icon = document.getElementById('syncIcon');
+            const txt = document.getElementById('btnText');
+
+            btn.disabled = true;
+            icon.style.display = 'inline-block';
+            txt.innerText = "SYNCHRONIZING...";
+
+            const userRef = doc(db, "pending_users", currentUID);
+            const updatedPayload = {
+                name: document.getElementById('userName').value.trim(),
+                bio: document.getElementById('userBio').value.trim(),
+                gender: document.getElementById('userGender').value,
+                dob: document.getElementById('userDOB').value,
+                phone: document.getElementById('userPhone').value.trim(),
+                address: document.getElementById('userLoc').value.trim(),
+                pay_method: document.getElementById('userPayMethod').value,
+                pay_account: document.getElementById('userPayAccount').value.trim()
+            };
+
+            try {
+                await updateDoc(userRef, updatedPayload);
+                
+                txt.innerText = "IDENTITY UPDATED";
+                icon.style.display = 'none';
+                btn.style.background = "var(--green)";
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.style.background = "var(--black)";
+                    txt.innerText = "SYNC PROTOCOL DATA";
+                }, 2000);
+
+            } catch (err) {
+                alert("Audit Error: " + err.message);
+                btn.disabled = false;
+                icon.style.display = 'none';
+                txt.innerText = "SYNC PROTOCOL DATA";
+            }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
