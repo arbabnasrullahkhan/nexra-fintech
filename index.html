@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="NEXRA">
-    <link rel="apple-touch-icon" href="assets/ui/logo.png">
-
     <title>NEXRA | Smart Earning Ecosystem</title>
     <meta name="description" content="Join NEXRA, the world's most secure fintech ecosystem.">
     <meta name="theme-color" content="#ffffff">
-    <link rel="icon" type="image/png" href="assets/ui/logo.png">
+    
+    <!-- Apple Mobile Web App Meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
+    <!-- Preload Critical Assets for Instant Rendering -->
+    <link rel="icon" type="image/png" href="assets/ui/logo.png">
+    <link rel="preload" as="image" href="assets/ui/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/ui/name.png" fetchpriority="high">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -24,21 +27,29 @@
             --grid-color: rgba(0, 0, 0, 0.035);
             --accent-black: #111111;
             --text-muted: #bcbcbc;
-            --loader-bg: #f0f0f2;
+            --loader-bg: #e0e0e2;
+            --ease-spring: cubic-bezier(0.17, 0.67, 0.4, 1.1); /* Smoother modern easing */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* Base Resets & Mobile App Feel */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
         html, body {
             width: 100%; height: 100dvh; 
             overflow: hidden !important;
             position: fixed;
             background-color: var(--bg-white);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             touch-action: none; 
             user-select: none;
+            -webkit-user-drag: none;
             display: flex; justify-content: center; align-items: center;
         }
 
+        /* Grid Background Overlay */
         .bg-layer {
             position: absolute; inset: 0; z-index: 1;
             background-image: 
@@ -47,104 +58,213 @@
             background-size: 35px 35px;
             mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%);
             -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%);
+            pointer-events: none;
         }
 
+        /* Main App Shell Layout */
         .splash-shell {
             position: relative; z-index: 10;
             width: 100%; max-width: 420px;
             height: 100%; display: flex;
             flex-direction: column; justify-content: space-between;
             align-items: center; padding: 12dvh 30px;
+            transition: all 0.7s cubic-bezier(0.64, 0, 0.78, 0);
         }
 
-        .brand-group { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
-        .logo-main { width: 90px; height: 90px; object-fit: contain; animation: bounceIn 1s cubic-bezier(0.17, 0.67, 0.6, 1.2) forwards; mix-blend-mode: multiply; }
-        .name-img { width: 190px; height: auto; object-fit: contain; mix-blend-mode: multiply; animation: fadeUp 0.8s ease 0.3s both; }
-        .tagline { font-size: 11px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--text-muted); margin-top: -8px; animation: fadeUp 0.8s ease 0.5s both; }
+        /* Branding Group */
+        .brand-group { 
+            flex: 1; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; gap: 24px; 
+        }
 
-        .loader-group { display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .battery-loader { display: flex; gap: 7px; align-items: flex-end; height: 25px; }
-        .battery-bar { width: 8px; height: 14px; background: var(--loader-bg); border-radius: 2px; animation: batteryBounce 1.2s infinite ease-in-out; }
+        /* Hardware Accelerated Animations */
+        .logo-main { 
+            width: 90px; height: 90px; object-fit: contain; 
+            mix-blend-mode: multiply; 
+            transform: translateZ(0);
+            will-change: transform, opacity;
+            animation: bounceIn 1s var(--ease-spring) forwards; 
+        }
+
+        .name-img { 
+            width: 190px; height: auto; object-fit: contain; 
+            mix-blend-mode: multiply; 
+            transform: translateY(15px); opacity: 0;
+            will-change: transform, opacity;
+            animation: fadeUp 0.8s ease 0.3s forwards; 
+        }
+
+        .tagline { 
+            font-size: clamp(10px, 2.5vw, 11px); font-weight: 600; 
+            letter-spacing: 0.35em; text-transform: uppercase; 
+            color: var(--text-muted); margin-top: -8px; 
+            transform: translateY(15px); opacity: 0;
+            will-change: transform, opacity;
+            animation: fadeUp 0.8s ease 0.5s forwards; 
+        }
+
+        /* Loader & Footer Group */
+        .loader-group { 
+            display: flex; flex-direction: column; 
+            align-items: center; gap: 25px; 
+        }
+
+        .battery-loader { 
+            display: flex; gap: 7px; align-items: flex-end; 
+            height: 25px; 
+        }
+
+        /* Optimized Loader using scaleY instead of height for 60fps */
+        .battery-bar { 
+            width: 8px; height: 22px; 
+            background: var(--loader-bg); 
+            border-radius: 2px; 
+            transform-origin: bottom;
+            transform: scaleY(0.63);
+            will-change: transform, background-color;
+            animation: batteryBounce 1.2s infinite ease-in-out; 
+        }
+        
         .battery-bar:nth-child(2) { animation-delay: 0.15s; }
         .battery-bar:nth-child(3) { animation-delay: 0.3s; }
         .battery-bar:nth-child(4) { animation-delay: 0.45s; }
-        .footer-credit { font-size: 12px; color: #d1d1d6; font-weight: 500; letter-spacing: 0.2px; }
 
-        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes batteryBounce { 0%, 100% { background: var(--loader-bg); height: 14px; } 50% { background: var(--accent-black); height: 22px; } }
+        .footer-credit { 
+            font-size: 12px; color: #c4c4c8; font-weight: 500; 
+            letter-spacing: 0.2px; 
+        }
 
-        .exit-effect { opacity: 0; transform: translateY(-10px); filter: blur(8px); transition: all 0.8s cubic-bezier(0.64, 0, 0.78, 0); }
+        /* Keyframes */
+        @keyframes bounceIn { 
+            0% { opacity: 0; transform: scale(0.5) translateZ(0); } 
+            100% { opacity: 1; transform: scale(1) translateZ(0); } 
+        }
+        
+        @keyframes fadeUp { 
+            from { opacity: 0; transform: translateY(15px) translateZ(0); } 
+            to { opacity: 1; transform: translateY(0) translateZ(0); } 
+        }
+        
+        @keyframes batteryBounce { 
+            0%, 100% { transform: scaleY(0.63); background: var(--loader-bg); } 
+            50% { transform: scaleY(1); background: var(--accent-black); } 
+        }
+
+        /* Smooth Exit Transition */
+        .exit-effect { 
+            opacity: 0; 
+            transform: scale(0.98) translateY(-10px); 
+            filter: blur(8px); 
+            pointer-events: none;
+        }
+
+        /* Accessibility: Reduce Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            .logo-main, .name-img, .tagline { animation: none; opacity: 1; transform: none; }
+            .battery-bar { animation: none; transform: scaleY(1); background: var(--accent-black); }
+            .exit-effect { filter: none; transform: none; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-layer"></div>
+    <div class="bg-layer" aria-hidden="true"></div>
 
-    <div class="splash-shell" id="app-shell">
-        <div class="brand-group">
-            <img src="assets/ui/logo.png" alt="Logo" class="logo-main">
-            <img src="assets/ui/name.png" alt="NEXRA" class="name-img">
-            <span class="tagline">Smart Earning Ecosystem</span>
-        </div>
+    <main class="splash-shell" id="app-shell" aria-live="polite">
+        <header class="brand-group">
+            <img src="assets/ui/logo.png" alt="NEXRA Logo" class="logo-main" loading="eager" decoding="async">
+            <img src="assets/ui/name.png" alt="NEXRA" class="name-img" loading="eager" decoding="async">
+            <h1 class="tagline">Smart Earning Ecosystem</h1>
+        </header>
 
-        <div class="loader-group">
-            <div class="battery-loader">
+        <footer class="loader-group">
+            <div class="battery-loader" aria-label="Loading application">
                 <div class="battery-bar"></div>
                 <div class="battery-bar"></div>
                 <div class="battery-bar"></div>
                 <div class="battery-bar"></div>
             </div>
-            <p class="footer-credit">Powered by l NEXRA Community</p>
-        </div>
-    </div>
+            <p class="footer-credit">Powered by | NEXRA Community</p>
+        </footer>
+    </main>
 
     <script type="module">
         import { db, doc, getDoc, auth, onAuthStateChanged } from "./assets/js/firebase-config.js";
 
+        // Global variables to pre-warm the auth state
+        let capturedUser = null;
+        let isAuthResolved = false;
+
+        // 1. Initialize Auth Listener IMMEDATELY to prevent lag after splash screen
+        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+            capturedUser = user;
+            isAuthResolved = true;
+        });
+
         async function initializeNEXRA() {
             const shell = document.getElementById('app-shell');
+            const SPLASH_MIN_TIME = 2800; // Optimal viewing time
+            const EXIT_ANIMATION_TIME = 700; // Matches CSS transition time
             
             try {
-                // 1. Maintenance Check
+                // 2. Parallel Loading: Check maintenance while waiting for auth
                 const settingsSnap = await getDoc(doc(db, "settings", "app"));
                 const isMaintenance = settingsSnap.exists() ? settingsSnap.data().maintenance : false;
 
-                // 2. BOOT ROUTING
+                // 3. Trigger Exit and Route
                 setTimeout(() => {
                     shell.classList.add('exit-effect');
 
                     setTimeout(() => {
+                        unsubscribeAuth(); // Clean up observer for performance
+
                         if (isMaintenance) {
                             window.location.replace('auth/checkpoint.html');
-                        } else {
-                            // Check Auth State
-                            onAuthStateChanged(auth, (user) => {
-                                if (user) {
-                                    // Already logged in, go check verification status
-                                    window.location.replace('auth/checkpoint.html');
-                                } else {
-                                    // New or logged out user
-                                    const hasVisited = localStorage.getItem('nexra_onboarded');
-                                    if (!hasVisited) {
-                                        localStorage.setItem('nexra_onboarded', 'true');
-                                        window.location.replace('intro.html');
-                                    } else {
-                                        window.location.replace('auth/login.html');
-                                    }
-                                }
-                            });
+                            return;
                         }
-                    }, 800);
-                }, 3000);
+
+                        // Helper to execute routing
+                        const executeRouting = (user) => {
+                            if (user) {
+                                window.location.replace('auth/checkpoint.html');
+                            } else {
+                                const hasVisited = localStorage.getItem('nexra_onboarded');
+                                if (!hasVisited) {
+                                    localStorage.setItem('nexra_onboarded', 'true');
+                                    window.location.replace('intro.html');
+                                } else {
+                                    window.location.replace('auth/login.html');
+                                }
+                            }
+                        };
+
+                        // 4. Instant Route based on pre-warmed auth state
+                        if (isAuthResolved) {
+                            executeRouting(capturedUser);
+                        } else {
+                            // Fallback just in case network is exceptionally slow
+                            onAuthStateChanged(auth, executeRouting);
+                        }
+
+                    }, EXIT_ANIMATION_TIME);
+                }, SPLASH_MIN_TIME);
 
             } catch (error) {
                 console.error("System Boot Failure:", error);
-                setTimeout(() => window.location.replace('auth/login.html'), 3500);
+                // Safe Fallback if Firestore fails (e.g., offline)
+                setTimeout(() => {
+                    shell.classList.add('exit-effect');
+                    setTimeout(() => window.location.replace('auth/login.html'), EXIT_ANIMATION_TIME);
+                }, SPLASH_MIN_TIME);
             }
         }
 
-        window.onload = initializeNEXRA;
+        // Initialize exactly when DOM is ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initializeNEXRA);
+        } else {
+            initializeNEXRA();
+        }
     </script>
 </body>
 </html>
