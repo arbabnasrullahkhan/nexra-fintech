@@ -3,157 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- ========================================== -->
+    <!-- 🚀 MASTER SEO & VERCEL OPTIMIZATION        -->
+    <!-- ========================================== -->
     <title>NEXRA | Referral Command</title>
+    <meta name="title" content="NEXRA Referral Hub | Grow Your Wealth Network">
+    <meta name="description" content="Manage your NEXRA team ledger, copy your unique referral link, and track your milestone bonuses in real-time.">
+    <link rel="canonical" href="https://nexra-fintech.vercel.app/dashboard/refer.html">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
     <link rel="icon" type="image/png" href="../assets/ui/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Deferred Scripts for Performance -->
+    <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --black: #000000;
+            --black: #080808;
             --white: #ffffff;
             --green: #00c853;
             --gold: #ffcc00;
-            --gray: #f8f9fa;
+            --silver: #e3e8ee;
+            --bronze: #cd7f32;
+            --gray: #f7f7f9;
             --border: rgba(0,0,0,0.06);
             --font-head: 'Outfit', sans-serif;
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* 1. LAYOUT LOCKDOWN */
+        /* 1. LAYOUT LOCKDOWN & iOS OPTIMIZATIONS */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body { 
             width: 100%; height: 100%; overflow-x: hidden; 
-            background: var(--white); color: var(--black); font-family: 'Inter', sans-serif;
-            touch-action: pan-y; -webkit-user-select: none;
+            background: var(--white); color: var(--black); font-family: 'Inter', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased; touch-action: pan-y;
         }
 
         .bg-mesh {
-            position: fixed; inset: 0; z-index: -1;
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
             background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
             background-size: 35px 35px;
             mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
         }
 
-        /* 2. TOP NAVIGATION */
+        /* 2. TOP NAVIGATION (Glassmorphism) */
         header {
             position: sticky; top: 0; z-index: 1000;
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
-            padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            padding: max(12px, env(safe-area-inset-top)) 20px 12px; 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
         }
-        .logo-btn { width: 34px; height: 34px; cursor: pointer; }
+        .logo-btn { width: 34px; height: 34px; cursor: pointer; transition: transform 0.2s; }
+        .logo-btn:active { transform: scale(0.9); }
         .h-name { height: 18px; mix-blend-mode: multiply; }
-        .profile-trigger { width: 35px; height: 35px; border-radius: 50%; background: var(--black); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .profile-trigger { width: 35px; height: 35px; border-radius: 50%; background: var(--black); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: transform 0.2s; }
+        .profile-trigger:active { transform: scale(0.9); }
 
-        .viewport { width: 100%; max-width: 1000px; margin: 0 auto; padding: 15px; padding-bottom: 120px; }
+        .viewport { width: 100%; max-width: 1000px; margin: 0 auto; padding: 20px 20px 140px; animation: fadeIn 0.6s var(--ease-spring); }
 
         /* 3. ATTRACTION MESSAGE CARD */
         .wealth-quote {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             color: #fff; padding: 25px; border-radius: 28px; margin-bottom: 25px;
-            position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
-        .wealth-quote i { font-size: 40px; position: absolute; right: -10px; bottom: -10px; opacity: 0.1; transform: rotate(-15deg); }
-        .wealth-quote h2 { font-family: var(--font-head); font-size: 18px; margin-bottom: 8px; color: var(--green); }
-        .wealth-quote p { font-size: 13px; opacity: 0.8; line-height: 1.5; font-weight: 500; }
+        .wealth-quote i { font-size: 50px; position: absolute; right: -5px; bottom: -10px; opacity: 0.05; transform: rotate(-15deg); pointer-events: none; }
+        .wealth-quote h2 { font-family: var(--font-head); font-size: 18px; margin-bottom: 8px; color: var(--green); letter-spacing: -0.5px; }
+        .wealth-quote p { font-size: 13px; opacity: 0.85; line-height: 1.5; font-weight: 500; }
 
         /* 4. HERO: NEXRA ID & LINK */
         .refer-hero {
-            background: var(--white); border: 1px solid var(--border); padding: 35px 24px; border-radius: 32px;
+            background: var(--white); border: 1.5px solid var(--border); padding: 30px 20px; border-radius: 32px;
             text-align: center; margin-bottom: 25px; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03);
         }
         .refer-hero h1 { font-family: var(--font-head); font-size: 24px; letter-spacing: -0.5px; }
         .my-id { font-size: 12px; color: var(--green); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px; display: block; }
         
         .link-card {
-            background: var(--gray); border: 1px solid var(--border);
-            padding: 15px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between;
+            background: var(--gray); border: 1.5px solid var(--border);
+            padding: 12px 12px 12px 18px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
         }
-        .link-val { font-size: 13px; font-weight: 700; color: #555; width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
-        .copy-trigger { background: var(--black); color: var(--white); border: none; padding: 10px 20px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.2s; }
-        .copy-trigger:active { transform:scale(0.9); }
+        .link-val { flex: 1; font-size: 13px; font-weight: 600; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+        .copy-trigger { background: var(--black); color: var(--white); border: none; padding: 12px 20px; border-radius: 14px; font-size: 12px; font-weight: 800; cursor: pointer; transition: all 0.2s var(--ease-spring); }
+        .copy-trigger:active { transform: scale(0.92); background: #333; }
 
         .share-row { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
-        .share-btn { width: 50px; height: 50px; border-radius: 16px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: 0.3s; border: 1px solid var(--border); }
+        .share-btn { width: 50px; height: 50px; border-radius: 16px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: all 0.2s var(--ease-spring); border: 1.5px solid var(--border); }
         .share-btn:active { transform: scale(0.9); }
 
         /* 5. STATS & MILESTONES */
-        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-        .stat-card { background: #fff; border: 1px solid var(--border); padding: 20px; border-radius: 24px; text-align: center; }
-        .stat-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; display: block; margin-bottom: 5px; }
-        .stat-val { font-size: 26px; font-weight: 900; font-family: var(--font-head); letter-spacing:-1px;}
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: #fff; border: 1.5px solid var(--border); padding: 20px; border-radius: 24px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .stat-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #8e8e93; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .stat-val { font-size: 26px; font-weight: 900; font-family: var(--font-head); letter-spacing: -1px; }
 
-        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; padding-left: 5px; letter-spacing:-0.5px; }
-        .milestone-track { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; margin-bottom: 25px; }
+        .section-title { font-size: 18px; font-weight: 800; margin-bottom: 15px; padding-left: 5px; letter-spacing: -0.5px; }
+        
+        .milestone-track { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 25px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
         .milestone-track::-webkit-scrollbar { display: none; }
-        .m-card { min-width: 145px; background: #fff; border: 1px solid var(--border); padding: 18px; border-radius: 22px; text-align: center; transition:0.3s; }
-        .m-card.active { border-color: var(--green); background: #f0fff4; }
+        .m-card { scroll-snap-align: start; min-width: 145px; background: #fff; border: 1.5px solid var(--border); padding: 18px; border-radius: 22px; text-align: center; transition: all 0.3s var(--ease-spring); }
+        .m-card.active { border-color: rgba(0, 200, 83, 0.4); background: #f0fff4; box-shadow: 0 8px 20px rgba(0,200,83,0.1); transform: translateY(-3px); }
         .m-card.active .m-reward { color: var(--green); }
-        .m-title { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #999; margin-bottom: 5px; }
-        .m-reward { font-size: 16px; font-weight: 900; color: var(--black); }
+        .m-title { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #8e8e93; margin-bottom: 5px; }
+        .m-reward { font-size: 18px; font-weight: 900; color: var(--black); font-family: var(--font-head); }
 
         /* 6. LEADERBOARD */
-        .leaderboard-box { background: #fff; border: 1px solid var(--border); border-radius: 28px; overflow: hidden; margin-bottom: 30px; }
-        .lb-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--gray); }
+        .leaderboard-box { background: #fff; border: 1.5px solid var(--border); border-radius: 28px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .lb-item { display: flex; align-items: center; gap: 15px; padding: 16px 20px; border-bottom: 1px solid var(--gray); animation: fadeIn 0.4s ease; }
         .lb-item:last-child { border-bottom: none; }
-        .lb-rank { width: 24px; font-weight: 900; font-size: 14px; color: #bbb; }
-        .lb-item:nth-child(1) .lb-rank { color: var(--gold); }
-        .lb-val { font-weight: 900; font-size: 13px; color: var(--green); margin-left: auto; }
+        .lb-rank { width: 26px; font-weight: 900; font-size: 14px; color: #bbb; text-align: center; }
+        
+        /* Trophy Colors */
+        .lb-item[data-rank="1"] .lb-rank { color: var(--gold); font-size: 18px; text-shadow: 0 2px 8px rgba(255,204,0,0.4); }
+        .lb-item[data-rank="2"] .lb-rank { color: #a0b2c6; font-size: 16px; }
+        .lb-item[data-rank="3"] .lb-rank { color: var(--bronze); font-size: 15px; }
+        
+        .lb-name { font-weight: 700; font-size: 14px; }
+        .lb-val { font-weight: 900; font-size: 13px; color: var(--green); margin-left: auto; font-family: var(--font-head); }
 
         /* 7. NETWORK LEDGER */
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; padding: 0 5px; }
-        .tab { padding: 10px 18px; border-radius: 100px; background: var(--gray); font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); transition:0.2s; }
-        .tab.active { background: var(--black); color: #fff; border-color:var(--black); }
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; padding: 0 5px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab { flex-shrink: 0; padding: 10px 20px; border-radius: 100px; background: var(--gray); font-size: 12px; font-weight: 700; cursor: pointer; border: 1.5px solid transparent; transition: all 0.3s var(--ease-spring); color: #555; }
+        .tab.active { background: var(--black); color: #fff; border-color: var(--black); box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
 
-        .team-box { background: #fff; border: 1px solid var(--border); border-radius: 28px; overflow: hidden; min-height: 150px; }
-        .t-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--gray); }
-        .t-avatar { width: 42px; height: 42px; border-radius: 14px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; text-transform: uppercase; }
+        .team-box { background: #fff; border: 1.5px solid var(--border); border-radius: 28px; overflow: hidden; min-height: 150px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .t-item { display: flex; align-items: center; gap: 15px; padding: 16px 20px; border-bottom: 1px solid var(--gray); animation: slideInRight 0.3s ease; }
+        .t-item:last-child { border-bottom: none; }
+        .t-avatar { width: 42px; height: 42px; border-radius: 14px; background: var(--gray); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; text-transform: uppercase; color: var(--black); }
         .t-info { flex: 1; }
         .t-name { font-size: 14px; font-weight: 800; }
-        .t-status { font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; margin-left: auto; }
+        .t-status { font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 100px; text-transform: uppercase; margin-left: auto; letter-spacing: 0.5px; }
         .s-approved { background: #e0fff0; color: var(--green); }
         .s-pending { background: #fff4e0; color: #ff9f43; }
         .s-rejected { background: #ffebeb; color: #ff4d4d; }
 
+        /* Skeletons */
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeletonLoading 1.5s infinite; border-radius: 12px; }
+        @keyframes skeletonLoading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
         /* 8. BOT & DOCK */
-        .bot-fab { position: fixed; bottom: 105px; right: 20px; width: 55px; height: 55px; background: var(--black); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; z-index: 1500; border: 2px solid #fff; }
-        .chat-window { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.1); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+        .bot-fab { position: fixed; bottom: calc(105px + env(safe-area-inset-bottom)); right: 20px; width: 55px; height: 55px; background: var(--black); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); cursor: pointer; z-index: 1500; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.2s; }
+        .bot-fab:active { transform: scale(0.9); }
+        
+        .chat-window { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); transition: bottom 0.5s var(--ease-spring); display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
         .chat-window.open { bottom: 0; }
-        .chat-header { padding: 25px; border-bottom: 1px solid var(--gray); display: flex; justify-content: space-between; align-items: center; }
-        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .msg-bot { background: var(--gray); color: var(--black); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight:600; line-height: 1.5; }
-        .chat-opt { background: #fff; border: 1.5px solid var(--black); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; }
+        .chat-header { padding: 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
+        .msg-bot { background: var(--gray); color: var(--black); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; }
+        .msg-user { background: var(--black); color: #fff; padding: 15px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
+        .chat-opt { background: #fff; border: 1.5px solid var(--border); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; transition: border-color 0.2s; }
+        .chat-opt:active { border-color: var(--black); }
 
-        .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--black); color: #fff; padding: 15px 30px; border-radius: 100px; font-size: 12px; font-weight: 800; z-index: 5000; transition: 0.5s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .toast.show { top: 40px; }
+        /* Premium Toast */
+        .toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--black); color: #fff; padding: 14px 24px; border-radius: 100px; font-size: 13px; font-weight: 600; z-index: 5000; transition: top 0.5s var(--ease-spring); box-shadow: 0 15px 30px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 10px; }
+        .toast.show { top: max(20px, env(safe-area-inset-top)); }
+        .toast i { color: var(--green); font-size: 16px; }
 
-        .dock { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(0,0,0,0.94); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; border: 1px solid rgba(255,255,255,0.1); }
-        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; }
-        .dock-link.active { color: #fff; }
-        .dock-link.active::after { content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+        /* Dock / Bottom Nav */
+        .dock { position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; height: 72px; background: rgba(10, 10, 10, 0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.08); }
+        .dock-link { color: rgba(255,255,255,0.4); font-size: 22px; text-decoration: none; position: relative; padding: 10px; transition: color 0.3s; }
+        .dock-link.active { color: #fff; transform: translateY(-2px); }
+        .dock-link.active::after { content: ""; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: var(--green); border-radius: 50%; box-shadow: 0 0 10px var(--green); }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
 
-    <div class="bg-mesh"></div>
-    <div class="toast" id="toast">Handshake: Link copied to clipboard</div>
+    <div class="bg-mesh" aria-hidden="true"></div>
+    
+    <!-- Premium Toast -->
+    <div class="toast" id="toast" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Link copied securely</span>
+    </div>
 
     <header>
-        <img src="../assets/ui/logo.png" class="logo-btn" onclick="location.href='home.html'" alt="Home">
+        <img src="../assets/ui/logo.png" class="logo-btn" onclick="location.href='home.html'" alt="Go Home" aria-label="Home">
         <img src="../assets/ui/name.png" class="h-name" alt="NEXRA">
-        <div class="profile-trigger" id="userInitial" onclick="location.href='profile.html'">?</div>
+        <div class="profile-trigger" id="userInitial" onclick="location.href='profile.html'" aria-label="Profile">?</div>
     </header>
 
     <main class="viewport">
         
         <!-- Wealth Blueprint Message -->
         <section class="wealth-quote">
-            <i class="fa-solid fa-gem"></i>
+            <i class="fa-solid fa-globe"></i>
             <h2>Ecosystem Wealth Blueprint</h2>
-            <p>"True digital freedom isn't found in solo work, but in the nodes you connect. Build your network, unlock liquid wealth, and dominate the ledger together."</p>
+            <p>"True digital freedom isn't found in solo work, but in the nodes you connect. Build your network, unlock liquid wealth, and dominate the ledger."</p>
         </section>
 
         <!-- Referral Link Hero -->
@@ -162,12 +217,12 @@
             <span class="my-id" id="displayID">SYNCHRONIZING...</span>
             <div class="link-card">
                 <span class="link-val" id="refLink">Initializing Neural Link...</span>
-                <button class="copy-trigger" onclick="copyReferral()">COPY</button>
+                <button class="copy-trigger" onclick="copyReferral()" aria-label="Copy Referral Link">COPY</button>
             </div>
             <div class="share-row">
-                <div class="share-btn" onclick="share('whatsapp')" style="color: #25D366;"><i class="fa-brands fa-whatsapp"></i></div>
-                <div class="share-btn" onclick="share('telegram')" style="color: #0088cc;"><i class="fa-brands fa-telegram"></i></div>
-                <div class="share-btn" onclick="share('native')" style="color: #000;"><i class="fa-solid fa-share-nodes"></i></div>
+                <button class="share-btn" onclick="share('whatsapp')" style="color: #25D366;" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+                <button class="share-btn" onclick="share('telegram')" style="color: #0088cc;" aria-label="Share on Telegram"><i class="fa-brands fa-telegram"></i></button>
+                <button class="share-btn" onclick="share('native')" style="color: #000;" aria-label="Share Native"><i class="fa-solid fa-share-nodes"></i></button>
             </div>
         </section>
 
@@ -175,7 +230,7 @@
         <div class="stats-row">
             <div class="stat-card">
                 <span class="stat-lbl">Active Nodes</span>
-                <span class="stat-val" id="teamCount">0</span>
+                <span class="stat-val" id="teamCount">-</span>
             </div>
             <div class="stat-card">
                 <span class="stat-lbl">Network Yield</span>
@@ -183,7 +238,7 @@
             </div>
         </div>
 
-        <div class="section-title">Milestone Thresholds</div>
+        <h3 class="section-title">Milestone Thresholds</h3>
         <div class="milestone-track">
             <div class="m-card" id="m-1"><span class="m-title">1st Invite</span><div class="m-reward">$0.20</div></div>
             <div class="m-card" id="m-10"><span class="m-title">10 Partners</span><div class="m-reward">$0.65</div></div>
@@ -192,32 +247,36 @@
             <div class="m-card" id="m-100"><span class="m-title">100 Partners</span><div class="m-reward">$15.00</div></div>
         </div>
 
-        <div class="section-title">Global Top Partners</div>
-        <div class="leaderboard-box" id="leaderboard">
-            <p style="padding:20px; text-align:center; color:#ccc; font-size:12px;">Fetching Rank Data...</p>
+        <h3 class="section-title">Global Top Partners</h3>
+        <div class="leaderboard-box" id="leaderboard" aria-live="polite">
+            <!-- Skeleton Loader -->
+            <div style="padding:15px;"><div class="skeleton" style="height:30px; width:100%; border-radius:8px;"></div></div>
+            <div style="padding:15px;"><div class="skeleton" style="height:30px; width:100%; border-radius:8px;"></div></div>
         </div>
 
-        <div class="section-title">Partner Ledger</div>
-        <div class="tabs">
-            <div class="tab active" onclick="filterTeam('all', this)">All Nodes</div>
-            <div class="tab" onclick="filterTeam('approved', this)">Active</div>
-            <div class="tab" onclick="filterTeam('pending', this)">Waiting</div>
-        </div>
-        <div class="team-box" id="teamList">
-            <p style="padding:40px; text-align:center; color:#ccc; font-size:12px;">Empty Ledger</p>
+        <h3 class="section-title">Partner Ledger</h3>
+        <nav class="tabs" aria-label="Ledger filters">
+            <button class="tab active" onclick="filterTeam('all', this)">All Nodes</button>
+            <button class="tab" onclick="filterTeam('approved', this)">Active</button>
+            <button class="tab" onclick="filterTeam('pending', this)">Waiting</button>
+        </nav>
+        <div class="team-box" id="teamList" aria-live="polite">
+            <!-- Skeleton Loader -->
+            <div style="padding:20px;"><div class="skeleton" style="height:40px; width:100%; border-radius:12px;"></div></div>
         </div>
 
     </main>
 
     <!-- Interactive AI Bot -->
-    <div class="bot-fab" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
-    <div class="chat-window" id="chatBot">
+    <button class="bot-fab" onclick="toggleChat()" aria-label="Open Support Bot"><i class="fa-solid fa-robot"></i></button>
+    
+    <div class="chat-window" id="chatBot" aria-hidden="true">
         <div class="chat-header">
             <div style="display:flex; align-items:center; gap:10px;">
-                <span style="width:10px; height:10px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green)"></span>
+                <span style="width:10px; height:10px; background:var(--green); border-radius:50%; box-shadow:0 0 10px rgba(0,200,83,0.5)"></span>
                 <span style="font-weight:900; font-family:'Outfit';">REFERRAL AI</span>
             </div>
-            <i class="fa-solid fa-chevron-down" onclick="toggleChat()" style="cursor:pointer; font-size:20px;"></i>
+            <i class="fa-solid fa-chevron-down" onclick="toggleChat()" style="cursor:pointer; font-size:20px; padding:5px;" aria-label="Close Chat"></i>
         </div>
         <div class="chat-body" id="chatBody">
             <div class="msg-bot">Protocol engaged. I can explain the network yield logic. What would you like to know?</div>
@@ -225,27 +284,36 @@
                 <button class="chat-opt" onclick="botAsk(1)">How much per invite?</button>
                 <button class="chat-opt" onclick="botAsk(2)">Milestone rewards logic?</button>
                 <button class="chat-opt" onclick="botAsk(3)">My partner status is 'Waiting'?</button>
-                <button class="chat-opt" onclick="window.open('https://chat.whatsapp.com/YOUR_LINK')">Join Official Group</button>
+                <button class="chat-opt" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')">Join Official Group</button>
             </div>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="dock">
-        <a href="home.html" class="dock-link"><i class="fa-solid fa-house"></i></a>
-        <a href="refer.html" class="dock-link active"><i class="fa-solid fa-share-nodes"></i></a>
-        <a href="tasks.html" class="dock-link"><i class="fa-solid fa-layer-group"></i></a>
-        <a href="wallet.html" class="dock-link"><i class="fa-solid fa-wallet"></i></a>
+    <nav class="dock" aria-label="Main Navigation">
+        <a href="home.html" class="dock-link" aria-label="Dashboard"><i class="fa-solid fa-house"></i></a>
+        <a href="refer.html" class="dock-link active" aria-label="Referrals"><i class="fa-solid fa-share-nodes"></i></a>
+        <a href="tasks.html" class="dock-link" aria-label="Tasks"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="wallet.html" class="dock-link" aria-label="Wallet"><i class="fa-solid fa-wallet"></i></a>
     </nav>
 
+    <!-- Firebase System -->
     <script type="module">
         import { auth, db } from "../assets/js/firebase-config.js";
-        import { 
-            doc, collection, query, where, onSnapshot, orderBy, limit 
-        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { doc, collection, query, where, onSnapshot, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         let myNexraID = "", fullTeam = [];
+
+        // UI Toast Logic
+        let toastTimeout;
+        const showToast = (msg) => {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            clearTimeout(toastTimeout);
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        };
 
         // 1. SYSTEM IDENTITY SYNC
         onAuthStateChanged(auth, (user) => {
@@ -265,14 +333,17 @@
                 myNexraID = d.nexra_id || "PENDING_VERIFICATION";
                 
                 document.getElementById('displayID').innerText = myNexraID;
-                document.getElementById('userInitial').innerText = (d.name || "N")[0];
+                document.getElementById('userInitial').innerText = (d.name ? d.name[0] : "N").toUpperCase();
                 
                 if(d.status === "approved" && d.nexra_id) {
-                    const link = `https://nexra.ct.ws/auth/register.html?ref=${d.nexra_id}`;
+                    // CRITICAL FIX: Updated to Vercel Domain
+                    const link = `https://nexra-fintech.vercel.app/auth/register.html?ref=${d.nexra_id}`;
                     document.getElementById('refLink').innerText = link;
                     syncTeamNodes(d.nexra_id);
                 } else {
                     document.getElementById('refLink').innerText = "Protocol Locked: Activate Account First";
+                    document.getElementById('teamCount').innerText = "0";
+                    document.getElementById('teamList').innerHTML = `<p style="padding:40px; text-align:center; color:#ccc; font-size:12px; font-weight:600;">Node Ledger Locked</p>`;
                 }
             });
         }
@@ -290,11 +361,12 @@
                     if(d.status === 'approved') approvedCount++;
                 });
 
+                // Animate numbers smoothly
                 document.getElementById('teamCount').innerText = fullTeam.length;
                 document.getElementById('teamEarned').innerText = "$" + (approvedCount * 0.054).toFixed(3);
                 
                 updateMilestoneView(approvedCount);
-                renderLedger('all');
+                renderLedger('all'); // Render currently active tab logically
             });
         }
 
@@ -326,18 +398,19 @@
             });
             
             if(filtered.length === 0) {
-                list.innerHTML = `<p style="padding:40px; text-align:center; color:#ccc; font-size:12px;">Node Filter Empty</p>`;
+                list.innerHTML = `<p style="padding:40px; text-align:center; color:#a1a1a6; font-size:12px; font-weight:600;">No records found in this sector.</p>`;
                 return;
             }
 
             filtered.forEach(u => {
-                const initial = (u.name || "N")[0];
+                const initial = (u.name ? u.name[0] : "U").toUpperCase();
                 const statusLabel = u.status === 'approved' ? 'Active' : 'Waiting';
+                const safeName = u.name || "Unknown Node";
                 
                 list.innerHTML += `
                     <div class="t-item">
                         <div class="t-avatar">${initial}</div>
-                        <div class="t-info"><div class="t-name">${u.name}</div></div>
+                        <div class="t-info"><div class="t-name">${safeName}</div></div>
                         <div class="t-status s-${u.status}">${statusLabel}</div>
                     </div>`;
             });
@@ -352,10 +425,11 @@
                 let rank = 1;
                 snap.forEach(doc => {
                     const d = doc.data();
+                    const safeName = d.name || "Anonymous Node";
                     lb.innerHTML += `
-                        <div class="lb-item">
+                        <div class="lb-item" data-rank="${rank}">
                             <div class="lb-rank">${rank}</div>
-                            <div class="lb-info"><div class="lb-name">${d.name}</div></div>
+                            <div class="lb-info"><div class="lb-name">${safeName}</div></div>
                             <div class="lb-val">$${(d.balance || 0).toFixed(2)}</div>
                         </div>`;
                     rank++;
@@ -366,18 +440,24 @@
         // 4. PROTOCOL ACTIONS
         window.copyReferral = () => {
             const link = document.getElementById('refLink').innerText;
-            if(link.includes("Protocol Locked")) return alert("Activate account to unlock link.");
+            if(link.includes("Protocol Locked")) {
+                showToast("Activate account to unlock link.");
+                return;
+            }
             
-            navigator.clipboard.writeText(link);
-            const toast = document.getElementById('toast');
-            toast.classList.add('show'); 
-            setTimeout(() => toast.classList.remove('show'), 2500);
-            if(navigator.vibrate) navigator.vibrate(50);
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Handshake: Link copied to clipboard");
+                if(navigator.vibrate) navigator.vibrate(50);
+            });
         };
 
         window.share = (platform) => {
             const link = document.getElementById('refLink').innerText;
-            if(link.includes("Protocol Locked")) return;
+            if(link.includes("Protocol Locked")) {
+                showToast("Link locked. Activate first.");
+                return;
+            }
+            
             const text = `Join NEXRA Global Hub and process technical nodes for daily USD! Enroll here: ${link}`;
             
             if(platform === 'whatsapp') window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
@@ -386,7 +466,12 @@
         };
 
         // 5. AI BOT DIALOGUE
-        window.toggleChat = () => document.getElementById('chatBot').classList.toggle('open');
+        window.toggleChat = () => {
+            const chat = document.getElementById('chatBot');
+            const isOpen = chat.classList.toggle('open');
+            chat.setAttribute('aria-hidden', !isOpen);
+        };
+        
         window.botAsk = (id) => {
             const box = document.getElementById('chatBody');
             const questions = ["How much per invite?", "Milestone rewards logic?", "My partner status is 'Waiting'?"];
@@ -396,11 +481,11 @@
                 "Waiting status means they registered but haven't paid the $2 activation fee yet. Direct them to the payment portal."
             ];
             
-            box.innerHTML += `<div class="msg-bot" style="align-self:flex-end; background:var(--black); color:#fff; border-radius: 18px 18px 4px 18px;">${questions[id-1]}</div>`;
+            box.innerHTML += `<div class="msg-user">${questions[id-1]}</div>`;
             setTimeout(() => {
                 box.innerHTML += `<div class="msg-bot">${answers[id-1]}</div>`;
                 box.scrollTop = box.scrollHeight;
-            }, 600);
+            }, 500);
         };
     </script>
 </body>
