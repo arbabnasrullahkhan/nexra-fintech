@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | System Protocol Check</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --gray-light: #f8f9fa;
+            --gray-border: #e2e8f0; --text-muted: #8e8e93; --grid-line: rgba(0, 0, 0, 0.04);
+            --accent-green: #00c853; --blue: #007aff; --red: #ff3b30;
+        }
+
+        /* 1. LOCKDOWN */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+        html, body { width: 100%; height: 100dvh; overflow: hidden; position: fixed; background-color: var(--white); color: var(--black); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; }
+
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 35px 35px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+        .checkpoint-container { width: 90%; max-width: 420px; text-align: center; animation: fadeIn 0.8s ease; }
+
+        /* 2. SYNC LOADER */
+        .sync-box { position: relative; width: 90px; height: 90px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; }
+        .sync-ring { position: absolute; width: 100%; height: 100%; border: 3px solid var(--gray-light); border-top: 3px solid var(--black); border-radius: 50%; animation: spin 1s linear infinite; }
+        .sync-icon { font-size: 28px; color: var(--black); animation: pulse 1.5s ease-in-out infinite; }
+        .loading-text { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--black); }
+
+        /* 3. MAINTENANCE VIEW */
+        #maintenance-ui { display: none; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .maint-icon-wrap { width: 100px; height: 100px; background: var(--gray-light); border-radius: 35px; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; font-size: 40px; color: var(--red); border: 1px solid var(--gray-border); }
+
+        h1 { font-family: 'Outfit'; font-size: 26px; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; }
+        p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 30px; padding: 0 10px; }
+
+        /* Timer UI */
+        .timer-container { background: var(--black); color: #fff; border-radius: 20px; padding: 20px; margin-bottom: 30px; display: flex; justify-content: space-around; align-items: center; }
+        .timer-unit { display: flex; flex-direction: column; }
+        .t-val { font-family: 'Outfit'; font-size: 24px; font-weight: 900; color: var(--accent-green); }
+        .t-lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; opacity: 0.5; }
+
+        /* Social Update Links */
+        .update-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .social-btn { background: #fff; border: 1.5px solid var(--gray-border); padding: 15px 5px; border-radius: 18px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.3s; }
+        .social-btn i { font-size: 20px; }
+        .social-btn span { font-size: 9px; font-weight: 800; color: var(--black); text-transform: uppercase; }
+        .social-btn:active { transform: scale(0.95); background: var(--gray-light); }
+
+        .wa-c { color: #25D366; }
+        .tg-c { color: #0088cc; }
+        .fb-c { color: #1877f2; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.9); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+
+    <div class="checkpoint-container">
+        <!-- INITIAL SYNCING VIEW -->
+        <div id="sync-view">
+            <div class="sync-box">
+                <div class="sync-ring"></div>
+                <i class="fa-solid fa-shield-check sync-icon"></i>
+            </div>
+            <div class="loading-text">Node Security Handshake...</div>
+        </div>
+
+        <!-- MAINTENANCE VIEW -->
+        <div id="maintenance-ui">
+            <div class="maint-icon-wrap"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <h1>Protocol Upgrade</h1>
+            <p>NEXRA Official is currently optimizing technical nodes for higher task liquidity. The ecosystem will resume shortly.</p>
+            
+            <div class="timer-container">
+                <div class="timer-unit"><span class="t-val" id="m-hours">00</span><span class="t-lbl">Hours</span></div>
+                <div class="timer-unit"><span class="t-val" id="m-mins">00</span><span class="t-lbl">Mins</span></div>
+                <div class="timer-unit"><span class="t-val" id="m-secs">00</span><span class="t-lbl">Secs</span></div>
+            </div>
+
+            <div style="font-size:10px; font-weight:800; color:#aaa; text-transform:uppercase; margin-bottom:15px; letter-spacing:1px;">Follow for Live Updates</div>
+            <div class="update-links">
+                <a href="#" id="wa_link" class="social-btn" target="_blank"><i class="fa-brands fa-whatsapp wa-c"></i><span>WhatsApp</span></a>
+                <a href="#" id="tg_link" class="social-btn" target="_blank"><i class="fa-brands fa-telegram tg-c"></i><span>Telegram</span></a>
+                <a href="#" id="fb_link" class="social-btn" target="_blank"><i class="fa-brands fa-facebook fb-c"></i><span>Facebook</span></a>
+            </div>
+            <div style="margin-top: 20px; font-size: 10px; font-weight: 800; color: var(--red); text-transform: uppercase;">System Status: Locked</div>
+        </div>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { 
+            auth, db, doc, onSnapshot, getDoc, 
+            collection, onAuthStateChanged 
+        } from "../assets/js/firebase-config.js";
+
+        let maintTimer = null;
+
+        // 1. AUTH WATCHER
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                runEcosystemCheck(user.uid);
+            } else {
+                window.location.replace("login.html");
+            }
+        });
+
+        // 2. REAL-TIME ECOSYSTEM MONITOR
+        function runEcosystemCheck(uid) {
+            // Listen for Global Maintenance and Admin Social Links
+            onSnapshot(doc(db, "settings", "app"), (snap) => {
+                if(snap.exists()) {
+                    const data = snap.data();
+                    
+                    // Update Social Links from Admin Panel (NEXRA Official Settings)
+                    if(data.wa_link) document.getElementById('wa_link').href = data.wa_link;
+                    if(data.tg_link) document.getElementById('tg_link').href = data.tg_link;
+                    if(data.fb_link) document.getElementById('fb_link').href = data.fb_link;
+
+                    if (data.maintenance) {
+                        // If System is Locked
+                        showMaintenanceUI(data.maint_end_time);
+                    } else {
+                        // If System is Live, verify individual user verification
+                        verifyUserNode(uid);
+                    }
+                }
+            });
+        }
+
+        // 3. USER NODE VERIFICATION (UID BASED)
+        async function verifyUserNode(uid) {
+            try {
+                // Fetch User via UID directly (Matching standard project fixes)
+                const userSnap = await getDoc(doc(db, "pending_users", uid));
+
+                if (!userSnap.exists()) {
+                    // Critical fallback if UID node is missing
+                    window.location.replace("register.html");
+                    return;
+                }
+
+                const status = userSnap.data().status;
+                if (status === "approved") {
+                    // Protocol Success -> Home
+                    window.location.replace("../dashboard/home.html");
+                } else {
+                    // Enrollment Pending -> Payment
+                    window.location.replace("payment.html");
+                }
+            } catch (err) {
+                console.error("Node Handshake Error:", err);
+                window.location.replace("payment.html");
+            }
+        }
+
+        // 4. MAINTENANCE ENGINE
+        function showMaintenanceUI(endTimeStr) {
+            document.getElementById('sync-view').style.display = 'none';
+            document.getElementById('maintenance-ui').style.display = 'block';
+
+            if(maintTimer) clearInterval(maintTimer);
+
+            // Calculate remaining protocol time
+            const targetTime = new Date(endTimeStr).getTime();
+
+            maintTimer = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetTime - now;
+
+                if (distance < 0) {
+                    document.getElementById('m-hours').innerText = "00";
+                    document.getElementById('m-mins').innerText = "00";
+                    document.getElementById('m-secs').innerText = "00";
+                    clearInterval(maintTimer);
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('m-hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('m-mins').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('m-secs').innerText = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // Stop Mobile Gestures
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>

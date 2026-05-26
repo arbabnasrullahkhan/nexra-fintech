@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NEXRA | Recovery</title>
+    
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-border: #e2e8f0;
+            --text-muted: #8e8e93;
+            --accent-green: #2ecc71;
+            --grid-line: rgba(0, 0, 0, 0.04);
+        }
+
+        /* 1. LOCKDOWN: No Zoom, No Scroll */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            position: fixed;
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'Inter', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* 2. UNIQUE BACKGROUND: Technical Grid */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 35px 35px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+        }
+
+        /* 3. AUTH CARD */
+        .auth-card {
+            width: 90%;
+            max-width: 420px;
+            padding: 30px 20px;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+
+        header { margin-bottom: 40px; }
+        .logo { width: 70px; height: 70px; margin-bottom: 20px; mix-blend-mode: multiply; cursor: pointer; }
+        h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; line-height: 1.5; }
+
+        /* Form Styling */
+        form { display: flex; flex-direction: column; gap: 24px; text-align: left; }
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); padding-left: 4px; }
+        
+        input {
+            width: 100%;
+            padding: 18px;
+            background: var(--gray-light);
+            border: 1.5px solid var(--gray-border);
+            border-radius: 14px;
+            font-size: 15px;
+            color: var(--black);
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        input:focus { border-color: var(--black); background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--black); color: #fff;
+            padding: 20px; border: none; border-radius: 16px;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+        }
+        .btn-primary:active { transform: scale(0.96); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .btn-back {
+            text-align: center; font-size: 14px; color: var(--black);
+            margin-top: 30px; text-decoration: none; display: block;
+            font-weight: 700;
+        }
+
+        /* Success View State */
+        #successView {
+            display: none;
+            text-align: center;
+            animation: bounceIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .success-icon {
+            width: 80px; height: 80px; background: var(--accent-green);
+            color: #fff; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 32px; margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Loader */
+        .loader {
+            width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <!-- Technical Background -->
+    <div class="bg-grid"></div>
+
+    <div class="auth-card" id="formContainer">
+        <header>
+            <img src="../assets/ui/logo.png" alt="NEXRA Logo" class="logo" onclick="location.href='../index.html'">
+            <h1>Reset Key</h1>
+            <p class="subtitle">Enter your email identity below. If an account exists, you will receive a secure reset link.</p>
+        </header>
+
+        <form id="forgetForm">
+            <div class="field">
+                <label>Email Identity</label>
+                <input type="email" id="email" placeholder="name@domain.com" required autocomplete="email">
+            </div>
+
+            <button type="submit" class="btn-primary" id="resetBtn">
+                <div class="loader" id="loader"></div>
+                <span id="btnText">Send Recovery Link</span>
+            </button>
+        </form>
+
+        <a href="login.html" class="btn-back"><i class="fa-solid fa-chevron-left"></i> &nbsp; Return to Login</a>
+    </div>
+
+    <!-- Success View State -->
+    <div class="auth-card" id="successView">
+        <div class="success-icon"><i class="fa-solid fa-paper-plane"></i></div>
+        <h1>Link Dispatched</h1>
+        <p class="subtitle" id="successInfo">A secure recovery key has been sent to your inbox. Check your email to proceed with the reset.</p>
+        <p style="font-size: 12px; color: #888; font-weight: 600; margin-top: 15px; line-height: 1.4;">
+            <i class="fa-solid fa-circle-info"></i> Note: If the email is not in your main inbox, please check your <b>Spam</b> or <b>Junk</b> folder.
+        </p>
+        <a href="login.html" class="btn-primary" style="text-decoration: none; margin-top: 30px;">Return to Login</a>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { auth, sendPasswordResetEmail } from "../assets/js/firebase-config.js";
+
+        const forgetForm = document.getElementById('forgetForm');
+        const resetBtn = document.getElementById('resetBtn');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+        const formContainer = document.getElementById('formContainer');
+        const successView = document.getElementById('successView');
+        const successInfo = document.getElementById('successInfo');
+
+        forgetForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+
+            // UI Loading State
+            resetBtn.disabled = true;
+            loader.style.display = 'block';
+            btnText.innerText = "Processing...";
+
+            try {
+                // Send the reset email via central config
+                await sendPasswordResetEmail(auth, email);
+                
+                // Transition to Success View
+                formContainer.style.display = 'none';
+                successView.style.display = 'block';
+                successInfo.innerHTML = `We've sent a secure reset link to <b>${email}</b>. Follow the instructions to recover your account.`;
+
+            } catch (error) {
+                let msg = "Could not send link. Please verify your internet connection.";
+                
+                if (error.code === 'auth/user-not-found') {
+                    msg = "No registered account found with this email.";
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = "Please enter a valid email address.";
+                }
+                
+                alert("Security Notice: " + msg);
+                
+                resetBtn.disabled = false;
+                loader.style.display = 'none';
+                btnText.innerText = "Send Recovery Link";
+            }
+        };
+
+        // Disable Zoom Gestures
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
