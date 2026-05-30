@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- ========================================== -->
+    <!-- 🚀 MASTER SEO & SOCIAL GRAPH INTEGRATION   -->
+    <!-- ========================================== -->
+    <title>NEXRA | The Global Fintech Node Ecosystem</title>
+    <meta name="title" content="NEXRA | Unlock Global Wealth with Technical Nodes">
+    <meta name="description" content="Join the world's most secure fintech ecosystem. Process technical nodes, grow your referral network, and earn real USD with instant payouts to EasyPaisa, SadaPay, Crypto, and Bank.">
+    <meta name="keywords" content="NEXRA, fintech ecosystem, node processing, task to earn, passive income, secure crypto, EasyPaisa earning, SadaPay withdrawal, global wealth, smart earning">
+    <meta name="author" content="NEXRA Official">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="canonical" href="https://nexra.ct.ws/intro.html">
+
+    <!-- Open Graph (Facebook/WhatsApp) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexra.ct.ws/intro.html">
+    <meta property="og:title" content="NEXRA | $0.20 Welcome Bonus Inside">
+    <meta property="og:description" content="The ultimate standard in digital wealth generation. Verified platform, AES-256 secured, instant liquidity.">
+    <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/ui/logo.png">
+    
+    <!-- Fonts & Icons (NO EMOJIS - STRICT SVG/FA POLICY) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Confetti Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* === ARCHITECTURE & THEME === */
+        :root {
+            --black: #000000; --white: #ffffff; --green: #00c853; 
+            --blue: #2e86de; --gold: #f1c40f; --red: #ff4757;
+            --gray-light: #f8f9fa; --border: rgba(0,0,0,0.06);
+            --font-main: 'Inter', sans-serif; --font-head: 'Outfit', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body { width:100%; overflow-x:hidden; background:var(--white); color:var(--black); font-family:var(--font-main); scroll-behavior: smooth; }
+        
+        /* Parallax Tech Grid */
+        .bg-grid { position:fixed; inset:0; z-index:-1; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(circle at 50% 0%, black, transparent 80%); }
+
+        .container { width:100%; max-width:1200px; margin:0 auto; padding:0 20px; }
+        .section-padding { padding: 80px 0; border-bottom: 1px solid var(--border); }
+        .sec-title { font-family:var(--font-head); font-size:32px; font-weight:900; text-align:center; margin-bottom:15px; letter-spacing:-1px; }
+        .sec-subtitle { text-align:center; font-size:14px; color:#666; font-weight:500; margin-bottom:40px; max-width:600px; margin-inline:auto; }
+
+        /* === 1. LIVE NAVBAR & HEALTH === */
+        nav { position:fixed; top:0; width:100%; background:rgba(255,255,255,0.9); backdrop-filter:blur(20px); z-index:1000; border-bottom:1px solid var(--border); }
+        .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:15px 20px; max-width:1200px; margin:0 auto; }
+        .n-logo { display:flex; align-items:center; gap:10px; font-family:var(--font-head); font-weight:900; font-size:20px; }
+        .n-logo img { width:30px; }
+        .server-health { display:flex; align-items:center; gap:6px; font-size:10px; font-weight:800; background:var(--gray-light); padding:6px 12px; border-radius:100px; border:1px solid var(--border); }
+        .pulse-dot { width:8px; height:8px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green); animation:blink 1.5s infinite; }
+        .btn-nav { background:var(--black); color:var(--white); padding:10px 20px; border-radius:12px; text-decoration:none; font-weight:800; font-size:12px; transition:0.3s; }
+
+        /* === 2. HERO SECTION === */
+        .hero { padding: 120px 20px 80px; text-align:center; position:relative; overflow:hidden; }
+        .geo-tag { display:inline-block; font-size:11px; font-weight:800; color:var(--blue); background:#f0f4ff; padding:6px 15px; border-radius:100px; margin-bottom:20px; letter-spacing:1px; text-transform:uppercase; }
+        .hero h1 { font-family:var(--font-head); font-size:clamp(40px, 8vw, 70px); font-weight:900; line-height:1.1; margin-bottom:20px; letter-spacing:-2px; }
+        .hero p { font-size:clamp(14px, 2vw, 18px); color:#555; max-width:700px; margin:0 auto 30px; line-height:1.6; font-weight:500; }
+        .bonus-badge { display:inline-flex; align-items:center; gap:10px; background:var(--gray-light); border:1px solid var(--border); padding:10px 25px; border-radius:100px; font-weight:800; font-size:14px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.05); }
+        .bonus-badge i { color:var(--green); font-size:18px; }
+        .cta-main { display:inline-flex; align-items:center; gap:12px; background:var(--black); color:var(--white); padding:20px 45px; border-radius:20px; font-size:18px; font-weight:900; text-decoration:none; box-shadow:0 20px 40px rgba(0,0,0,0.2); transition:0.3s; }
+        .cta-main:hover { transform:translateY(-5px); box-shadow:0 25px 50px rgba(0,0,0,0.3); }
+        
+        .floating-coin { width:120px; position:absolute; top:20%; right:10%; filter:drop-shadow(0 20px 30px rgba(0,0,0,0.15)); animation:float 4s ease-in-out infinite; mix-blend-mode:multiply; opacity:0.6; pointer-events:none;}
+
+        /* Live Ticker Bar */
+        .ticker-bar { background:var(--black); color:var(--white); padding:10px; display:flex; overflow:hidden; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
+        .ticker-content { display:inline-block; animation:scrollTicker 25s linear infinite; }
+
+        /* === 3. INTERACTIVE SIMULATOR === */
+        .sim-box { background:var(--white); border:1px solid var(--border); border-radius:30px; padding:40px 20px; max-width:500px; margin:0 auto; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.08); position:relative; }
+        .sim-btn { background:var(--gray-light); border:2px solid var(--black); width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; cursor:pointer; transition:0.1s; font-size:40px; color:var(--black); box-shadow:0 10px 0 var(--black); }
+        .sim-btn:active { transform:translateY(10px); box-shadow:0 0 0 var(--black); }
+        .float-money { position:absolute; font-weight:900; color:var(--green); font-size:24px; pointer-events:none; animation:floatUp 1s forwards; opacity:0; }
+
+        /* === 4. TRUST & TRANSPARENCY === */
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-top:40px; }
+        .s-card { background:var(--gray-light); padding:30px; border-radius:24px; text-align:center; border:1px solid var(--border); }
+        .s-card i { font-size:30px; margin-bottom:15px; color:var(--black); opacity:0.8;}
+        .s-val { font-family:var(--font-head); font-size:36px; font-weight:900; display:block; letter-spacing:-1px; }
+        .s-lbl { font-size:10px; font-weight:800; text-transform:uppercase; color:#888; letter-spacing:1px; }
+
+        /* Breakdown Pie (CSS only approximation) */
+        .fee-breakdown { display:flex; align-items:center; justify-content:center; gap:20px; margin-top:30px; flex-wrap:wrap; }
+        .f-bar-wrap { width:100%; max-width:500px; height:12px; background:var(--gray-light); border-radius:10px; display:flex; overflow:hidden; }
+        .f-sec-1 { width:10%; background:var(--red); }
+        .f-sec-2 { width:40%; background:var(--blue); }
+        .f-sec-3 { width:50%; background:var(--green); }
+        .f-legend { display:flex; gap:15px; font-size:11px; font-weight:700; }
+        .f-leg-item { display:flex; align-items:center; gap:5px; }
+        .f-dot { width:10px; height:10px; border-radius:3px; }
+
+        /* === 5. EARNING CHANNELS (CARDS) === */
+        .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px; }
+        .feat-card { background:var(--white); border:1px solid var(--border); padding:30px; border-radius:24px; transition:0.3s; position:relative; overflow:hidden; }
+        .feat-card:hover { border-color:var(--black); box-shadow:0 15px 35px rgba(0,0,0,0.06); transform:translateY(-5px); }
+        .feat-icon { width:50px; height:50px; background:var(--gray-light); border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:20px; color:var(--black); }
+        .feat-card h3 { font-size:18px; font-weight:800; margin-bottom:10px; }
+        .feat-card p { font-size:13px; color:#666; font-weight:500; line-height:1.5; }
+        .feat-badge { position:absolute; top:20px; right:20px; font-size:9px; font-weight:900; background:var(--black); color:#fff; padding:5px 10px; border-radius:100px; }
+
+        /* === 6. GAMIFICATION & FOMO === */
+        .scarcity-banner { background:#fffcf0; border:1px solid var(--gold); padding:15px; border-radius:16px; text-align:center; font-size:13px; font-weight:800; color:#b08d00; margin-bottom:30px; display:flex; align-items:center; justify-content:center; gap:10px; }
+        
+        .progression-map { background:var(--black); color:var(--white); padding:40px; border-radius:30px; margin-top:40px; position:relative; overflow:hidden; }
+        .p-step { display:flex; align-items:center; gap:20px; margin-bottom:20px; position:relative; z-index:2; }
+        .p-icon { width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:16px; }
+        .p-text h4 { font-size:16px; font-weight:800; }
+        .p-text p { font-size:11px; opacity:0.6; }
+
+        /* Calculator */
+        .calc-box { background:var(--gray-light); border:1px solid var(--border); padding:30px; border-radius:24px; margin-top:30px; text-align:center; }
+        .range-slider { width:100%; margin:20px 0; accent-color:var(--black); }
+        .calc-result { font-family:var(--font-head); font-size:40px; font-weight:900; color:var(--green); margin-top:10px; }
+
+        /* === 7. SOCIAL PROOF & PODIUM === */
+        .podium { display:flex; align-items:flex-end; justify-content:center; gap:10px; margin:40px 0; height:200px; }
+        .pod-col { background:var(--gray-light); border:1px solid var(--border); border-radius:15px 15px 0 0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:15px; font-weight:900; position:relative; }
+        .pod-2 { width:90px; height:120px; }
+        .pod-1 { width:100px; height:160px; background:var(--black); color:#fff; border-color:var(--black); z-index:2; box-shadow:0 -10px 20px rgba(0,0,0,0.1); }
+        .pod-3 { width:90px; height:90px; }
+        .pod-avatar { width:40px; height:40px; border-radius:50%; background:#fff; color:var(--black); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; border:2px solid var(--border); }
+        .pod-1 .pod-avatar { border-color:var(--gold); }
+
+        .review-grid { display:grid; grid-template-columns:1fr; gap:15px; }
+        .review-card { border:1px solid var(--border); padding:20px; border-radius:20px; display:flex; gap:15px; align-items:flex-start; }
+        .rev-img { width:40px; height:40px; border-radius:50%; background:var(--black); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+        .rev-content h5 { font-size:14px; font-weight:800; display:flex; align-items:center; gap:5px; }
+        .rev-content p { font-size:12px; color:#555; margin-top:5px; line-height:1.5; font-style:italic; }
+        .v-tag { font-size:8px; background:#e0fff0; color:var(--green); padding:2px 6px; border-radius:4px; text-transform:uppercase; font-weight:900; }
+
+        /* === 8. LIVE LEDGER & DEVICES === */
+        .live-ledger { height:200px; overflow:hidden; position:relative; border:1px solid var(--border); border-radius:20px; padding:15px; }
+        .ledger-inner { animation: slideUpLedger 10s infinite linear; }
+        .l-item { display:flex; align-items:center; gap:10px; font-size:12px; font-weight:600; padding:10px 0; border-bottom:1px solid var(--border); }
+        .l-item i { color:var(--green); }
+        @keyframes slideUpLedger { 0% { transform:translateY(100%); } 100% { transform:translateY(-100%); } }
+
+        .device-logos { display:flex; justify-content:center; gap:30px; margin-top:30px; opacity:0.4; font-size:30px; }
+
+        /* === 9. SUPPORT & FOOTER === */
+        .quiz-box { background:var(--black); color:#fff; padding:40px; border-radius:30px; text-align:center; }
+        .quiz-btn { background:var(--white); color:var(--black); border:none; padding:15px 30px; border-radius:12px; font-weight:900; margin:10px; cursor:pointer; }
+
+        .secure-badges { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:30px 0; }
+        .sec-badge { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800; color:#555; background:var(--gray-light); padding:10px 15px; border-radius:12px; border:1px solid var(--border); }
+        .sec-badge i { color:var(--black); font-size:16px; }
+
+        .pay-methods { display:flex; justify-content:center; gap:15px; margin:20px 0; flex-wrap:wrap;}
+        .pay-tag { font-size:11px; font-weight:800; background:var(--white); border:1px solid var(--border); padding:8px 15px; border-radius:100px; display:flex; align-items:center; gap:5px; }
+
+        footer { text-align:center; padding:60px 20px; border-top:1px solid var(--border); background:var(--gray-light); position:relative; }
+        .f-logo { width:50px; filter:grayscale(1); opacity:0.5; margin-bottom:20px; }
+        .spam-promise { font-size:11px; font-weight:700; color:#888; margin-bottom:20px; display:flex; justify-content:center; align-items:center; gap:5px; }
+
+        /* Fake Chat Widget */
+        .fake-chat { position:fixed; bottom:30px; left:30px; background:#fff; border:1px solid var(--border); border-radius:20px; padding:15px; box-shadow:0 15px 30px rgba(0,0,0,0.1); display:flex; align-items:center; gap:10px; z-index:1000; animation:popIn 1s 5s forwards; opacity:0; transform:translateY(20px); pointer-events:none; }
+        .chat-dot { width:6px; height:6px; background:#ccc; border-radius:50%; animation:typing 1.4s infinite; }
+        .chat-dot:nth-child(2) { animation-delay:0.2s; }
+        .chat-dot:nth-child(3) { animation-delay:0.4s; }
+
+        /* Floating WA */
+        .wa-fab { position:fixed; bottom:30px; right:30px; width:60px; height:60px; background:#25D366; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 10px 25px rgba(37,211,102,0.4); z-index:1000; cursor:pointer; transition:0.3s; }
+        .wa-fab:hover { transform:scale(1.1); }
+
+        @keyframes float { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-20px); } }
+        @keyframes floatUp { 0% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(-50px); } }
+        @keyframes blink { 0%, 100% { opacity:1; } 50% { opacity:0.3; } }
+        @keyframes scrollTicker { from { transform:translateX(100vw); } to { transform:translateX(-100%); } }
+        @keyframes typing { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+        @keyframes popIn { to { opacity:1; transform:translateY(0); } }
+
+        @media(min-width:768px){
+            .review-grid { grid-template-columns:1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <!-- 1. LIVE NAVBAR -->
+    <nav>
+        <div class="nav-inner">
+            <div class="n-logo"><img src="assets/ui/logo.png" alt="Nexra"> NEXRA</div>
+            <div class="server-health"><div class="pulse-dot"></div> System Live 99.9%</div>
+            <a href="auth/register.html" class="btn-nav">Access Ecosystem</a>
+        </div>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <img src="assets/ui/logo.png" class="floating-coin" alt="3D Coin">
+            <div class="geo-tag" id="geoTarget"><i class="fa-solid fa-location-dot"></i> Connecting Global Partner...</div>
+            <h1>Unlock Global Wealth<br>with NEXRA Protocol.</h1>
+            <p class="sec-subtitle">The world's most secure technical task ecosystem. Complete micro-nodes and initiate real-time USD liquidity.</p>
+            
+            <div class="bonus-badge"><i class="fa-solid fa-gift"></i> $0.20 Sign-up Bonus for New Members</div>
+            <br>
+            <a href="auth/register.html" class="cta-main">Join the Ecosystem <i class="fa-solid fa-arrow-right"></i></a>
+            <p style="font-size:11px; color:#888; font-weight:700; margin-top:15px;"><i class="fa-solid fa-bolt"></i> Setup takes only 45 seconds.</p>
+        </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker-bar">
+        <div class="ticker-content">
+            <i class="fa-solid fa-arrow-trend-up"></i> USD/PKR Live Auto-Conversion Active &nbsp;&nbsp; | &nbsp;&nbsp; 
+            <i class="fa-solid fa-fire"></i> 14,205 NEXRA Coins burned today &nbsp;&nbsp; | &nbsp;&nbsp; 
+            <i class="fa-solid fa-microchip"></i> 8,402 Active Nodes Processing &nbsp;&nbsp; | &nbsp;&nbsp; 
+            <i class="fa-solid fa-shield-check"></i> AES-256 Encrypted Ecosystem
+        </div>
+    </div>
+
+    <!-- 3. INTERACTIVE SIMULATOR (UX Trigger) -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="sec-title">Experience the Protocol</div>
+            <p class="sec-subtitle">Tap the scanner below to simulate a real Technical Node completion.</p>
+            
+            <div class="sim-box" id="simBox">
+                <button class="sim-btn" onclick="simulateTask()"><i class="fa-solid fa-fingerprint"></i></button>
+                <h3 style="font-weight:900; margin-bottom:5px;">Process Data Node</h3>
+                <p style="font-size:12px; color:#888; font-weight:600;">It's that easy. Register to keep this money.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. LIVE PLATFORM STATS -->
+    <section class="section-padding" style="background:var(--gray-light);">
+        <div class="container">
+            <div class="sec-title">Ecosystem Scale</div>
+            <p class="sec-subtitle">Real-time metrics demonstrating absolute liquidity and community trust.</p>
+            
+            <div class="stats-grid">
+                <div class="s-card">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="s-val" id="statUsr">7,542</span>
+                    <span class="s-lbl">Verified Members</span>
+                </div>
+                <div class="s-card" style="border-color:var(--green);">
+                    <i class="fa-solid fa-sack-dollar"></i>
+                    <span class="s-val" id="statPaid">$15,240</span>
+                    <span class="s-lbl">Total USD Paid Out</span>
+                </div>
+                <div class="s-card">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span class="s-val">1h 45m</span>
+                    <span class="s-lbl">Avg Payout Speed</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. HOW IT WORKS & EARNING CHANNELS -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="scarcity-banner">
+                <i class="fa-solid fa-clock"></i> Only 14 Registration Slots remaining for today at current base rates.
+            </div>
+
+            <div class="sec-title">The Product Showcase</div>
+            <p class="sec-subtitle">Diverse streams to generate active and passive income.</p>
+
+            <div class="grid-4">
+                <div class="feat-card">
+                    <div class="feat-badge">ACTIVE</div>
+                    <div class="feat-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>Technical Audit</h3>
+                    <p>Process 10 daily system nodes. Simple verification clicks for guaranteed USD.</p>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-badge" style="background:var(--blue);">MULTIPLIER</div>
+                    <div class="feat-icon" style="color:var(--blue);"><i class="fa-solid fa-video"></i></div>
+                    <h3>Social Protocol</h3>
+                    <p>Share promotional content on TikTok/YouTube. Reach 500 likes for a flat $0.54 reward.</p>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-badge" style="background:var(--gold); color:#000;">WEEKLY</div>
+                    <div class="feat-icon" style="color:var(--gold);"><i class="fa-solid fa-clover"></i></div>
+                    <h3>Fortune Wheel</h3>
+                    <p>Spin the wheel weekly. Win up to $3.00 instant cash (Locked for verified users only).</p>
+                </div>
+                <div class="feat-card">
+                    <div class="feat-badge" style="background:var(--green);">PASSIVE</div>
+                    <div class="feat-icon" style="color:var(--green);"><i class="fa-solid fa-cube"></i></div>
+                    <h3>Staking Node</h3>
+                    <p>Lock your earned NEXRA coins in the vault to generate automatic daily passive income.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. FINANCIAL TRANSPARENCY (The $2 Fee) -->
+    <section class="section-padding" style="background:var(--black); color:var(--white);">
+        <div class="container">
+            <div class="sec-title" style="color:#fff;">100% Financial Transparency</div>
+            <p class="sec-subtitle" style="color:#aaa;">Why is there a $2 (Rs 550) Registration Fee? Here is exactly where your funds are allocated to ensure platform longevity.</p>
+
+            <div class="fee-breakdown">
+                <div class="f-bar-wrap">
+                    <div class="f-sec-1"></div><div class="f-sec-2"></div><div class="f-sec-3"></div>
+                </div>
+                <div class="f-legend">
+                    <div class="f-leg-item"><div class="f-dot" style="background:var(--red);"></div> 10% Security Audit</div>
+                    <div class="f-leg-item"><div class="f-dot" style="background:var(--blue);"></div> 40% Server & Nodes</div>
+                    <div class="f-leg-item"><div class="f-dot" style="background:var(--green);"></div> 50% Reward Liquidity</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. GAMIFICATION & CALCULATOR -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="sec-title">Project Your Earnings</div>
+            
+            <div class="calc-box">
+                <h4 style="font-weight:800; font-size:14px; text-transform:uppercase;">If I invite <span id="invCount" style="color:var(--blue);">5</span> active partners...</h4>
+                <input type="range" min="0" max="100" value="5" class="range-slider" id="calcSlider" oninput="calcEarn()">
+                <p style="font-size:12px; color:#888; font-weight:600;">Monthly Potential Earnings</p>
+                <div class="calc-result" id="calcTotal">$15.25</div>
+                <p style="font-size:10px; color:var(--green); font-weight:800; margin-top:10px;"><i class="fa-solid fa-arrow-trend-up"></i> Includes 100-Referral Mega Bonus</p>
+            </div>
+
+            <div class="progression-map">
+                <h3 style="font-family:var(--font-head); font-size:24px; margin-bottom:30px;">Rookie to Legend Map</h3>
+                <div class="p-step">
+                    <div class="p-icon" style="color:#cd7f32;"><i class="fa-solid fa-medal"></i></div>
+                    <div class="p-text"><h4>Bronze Level</h4><p>Base earnings and standard withdrawal speed.</p></div>
+                </div>
+                <div class="p-step">
+                    <div class="p-icon" style="color:var(--gold);"><i class="fa-solid fa-crown"></i></div>
+                    <div class="p-text"><h4>Gold Master</h4><p>3x Task Multiplier + Instant 0-Tax Withdrawals.</p></div>
+                </div>
+                <div class="p-step">
+                    <div class="p-icon" style="color:var(--red);"><i class="fa-solid fa-gem"></i></div>
+                    <div class="p-text"><h4>Legend VIP</h4><p>15x Earnings, Personal Manager & Global Leaderboard status.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. SOCIAL PROOF & HALL OF FAME -->
+    <section class="section-padding" style="background:var(--gray-light);">
+        <div class="container">
+            <div class="sec-title">Hall of Fame</div>
+            
+            <!-- Podium -->
+            <div class="podium">
+                <div class="pod-col pod-2">
+                    <div class="pod-avatar">S</div>$450<div style="font-size:10px; color:#888;">2nd</div>
+                </div>
+                <div class="pod-col pod-1">
+                    <div class="pod-avatar">A</div>$920<div style="font-size:10px; color:var(--gold);">1st</div>
+                </div>
+                <div class="pod-col pod-3">
+                    <div class="pod-avatar">M</div>$310<div style="font-size:10px; color:#888;">3rd</div>
+                </div>
+            </div>
+            <p style="text-align:center; font-size:12px; font-weight:700; color:#666; margin-bottom:40px;">Top Weekly Earners win an extra $5.00 VIP Bonus.</p>
+
+            <!-- Reviews -->
+            <div class="review-grid">
+                <div class="review-card">
+                    <div class="rev-img">Z</div>
+                    <div class="rev-content">
+                        <h5>Zeeshan Ali <span class="v-tag">Verified</span></h5>
+                        <p>"Best platform in Pakistan. Withdrew to EasyPaisa within 2 hours. Highly trusted!"</p>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="rev-img">J</div>
+                    <div class="rev-content">
+                        <h5>John Doe <span class="v-tag">Partner Since Jan</span></h5>
+                        <p>"Global payments via Binance are incredibly smooth. NEXRA is the future of micro-tasks."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Badges & Methods -->
+            <div class="secure-badges">
+                <div class="sec-badge"><i class="fa-solid fa-shield-halved"></i> AES-256 Secured</div>
+                <div class="sec-badge"><i class="fa-solid fa-robot"></i> Anti-Bot Shield Active</div>
+                <div class="sec-badge"><i class="fa-solid fa-user-check"></i> Manual Payout Audits</div>
+                <div class="sec-badge"><i class="fa-solid fa-file-shield"></i> AML Compliant</div>
+            </div>
+
+            <div class="pay-methods">
+                <div class="pay-tag"><i class="fa-solid fa-building-columns"></i> Bank</div>
+                <div class="pay-tag"><i class="fa-brands fa-bitcoin"></i> All Crypto</div>
+                <div class="pay-tag"><i class="fa-solid fa-mobile-screen"></i> EasyPaisa</div>
+                <div class="pay-tag"><i class="fa-solid fa-wallet"></i> SadaPay</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. ROADMAP & FUTURE VISION -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="sec-title">Ecosystem Roadmap</div>
+            <p class="sec-subtitle">We are building a long-term decentralized wealth protocol.</p>
+            
+            <div style="max-width:600px; margin:0 auto;">
+                <div style="margin-bottom:15px; display:flex; gap:15px; align-items:center;"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i> <b>Phase 1:</b> Dashboard & Task Engine Launch (Completed)</div>
+                <div style="margin-bottom:15px; display:flex; gap:15px; align-items:center;"><i class="fa-solid fa-spinner fa-spin" style="color:var(--blue)"></i> <b>Phase 2:</b> Global Partner Expansion & Staking Nodes (Current)</div>
+                <div style="margin-bottom:15px; display:flex; gap:15px; align-items:center; opacity:0.5;"><i class="fa-regular fa-circle"></i> <b>Phase 3:</b> B2B Marketplace & Official iOS/Android App (Upcoming)</div>
+                <div style="margin-bottom:15px; display:flex; gap:15px; align-items:center; opacity:0.5;"><i class="fa-regular fa-circle"></i> <b>Phase 4:</b> NEXRA Governance Token (NXT) Integration (Future)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. INTERACTIVE QUIZ & FOOTER -->
+    <section class="section-padding" style="border:none;">
+        <div class="container">
+            <div class="quiz-box" id="quizBox">
+                <h3 style="font-family:var(--font-head); font-size:24px; margin-bottom:20px;">Is NEXRA For Me?</h3>
+                <p style="font-size:14px; margin-bottom:20px; color:#aaa;">Do you have a smartphone and desire passive income?</p>
+                <button class="quiz-btn" onclick="document.getElementById('quizBox').innerHTML='<h3 style=\'color:var(--green); font-family:Outfit; font-size:28px;\'>You are Approved!</h3><p style=\'margin-top:10px; font-size:13px;\'>Join the elite club of global earners today.</p><br><a href=\'auth/register.html\' style=\'color:#fff; font-weight:800;\'>Click here to Claim $0.20 Bonus</a>'">Yes, Absolutely</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="assets/ui/logo.png" class="f-logo" alt="NEXRA Logo">
+        
+        <!-- Founder Note -->
+        <div style="max-width:500px; margin:0 auto 30px; font-size:12px; color:#888; font-style:italic;">
+            "NEXRA is not just about earning. It's about building a global community where every technical node brings you closer to financial freedom."<br>
+            <b style="color:var(--black); font-style:normal; margin-top:8px; display:block;">— NEXRA Official Founder</b>
+        </div>
+
+        <div class="spam-promise"><i class="fa-solid fa-lock"></i> Your Data, Your Rules. We hate spam. 100% Privacy Guaranteed.</div>
+        <p class="f-copy">ECOSYSTEM LIQUIDITY LAST SYNCED: <span id="syncTime">2 MINS AGO</span></p>
+        <br>
+        <p class="f-copy" style="opacity:0.5;">© 2024 NEXRA FINTECH. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- Fake Live Chat Indicator -->
+    <div class="fake-chat">
+        <div class="chat-dot"></div><div class="chat-dot"></div><div class="chat-dot"></div>
+        <span style="font-size:11px; font-weight:700; color:#555;">Support is typing...</span>
+    </div>
+
+    <!-- Floating WhatsApp -->
+    <div class="wa-fab" onclick="window.location.href='https://chat.whatsapp.com/YOUR_LINK'">
+        <i class="fa-brands fa-whatsapp"></i>
+    </div>
+
+    <!-- Sound FX -->
+    <audio id="sfx" src="https://assets.mixkit.co/active_storage/sfx/2017/2017-preview.mp3"></audio>
+
+    <script>
+        // 1. Interactive Fake Task Simulator
+        function simulateTask() {
+            const box = document.getElementById('simBox');
+            const money = document.createElement('div');
+            money.className = 'float-money';
+            money.innerText = '+$0.0003';
+            
+            // Randomize position slightly
+            money.style.left = (40 + Math.random() * 20) + '%';
+            money.style.top = '40%';
+            
+            box.appendChild(money);
+            document.getElementById('sfx').play().catch(()=>{});
+            
+            setTimeout(() => { money.remove(); }, 1000);
+        }
+
+        // 2. Potential Earning Calculator
+        function calcEarn() {
+            const val = document.getElementById('calcSlider').value;
+            document.getElementById('invCount').innerText = val;
+            
+            // Base task earning (approx $0.01/day) + Referral logic ($0.054 * invites) + bonuses
+            let monthly = (0.01 * 30) + (val * 0.054);
+            if(val >= 10) monthly += 0.65;
+            if(val >= 25) monthly += 1.00;
+            if(val >= 50) monthly += 5.00;
+            if(val == 100) monthly += 15.00;
+
+            document.getElementById('calcTotal').innerText = "$" + monthly.toFixed(2);
+        }
+
+        // 3. Live Stats Incrementor
+        let users = 7542;
+        let paid = 15240;
+        setInterval(() => {
+            users += Math.floor(Math.random() * 3);
+            paid += Math.random() * 0.8;
+            document.getElementById('statUsr').innerText = users.toLocaleString();
+            document.getElementById('statPaid').innerText = "$" + paid.toLocaleString(undefined, {maximumFractionDigits:0});
+        }, 4000);
+
+        // 4. Geo-Targeting (Basic Fetch)
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                if(data.country_name) {
+                    document.getElementById('geoTarget').innerHTML = `<i class="fa-solid fa-earth-americas"></i> Welcome Partner from ${data.country_name}`;
+                }
+            }).catch(()=>{});
+
+        // 5. Dynamic Time Footer
+        setInterval(() => {
+            const mins = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('syncTime').innerText = mins + " MINS AGO";
+        }, 60000);
+
+    </script>
+</body>
+</html>
