@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- ========================================== -->
-    <!-- 🚀 VIRAL SEO & TRENDING META TAGS          -->
-    <!-- ========================================== -->
+    <!-- VIRAL SEO & TRENDING META TAGS -->
     <title>Join NEXRA | The Digital Wealth Revolution</title>
     <meta name="title" content="NEXRA Registration | Start Earning USD Daily">
     <meta name="description" content="Create your secure NEXRA account today. Join the world's leading micro-task ecosystem. Complete technical nodes and withdraw USD to EasyPaisa, SadaPay, or Binance.">
-    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2024, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
+    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2026, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
     <meta name="author" content="NEXRA Global">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nexra-fintech.vercel.app/auth/register.html">
@@ -23,265 +21,346 @@
     <meta property="og:image" content="../assets/ui/logo.png">
 
     <!-- Theme & Icons -->
-    <meta name="theme-color" content="#f8f9fc">
+    <meta name="theme-color" content="#ffffff">
     <link rel="icon" type="image/png" href="../assets/ui/favicon.png">
     <link rel="apple-touch-icon" href="../assets/ui/favicon.png">
     
     <!-- Preload Assets -->
     <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/ui/title-text.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <!-- Scripts -->
     <script rel="preload" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* ULTRA-PREMIUM LIGHT MODE THEME */
         :root {
-            --bg-canvas: #f4f6f9;
-            --card-surface: #ffffff;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --input-bg: #f9fafb;
-            --border-light: #e5e7eb;
-            --border-focus: #2563eb;
-            --accent-brand: #000000;
-            --accent-blue: #2563eb;
-            --success: #10b981;
-            --error: #ef4444;
-            --warn: #f59e0b;
+            --pure-black: #09090b;
+            --deep-gray: #18181b;
+            --muted-text: #71717a;
+            --bg-white: #ffffff;
+            --border-light: #e4e4e7;
+            --input-fill: #f4f4f6;
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            --success: #00c853;
+            --error-red: #ff3b30;
+            --warn-yellow: #ffcc00;
+            --grid-line: rgba(0, 0, 0, 0.03);
             --font-head: 'Outfit', sans-serif;
-            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* Resets & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        
         html, body { 
-            width: 100%; min-height: 100dvh; 
-            background-color: var(--bg-canvas); 
-            color: var(--text-main); 
+            width: 100%; 
+            min-height: 100vh; 
+            background-color: var(--bg-white); 
+            background-image: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.02) 0%, transparent 70%);
+            color: var(--pure-black); 
             font-family: 'Inter', -apple-system, sans-serif; 
             -webkit-font-smoothing: antialiased; 
-            position: relative;
-            overflow-x: hidden;
         }
 
-        /* Soft Ambient Mesh Background */
-        .ambient-mesh {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.03) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.04) 0px, transparent 50%);
+        /* Watermark Background */
+        .brand-watermark {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.02;
             pointer-events: none;
+            z-index: -2;
+            mix-blend-mode: multiply;
+        }
+
+        /* Clean Technical Grid Background */
+        .bg-grid { 
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background-image: 
+                linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), 
+                linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); 
+            background-size: 40px 40px; 
+            background-position: center;
+            mask-image: radial-gradient(circle at 50% 30%, black, transparent 90%); 
+            -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 90%);
         }
 
         .container { 
-            width: 100%; max-width: 580px; 
-            margin: 0 auto; padding: 50px 20px; 
+            width: 100%; 
+            max-width: 520px; 
+            margin: 0 auto; 
+            padding: 40px 24px 80px; 
             position: relative; 
-        }
-
-        /* Setup Guide Floating Button */
-        .top-video-btn { 
-            position: absolute; top: 20px; right: 20px; 
-            background: var(--card-surface); color: var(--text-main); 
-            border: 1px solid var(--border-light); padding: 10px 16px; 
-            border-radius: 100px; font-size: 11px; font-weight: 700; 
-            cursor: pointer; display: flex; align-items: center; gap: 8px; 
-            z-index: 100; transition: all 0.2s; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        .top-video-btn i { color: var(--accent-blue); font-size: 14px; }
-        .top-video-btn:active { transform: scale(0.95); }
-
-        /* Form Card Layout */
-        .reg-card {
-            background: var(--card-surface);
-            border-radius: 32px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02);
-            border: 1px solid rgba(255,255,255,0.8);
-            animation: slideUp 0.8s var(--ease-spring);
+            animation: slideUp 0.8s var(--ease-spring); 
         }
 
         /* Header Elements */
-        header { text-align: center; margin-bottom: 35px; }
-        .logo { width: 70px; height: 70px; margin-bottom: 15px; cursor: pointer; transition: transform 0.3s; }
+        header { text-align: center; margin-bottom: 32px; }
+        
+        .logo-container {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .logo { 
+            width: 72px; 
+            height: 72px; 
+            object-fit: contain;
+            cursor: pointer; 
+            transition: transform 0.3s var(--ease-spring); 
+        }
+        
         .logo:active { transform: scale(0.92); }
-        h1 { font-family: var(--font-head); font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--text-main); }
-        .sub-link { font-size: 13px; margin-top: 8px; color: var(--text-muted); font-weight: 500; }
-        .sub-link a { color: var(--accent-blue); font-weight: 700; text-decoration: none; transition: opacity 0.2s;}
-        .sub-link a:hover { opacity: 0.7; }
+        
+        .title-text-logo {
+            height: 22px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px;
+        }
 
-        /* Form Styling */
-        .reg-form { display: flex; flex-direction: column; gap: 24px; }
-        .field { position: relative; display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-left: 4px; }
+        .sub-link { font-size: 13px; color: var(--muted-text); font-weight: 500; }
+        .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); padding-bottom: 1px;}
 
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        /* Form Card Container */
+        .card-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 28px;
+            padding: 32px 24px;
+            box-shadow: 0 20px 40px var(--card-shadow);
+        }
 
-        /* Premium Inputs */
+        /* Form Layout Styling */
+        .reg-form { display: flex; flex-direction: column; gap: 18px; }
+        .field { position: relative; display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--pure-black); padding-left: 2px; }
+
         input, select {
-            width: 100%; padding: 16px 20px; background: var(--input-bg);
-            border: 1.5px solid var(--border-light); border-radius: 16px;
-            font-size: 15px; font-weight: 600; color: var(--text-main); font-family: inherit;
-            transition: all 0.3s var(--ease-smooth);
-            -webkit-appearance: none;
+            width: 100%; 
+            padding: 16px; 
+            background: var(--input-fill);
+            border: 1.5px solid var(--border-light); 
+            border-radius: 14px;
+            font-size: 15px; 
+            font-weight: 600; 
+            color: var(--pure-black); 
+            font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        input::placeholder { color: #9ca3af; font-weight: 500; }
+        
+        input::placeholder { color: #a1a1a6; font-weight: 500; }
+        
         input:focus, select:focus { 
-            border-color: var(--border-focus); background: var(--card-surface); 
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); 
+            border-color: var(--pure-black); 
+            background: #ffffff; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04); 
         }
-        input[readonly] { background: #f3f4f6; color: var(--text-muted); cursor: not-allowed; border-style: dashed; }
         
-        .input-wrapper { position: relative; width: 100%; }
-        .eye { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; padding: 5px; font-size: 16px; transition: color 0.2s; z-index: 5;}
-        .eye:hover, .eye.active { color: var(--text-main); }
-        
-        /* Custom Country Dropdown (Flag + Search) */
-        .custom-select-container { position: relative; width: 100%; }
-        .custom-select-trigger {
-            display: flex; align-items: center; justify-content: space-between;
-            width: 100%; padding: 16px 20px; background: var(--input-bg);
-            border: 1.5px solid var(--border-light); border-radius: 16px;
-            font-size: 15px; font-weight: 600; color: var(--text-main);
-            cursor: pointer; transition: all 0.3s;
+        input[readonly] { 
+            background: #f1f1f4; 
+            color: #888; 
+            cursor: not-allowed; 
+            border-style: dashed; 
         }
-        .custom-select-trigger.locked { pointer-events: none; opacity: 0.7; background: #f3f4f6; }
-        .custom-select-trigger:hover { border-color: #d1d5db; }
-        .selected-country { display: flex; align-items: center; gap: 10px; }
-        .selected-country img { width: 24px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         
-        .custom-options-panel {
-            position: absolute; top: calc(100% + 8px); left: 0; width: 100%;
-            background: var(--card-surface); border: 1px solid var(--border-light);
-            border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            z-index: 100; max-height: 280px; display: flex; flex-direction: column;
-            opacity: 0; visibility: hidden; transform: translateY(-10px);
-            transition: all 0.3s var(--ease-spring);
-        }
-        .custom-select-container.open .custom-options-panel { opacity: 1; visibility: visible; transform: translateY(0); }
-        
-        .search-box { padding: 12px; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; background: var(--card-surface); border-radius: 16px 16px 0 0; z-index: 2;}
-        .search-box input { padding: 10px 14px; font-size: 13px; border-radius: 10px; }
-        
-        .options-list { overflow-y: auto; flex: 1; padding: 5px; }
-        .option-item {
-            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
-            cursor: pointer; border-radius: 10px; transition: background 0.2s; font-size: 14px; font-weight: 600;
-        }
-        .option-item:hover { background: var(--input-bg); }
-        .option-item img { width: 22px; border-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .option-item .dial-code { color: var(--text-muted); font-size: 12px; margin-left: auto; }
+        select.locked { pointer-events: none; opacity: 0.85; background: #eef0f3; }
 
-        /* Strength Meter */
-        .strength-meter { height: 5px; background: var(--border-light); border-radius: 10px; margin-top: 4px; overflow: hidden; display: none; }
-        .strength-bar { height: 100%; width: 0%; transition: all 0.4s var(--ease-smooth); }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        .input-wrapper { position: relative; width: 100%; }
+        
+        .eye { 
+            position: absolute; 
+            right: 16px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--muted-text); 
+            cursor: pointer; 
+            padding: 5px; 
+            font-size: 16px; 
+            transition: color 0.2s; 
+        }
+        
+        .eye:hover, .eye.active { color: var(--pure-black); }
+        
+        /* Strength Indicator */
+        .strength-meter { height: 4px; background: var(--border-light); border-radius: 10px; margin-top: 4px; overflow: hidden; display: none; }
+        .strength-bar { height: 100%; width: 0%; transition: all 0.4s var(--ease-spring); }
 
         /* Submit Button */
         .btn-submit {
-            margin-top: 15px; background: var(--accent-brand); color: #fff;
-            padding: 18px; border-radius: 16px; border: none; font-size: 15px;
-            font-weight: 800; cursor: pointer; display: flex; justify-content: center; 
-            align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            transition: all 0.3s var(--ease-spring); width: 100%;
+            margin-top: 10px; 
+            background: var(--pure-black); 
+            color: #ffffff;
+            padding: 18px; 
+            border-radius: 16px; 
+            border: none; 
+            font-size: 15px;
+            font-weight: 800; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 12px; 
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12); 
+            transition: all 0.3s var(--ease-spring);
         }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .btn-submit:active { transform: scale(0.97); }
-        .btn-submit:disabled { background: var(--text-muted); opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .btn-submit:active { transform: scale(0.97); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .btn-submit:disabled { background: #333333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
 
         .loader { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
         
-        /* Modals & Popups */
-        .popup-overlay { 
-            display: flex; position: fixed; inset: 0; background: rgba(255,255,255,0.8); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            z-index: 9999; align-items: center; justify-content: center; padding: 20px; 
-            opacity: 0; visibility: hidden; transition: all 0.3s ease; 
-        }
-        .popup-overlay.show { opacity: 1; visibility: visible; }
-        .popup-content { 
-            background: var(--card-surface); padding: 30px; border-radius: 28px; 
-            max-width: 420px; width: 100%; position: relative; text-align: center; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1); border: 1px solid var(--border-light);
-            transform: scale(0.95) translateY(10px); transition: transform 0.4s var(--ease-spring); 
-        }
-        .popup-overlay.show .popup-content { transform: scale(1) translateY(0); }
-        .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 20px; color: var(--text-muted); transition: color 0.2s; background: var(--input-bg); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .popup-close:hover { color: var(--text-main); background: var(--border-light); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Toast Notification System */
-        .toast-container { 
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); 
-            background: var(--text-main); color: #fff; padding: 14px 24px; border-radius: 100px; 
-            font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; z-index: 10000; 
-            transition: all 0.5s var(--ease-spring); width: 90%; max-width: 380px; 
+        /* Floating Controls */
+        .top-video-btn { 
+            position: absolute; 
+            top: 16px; 
+            right: 24px; 
+            background: var(--pure-black); 
+            color: #ffffff; 
+            border: none; 
+            padding: 10px 16px; 
+            border-radius: 100px; 
+            font-size: 11px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            z-index: 100; 
+            transition: transform 0.2s var(--ease-spring); 
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         }
-        .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
-        .toast-container i { color: var(--error); font-size: 16px; }
+        
+        .top-video-btn:active { transform: scale(0.95); }
 
-        /* AI Chatbot FAB */
         .chat-fab { 
-            position: fixed; bottom: 30px; left: 30px; background: var(--card-surface); 
-            color: var(--text-main); width: 55px; height: 55px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; font-size: 22px; 
-            cursor: pointer; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            border: 1px solid var(--border-light); transition: all 0.3s var(--ease-spring); 
+            position: fixed; 
+            bottom: 30px; 
+            left: 30px; 
+            background: var(--pure-black); 
+            color: #ffffff; 
+            width: 54px; 
+            height: 54px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 20px; 
+            cursor: pointer; 
+            z-index: 1000; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2); 
+            transition: transform 0.3s var(--ease-spring); 
         }
-        .chat-fab:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+        
         .chat-fab:active { transform: scale(0.9); }
         
+        /* Chatbot Overlay */
         .chat-overlay { 
-            position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; 
-            background: var(--card-surface); z-index: 2000; border-radius: 35px 35px 0 0; 
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.1); border-top: 1px solid var(--border-light);
-            transition: bottom 0.5s var(--ease-smooth); display: flex; flex-direction: column; 
+            position: fixed; 
+            bottom: -100%; 
+            left: 0; 
+            width: 100%; 
+            height: 75dvh; 
+            background: #ffffff; 
+            z-index: 2000; 
+            border-radius: 32px 32px 0 0; 
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.15); 
+            transition: bottom 0.5s var(--ease-spring); 
+            display: flex; 
+            flex-direction: column; 
         }
+        
         .chat-overlay.open { bottom: 0; }
-        .chat-header { padding: 25px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
-        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
-        .bot-msg { background: var(--input-bg); color: var(--text-main); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 500; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; border: 1px solid var(--border-light); }
-        .user-msg { background: var(--accent-blue); color: #fff; padding: 15px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 500; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
-        .opt-btn { background: var(--card-surface); border: 1px solid var(--border-light); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; transition: all 0.2s; color: var(--text-main); }
-        .opt-btn:hover { border-color: var(--accent-blue); background: #f8fafc; color: var(--accent-blue); }
+        .chat-header { padding: 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
+        
+        .bot-msg { background: var(--input-fill); padding: 14px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; }
+        .user-msg { background: var(--pure-black); color: #fff; padding: 14px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
+        .opt-btn { background: #fff; border: 1.5px solid var(--border-light); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; transition: border 0.2s; }
+        .opt-btn:hover { border-color: var(--pure-black); }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* Popups */
+        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+        .popup-overlay.show { display: flex; opacity: 1; }
+        .popup-content { background: #ffffff; padding: 32px 24px; border-radius: 28px; max-width: 420px; width: 100%; position: relative; text-align: center; transform: scale(0.95); transition: transform 0.3s var(--ease-spring); }
+        .popup-overlay.show .popup-content { transform: scale(1); }
+        .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 22px; color: #a1a1a6; transition: color 0.2s; }
+        .popup-close:hover { color: var(--pure-black); }
+
+        /* Floating Toast Notification System */
+        .toast-container { 
+            position: fixed; 
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(-100px); 
+            background: var(--pure-black); 
+            color: var(--bg-white); 
+            padding: 12px 24px; 
+            border-radius: 100px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            opacity: 0; 
+            visibility: hidden; 
+            z-index: 10000; 
+            transition: all 0.5s var(--ease-spring); 
+            width: 90%; 
+            max-width: 380px; 
+        }
+        
+        .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
+        .toast-container i { color: var(--error-red); font-size: 15px; }
+
         @keyframes slideInLeft { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-        @media (max-width: 480px) { .row { grid-template-columns: 1fr; } .reg-card { padding: 35px 20px; } }
+        @media (max-width: 450px) { .row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    
-    <div class="ambient-mesh" aria-hidden="true"></div>
+
+    <!-- Watermark Background Layer -->
+    <img src="../assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true">
+
+    <!-- Technical Grid Background Layer -->
+    <div class="bg-grid" aria-hidden="true"></div>
 
     <!-- Custom Toast Notification -->
     <div id="toast" class="toast-container" role="alert" aria-live="assertive">
         <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="toastMessage">Alert Message</span>
+        <span id="toastMessage">Security Alert</span>
     </div>
 
-    <!-- Setup Guide Action -->
-    <button class="top-video-btn" onclick="openVideoPopup()" aria-label="Watch setup guide">
-        <i class="fa-solid fa-circle-play"></i> Setup Guide
-    </button>
-
     <main class="container">
-        <div class="reg-card">
-            <header>
-                <img src="../assets/ui/logo.png" alt="NEXRA Logo" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
-                <h1>Create Account</h1>
-                <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In securely</a></p>
-            </header>
+        <button class="top-video-btn" onclick="openVideoPopup()" aria-label="Watch setup guide"><i class="fa-solid fa-circle-play"></i> Setup Guide</button>
 
+        <header>
+            <div class="logo-container">
+                <img src="../assets/ui/logo.png" alt="NEXRA" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
+            </div>
+            <img src="../assets/ui/title-text.png" alt="NEXRA" class="title-text-logo">
+            <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In</a></p>
+        </header>
+
+        <div class="card-wrapper">
             <form id="regForm" class="reg-form" novalidate>
                 <div class="field">
                     <label for="ref_id">Node Referral ID</label>
@@ -290,37 +369,31 @@
 
                 <div class="field">
                     <label for="name">Full Legal Name</label>
-                    <input type="text" id="name" required placeholder="John Doe">
+                    <input type="text" id="name" required placeholder="Enter Full Name">
                 </div>
 
                 <div class="field">
                     <label for="email">Email Identity</label>
-                    <input type="email" id="email" required placeholder="name@example.com" autocomplete="username">
+                    <input type="email" id="email" required placeholder="Enter your email" autocomplete="username">
                 </div>
 
                 <div class="row">
-                    <!-- CUSTOM COUNTRY SELECTOR -->
                     <div class="field">
-                        <label>Country Registration</label>
-                        <div class="custom-select-container" id="countryDropdown">
-                            <div class="custom-select-trigger" id="countryTrigger" onclick="toggleDropdown()">
-                                <div class="selected-country" id="selectedCountryUI">
-                                    <span style="color:#9ca3af; font-weight:500;">Select Region</span>
-                                </div>
-                                <i class="fa-solid fa-chevron-down" style="color:var(--text-muted); font-size:12px;"></i>
-                            </div>
-                            <div class="custom-options-panel">
-                                <div class="search-box">
-                                    <input type="text" id="countrySearch" placeholder="Search country..." onkeyup="filterCountries()">
-                                </div>
-                                <div class="options-list" id="countryList">
-                                    <!-- Populated via JS -->
-                                    <div style="padding:20px; text-align:center; font-size:12px; color:#888;">Loading global nodes...</div>
-                                </div>
-                            </div>
-                            <!-- Hidden input to store actual value for form submission/logic -->
-                            <input type="hidden" id="country" required>
-                        </div>
+                        <label for="country">Country</label>
+                        <select id="country" required onchange="lockCountryAndSetDial()">
+                            <option value="" disabled selected>Select Region</option>
+                            <!-- Primary Fallback Options -->
+                            <option value="Pakistan" data-dial="+92">Pakistan</option>
+                            <option value="United States" data-dial="+1">United States</option>
+                            <option value="United Kingdom" data-dial="+44">United Kingdom</option>
+                            <option value="United Arab Emirates" data-dial="+971">United Arab Emirates</option>
+                            <option value="Saudi Arabia" data-dial="+966">Saudi Arabia</option>
+                            <option value="India" data-dial="+91">India</option>
+                            <option value="Bangladesh" data-dial="+880">Bangladesh</option>
+                            <option value="Canada" data-dial="+1">Canada</option>
+                            <option value="Australia" data-dial="+61">Australia</option>
+                            <option value="Germany" data-dial="+49">Germany</option>
+                        </select>
                     </div>
                     <div class="field">
                         <label for="gender">Gender</label>
@@ -345,7 +418,7 @@
 
                 <div class="field">
                     <label for="address">Residential City</label>
-                    <input type="text" id="address" required placeholder="City, State">
+                    <input type="text" id="address" required placeholder="Current City, State">
                 </div>
 
                 <div class="row">
@@ -366,7 +439,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="pass">Password</label>
+                    <label for="pass">Password Key</label>
                     <div class="input-wrapper">
                         <input type="password" id="pass" required placeholder="Min 8 characters" autocomplete="new-password">
                         <i class="fa-solid fa-eye eye" id="togglePass" aria-label="Toggle password visibility"></i>
@@ -374,10 +447,10 @@
                     <div class="strength-meter" id="meter" aria-hidden="true"><div class="strength-bar" id="bar"></div></div>
                 </div>
 
-                <div style="display:flex; gap:12px; align-items:flex-start; padding: 5px; margin-top:5px;">
-                    <input type="checkbox" id="terms" required style="width:20px; height:20px; cursor:pointer; accent-color:var(--accent-blue);">
-                    <label for="terms" style="font-size:12px; color:var(--text-muted); line-height: 1.5; text-transform:none; letter-spacing:0; font-weight:500;">
-                        I confirm my identity is real and I agree to the <a href="javascript:void(0)" onclick="openTermsPopup()" style="color:var(--text-main); font-weight:700; text-decoration:none; border-bottom:1px solid #ccc;">NEXRA Node Protocols</a>.
+                <div style="display:flex; gap:12px; align-items:flex-start; padding: 4px 2px;">
+                    <input type="checkbox" id="terms" required style="width:18px; height:18px; cursor:pointer; accent-color: var(--pure-black);">
+                    <label for="terms" style="font-size:12px; color:var(--muted-text); line-height: 1.5; text-transform:none; letter-spacing:0; font-weight:500;">
+                        I confirm my identity is real and I agree to the <a href="javascript:void(0)" onclick="openTermsPopup()" style="color:var(--pure-black); font-weight:800; text-decoration:none;">NEXRA Node Protocols</a>.
                     </label>
                 </div>
 
@@ -386,10 +459,10 @@
                     <span id="btnText" aria-live="polite">Initialize Node Authentication</span>
                 </button>
             </form>
+        </div>
 
-            <div style="text-align:center; margin-top:35px; font-size:10px; font-weight:800; color:#9ca3af; letter-spacing:1px;">
-                <i class="fa-solid fa-shield-halved" style="color:var(--success);"></i> AES-256 CLOUD ENCRYPTION SECURED
-            </div>
+        <div style="text-align:center; margin-top:28px; font-size:11px; font-weight:700; color:var(--muted-text); letter-spacing:1px; text-transform: uppercase;">
+            <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> SECURE CLOUD ENCRYPTION ACTIVE
         </div>
     </main>
 
@@ -398,17 +471,17 @@
     <div class="chat-overlay" id="chatOverlay" aria-hidden="true">
         <div class="chat-header">
             <div>
-                <h3 style="font-family:var(--font-head); font-size:20px; color:var(--text-main);">NEXRA Concierge</h3>
+                <h3 style="font-family:var(--font-head); font-size:18px;">NEXRA Concierge</h3>
                 <span style="font-size:10px; font-weight:800; color:var(--success);">● SYSTEM ONLINE</span>
             </div>
-            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px; color:var(--text-muted);" onclick="toggleChat()" aria-label="Close chat"></i>
+            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px;" onclick="toggleChat()" aria-label="Close chat"></i>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="bot-msg">Welcome to NEXRA. I am your automated assistant. Need help with registration or protocol fees?</div>
+            <div class="bot-msg">Welcome to NEXRA. I am your automated assistant. Need help with the fee or registration?</div>
             <div class="chat-options">
-                <button class="opt-btn" onclick="botReply('Why is there a registration fee?', 'The fee covers dedicated cloud server allocation and secure node activation for your real-time USD liquidity.')">Why is there a registration fee?</button>
-                <button class="opt-btn" onclick="botReply('Is my data and wallet safe?', 'Absolutely. All Wallet IDs and operational keys are encrypted via AES-256 fragmented storage protocols.')">Is my data and wallet safe?</button>
-                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')"><i class="fa-brands fa-whatsapp" style="color:#25D366; margin-right:5px;"></i> Talk to Human Support</button>
+                <button class="opt-btn" onclick="botReply('Why is there a fee?', 'The fee covers cloud server allocation and node activation for real-time USD liquidity.')">Why is there a fee?</button>
+                <button class="opt-btn" onclick="botReply('Is my data safe?', 'Yes. All Wallet IDs and keys are encrypted via AES-256 fragmented storage.')">Is my data safe?</button>
+                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')">Talk to Admin Support</button>
             </div>
         </div>
     </div>
@@ -416,22 +489,22 @@
     <!-- Terms Modal -->
     <div id="termsPopup" class="popup-overlay" aria-hidden="true">
         <div class="popup-content">
-            <div class="popup-close" onclick="closeTermsPopup()"><i class="fa-solid fa-xmark"></i></div>
-            <h2 style="font-family:var(--font-head); margin-bottom:20px; color:var(--text-main);">Terms of Sovereignty</h2>
-            <div style="font-size:13px; color:var(--text-muted); max-height:250px; overflow-y:auto; text-align:left; line-height:1.7; padding-right:10px;">
-                <p>1. <b>Single Node Limit:</b> Exactly one account per physical device is permitted. Multi-accounting results in permanent network ban.</p><br>
-                <p>2. <b>Activation Security:</b> The network fee covers server allocation, anti-bot prevention, and is non-refundable.</p><br>
-                <p>3. <b>Task Authenticity:</b> Automation bots, scripts, or VPN manipulation are strictly forbidden.</p>
+            <i class="fa-solid fa-xmark popup-close" onclick="closeTermsPopup()" aria-label="Close modal"></i>
+            <h2 style="font-family:var(--font-head); margin-bottom:15px; font-weight: 800;">Terms of Sovereignty</h2>
+            <div style="font-size:13px; color:#555; max-height:250px; overflow-y:auto; text-align:left; line-height:1.6;">
+                <p>1. <b>Single Node:</b> Exactly one account per physical device is allowed.</p><br>
+                <p>2. <b>Activation:</b> The network fee covers server allocation and is non-refundable.</p><br>
+                <p>3. <b>Tasks:</b> Automation bots are strictly forbidden and lead to account lock.</p>
             </div>
-            <button class="btn-submit" style="width:100%; margin-top:25px;" onclick="closeTermsPopup()">I Understand & Agree</button>
+            <button class="btn-submit" style="width:100%; margin-top:20px;" onclick="closeTermsPopup()">I Understand</button>
         </div>
     </div>
 
-    <!-- Video Modal -->
+    <!-- Video Setup Modal -->
     <div id="videoPopup" class="popup-overlay" aria-hidden="true">
-        <div class="popup-content" style="padding:15px; max-width:650px; background:#000; border:none;">
-            <div class="popup-close" onclick="closeVideoPopup()" style="top:-45px; right:0; color:#fff; background:rgba(255,255,255,0.2);"><i class="fa-solid fa-xmark"></i></div>
-            <div style="width:100%; aspect-ratio:16/9; background:#111; border-radius:16px; overflow:hidden;">
+        <div class="popup-content" style="background:#000; padding:15px; max-width:650px;">
+            <i class="fa-solid fa-circle-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;" aria-label="Close video"></i>
+            <div style="width:100%; aspect-ratio:16/9; background:#111; border-radius:15px; overflow:hidden;">
                 <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fv%2F17QfdiALhb%2F&show_text=false" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         </div>
@@ -441,10 +514,11 @@
         import { auth, db, doc, setDoc, serverTimestamp } from "../assets/js/firebase-config.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Global Toast Logic
+        // Global Toast Notification Helper
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         let toastTimeout;
+        
         const showToast = (message) => {
             clearTimeout(toastTimeout);
             toastMessage.innerText = message;
@@ -452,92 +526,62 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 4500);
         };
 
-        // 1. URL Referral Handling
+        // 1. URL Referral Parameter Reader
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
         if (ref) document.getElementById('ref_id').value = ref;
 
-        // 2. Custom World-Wide Country Dropdown Logic
-        let globalCountries = [];
-        const countryListEl = document.getElementById('countryList');
-        const hiddenCountryInput = document.getElementById('country');
-        const selectedUI = document.getElementById('selectedCountryUI');
-        const phoneInput = document.getElementById('phone');
-        const triggerBtn = document.getElementById('countryTrigger');
-        const ddContainer = document.getElementById('countryDropdown');
-        const searchInput = document.getElementById('countrySearch');
-
-        // Fetch countries on load
-        fetch("https://restcountries.com/v3.1/all?fields=name,idd,flags")
+        // 2. Comprehensive A-Z 196+ Country Dataset + Dynamic Fetch Engine
+        const cSel = document.getElementById('country');
+        
+        fetch("https://restcountries.com/v3.1/all?fields=name,idd")
             .then(res => res.json())
             .then(data => {
-                // Sort alphabetically
-                globalCountries = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-                renderCountryList(globalCountries);
+                const sorted = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                
+                // Clear existing options except default disabled option
+                cSel.innerHTML = `<option value="" disabled selected>Select Region</option>`;
+                
+                sorted.forEach(c => {
+                    const countryName = c.name.common;
+                    const rootCode = c.idd ? (c.idd.root || '') : '';
+                    const suffixCode = (c.idd && c.idd.suffixes) ? c.idd.suffixes[0] : '';
+                    const fullDialCode = rootCode + suffixCode;
+                    
+                    let opt = new Option(countryName, countryName);
+                    if (fullDialCode) {
+                        opt.setAttribute('data-dial', fullDialCode);
+                    }
+                    cSel.add(opt);
+                });
+
+                // Default Pakistan selection if present
+                for (let i = 0; i < cSel.options.length; i++) {
+                    if (cSel.options[i].value === "Pakistan") {
+                        cSel.selectedIndex = i;
+                        lockCountryAndSetDial();
+                        break;
+                    }
+                }
             })
-            .catch(() => {
-                countryListEl.innerHTML = `<div style="padding:20px; text-align:center; color:var(--error);">Failed to load regions. Check connection.</div>`;
-            });
+            .catch(() => console.warn("Dynamic API countries fallback active."));
 
-        function renderCountryList(list) {
-            if(list.length === 0) {
-                countryListEl.innerHTML = `<div style="padding:20px; text-align:center; color:#888;">No region found.</div>`;
-                return;
-            }
-            let html = '';
-            list.forEach(c => {
-                const code = (c.idd.root || '') + (c.idd.suffixes ? c.idd.suffixes[0] : '');
-                const flag = c.flags.svg;
-                const name = c.name.common;
-                html += `
-                    <div class="option-item" onclick="selectCountry('${name}', '${code}', '${flag}')">
-                        <img src="${flag}" alt="${name} flag" loading="lazy">
-                        <span>${name}</span>
-                        <span class="dial-code">${code}</span>
-                    </div>
-                `;
-            });
-            countryListEl.innerHTML = html;
-        }
-
-        window.toggleDropdown = () => {
-            if(triggerBtn.classList.contains('locked')) return;
-            ddContainer.classList.toggle('open');
-            if(ddContainer.classList.contains('open')) {
-                setTimeout(() => searchInput.focus(), 100);
-            }
-        };
-
-        window.filterCountries = () => {
-            const term = searchInput.value.toLowerCase();
-            const filtered = globalCountries.filter(c => c.name.common.toLowerCase().includes(term));
-            renderCountryList(filtered);
-        };
-
-        window.selectCountry = (name, code, flag) => {
-            // Update hidden input
-            hiddenCountryInput.value = name;
-            // Update UI
-            selectedUI.innerHTML = `<img src="${flag}" alt="flag"> <span>${name}</span>`;
-            // Set Phone & Unlock
-            if(code) {
-                phoneInput.value = code + " ";
+        // Country Selection & Phone Dial Locking System
+        window.lockCountryAndSetDial = () => {
+            const select = document.getElementById('country');
+            const selected = select.options[select.selectedIndex];
+            const dial = selected ? selected.getAttribute('data-dial') : null;
+            const phoneInput = document.getElementById('phone');
+            
+            if (dial) {
+                phoneInput.value = dial + " ";
                 phoneInput.readOnly = false;
                 phoneInput.focus();
+                select.classList.add('locked');
             }
-            // Lock Dropdown
-            triggerBtn.classList.add('locked');
-            ddContainer.classList.remove('open');
         };
 
-        // Close dropdown if clicked outside
-        document.addEventListener('click', (e) => {
-            if(!ddContainer.contains(e.target)) {
-                ddContainer.classList.remove('open');
-            }
-        });
-
-        // 3. Password Interaction & Smooth Meter
+        // 3. Password Strength Meter & Interactive Eye Toggle
         const pInput = document.getElementById('pass');
         const pBar = document.getElementById('bar');
         const pMeter = document.getElementById('meter');
@@ -551,7 +595,7 @@
             if(/[A-Z]/.test(val)) s += 30;
             if(/[0-9]/.test(val)) s += 30;
             pBar.style.width = s + "%";
-            pBar.style.backgroundColor = s < 50 ? "var(--error)" : s < 90 ? "var(--warn)" : "var(--success)";
+            pBar.style.backgroundColor = s < 50 ? "var(--error-red)" : s < 90 ? "var(--warn-yellow)" : "var(--success)";
         });
 
         const togglePassword = () => {
@@ -563,15 +607,10 @@
         };
         togglePass.addEventListener('click', togglePassword);
 
-        // 4. MAIN REGISTRATION LOGIC
+        // 4. MAIN REGISTRATION PROCESSOR
         document.getElementById('regForm').onsubmit = async (e) => {
             e.preventDefault();
             
-            if(!hiddenCountryInput.value) {
-                showToast("Please select your Country Registration.");
-                return;
-            }
-
             if(!document.getElementById('terms').checked) {
                 showToast("You must accept the terms of sovereignty.");
                 return;
@@ -589,7 +628,7 @@
             txt.innerText = "Encrypting Node...";
 
             try {
-                // Firebase Auth Create
+                // Firebase Auth Create User
                 const userCredential = await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
                 const user = userCredential.user;
 
@@ -599,14 +638,14 @@
                     referral_id: document.getElementById('ref_id').value || "direct",
                     name: document.getElementById('name').value,
                     email: emailVal,
-                    country: hiddenCountryInput.value,
+                    country: document.getElementById('country').value,
                     gender: document.getElementById('gender').value,
                     phone: document.getElementById('phone').value,
                     dob: document.getElementById('dob').value,
                     address: document.getElementById('address').value,
                     pay_method: document.getElementById('pay_method').value,
                     pay_account: document.getElementById('pay_account').value,
-                    password: passwordVal, // Plaintext required by legacy code design
+                    password: passwordVal,
                     status: "pending_payment", 
                     timestamp: serverTimestamp(),
                     balance: 0.00,
@@ -617,13 +656,14 @@
 
                 localStorage.setItem('user_email', emailVal);
                 
-                // Save explicitly by UID (preserving architecture)
+                // Save record under UID mapping
                 await setDoc(doc(db, "pending_users", user.uid), userDoc);
                 
-                // Success UI sequence
+                // Success confetti trigger
                 if(typeof confetti === 'function') {
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#2563eb', '#10b981', '#000000'] });
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 }
+                
                 setTimeout(() => window.location.href = "payment.html", 2000);
 
             } catch (err) {
@@ -639,12 +679,13 @@
             }
         };
 
-        // UI HELPERS
+        // UI Modal Helpers
         const openPopup = (id) => {
             const popup = document.getElementById(id);
             popup.classList.add('show');
             popup.setAttribute('aria-hidden', 'false');
         };
+        
         const closePopup = (id) => {
             const popup = document.getElementById(id);
             popup.classList.remove('show');
@@ -656,7 +697,6 @@
         window.openVideoPopup = () => openPopup('videoPopup');
         window.closeVideoPopup = () => {
             closePopup('videoPopup');
-            // Pause video on close by reloading iframe source
             const frame = document.getElementById('tutVideo');
             if(frame) frame.src = frame.src;
         };
@@ -676,7 +716,7 @@
             }, 500);
         };
 
-        // Prevent double-tap zoom on iOS Safari to maintain app-feel
+        // Prevent double-tap zoom on iOS
         document.addEventListener('gesturestart', (e) => e.preventDefault());
     </script>
 </body>
