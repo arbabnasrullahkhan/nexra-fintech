@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- ========================================== -->
-    <!-- 🚀 MASTER SEO & ACCESS KEYWORDS            -->
-    <!-- ========================================== -->
+    <!-- Master SEO & Access Keywords -->
     <title>Login | NEXRA Command Center</title>
     <meta name="title" content="Login to NEXRA | Secure Access to Global Wealth">
     <meta name="description" content="Access your NEXRA dashboard. Process technical nodes, manage your referral network, and withdraw USD instantly. The world's most secure fintech task portal.">
@@ -20,141 +18,274 @@
     <meta property="og:url" content="https://nexra.ct.ws/auth/login.html">
     <meta property="og:title" content="Login to NEXRA Ecosystem">
     <meta property="og:description" content="Sign in to your encrypted vault and start processing daily nodes.">
-    <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
+    <meta property="og:image" content="../assets/ui/logo.png">
 
     <!-- Preload Critical Assets -->
     <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/ui/title-text.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
-    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" href="../assets/ui/favicon.png">
+    <link rel="apple-touch-icon" href="../assets/ui/favicon.png">
+    <meta name="theme-color" content="#09090b">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Icons & Fonts -->
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --black: #080808; 
-            --white: #ffffff; 
-            --gray-light: #f7f7f9;
-            --gray-border: #e2e2e7; 
-            --text-muted: #8e8e93; 
-            --grid-line: rgba(0, 0, 0, 0.04);
+            --bg-dark: #09090b;
+            --card-glass: rgba(17, 17, 19, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-focus: rgba(255, 255, 255, 0.2);
+            --accent-blue: #2979ff;
+            --accent-green: #00e676;
             --error-red: #ff3b30;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
             --font-head: 'Outfit', sans-serif;
             --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* LOCKDOWN: No Zoom, No Scroll, App-like Feel */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+        /* LOCKDOWN: Prevent Zoom, App-like Fluid Feel */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
         html, body { 
-            width: 100%; height: 100dvh; overflow: hidden; position: fixed; 
-            background-color: var(--white); color: var(--black); 
+            width: 100%; height: 100dvh; 
+            overflow: hidden; position: fixed; 
+            background-color: var(--bg-dark); 
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 70%),
+                radial-gradient(circle at 50% 80%, rgba(41, 121, 255, 0.01) 0%, transparent 50%);
+            color: var(--text-primary); 
             font-family: 'Inter', -apple-system, sans-serif; 
             display: flex; justify-content: center; align-items: center; 
+        }
+
+        /* Subtle Floating Brand Watermark */
+        .brand-watermark {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.015;
+            pointer-events: none;
+            z-index: -1;
+            mix-blend-mode: overlay;
         }
 
         /* TECHNICAL GRID BACKGROUND */
         .bg-grid {
             position: fixed; inset: 0; z-index: -1;
-            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
             background-size: 35px 35px;
+            background-position: center;
             mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
             -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
             pointer-events: none;
         }
 
-        /* CUSTOM TOAST NOTIFICATION */
+        /* CUSTOM FLOATING TOAST NOTIFICATION (DYNAMIC ISLAND STYLE) */
         .toast-container {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: var(--black); color: var(--white); padding: 14px 24px;
-            border-radius: 30px; font-size: 13px; font-weight: 600;
+            position: absolute; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: rgba(10, 10, 12, 0.9); 
+            color: var(--text-primary); 
+            padding: 12px 24px;
+            border-radius: 100px; font-size: 13px; font-weight: 700;
             display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid var(--card-border);
             opacity: 0; visibility: hidden; z-index: 1000;
             transition: all 0.5s var(--ease-spring);
             width: 90%; max-width: 380px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
+        
         .toast-container.show {
             transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible;
         }
-        .toast-container i { color: var(--error-red); font-size: 16px; }
+        .toast-container i { color: var(--error-red); font-size: 15px; }
 
-        /* LOGIN CARD */
+        /* PORTAL CARD CAPSULED STRUCTURE */
         .login-card { 
-            width: 90%; max-width: 420px; padding: 30px 20px; text-align: center; 
+            width: 90%; 
+            max-width: 420px; 
+            padding: 40px 30px; 
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             will-change: transform, opacity;
-            animation: slideUpFade 0.8s var(--ease-spring) forwards; 
+            animation: slideUpFade 0.9s var(--ease-spring) forwards; 
+            position: relative;
+            overflow: hidden;
         }
 
-        header { margin-bottom: 40px; }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+        }
+
+        header { margin-bottom: 32px; text-align: center; }
+        
+        .logo-container {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .logo-glow {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+
         .logo { 
-            width: 75px; height: 75px; margin-bottom: 20px; 
-            mix-blend-mode: multiply; cursor: pointer; 
-            transition: transform 0.3s ease;
+            width: 68px; height: 68px; 
+            object-fit: contain;
+            cursor: pointer; 
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s var(--ease-spring);
         }
+        
         .logo:active { transform: scale(0.92); }
-        h1 { font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 8px; }
-        p.subtitle { color: var(--text-muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .title-text-logo {
+            height: 20px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px;
+            filter: brightness(0) invert(1);
+        }
 
-        /* Form Styling */
-        form { display: flex; flex-direction: column; gap: 24px; text-align: left; }
+        p.subtitle { 
+            color: var(--text-secondary); 
+            font-size: 10px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+
+        /* Form Layout Structuring */
+        form { display: flex; flex-direction: column; gap: 20px; text-align: left; }
         .field { display: flex; flex-direction: column; gap: 8px; position: relative; }
-        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); padding-left: 5px; cursor: pointer; }
+        
+        label { 
+            font-size: 10px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            color: var(--text-secondary); 
+            padding-left: 4px; 
+            cursor: pointer; 
+        }
         
         .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
         
         input {
-            width: 100%; padding: 18px 20px; border-radius: 16px; border: 1.5px solid var(--gray-border);
-            background: var(--gray-light); font-size: 15px; font-weight: 600; color: var(--black);
-            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
+            width: 100%; 
+            padding: 16px 20px; 
+            border-radius: 16px; 
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.02); 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: var(--text-primary);
+            outline: none; 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            font-family: inherit;
         }
-        input::placeholder { color: #a1a1a6; font-weight: 500; }
+        
+        input::placeholder { color: var(--text-muted); font-weight: 500; }
+        
         input:focus { 
-            border-color: var(--black); background: var(--white); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06); 
+            border-color: var(--card-border-focus); 
+            background: rgba(255, 255, 255, 0.04); 
+            box-shadow: 0 0 15px rgba(255,255,255,0.03); 
         }
 
         .eye-icon { 
             position: absolute; right: 18px; color: var(--text-muted); 
-            cursor: pointer; padding: 5px; font-size: 17px; 
+            cursor: pointer; padding: 6px; font-size: 15px; 
             transition: color 0.2s ease;
+            z-index: 5;
         }
-        .eye-icon:hover, .eye-icon.active { color: var(--black); }
+        .eye-icon:hover, .eye-icon.active { color: var(--text-primary); }
 
-        .form-links { display: flex; justify-content: flex-end; align-items: center; margin-top: -12px; padding: 0 5px; }
-        .form-links a { font-size: 13px; font-weight: 700; color: var(--black); text-decoration: none; transition: opacity 0.2s; }
-        .form-links a:active { opacity: 0.6; }
+        .form-links { display: flex; justify-content: flex-end; align-items: center; margin-top: -6px; padding: 0 4px; }
+        .form-links a { font-size: 12px; font-weight: 700; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .form-links a:hover { color: var(--text-primary); }
 
-        /* Submit Button */
+        /* Authorization Submission Trigger */
         .btn-login {
-            background: var(--black); color: var(--white); padding: 20px; border: none; border-radius: 20px;
-            font-size: 16px; font-weight: 700; cursor: pointer; display: flex; justify-content: center;
+            background: var(--text-primary); color: var(--bg-dark); padding: 18px; border: none; border-radius: 16px;
+            font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center;
             align-items: center; gap: 12px; transition: all 0.3s var(--ease-spring); 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); width: 100%;
+            box-shadow: 0 12px 25px rgba(255,255,255,0.05); width: 100%;
         }
-        .btn-login:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-login:disabled { background: #333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .btn-login:active { transform: scale(0.97); }
+        .btn-login:disabled { background: var(--text-muted); opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn-register { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 35px; text-decoration: none; display: block; font-weight: 500; }
-        .btn-register b { color: var(--black); font-weight: 800; border-bottom: 2px solid var(--black); padding-bottom: 2px; }
+        .btn-register { text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 32px; text-decoration: none; display: block; font-weight: 500; }
+        .btn-register b { color: var(--text-primary); font-weight: 800; border-bottom: 1.5px solid var(--text-primary); padding-bottom: 2px; }
 
-        /* Modern Loader */
+        /* Hardware Accelerated Loader */
         .loader { 
-            width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); 
-            border-top-color: var(--white); border-radius: 50%; 
-            animation: spin 0.8s linear infinite; display: none; 
+            width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.2); 
+            border-top-color: rgba(0,0,0,0.8); border-radius: 50%; 
+            animation: spin 0.7s linear infinite; display: none; 
+        }
+
+        /* Subtle Secure Footnote */
+        .secure-badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 24px;
+        }
+
+        .secure-badge i {
+            color: var(--accent-green);
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+        
         @keyframes slideUpFade { 
-            from { opacity: 0; transform: translateY(25px) translateZ(0); } 
+            from { opacity: 0; transform: translateY(20px) translateZ(0); } 
             to { opacity: 1; transform: translateY(0) translateZ(0); } 
         }
 
@@ -167,6 +298,9 @@
 </head>
 <body>
 
+    <!-- Subtle Floating Brand Watermark -->
+    <img src="../assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true">
+
     <!-- Technical Grid Layer -->
     <div class="bg-grid" aria-hidden="true"></div>
 
@@ -178,9 +312,12 @@
 
     <main class="login-card">
         <header>
-            <img src="../assets/ui/logo.png" alt="NEXRA Official" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
-            <h1>NEXRA</h1>
-            <p class="subtitle">Ecosystem Entrance</p>
+            <div class="logo-container">
+                <div class="logo-glow" aria-hidden="true"></div>
+                <img src="../assets/ui/logo.png" alt="NEXRA Official Logo" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
+            </div>
+            <img src="../assets/ui/title-text.png" alt="NEXRA" class="title-text-logo">
+            <p class="subtitle">Secure Gateway Entrance</p>
         </header>
 
         <form id="loginForm" novalidate>
@@ -192,7 +329,7 @@
             </div>
 
             <div class="field">
-                <label for="password">Password</label>
+                <label for="password">Password Key</label>
                 <div class="input-wrapper">
                     <input type="password" id="password" placeholder="••••••••••" required autocomplete="current-password">
                     <i class="fa-solid fa-eye eye-icon" id="togglePass" aria-label="Toggle password visibility" role="button" tabindex="0"></i>
@@ -210,6 +347,10 @@
         </form>
 
         <a href="register.html" class="btn-register">New to the community? <b>Join NEXRA</b></a>
+
+        <div class="secure-badge">
+            <i class="fa-solid fa-shield-halved"></i> AES-256 Vault Protection Active
+        </div>
     </main>
 
     <!-- Firebase Integration Engine -->
