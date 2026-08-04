@@ -10,7 +10,7 @@
     <title>Join NEXRA | The Digital Wealth Revolution</title>
     <meta name="title" content="NEXRA Registration | Start Earning USD Daily">
     <meta name="description" content="Create your secure NEXRA account today. Join the world's leading micro-task ecosystem. Complete technical nodes and withdraw USD to EasyPaisa, SadaPay, or Binance.">
-    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2024, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
+    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2026, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
     <meta name="author" content="NEXRA Global">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nexra-fintech.vercel.app/auth/register.html">
@@ -20,18 +20,21 @@
     <meta property="og:url" content="https://nexra-fintech.vercel.app/auth/register.html">
     <meta property="og:title" content="NEXRA | Welcome Bonus Activated">
     <meta property="og:description" content="Secure your spot in the global fintech node network. Real-time payouts. 100% Verified.">
-    <meta property="og:image" content="https://nexra-fintech.vercel.app/assets/ui/logo.png">
+    <meta property="og:image" content="../assets/ui/logo.png">
 
     <!-- Theme & Icons -->
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
-    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+    <meta name="theme-color" content="#09090b">
+    <link rel="icon" type="image/png" href="../assets/ui/favicon.png">
+    <link rel="apple-touch-icon" href="../assets/ui/favicon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Preload Assets -->
     <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="../assets/ui/title-text.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     
     <!-- Scripts -->
@@ -39,138 +42,285 @@
 
     <style>
         :root {
-            --pure-black: #080808;
-            --deep-gray: #111111;
-            --muted-text: #666666;
-            --bg-white: #ffffff;
-            --border-light: #e2e2e7;
-            --input-fill: #f7f7f9;
-            --success: #00c853;
+            --bg-dark: #09090b;
+            --card-glass: rgba(17, 17, 19, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-focus: rgba(255, 255, 255, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            --success: #00e676;
             --error-red: #ff3b30;
-            --warn-yellow: #ffcc00;
-            --grid-line: rgba(0, 0, 0, 0.04);
+            --warn-yellow: #ffd600;
+            --accent-blue: #2979ff;
+            --grid-line: rgba(255, 255, 255, 0.015);
             --font-head: 'Outfit', sans-serif;
+            --font-main: 'Inter', -apple-system, sans-serif;
             --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* Resets & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        html, body { width: 100%; height: 100%; background-color: var(--bg-white); color: var(--pure-black); font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        html, body { 
+            width: 100%; 
+            min-height: 100dvh; 
+            background-color: var(--bg-dark); 
+            color: var(--text-primary); 
+            font-family: var(--font-main); 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-        /* Grid Background */
+        /* Subtle Floating Brand Watermark */
+        .brand-watermark {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.015;
+            pointer-events: none;
+            z-index: -2;
+            mix-blend-mode: overlay;
+        }
+
+        /* Premium Ambient Grid Background Overlay */
         .bg-grid { 
             position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background-image: linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); 
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); 
             background-size: 45px 45px; 
-            mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); 
-            -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+            background-position: center top;
+            mask-image: radial-gradient(circle at 50% 30%, black, transparent 85%);
+            -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 85%);
         }
 
-        .container { width: 100%; max-width: 500px; margin: 0 auto; padding: 40px 24px; position: relative; animation: slideUp 0.8s var(--ease-spring); }
+        .container { 
+            width: 100%; 
+            max-width: 520px; 
+            margin: 0 auto; 
+            padding: 80px 24px 60px; 
+            position: relative; 
+            animation: slideUp 0.8s var(--ease-spring); 
+        }
+
+        /* Top Bar Video Button */
+        .top-video-btn { 
+            position: absolute; 
+            top: 24px; 
+            right: 24px; 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text-primary); 
+            border: 1px solid var(--card-border); 
+            padding: 10px 18px; 
+            border-radius: 100px; 
+            font-size: 11px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            z-index: 100; 
+            transition: all 0.3s var(--ease-spring); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .top-video-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+        .top-video-btn:active { transform: scale(0.95); }
 
         /* Header Elements */
-        header { text-align: center; margin-bottom: 35px; }
-        .logo { width: 75px; height: 75px; margin-bottom: 15px; mix-blend-mode: multiply; cursor: pointer; transition: transform 0.3s; }
-        .logo:active { transform: scale(0.92); }
-        h1 { font-family: var(--font-head); font-size: 32px; font-weight: 900; letter-spacing: -1.5px; }
-        .sub-link { font-size: 14px; margin-top: 8px; color: var(--muted-text); font-weight: 500; }
-        .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); padding-bottom: 2px;}
-
-        /* Form Styling */
-        .reg-form { display: flex; flex-direction: column; gap: 20px; }
-        .field { position: relative; display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pure-black); padding-left: 5px; }
-
-        /* iOS Fix: Font size 16px prevents auto-zoom */
-        input, select {
-            width: 100%; padding: 18px; background: var(--input-fill);
-            border: 1.5px solid var(--border-light); border-radius: 16px;
-            font-size: 16px; font-weight: 600; color: var(--pure-black); font-family: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        header { text-align: center; margin-bottom: 40px; display: flex; flex-direction: column; align-items: center; }
+        
+        .logo-container {
+            position: relative;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
         }
-        input::placeholder { color: #a1a1a6; font-weight: 500; }
-        input:focus, select:focus { border-color: var(--pure-black); background: #fff; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-        input[readonly] { background: #f1f1f1; color: #888; cursor: not-allowed; border-style: dashed; }
-        
-        select.locked { pointer-events: none; opacity: 0.8; background: #eef0f2; }
 
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        .input-wrapper { position: relative; width: 100%; }
-        .eye { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--muted-text); cursor: pointer; padding: 5px; font-size: 18px; transition: color 0.2s; }
-        .eye:hover, .eye.active { color: var(--pure-black); }
+        .logo-glow {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            pointer-events: none;
+        }
         
-        /* Strength Meter */
-        .strength-meter { height: 4px; background: var(--border-light); border-radius: 10px; margin-top: -5px; overflow: hidden; display: none; }
-        .strength-bar { height: 100%; width: 0%; transition: all 0.4s var(--ease-spring); }
+        .logo { 
+            width: 75px; 
+            height: 75px; 
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            cursor: pointer; 
+            transition: transform 0.3s var(--ease-spring); 
+        }
+        .logo:active { transform: scale(0.92); }
+        
+        .title-text-logo {
+            height: 22px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 12px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .sub-link { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+        .sub-link a { color: var(--text-primary); font-weight: 800; text-decoration: none; border-bottom: 1.5px solid var(--card-border); padding-bottom: 2px; transition: border 0.3s;}
+        .sub-link a:hover { border-color: var(--text-primary); }
+
+        /* Form Styling (Glassmorphism) */
+        .reg-form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            background: var(--card-glass);
+            padding: 35px 25px;
+            border-radius: 28px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .field { position: relative; display: flex; flex-direction: column; gap: 8px; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); padding-left: 4px; }
+
+        input, select {
+            width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.02);
+            border: 1px solid var(--card-border); border-radius: 16px;
+            font-size: 15px; font-weight: 600; color: var(--text-primary); font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        
+        /* Select dropdown specific fixes for dark mode */
+        select { background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; padding-right: 45px; }
+        option { background-color: #111111; color: #ffffff; font-weight: 600; }
+        
+        input::placeholder { color: var(--text-muted); font-weight: 500; }
+        input:focus, select:focus { border-color: var(--card-border-focus); background: rgba(255,255,255,0.04); box-shadow: 0 0 15px rgba(255,255,255,0.03); }
+        
+        /* Readonly & Locked States */
+        input[readonly] { background: rgba(255,255,255,0.01); color: var(--text-muted); cursor: not-allowed; border: 1px dashed var(--card-border); }
+        select.locked { pointer-events: none; opacity: 0.7; border: 1px dashed var(--card-border); background-color: rgba(255,255,255,0.01); }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .input-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+        .eye { position: absolute; right: 18px; color: var(--text-muted); cursor: pointer; padding: 5px; font-size: 16px; transition: color 0.2s; z-index: 5; }
+        .eye:hover, .eye.active { color: var(--text-primary); }
+        
+        /* Premium Strength Meter */
+        .strength-meter { height: 4px; background: rgba(255,255,255,0.05); border-radius: 100px; margin-top: -2px; overflow: hidden; display: none; }
+        .strength-bar { height: 100%; width: 0%; transition: all 0.4s var(--ease-spring); box-shadow: 0 0 10px currentColor; }
+
+        /* Interactive Terms Checkbox */
+        .terms-row { display: flex; gap: 12px; align-items: flex-start; padding: 8px 4px; }
+        .terms-row input[type="checkbox"] { 
+            width: 20px; height: 20px; padding: 0; margin-top: 2px;
+            accent-color: var(--text-primary); cursor: pointer; flex-shrink: 0; 
+        }
+        .terms-row label { 
+            font-size: 11px; color: var(--text-secondary); line-height: 1.6; 
+            text-transform: none; letter-spacing: 0; font-weight: 500; padding: 0;
+        }
+        .terms-row a { color: var(--text-primary); font-weight: 800; text-decoration: none; border-bottom: 1px solid var(--text-secondary); transition: border 0.3s; }
+        .terms-row a:hover { border-color: var(--text-primary); }
 
         /* Submit Button */
         .btn-submit {
-            margin-top: 10px; background: var(--pure-black); color: #fff;
-            padding: 20px; border-radius: 18px; border: none; font-size: 16px;
+            margin-top: 10px; background: var(--text-primary); color: var(--bg-dark);
+            padding: 18px; border-radius: 16px; border: none; font-size: 15px;
             font-weight: 800; cursor: pointer; display: flex; justify-content: center; 
-            align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); transition: all 0.3s var(--ease-spring);
+            align-items: center; gap: 12px; box-shadow: 0 12px 25px rgba(255,255,255,0.05); 
+            transition: all 0.3s var(--ease-spring); width: 100%;
         }
-        .btn-submit:active { transform: scale(0.96); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .btn-submit:disabled { background: #333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(255,255,255,0.1); }
+        .btn-submit:active { transform: scale(0.97); }
+        .btn-submit:disabled { background: var(--text-muted); opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .loader { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .loader { width: 18px; height: 18px; border: 2.5px solid rgba(0,0,0,0.2); border-top-color: rgba(0,0,0,0.8); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
 
-        /* Floating Components */
-        .top-video-btn { position: absolute; top: 20px; right: 24px; background: var(--pure-black); color: #fff; border: none; padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 100; transition: transform 0.2s; }
-        .top-video-btn:active { transform: scale(0.95); }
-
-        .chat-fab { position: fixed; bottom: 30px; left: 30px; background: var(--pure-black); color: #fff; width: 55px; height: 55px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: transform 0.3s; }
-        .chat-fab:active { transform: scale(0.9); }
+        /* Floating Chat Components */
+        .chat-fab { 
+            position: fixed; bottom: 30px; left: 30px; background: var(--text-primary); 
+            color: var(--bg-dark); width: 56px; height: 56px; border-radius: 20px; 
+            display: flex; align-items: center; justify-content: center; font-size: 24px; 
+            cursor: pointer; z-index: 1000; box-shadow: 0 15px 35px rgba(255,255,255,0.1); 
+            transition: all 0.3s var(--ease-spring); 
+        }
+        .chat-fab:hover { transform: translateY(-4px) scale(1.05); }
+        .chat-fab:active { transform: scale(0.95); }
         
-        /* Chatbot Overlay */
-        .chat-overlay { position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); transition: bottom 0.5s var(--ease-spring); display: flex; flex-direction: column; }
+        /* Apple-Style Glass Chat Overlay */
+        .chat-overlay { 
+            position: fixed; bottom: -100%; left: 0; width: 100%; height: 75dvh; 
+            background: rgba(17, 17, 19, 0.95); z-index: 2000; border-radius: 35px 35px 0 0; 
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.5); transition: bottom 0.5s var(--ease-spring); 
+            display: flex; flex-direction: column; 
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid var(--card-border);
+        }
         .chat-overlay.open { bottom: 0; }
-        .chat-header { padding: 25px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+        .chat-header { padding: 24px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
         .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
         
-        .bot-msg { background: var(--input-fill); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; }
-        .user-msg { background: var(--pure-black); color: #fff; padding: 15px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
-        .opt-btn { background: #fff; border: 1.5px solid var(--border-light); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; transition: border 0.2s; }
-        .opt-btn:hover { border-color: var(--pure-black); }
+        .bot-msg { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; color: var(--text-primary); border: 1px solid var(--card-border); }
+        .user-msg { background: var(--text-primary); color: var(--bg-dark); padding: 15px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
+        .opt-btn { background: transparent; color: var(--text-primary); border: 1px solid var(--card-border); padding: 14px; border-radius: 14px; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; transition: all 0.2s; }
+        .opt-btn:hover { background: rgba(255,255,255,0.05); border-color: var(--card-border-focus); }
 
-        /* Popups */
-        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+        /* Premium Glass Modals */
+        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
         .popup-overlay.show { display: flex; opacity: 1; }
-        .popup-content { background: #fff; padding: 30px; border-radius: 30px; max-width: 420px; width: 100%; position: relative; text-align: center; transform: scale(0.95); transition: transform 0.3s var(--ease-spring); }
+        .popup-content { background: var(--card-glass); border: 1px solid var(--card-border); padding: 35px; border-radius: 32px; max-width: 440px; width: 100%; position: relative; text-align: center; transform: scale(0.95); transition: transform 0.4s var(--ease-spring); box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
         .popup-overlay.show .popup-content { transform: scale(1); }
-        .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 24px; color: #ccc; transition: color 0.2s; }
-        .popup-close:hover { color: var(--pure-black); }
+        .popup-close { position: absolute; top: 20px; right: 24px; cursor: pointer; font-size: 22px; color: var(--text-secondary); transition: color 0.2s; }
+        .popup-close:hover { color: var(--text-primary); }
 
-        /* Toast Notification System */
-        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--pure-black); color: var(--bg-white); padding: 14px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); opacity: 0; visibility: hidden; z-index: 10000; transition: all 0.5s var(--ease-spring); width: 90%; max-width: 380px; }
+        /* Dynamic Island Toast */
+        .toast-container { position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(10, 10, 12, 0.9); color: var(--text-primary); padding: 12px 24px; border-radius: 100px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border: 1px solid var(--card-border); opacity: 0; visibility: hidden; z-index: 10000; transition: all 0.5s var(--ease-spring); width: 90%; max-width: 380px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
-        .toast-container i { color: var(--error-red); font-size: 16px; }
+        .toast-container i { color: var(--error-red); font-size: 15px; }
 
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideInLeft { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
 
-        @media (max-width: 450px) { .row { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) { .row { grid-template-columns: 1fr; gap: 20px;} }
     </style>
 </head>
 <body>
+    
+    <img src="../assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true">
     <div class="bg-grid" aria-hidden="true"></div>
 
     <!-- Custom Toast Notification -->
     <div id="toast" class="toast-container" role="alert" aria-live="assertive">
         <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="toastMessage">Error alert</span>
+        <span id="toastMessage">Security Alert</span>
     </div>
 
     <main class="container">
-        <button class="top-video-btn" onclick="openVideoPopup()" aria-label="Watch setup guide"><i class="fa-solid fa-circle-play"></i> Setup Guide</button>
+        <button class="top-video-btn" onclick="openVideoPopup()" aria-label="Watch setup guide"><i class="fa-solid fa-circle-play" style="color:var(--accent-blue);"></i> Setup Guide</button>
 
         <header>
-            <img src="../assets/ui/logo.png" alt="NEXRA" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
-            <h1>Begin Journey</h1>
-            <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In</a></p>
+            <div class="logo-container">
+                <div class="logo-glow" aria-hidden="true"></div>
+                <img src="../assets/ui/logo.png" alt="NEXRA Logo" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
+            </div>
+            <img src="../assets/ui/title-text.png" alt="NEXRA" class="title-text-logo">
+            <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In securely</a></p>
         </header>
 
         <form id="regForm" class="reg-form" novalidate>
@@ -191,14 +341,14 @@
 
             <div class="row">
                 <div class="field">
-                    <label for="country">Country</label>
+                    <label for="country">Region / Origin</label>
                     <select id="country" required onchange="lockCountryAndSetDial()">
                         <option value="" disabled selected>Select Region</option>
                         <option value="Pakistan" data-dial="+92">Pakistan</option>
                     </select>
                 </div>
                 <div class="field">
-                    <label for="gender">Gender</label>
+                    <label for="gender">Gender Profile</label>
                     <select id="gender" required>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -231,39 +381,39 @@
                         <option value="JazzCash">JazzCash (PK)</option>
                         <option value="SadaPay">SadaPay (PK)</option>
                         <option value="Binance (USDT)">Binance (USDT)</option>
-                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Bank Transfer">Global Bank Wire</option>
                     </select>
                 </div>
                 <div class="field">
                     <label for="pay_account">Wallet / Account ID</label>
-                    <input type="text" id="pay_account" required placeholder="Number or Address">
+                    <input type="text" id="pay_account" required placeholder="Secure Number or Address">
                 </div>
             </div>
 
             <div class="field">
-                <label for="pass">Password</label>
+                <label for="pass">Access Password</label>
                 <div class="input-wrapper">
-                    <input type="password" id="pass" required placeholder="Min 8 characters" autocomplete="new-password">
+                    <input type="password" id="pass" required placeholder="Min 8 characters required" autocomplete="new-password">
                     <i class="fa-solid fa-eye eye" id="togglePass" aria-label="Toggle password visibility"></i>
                 </div>
                 <div class="strength-meter" id="meter" aria-hidden="true"><div class="strength-bar" id="bar"></div></div>
             </div>
 
-            <div style="display:flex; gap:12px; align-items:flex-start; padding: 5px;">
-                <input type="checkbox" id="terms" required style="width:20px; height:20px; cursor:pointer;">
-                <label for="terms" style="font-size:12px; color:var(--muted-text); line-height: 1.5; text-transform:none; letter-spacing:0; font-weight:500;">
-                    I confirm my identity is real and I agree to the <a href="javascript:void(0)" onclick="openTermsPopup()" style="color:var(--pure-black); font-weight:800; text-decoration:none;">NEXRA Node Protocols</a>.
+            <div class="terms-row">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    I confirm my identity is verifiable and I accept the <a href="javascript:void(0)" onclick="openTermsPopup()">NEXRA Node Protocols</a>.
                 </label>
             </div>
 
             <button type="submit" class="btn-submit" id="submitBtn">
                 <div class="loader" id="loader" aria-hidden="true"></div>
-                <span id="btnText" aria-live="polite">Initialize Node Authentication</span>
+                <span id="btnText" aria-live="polite">Initialize Node Setup</span>
             </button>
         </form>
 
-        <div style="text-align:center; margin-top:30px; font-size:11px; font-weight:700; color:#aaa; letter-spacing:1px;">
-            <i class="fa-solid fa-shield-halved"></i> SECURE CLOUD ENCRYPTION ACTIVE
+        <div style="text-align:center; margin-top:32px; font-size:10px; font-weight:800; color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase;">
+            <i class="fa-solid fa-shield-halved" style="color:var(--accent-green);"></i> AES-256 Cloud Encryption Active
         </div>
     </main>
 
@@ -272,42 +422,41 @@
     <div class="chat-overlay" id="chatOverlay" aria-hidden="true">
         <div class="chat-header">
             <div>
-                <h3 style="font-family:var(--font-head); font-size:18px;">NEXRA Concierge</h3>
-                <span style="font-size:10px; font-weight:800; color:var(--success);">● SYSTEM ONLINE</span>
+                <h3 style="font-family:var(--font-head); font-size:18px; font-weight:800;">NEXRA Concierge</h3>
+                <span style="font-size:10px; font-weight:800; color:var(--success); letter-spacing: 0.5px;">● SYSTEM ONLINE</span>
             </div>
-            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px;" onclick="toggleChat()" aria-label="Close chat"></i>
+            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px; color:var(--text-secondary);" onclick="toggleChat()" aria-label="Close chat"></i>
         </div>
         <div class="chat-body" id="chatBody">
-            <div class="bot-msg">Welcome to NEXRA. I am your automated assistant. Need help with the fee or registration?</div>
+            <div class="bot-msg">Welcome to NEXRA. I am your automated node assistant. Need help with the allocation fee or registration procedure?</div>
             <div class="chat-options">
-                <button class="opt-btn" onclick="botReply('Why is there a fee?', 'The fee covers cloud server allocation and node activation for real-time USD liquidity.')">Why is there a fee?</button>
-                <button class="opt-btn" onclick="botReply('Is my data safe?', 'Yes. All Wallet IDs and keys are encrypted via AES-256 fragmented storage.')">Is my data safe?</button>
-                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')">Talk to Admin Support</button>
+                <button class="opt-btn" onclick="botReply('Why is there a registration fee?', 'The allocation fee covers your dedicated cloud server space and node activation to ensure real-time USD liquidity without interruptions.')">Why is there an allocation fee?</button>
+                <button class="opt-btn" onclick="botReply('Is my financial data secure?', 'Absolutely. All Wallet IDs, keys, and private data are fully encrypted via AES-256 fragmented cold storage architectures.')">Is my financial data secure?</button>
+                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')" style="border-color:var(--accent-blue); color:var(--text-primary);"><i class="fa-brands fa-whatsapp"></i> Connect to Human Support</button>
             </div>
         </div>
     </div>
 
-    <!-- Terms Modal -->
+    <!-- Cinematic Terms Modal -->
     <div id="termsPopup" class="popup-overlay" aria-hidden="true">
         <div class="popup-content">
             <i class="fa-solid fa-xmark popup-close" onclick="closeTermsPopup()" aria-label="Close modal"></i>
-            <h2 style="font-family:var(--font-head); margin-bottom:15px;">Terms of Sovereignty</h2>
-            <div style="font-size:13px; color:#555; max-height:250px; overflow-y:auto; text-align:left; line-height:1.6;">
-                <p>1. <b>Single Node:</b> Exactly one account per physical device is allowed.</p><br>
-                <p>2. <b>Activation:</b> The network fee covers server allocation and is non-refundable.</p><br>
-                <p>3. <b>Tasks:</b> Automation bots are strictly forbidden and lead to account lock.</p>
+            <h2 style="font-family:var(--font-head); margin-bottom:20px; font-size: 24px;">Terms of Sovereignty</h2>
+            <div style="font-size:13px; color:var(--text-secondary); max-height:280px; overflow-y:auto; text-align:left; line-height:1.7; padding-right: 10px;">
+                <p>1. <b style="color:var(--text-primary);">Single Node Operation:</b> Exactly one account per physical device is permitted. Multi-accounting triggers automated protocol lockouts.</p><br>
+                <p>2. <b style="color:var(--text-primary);">Allocation Activation:</b> The network setup fee exclusively covers hardware server allocation and remains strictly non-refundable.</p><br>
+                <p>3. <b style="color:var(--text-primary);">Integrity:</b> Third-party automation bots, scripts, or VPN manipulation are forbidden and lead to immediate asset forfeiture.</p>
             </div>
-            <button class="btn-submit" style="width:100%; margin-top:20px;" onclick="closeTermsPopup()">I Understand</button>
+            <button class="btn-submit" style="margin-top:24px;" onclick="closeTermsPopup()">Acknowledge</button>
         </div>
     </div>
 
-    <!-- Video Modal -->
+    <!-- Cinematic Video Modal -->
     <div id="videoPopup" class="popup-overlay" aria-hidden="true">
-        <div class="popup-content" style="background:#000; padding:15px; max-width:650px;">
-            <i class="fa-solid fa-circle-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;" aria-label="Close video"></i>
-            <div style="width:100%; aspect-ratio:16/9; background:#111; border-radius:15px; overflow:hidden;">
-                <!-- Ensure iframe standard attributes -->
-                <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fv%2F17QfdiALhb%2F&show_text=false" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+        <div class="popup-content" style="padding: 10px; max-width: 680px; background: #000; border: 1px solid rgba(255,255,255,0.1);">
+            <i class="fa-solid fa-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;" aria-label="Close video"></i>
+            <div style="width:100%; aspect-ratio:16/9; background:#0a0a0c; border-radius: 20px; overflow:hidden; position: relative;">
+                <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fv%2F17QfdiALhb%2F&show_text=false" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen style="position: absolute; top:0; left:0;"></iframe>
             </div>
         </div>
     </div>
@@ -316,7 +465,7 @@
         import { auth, db, doc, setDoc, serverTimestamp } from "../assets/js/firebase-config.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Global Toast Logic
+        // Global Toast System
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         let toastTimeout;
@@ -327,12 +476,12 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 4500);
         };
 
-        // 1. URL Referral Handling
+        // 1. URL Referral Handling (Auto-population)
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
         if (ref) document.getElementById('ref_id').value = ref;
 
-        // 2. Fetch Countries gracefully
+        // 2. Fetch Countries gracefully via REST API
         const cSel = document.getElementById('country');
         fetch("https://restcountries.com/v3.1/all?fields=name,idd")
             .then(res => res.json())
@@ -346,9 +495,9 @@
                         cSel.add(opt);
                     }
                 });
-            }).catch(() => console.warn("Country list failed to load from API."));
+            }).catch(() => console.warn("Country list background sync gracefully bypassed."));
 
-        // Improved UX for Dial Code
+        // Global function for UX Dial Code injection
         window.lockCountryAndSetDial = () => {
             const select = document.getElementById('country');
             const selected = select.options[select.selectedIndex];
@@ -362,7 +511,7 @@
             }
         };
 
-        // 3. Password Interaction & Smooth Meter
+        // 3. Password Interaction & Strength Engine
         const pInput = document.getElementById('pass');
         const pBar = document.getElementById('bar');
         const pMeter = document.getElementById('meter');
@@ -376,7 +525,10 @@
             if(/[A-Z]/.test(val)) s += 30;
             if(/[0-9]/.test(val)) s += 30;
             pBar.style.width = s + "%";
+            
+            // Dynamic theme variables for security feedback
             pBar.style.backgroundColor = s < 50 ? "var(--error-red)" : s < 90 ? "var(--warn-yellow)" : "var(--success)";
+            pBar.style.color = pBar.style.backgroundColor;
         });
 
         const togglePassword = () => {
@@ -388,12 +540,12 @@
         };
         togglePass.addEventListener('click', togglePassword);
 
-        // 4. MAIN REGISTRATION LOGIC
+        // 4. CORE REGISTRATION ARCHITECTURE
         document.getElementById('regForm').onsubmit = async (e) => {
             e.preventDefault();
             
             if(!document.getElementById('terms').checked) {
-                showToast("You must accept the terms of sovereignty.");
+                showToast("Node protocols and terms must be verified.");
                 return;
             }
 
@@ -409,11 +561,11 @@
             txt.innerText = "Encrypting Node...";
 
             try {
-                // Firebase Auth Create
+                // Execute Firebase Auth Handshake
                 const userCredential = await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
                 const user = userCredential.user;
 
-                // Document for App State
+                // Document for Global App State
                 const userDoc = {
                     uid: user.uid,
                     referral_id: document.getElementById('ref_id').value || "direct",
@@ -435,31 +587,39 @@
                     level: "Bronze"
                 };
 
+                // Local state cache for post-registration routing
                 localStorage.setItem('user_email', emailVal);
                 
-                // Save explicitly by UID
+                // Commit to secure Firestore cluster
                 await setDoc(doc(db, "pending_users", user.uid), userDoc);
                 
-                // Success UI sequence
+                // Cinematic Success Sequence
                 if(typeof confetti === 'function') {
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    confetti({ 
+                        particleCount: 150, 
+                        spread: 70, 
+                        origin: { y: 0.6 },
+                        colors: ['#00e676', '#ffffff', '#2979ff']
+                    });
                 }
-                setTimeout(() => window.location.href = "payment.html", 2000);
+                
+                // Controlled Route
+                setTimeout(() => window.location.replace("payment.html"), 2200);
 
             } catch (err) {
-                let msg = "Protocol Error.";
-                if(err.code === 'auth/email-already-in-use') msg = "This identity is already registered in the system.";
+                let msg = "Network Protocol Error.";
+                if(err.code === 'auth/email-already-in-use') msg = "This identity is already securely registered.";
                 if(err.code === 'auth/weak-password') msg = "Password encryption too weak. Minimum 8 characters required.";
-                if(err.code === 'auth/invalid-email') msg = "The email identity provided is invalid.";
+                if(err.code === 'auth/invalid-email') msg = "The email identity format provided is invalid.";
                 
                 showToast(msg);
                 btn.disabled = false;
                 loader.style.display = 'none';
-                txt.innerText = "Initialize Node Authentication";
+                txt.innerText = "Initialize Node Setup";
             }
         };
 
-        // UI HELPERS
+        // UI MODAL HELPERS
         const openPopup = (id) => {
             const popup = document.getElementById(id);
             popup.classList.add('show');
@@ -474,13 +634,15 @@
         window.openTermsPopup = () => openPopup('termsPopup');
         window.closeTermsPopup = () => closePopup('termsPopup');
         window.openVideoPopup = () => openPopup('videoPopup');
+        
+        // Ensure iframe stops playing media silently when closed
         window.closeVideoPopup = () => {
             closePopup('videoPopup');
-            // Pause video on close by reloading iframe source
             const frame = document.getElementById('tutVideo');
-            if(frame) frame.src = frame.src;
+            if(frame) frame.src = frame.src; 
         };
 
+        // AI Chat Engine Integration
         window.toggleChat = () => {
             const overlay = document.getElementById('chatOverlay');
             const isOpen = overlay.classList.toggle('open');
@@ -493,10 +655,10 @@
             setTimeout(() => {
                 body.innerHTML += `<div class="bot-msg">${a}</div>`;
                 body.scrollTop = body.scrollHeight;
-            }, 500);
+            }, 550); // Simulated processing delay
         };
 
-        // Prevent double-tap zoom on iOS
+        // Prevent double-tap zoom scaling on iOS Safari
         document.addEventListener('gesturestart', (e) => e.preventDefault());
     </script>
 </body>
