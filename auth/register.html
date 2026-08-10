@@ -4,773 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- VIRAL SEO & TRENDING META TAGS -->
+    <!-- ========================================== -->
+    <!-- 🚀 VIRAL SEO & TRENDING META TAGS          -->
+    <!-- ========================================== -->
     <title>Join NEXRA | The Digital Wealth Revolution</title>
     <meta name="title" content="NEXRA Registration | Start Earning USD Daily">
     <meta name="description" content="Create your secure NEXRA account today. Join the world's leading micro-task ecosystem. Complete technical nodes and withdraw USD to EasyPaisa, SadaPay, or Binance.">
-    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2026, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
+    <meta name="keywords" content="NEXRA register, earn money online Pakistan, best earning app 2024, online job for students, make money daily, withdraw EasyPaisa, SadaPay earning, Binance USDT tasks, Nexra official">
     <meta name="author" content="NEXRA Global">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://nexra-fintech.vercel.app/auth/register.html">
+    <link rel="canonical" href="https://nexra.ct.ws/auth/register.html">
 
     <!-- Social Graph (WhatsApp/FB/Telegram) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nexra-fintech.vercel.app/auth/register.html">
-    <meta property="og:title" content="NEXRA | Welcome Bonus Activated">
+    <meta property="og:url" content="https://nexra.ct.ws/auth/register.html">
+    <meta property="og:title" content="NEXRA | $0.20 Welcome Bonus Activated">
     <meta property="og:description" content="Secure your spot in the global fintech node network. Real-time payouts. 100% Verified.">
-    <meta property="og:image" content="../assets/ui/logo.png">
+    <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
 
-    <!-- Theme & Icons -->
-    <meta name="theme-color" content="#ffffff">
-    <link rel="icon" type="image/png" href="../assets/ui/favicon.png">
-    <link rel="apple-touch-icon" href="../assets/ui/favicon.png">
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
     
-    <!-- Preload Assets -->
-    <link rel="preload" as="image" href="../assets/ui/logo.png" fetchpriority="high">
-    <link rel="preload" as="image" href="../assets/ui/title-text.png" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    :root {
+        --pure-black: #000000;
+        --deep-gray: #111111;
+        --muted-text: #666666;
+        --bg-white: #ffffff;
+        --border-light: #e0e0e0;
+        --input-fill: #f9f9f9;
+        --success: #00c853;
+        --grid-line: rgba(0, 0, 0, 0.04);
+        --font-head: 'Outfit', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+    html, body { width: 100%; height: 100%; background-color: var(--bg-white); color: var(--pure-black); font-family: 'Inter', sans-serif; }
+
+    .bg-grid { position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); background-size: 45px 45px; mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%); }
+
+    .container { width: 100%; max-width: 500px; margin: 0 auto; padding: 40px 24px; position: relative; }
+
+    header { text-align: center; margin-bottom: 35px; }
+    .logo { width: 75px; height: 75px; margin-bottom: 15px; mix-blend-mode: multiply; cursor: pointer; }
+    h1 { font-family: var(--font-head); font-size: 32px; font-weight: 900; letter-spacing: -1.5px; }
+    .sub-link { font-size: 14px; margin-top: 8px; color: var(--muted-text); font-weight: 500; }
+    .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); }
+
+    .reg-form { display: flex; flex-direction: column; gap: 20px; }
+    .field { position: relative; display: flex; flex-direction: column; gap: 8px; }
+    label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pure-black); padding-left: 5px; }
+
+    input, select {
+        width: 100%; padding: 18px; background: var(--input-fill);
+        border: 1.5px solid var(--border-light); border-radius: 16px;
+        font-size: 15px; font-weight: 700; color: var(--pure-black); font-family: inherit;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    input:focus, select:focus { border-color: var(--pure-black); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
+    input[readonly] { background: #f1f1f1; color: #888; cursor: not-allowed; border-style: dashed; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .eye { position: absolute; right: 18px; top: 42px; color: var(--muted-text); cursor: pointer; padding: 5px; font-size: 18px; }
     
-    <!-- Scripts -->
-    <script rel="preload" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    .strength-meter { height: 4px; background: #eee; border-radius: 10px; margin-top: -10px; overflow: hidden; display: none; }
+    .strength-bar { height: 100%; width: 0%; transition: 0.5s ease; }
 
-    <style>
-        :root {
-            --pure-black: #09090b;
-            --deep-gray: #18181b;
-            --muted-text: #71717a;
-            --bg-white: #ffffff;
-            --border-light: #e4e4e7;
-            --input-fill: #f4f4f6;
-            --card-shadow: rgba(0, 0, 0, 0.05);
-            --success: #00c853;
-            --error-red: #ff3b30;
-            --warn-yellow: #ffcc00;
-            --grid-line: rgba(0, 0, 0, 0.03);
-            --font-head: 'Outfit', sans-serif;
-            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    .btn-submit {
+        margin-top: 10px; background: var(--pure-black); color: #fff;
+        padding: 20px; border-radius: 18px; border: none; font-size: 16px;
+        font-weight: 800; cursor: pointer; display: flex; justify-content: center; 
+        align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); transition: 0.3s;
+    }
+    .btn-submit:active { transform: scale(0.96); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        /* Resets & Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        
-        html, body { 
-            width: 100%; 
-            min-height: 100vh; 
-            background-color: var(--bg-white); 
-            background-image: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.02) 0%, transparent 70%);
-            color: var(--pure-black); 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            -webkit-font-smoothing: antialiased; 
-        }
+    .loader { width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Watermark Background */
-        .brand-watermark {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.02;
-            pointer-events: none;
-            z-index: -2;
-            mix-blend-mode: multiply;
-        }
+    .top-video-btn { position: absolute; top: 20px; right: 24px; background: var(--pure-black); color: #fff; border: none; padding: 10px 18px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 100; }
+    .chat-fab { position: fixed; bottom: 30px; left: 30px; background: var(--pure-black); color: #fff; width: 55px; height: 55px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transition: 0.3s; }
+    
+    .chat-overlay { position: fixed; bottom: -100%; left: 0; width: 100%; height: 70dvh; background: #fff; z-index: 2000; border-radius: 35px 35px 0 0; box-shadow: 0 -20px 60px rgba(0,0,0,0.15); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+    .chat-overlay.open { bottom: 0; }
+    .chat-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    .bot-msg { background: var(--input-fill); padding: 15px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; }
+    .opt-btn { background: #fff; border: 1.5px solid var(--pure-black); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; }
 
-        /* Clean Technical Grid Background */
-        .bg-grid { 
-            position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background-image: 
-                linear-gradient(var(--grid-line) 1.5px, transparent 1.5px), 
-                linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px); 
-            background-size: 40px 40px; 
-            background-position: center;
-            mask-image: radial-gradient(circle at 50% 30%, black, transparent 90%); 
-            -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 90%);
-        }
+    .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+    .popup-content { background: #fff; padding: 30px; border-radius: 30px; max-width: 420px; width: 100%; position: relative; text-align: center; }
+    .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 24px; color: #ccc; }
 
-        .container { 
-            width: 100%; 
-            max-width: 520px; 
-            margin: 0 auto; 
-            padding: 40px 24px 80px; 
-            position: relative; 
-            animation: slideUp 0.8s var(--ease-spring); 
-        }
-
-        /* Header Elements */
-        header { text-align: center; margin-bottom: 32px; }
-        
-        .logo-container {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .logo { 
-            width: 72px; 
-            height: 72px; 
-            object-fit: contain;
-            cursor: pointer; 
-            transition: transform 0.3s var(--ease-spring); 
-        }
-        
-        .logo:active { transform: scale(0.92); }
-        
-        .title-text-logo {
-            height: 22px;
-            width: auto;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 8px;
-        }
-
-        .sub-link { font-size: 13px; color: var(--muted-text); font-weight: 500; }
-        .sub-link a { color: var(--pure-black); font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--pure-black); padding-bottom: 1px;}
-
-        /* Form Card Container */
-        .card-wrapper {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: 28px;
-            padding: 32px 24px;
-            box-shadow: 0 20px 40px var(--card-shadow);
-        }
-
-        /* Form Layout Styling */
-        .reg-form { display: flex; flex-direction: column; gap: 18px; }
-        .field { position: relative; display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--pure-black); padding-left: 2px; }
-
-        input, select {
-            width: 100%; 
-            padding: 16px; 
-            background: var(--input-fill);
-            border: 1.5px solid var(--border-light); 
-            border-radius: 14px;
-            font-size: 15px; 
-            font-weight: 600; 
-            color: var(--pure-black); 
-            font-family: inherit;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        input::placeholder { color: #a1a1a6; font-weight: 500; }
-        
-        input:focus, select:focus { 
-            border-color: var(--pure-black); 
-            background: #ffffff; 
-            box-shadow: 0 6px 18px rgba(0,0,0,0.04); 
-        }
-        
-        input[readonly] { 
-            background: #f1f1f4; 
-            color: #888; 
-            cursor: not-allowed; 
-            border-style: dashed; 
-        }
-        
-        select.locked { pointer-events: none; opacity: 0.85; background: #eef0f3; }
-
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-        .input-wrapper { position: relative; width: 100%; }
-        
-        .eye { 
-            position: absolute; 
-            right: 16px; 
-            top: 50%; 
-            transform: translateY(-50%); 
-            color: var(--muted-text); 
-            cursor: pointer; 
-            padding: 5px; 
-            font-size: 16px; 
-            transition: color 0.2s; 
-        }
-        
-        .eye:hover, .eye.active { color: var(--pure-black); }
-        
-        /* Strength Indicator */
-        .strength-meter { height: 4px; background: var(--border-light); border-radius: 10px; margin-top: 4px; overflow: hidden; display: none; }
-        .strength-bar { height: 100%; width: 0%; transition: all 0.4s var(--ease-spring); }
-
-        /* Submit Button */
-        .btn-submit {
-            margin-top: 10px; 
-            background: var(--pure-black); 
-            color: #ffffff;
-            padding: 18px; 
-            border-radius: 16px; 
-            border: none; 
-            font-size: 15px;
-            font-weight: 800; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 12px; 
-            box-shadow: 0 12px 28px rgba(0,0,0,0.12); 
-            transition: all 0.3s var(--ease-spring);
-        }
-        
-        .btn-submit:active { transform: scale(0.97); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-        .btn-submit:disabled { background: #333333; opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        .loader { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Floating Controls */
-        .top-video-btn { 
-            position: absolute; 
-            top: 16px; 
-            right: 24px; 
-            background: var(--pure-black); 
-            color: #ffffff; 
-            border: none; 
-            padding: 10px 16px; 
-            border-radius: 100px; 
-            font-size: 11px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            z-index: 100; 
-            transition: transform 0.2s var(--ease-spring); 
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-        }
-        
-        .top-video-btn:active { transform: scale(0.95); }
-
-        .chat-fab { 
-            position: fixed; 
-            bottom: 30px; 
-            left: 30px; 
-            background: var(--pure-black); 
-            color: #ffffff; 
-            width: 54px; 
-            height: 54px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 20px; 
-            cursor: pointer; 
-            z-index: 1000; 
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2); 
-            transition: transform 0.3s var(--ease-spring); 
-        }
-        
-        .chat-fab:active { transform: scale(0.9); }
-        
-        /* Chatbot Overlay */
-        .chat-overlay { 
-            position: fixed; 
-            bottom: -100%; 
-            left: 0; 
-            width: 100%; 
-            height: 75dvh; 
-            background: #ffffff; 
-            z-index: 2000; 
-            border-radius: 32px 32px 0 0; 
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.15); 
-            transition: bottom 0.5s var(--ease-spring); 
-            display: flex; 
-            flex-direction: column; 
-        }
-        
-        .chat-overlay.open { bottom: 0; }
-        .chat-header { padding: 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
-        .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
-        
-        .bot-msg { background: var(--input-fill); padding: 14px; border-radius: 18px 18px 18px 4px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; animation: slideInLeft 0.3s ease; }
-        .user-msg { background: var(--pure-black); color: #fff; padding: 14px; border-radius: 18px 18px 4px 18px; font-size: 13px; font-weight: 600; line-height: 1.5; max-width: 85%; align-self: flex-end; animation: slideInRight 0.3s ease; }
-        .opt-btn { background: #fff; border: 1.5px solid var(--border-light); padding: 12px; border-radius: 12px; font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; margin-bottom: 8px; width: 100%; transition: border 0.2s; }
-        .opt-btn:hover { border-color: var(--pure-black); }
-
-        /* Popups */
-        .popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
-        .popup-overlay.show { display: flex; opacity: 1; }
-        .popup-content { background: #ffffff; padding: 32px 24px; border-radius: 28px; max-width: 420px; width: 100%; position: relative; text-align: center; transform: scale(0.95); transition: transform 0.3s var(--ease-spring); }
-        .popup-overlay.show .popup-content { transform: scale(1); }
-        .popup-close { position: absolute; top: 20px; right: 20px; cursor: pointer; font-size: 22px; color: #a1a1a6; transition: color 0.2s; }
-        .popup-close:hover { color: var(--pure-black); }
-
-        /* Floating Toast Notification System */
-        .toast-container { 
-            position: fixed; 
-            top: 20px; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(-100px); 
-            background: var(--pure-black); 
-            color: var(--bg-white); 
-            padding: 12px 24px; 
-            border-radius: 100px; 
-            font-size: 13px; 
-            font-weight: 600; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
-            opacity: 0; 
-            visibility: hidden; 
-            z-index: 10000; 
-            transition: all 0.5s var(--ease-spring); 
-            width: 90%; 
-            max-width: 380px; 
-        }
-        
-        .toast-container.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
-        .toast-container i { color: var(--error-red); font-size: 15px; }
-
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-
-        @media (max-width: 450px) { .row { grid-template-columns: 1fr; } }
-    </style>
+    @media (max-width: 450px) { .row { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
+    <div class="bg-grid"></div>
 
-    <!-- Watermark Background Layer -->
-    <img src="../assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true">
-
-    <!-- Technical Grid Background Layer -->
-    <div class="bg-grid" aria-hidden="true"></div>
-
-    <!-- Custom Toast Notification -->
-    <div id="toast" class="toast-container" role="alert" aria-live="assertive">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="toastMessage">Security Alert</span>
-    </div>
-
-    <main class="container">
-        <button class="top-video-btn" onclick="openVideoPopup()" aria-label="Watch setup guide"><i class="fa-solid fa-circle-play"></i> Setup Guide</button>
+    <div class="container">
+        <button class="top-video-btn" onclick="openVideoPopup()"><i class="fa-solid fa-circle-play"></i> Setup Guide</button>
 
         <header>
-            <div class="logo-container">
-                <img src="../assets/ui/logo.png" alt="NEXRA" class="logo" onclick="location.href='../index.html'" loading="eager" decoding="async">
-            </div>
-            <img src="../assets/ui/title-text.png" alt="NEXRA" class="title-text-logo">
+            <img src="../assets/ui/logo.png" alt="NEXRA" class="logo" onclick="location.href='../index.html'">
+            <h1>Begin Journey</h1>
             <p class="sub-link">Member of the ecosystem? <a href="login.html">Sign In</a></p>
         </header>
 
-        <div class="card-wrapper">
-            <form id="regForm" class="reg-form" novalidate>
+        <form id="regForm" class="reg-form">
+            <div class="field">
+                <label>Node Referral ID</label>
+                <input type="text" id="ref_id" name="ref_id" readonly placeholder="Direct Protocol Entry">
+            </div>
+
+            <div class="field">
+                <label>Full Legal Name</label>
+                <input type="text" id="name" required placeholder="Enter Full Name">
+            </div>
+
+            <div class="field">
+                <label>Email Identity</label>
+                <input type="email" id="email" required placeholder="Email">
+            </div>
+
+            <div class="row">
                 <div class="field">
-                    <label for="ref_id">Node Referral ID</label>
-                    <input type="text" id="ref_id" name="ref_id" readonly placeholder="Direct Protocol Entry">
+                    <label>Country</label>
+                    <select id="country" required onchange="lockCountryAndSetDial()">
+                        <option value="" disabled selected>Select Region</option>
+                        <option value="Pakistan" data-dial="+92">Pakistan</option>
+                    </select>
                 </div>
-
                 <div class="field">
-                    <label for="name">Full Legal Name</label>
-                    <input type="text" id="name" required placeholder="Enter Full Name">
+                    <label>Gender</label>
+                    <select id="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-Binary">Non-Binary</option>
+                    </select>
                 </div>
+            </div>
 
+            <div class="row">
                 <div class="field">
-                    <label for="email">Email Identity</label>
-                    <input type="email" id="email" required placeholder="Enter your email" autocomplete="username">
+                    <label>Secure Mobile</label>
+                    <input type="tel" id="phone" required placeholder="Select country first" readonly>
                 </div>
-
-      <div class="row">
-    <div class="field">
-        <label for="country">Country</label>
-        <select id="country" required onchange="lockCountryAndSetDial()">
-            <option value="" disabled selected>Select Region</option>
-            <option value="Afghanistan" data-dial="+93">🇦🇫 Afghanistan (+93)</option>
-            <option value="Albania" data-dial="+355">🇦🇱 Albania (+355)</option>
-            <option value="Algeria" data-dial="+213">🇩🇿 Algeria (+213)</option>
-            <option value="Andorra" data-dial="+376">🇦🇩 Andorra (+376)</option>
-            <option value="Angola" data-dial="+244">🇦🇴 Angola (+244)</option>
-            <option value="Antigua and Barbuda" data-dial="+1268">🇦🇬 Antigua and Barbuda (+1268)</option>
-            <option value="Argentina" data-dial="+54">🇦🇷 Argentina (+54)</option>
-            <option value="Armenia" data-dial="+374">🇦🇲 Armenia (+374)</option>
-            <option value="Australia" data-dial="+61">🇦🇺 Australia (+61)</option>
-            <option value="Austria" data-dial="+43">🇦🇹 Austria (+43)</option>
-            <option value="Azerbaijan" data-dial="+994">🇦🇿 Azerbaijan (+994)</option>
-            <option value="Bahamas" data-dial="+1242">🇧🇸 Bahamas (+1242)</option>
-            <option value="Bahrain" data-dial="+973">🇧🇭 Bahrain (+973)</option>
-            <option value="Bangladesh" data-dial="+880">🇧🇩 Bangladesh (+880)</option>
-            <option value="Barbados" data-dial="+1246">🇧🇧 Barbados (+1246)</option>
-            <option value="Belarus" data-dial="+375">🇧🇾 Belarus (+375)</option>
-            <option value="Belgium" data-dial="+32">🇧🇪 Belgium (+32)</option>
-            <option value="Belize" data-dial="+501">🇧🇿 Belize (+501)</option>
-            <option value="Benin" data-dial="+229">🇧🇯 Benin (+229)</option>
-            <option value="Bhutan" data-dial="+975">🇧🇹 Bhutan (+975)</option>
-            <option value="Bolivia" data-dial="+591">🇧🇴 Bolivia (+591)</option>
-            <option value="Bosnia and Herzegovina" data-dial="+387">🇧🇦 Bosnia and Herzegovina (+387)</option>
-            <option value="Botswana" data-dial="+267">🇧🇼 Botswana (+267)</option>
-            <option value="Brazil" data-dial="+55">🇧🇷 Brazil (+55)</option>
-            <option value="Brunei" data-dial="+673">🇧🇳 Brunei (+673)</option>
-            <option value="Bulgaria" data-dial="+359">🇧🇬 Bulgaria (+359)</option>
-            <option value="Burkina Faso" data-dial="+226">🇧🇫 Burkina Faso (+226)</option>
-            <option value="Burundi" data-dial="+257">🇧🇮 Burundi (+257)</option>
-            <option value="Cambodia" data-dial="+855">🇰🇭 Cambodia (+855)</option>
-            <option value="Cameroon" data-dial="+237">🇨🇲 Cameroon (+237)</option>
-            <option value="Canada" data-dial="+1">🇨🇦 Canada (+1)</option>
-            <option value="Cape Verde" data-dial="+238">🇨🇻 Cape Verde (+238)</option>
-            <option value="Central African Republic" data-dial="+236">🇨🇫 Central African Republic (+236)</option>
-            <option value="Chad" data-dial="+235">🇹🇩 Chad (+235)</option>
-            <option value="Chile" data-dial="+56">🇨🇱 Chile (+56)</option>
-            <option value="China" data-dial="+86">🇨🇳 China (+86)</option>
-            <option value="Colombia" data-dial="+57">🇨🇴 Colombia (+57)</option>
-            <option value="Comoros" data-dial="+269">🇰🇲 Comoros (+269)</option>
-            <option value="Congo (Brazzaville)" data-dial="+242">🇨🇬 Congo (Brazzaville) (+242)</option>
-            <option value="Congo (Kinshasa)" data-dial="+243">🇨🇩 Congo (Kinshasa) (+243)</option>
-            <option value="Costa Rica" data-dial="+506">🇨🇷 Costa Rica (+506)</option>
-            <option value="Croatia" data-dial="+385">🇭🇷 Croatia (+385)</option>
-            <option value="Cuba" data-dial="+53">🇨🇺 Cuba (+53)</option>
-            <option value="Cyprus" data-dial="+357">🇨🇾 Cyprus (+357)</option>
-            <option value="Czech Republic" data-dial="+420">🇨🇿 Czech Republic (+420)</option>
-            <option value="Denmark" data-dial="+45">🇩🇰 Denmark (+45)</option>
-            <option value="Djibouti" data-dial="+253">🇩🇯 Djibouti (+253)</option>
-            <option value="Dominica" data-dial="+1767">🇩🇲 Dominica (+1767)</option>
-            <option value="Dominican Republic" data-dial="+1809">🇩🇴 Dominican Republic (+1809)</option>
-            <option value="Ecuador" data-dial="+593">🇪🇨 Ecuador (+593)</option>
-            <option value="Egypt" data-dial="+20">🇪🇬 Egypt (+20)</option>
-            <option value="El Salvador" data-dial="+503">🇸🇻 El Salvador (+503)</option>
-            <option value="Equatorial Guinea" data-dial="+240">🇬🇶 Equatorial Guinea (+240)</option>
-            <option value="Eritrea" data-dial="+291">🇪🇷 Eritrea (+291)</option>
-            <option value="Estonia" data-dial="+372">🇪🇪 Estonia (+372)</option>
-            <option value="Eswatini" data-dial="+268">🇸🇿 Eswatini (+268)</option>
-            <option value="Ethiopia" data-dial="+251">🇪🇹 Ethiopia (+251)</option>
-            <option value="Fiji" data-dial="+679">🇫🇯 Fiji (+679)</option>
-            <option value="Finland" data-dial="+358">🇫🇮 Finland (+358)</option>
-            <option value="France" data-dial="+33">🇫🇷 France (+33)</option>
-            <option value="Gabon" data-dial="+241">🇬🇦 Gabon (+241)</option>
-            <option value="Gambia" data-dial="+220">🇬🇲 Gambia (+220)</option>
-            <option value="Georgia" data-dial="+995">🇬🇪 Georgia (+995)</option>
-            <option value="Germany" data-dial="+49">🇩🇪 Germany (+49)</option>
-            <option value="Ghana" data-dial="+233">🇬🇭 Ghana (+233)</option>
-            <option value="Greece" data-dial="+30">🇬🇷 Greece (+30)</option>
-            <option value="Grenada" data-dial="+1473">🇬🇩 Grenada (+1473)</option>
-            <option value="Guatemala" data-dial="+502">🇬🇹 Guatemala (+502)</option>
-            <option value="Guinea" data-dial="+224">🇬🇳 Guinea (+224)</option>
-            <option value="Guinea-Bissau" data-dial="+245">🇬🇼 Guinea-Bissau (+245)</option>
-            <option value="Guyana" data-dial="+592">🇬🇾 Guyana (+592)</option>
-            <option value="Haiti" data-dial="+509">🇭🇹 Haiti (+509)</option>
-            <option value="Honduras" data-dial="+504">🇭🇳 Honduras (+504)</option>
-            <option value="Hungary" data-dial="+36">🇭🇺 Hungary (+36)</option>
-            <option value="Iceland" data-dial="+354">🇮🇸 Iceland (+354)</option>
-            <option value="India" data-dial="+91">🇮🇳 India (+91)</option>
-            <option value="Indonesia" data-dial="+62">🇮🇩 Indonesia (+62)</option>
-            <option value="Iran" data-dial="+98">🇮🇷 Iran (+98)</option>
-            <option value="Iraq" data-dial="+964">🇮🇶 Iraq (+964)</option>
-            <option value="Ireland" data-dial="+353">🇮🇪 Ireland (+353)</option>
-            <option value="Israel" data-dial="+972">🇮🇱 Israel (+972)</option>
-            <option value="Italy" data-dial="+39">🇮🇹 Italy (+39)</option>
-            <option value="Ivory Coast" data-dial="+225">🇨🇮 Ivory Coast (+225)</option>
-            <option value="Jamaica" data-dial="+1876">🇯🇲 Jamaica (+1876)</option>
-            <option value="Japan" data-dial="+81">🇯🇵 Japan (+81)</option>
-            <option value="Jordan" data-dial="+962">🇯🇴 Jordan (+962)</option>
-            <option value="Kazakhstan" data-dial="+7">🇰🇿 Kazakhstan (+7)</option>
-            <option value="Kenya" data-dial="+254">🇰🇪 Kenya (+254)</option>
-            <option value="Kiribati" data-dial="+686">🇰🇮 Kiribati (+686)</option>
-            <option value="Kuwait" data-dial="+965">🇰🇼 Kuwait (+965)</option>
-            <option value="Kyrgyzstan" data-dial="+996">🇰🇬 Kyrgyzstan (+996)</option>
-            <option value="Laos" data-dial="+856">🇱🇦 Laos (+856)</option>
-            <option value="Latvia" data-dial="+371">🇱🇻 Latvia (+371)</option>
-            <option value="Lebanon" data-dial="+961">🇱🇧 Lebanon (+961)</option>
-            <option value="Lesotho" data-dial="+266">🇱🇸 Lesotho (+266)</option>
-            <option value="Liberia" data-dial="+231">🇱🇷 Liberia (+231)</option>
-            <option value="Libya" data-dial="+218">🇱🇾 Libya (+218)</option>
-            <option value="Liechtenstein" data-dial="+423">🇱🇮 Liechtenstein (+423)</option>
-            <option value="Lithuania" data-dial="+370">🇱🇹 Lithuania (+370)</option>
-            <option value="Luxembourg" data-dial="+352">🇱🇺 Luxembourg (+352)</option>
-            <option value="Madagascar" data-dial="+261">🇲🇬 Madagascar (+261)</option>
-            <option value="Malawi" data-dial="+265">🇲🇼 Malawi (+265)</option>
-            <option value="Malaysia" data-dial="+60">🇲🇾 Malaysia (+60)</option>
-            <option value="Maldives" data-dial="+960">🇲🇻 Maldives (+960)</option>
-            <option value="Mali" data-dial="+223">🇲🇱 Mali (+223)</option>
-            <option value="Malta" data-dial="+356">🇲🇹 Malta (+356)</option>
-            <option value="Marshall Islands" data-dial="+692">🇲🇭 Marshall Islands (+692)</option>
-            <option value="Mauritania" data-dial="+222">🇲🇷 Mauritania (+222)</option>
-            <option value="Mauritius" data-dial="+230">🇲🇺 Mauritius (+230)</option>
-            <option value="Mexico" data-dial="+52">🇲🇽 Mexico (+52)</option>
-            <option value="Micronesia" data-dial="+691">🇫🇲 Micronesia (+691)</option>
-            <option value="Moldova" data-dial="+373">🇲🇩 Moldova (+373)</option>
-            <option value="Monaco" data-dial="+377">🇲🇨 Monaco (+377)</option>
-            <option value="Mongolia" data-dial="+976">🇲🇳 Mongolia (+976)</option>
-            <option value="Montenegro" data-dial="+382">🇲🇪 Montenegro (+382)</option>
-            <option value="Morocco" data-dial="+212">🇲🇦 Morocco (+212)</option>
-            <option value="Mozambique" data-dial="+258">🇲🇿 Mozambique (+258)</option>
-            <option value="Myanmar" data-dial="+95">🇲🇲 Myanmar (+95)</option>
-            <option value="Namibia" data-dial="+264">🇳🇦 Namibia (+264)</option>
-            <option value="Nauru" data-dial="+674">🇳🇷 Nauru (+674)</option>
-            <option value="Nepal" data-dial="+977">🇳🇵 Nepal (+977)</option>
-            <option value="Netherlands" data-dial="+31">🇳🇱 Netherlands (+31)</option>
-            <option value="New Zealand" data-dial="+64">🇳🇿 New Zealand (+64)</option>
-            <option value="Nicaragua" data-dial="+505">🇳🇮 Nicaragua (+505)</option>
-            <option value="Niger" data-dial="+227">🇳🇪 Niger (+227)</option>
-            <option value="Nigeria" data-dial="+234">🇳🇬 Nigeria (+234)</option>
-            <option value="North Korea" data-dial="+850">🇰🇵 North Korea (+850)</option>
-            <option value="North Macedonia" data-dial="+389">🇲🇰 North Macedonia (+389)</option>
-            <option value="Norway" data-dial="+47">🇳🇴 Norway (+47)</option>
-            <option value="Oman" data-dial="+968">🇴🇲 Oman (+968)</option>
-            <option value="Pakistan" data-dial="+92">🇵🇰 Pakistan (+92)</option>
-            <option value="Palau" data-dial="+680">🇵🇼 Palau (+680)</option>
-            <option value="Palestine" data-dial="+970">🇵🇸 Palestine (+970)</option>
-            <option value="Panama" data-dial="+507">🇵🇦 Panama (+507)</option>
-            <option value="Papua New Guinea" data-dial="+675">🇵🇬 Papua New Guinea (+675)</option>
-            <option value="Paraguay" data-dial="+595">🇵🇾 Paraguay (+595)</option>
-            <option value="Peru" data-dial="+51">🇵🇪 Peru (+51)</option>
-            <option value="Philippines" data-dial="+63">🇵🇭 Philippines (+63)</option>
-            <option value="Poland" data-dial="+48">🇵🇱 Poland (+48)</option>
-            <option value="Portugal" data-dial="+351">🇵🇹 Portugal (+351)</option>
-            <option value="Qatar" data-dial="+974">🇶🇦 Qatar (+974)</option>
-            <option value="Romania" data-dial="+40">🇷🇴 Romania (+40)</option>
-            <option value="Russia" data-dial="+7">🇷🇺 Russia (+7)</option>
-            <option value="Rwanda" data-dial="+250">🇷🇼 Rwanda (+250)</option>
-            <option value="Saint Kitts and Nevis" data-dial="+1869">🇰🇳 Saint Kitts and Nevis (+1869)</option>
-            <option value="Saint Lucia" data-dial="+1758">🇱🇨 Saint Lucia (+1758)</option>
-            <option value="Saint Vincent and the Grenadines" data-dial="+1784">🇻🇨 Saint Vincent and the Grenadines (+1784)</option>
-            <option value="Samoa" data-dial="+685">🇼🇸 Samoa (+685)</option>
-            <option value="San Marino" data-dial="+378">🇸🇲 San Marino (+378)</option>
-            <option value="Sao Tome and Principe" data-dial="+239">🇸🇹 Sao Tome and Principe (+239)</option>
-            <option value="Saudi Arabia" data-dial="+966">🇸🇦 Saudi Arabia (+966)</option>
-            <option value="Senegal" data-dial="+221">🇸🇳 Senegal (+221)</option>
-            <option value="Serbia" data-dial="+381">🇷🇸 Serbia (+381)</option>
-            <option value="Seychelles" data-dial="+248">🇸🇨 Seychelles (+248)</option>
-            <option value="Sierra Leone" data-dial="+232">🇸🇱 Sierra Leone (+232)</option>
-            <option value="Singapore" data-dial="+65">🇸🇬 Singapore (+65)</option>
-            <option value="Slovakia" data-dial="+421">🇸🇰 Slovakia (+421)</option>
-            <option value="Slovenia" data-dial="+386">🇸🇮 Slovenia (+386)</option>
-            <option value="Solomon Islands" data-dial="+677">🇸🇧 Solomon Islands (+677)</option>
-            <option value="Somalia" data-dial="+252">🇸🇴 Somalia (+252)</option>
-            <option value="South Africa" data-dial="+27">🇿🇦 South Africa (+27)</option>
-            <option value="South Korea" data-dial="+82">🇰🇷 South Korea (+82)</option>
-            <option value="South Sudan" data-dial="+211">🇸🇸 South Sudan (+211)</option>
-            <option value="Spain" data-dial="+34">🇪🇸 Spain (+34)</option>
-            <option value="Sri Lanka" data-dial="+94">🇱🇰 Sri Lanka (+94)</option>
-            <option value="Sudan" data-dial="+249">🇸🇩 Sudan (+249)</option>
-            <option value="Suriname" data-dial="+597">🇸🇷 Suriname (+597)</option>
-            <option value="Sweden" data-dial="+46">🇸🇪 Sweden (+46)</option>
-            <option value="Switzerland" data-dial="+41">🇨🇭 Switzerland (+41)</option>
-            <option value="Syria" data-dial="+963">🇸🇾 Syria (+963)</option>
-            <option value="Taiwan" data-dial="+886">🇹🇼 Taiwan (+886)</option>
-            <option value="Tajikistan" data-dial="+992">🇹🇯 Tajikistan (+992)</option>
-            <option value="Tanzania" data-dial="+255">🇹🇿 Tanzania (+255)</option>
-            <option value="Thailand" data-dial="+66">🇹🇭 Thailand (+66)</option>
-            <option value="Timor-Leste" data-dial="+670">🇹🇱 Timor-Leste (+670)</option>
-            <option value="Togo" data-dial="+228">🇹🇬 Togo (+228)</option>
-            <option value="Tonga" data-dial="+676">🇹🇴 Tonga (+676)</option>
-            <option value="Trinidad and Tobago" data-dial="+1868">🇹🇹 Trinidad and Tobago (+1868)</option>
-            <option value="Tunisia" data-dial="+216">🇹🇳 Tunisia (+216)</option>
-            <option value="Turkey" data-dial="+90">🇹🇷 Turkey (+90)</option>
-            <option value="Turkmenistan" data-dial="+993">🇹🇲 Turkmenistan (+993)</option>
-            <option value="Tuvalu" data-dial="+688">🇹🇻 Tuvalu (+688)</option>
-            <option value="Uganda" data-dial="+256">🇺🇬 Uganda (+256)</option>
-            <option value="Ukraine" data-dial="+380">🇺🇦 Ukraine (+380)</option>
-            <option value="United Arab Emirates" data-dial="+971">🇦🇪 United Arab Emirates (+971)</option>
-            <option value="United Kingdom" data-dial="+44">🇬🇧 United Kingdom (+44)</option>
-            <option value="United States" data-dial="+1">🇺🇸 United States (+1)</option>
-            <option value="Uruguay" data-dial="+598">🇺🇾 Uruguay (+598)</option>
-            <option value="Uzbekistan" data-dial="+998">🇺🇿 Uzbekistan (+998)</option>
-            <option value="Vanuatu" data-dial="+678">🇻🇺 Vanuatu (+678)</option>
-            <option value="Vatican City" data-dial="+379">🇻🇦 Vatican City (+379)</option>
-            <option value="Venezuela" data-dial="+58">🇻🇪 Venezuela (+58)</option>
-            <option value="Vietnam" data-dial="+84">🇻🇳 Vietnam (+84)</option>
-            <option value="Yemen" data-dial="+967">🇾🇪 Yemen (+967)</option>
-            <option value="Zambia" data-dial="+260">🇿🇲 Zambia (+260)</option>
-            <option value="Zimbabwe" data-dial="+263">🇿🇼 Zimbabwe (+263)</option>
-        </select>
-    </div>
-    <div class="field">
-        <label for="gender">Gender</label>
-        <select id="gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Non-Binary">Non-Binary</option>
-        </select>
-    </div>
-</div>
-
-                <div class="row">
-                    <div class="field">
-                        <label for="phone">Secure Mobile</label>
-                        <input type="tel" id="phone" required placeholder="Select country first" readonly>
-                    </div>
-                    <div class="field">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" required>
-                    </div>
-                </div>
-
                 <div class="field">
-                    <label for="address">Residential City</label>
-                    <input type="text" id="address" required placeholder="Current City, State">
+                    <label>Date of Birth</label>
+                    <input type="date" id="dob" required>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="field">
-                        <label for="pay_method">Primary Gateway</label>
-                        <select id="pay_method" required>
-                            <option value="EasyPaisa">EasyPaisa (PK)</option>
-                            <option value="JazzCash">JazzCash (PK)</option>
-                            <option value="SadaPay">SadaPay (PK)</option>
-                            <option value="Binance (USDT)">Binance (USDT)</option>
-                            <option value="Bank Transfer">Bank Transfer</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label for="pay_account">Wallet / Account ID</label>
-                        <input type="text" id="pay_account" required placeholder="Number or Address">
-                    </div>
-                </div>
+            <div class="field">
+                <label>Residential City</label>
+                <input type="text" id="address" required placeholder="Current City, State">
+            </div>
 
+            <div class="row">
                 <div class="field">
-                    <label for="pass">Password Key</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="pass" required placeholder="Min 8 characters" autocomplete="new-password">
-                        <i class="fa-solid fa-eye eye" id="togglePass" aria-label="Toggle password visibility"></i>
-                    </div>
-                    <div class="strength-meter" id="meter" aria-hidden="true"><div class="strength-bar" id="bar"></div></div>
+                    <label>Primary Gateway</label>
+                    <select id="pay_method" required>
+                        <option value="EasyPaisa">EasyPaisa (PK)</option>
+                        <option value="JazzCash">JazzCash (PK)</option>
+                        <option value="SadaPay">SadaPay (PK)</option>
+                            
+                        <option value="Binance (USDT)">Binance (USDT)</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
                 </div>
-
-                <div style="display:flex; gap:12px; align-items:flex-start; padding: 4px 2px;">
-                    <input type="checkbox" id="terms" required style="width:18px; height:18px; cursor:pointer; accent-color: var(--pure-black);">
-                    <label for="terms" style="font-size:12px; color:var(--muted-text); line-height: 1.5; text-transform:none; letter-spacing:0; font-weight:500;">
-                        I confirm my identity is real and I agree to the <a href="javascript:void(0)" onclick="openTermsPopup()" style="color:var(--pure-black); font-weight:800; text-decoration:none;">NEXRA Node Protocols</a>.
-                    </label>
+                <div class="field">
+                    <label>Wallet / Account ID</label>
+                    <input type="text" id="pay_account" required placeholder="Number or Address">
                 </div>
+            </div>
 
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    <div class="loader" id="loader" aria-hidden="true"></div>
-                    <span id="btnText" aria-live="polite">Initialize Node Authentication</span>
-                </button>
-            </form>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="pass" required placeholder="Min 8 characters">
+                <i class="fa-solid fa-eye eye" id="togglePass"></i>
+                <div class="strength-meter" id="meter"><div class="strength-bar" id="bar"></div></div>
+            </div>
+
+            <div style="display:flex; gap:12px; align-items:flex-start; padding: 5px;">
+                <input type="checkbox" required style="width:20px; height:20px; cursor:pointer;">
+                <p style="font-size:12px; color:var(--muted-text); line-height: 1.5;">I confirm my identity is real and I agree to the <a href="#" onclick="openTermsPopup()" style="color:var(--pure-black); font-weight:800;">NEXRA Node Protocols</a>.</p>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <div class="loader" id="loader"></div>
+                <span id="btnText">Initialize Node Authentication</span>
+            </button>
+        </form>
+
+        <div style="text-align:center; margin-top:30px; font-size:11px; font-weight:700; color:#aaa; letter-spacing:1px;">
+            <i class="fa-solid fa-shield-halved"></i> SECURE CLOUD ENCRYPTION ACTIVE
         </div>
-
-        <div style="text-align:center; margin-top:28px; font-size:11px; font-weight:700; color:var(--muted-text); letter-spacing:1px; text-transform: uppercase;">
-            <i class="fa-solid fa-shield-halved" style="color: var(--success);"></i> SECURE CLOUD ENCRYPTION ACTIVE
-        </div>
-    </main>
+    </div>
 
     <!-- AI Concierge Chatbot -->
-    <div class="chat-fab" onclick="toggleChat()" aria-label="Open AI Support"><i class="fa-solid fa-robot"></i></div>
-    <div class="chat-overlay" id="chatOverlay" aria-hidden="true">
+    <div class="chat-fab" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></div>
+    <div class="chat-overlay" id="chatOverlay">
         <div class="chat-header">
             <div>
                 <h3 style="font-family:var(--font-head); font-size:18px;">NEXRA Concierge</h3>
                 <span style="font-size:10px; font-weight:800; color:var(--success);">● SYSTEM ONLINE</span>
             </div>
-            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px;" onclick="toggleChat()" aria-label="Close chat"></i>
+            <i class="fa-solid fa-chevron-down" style="cursor:pointer; font-size:20px;" onclick="toggleChat()"></i>
         </div>
         <div class="chat-body" id="chatBody">
             <div class="bot-msg">Welcome to NEXRA. I am your automated assistant. Need help with the fee or registration?</div>
             <div class="chat-options">
                 <button class="opt-btn" onclick="botReply('Why is there a fee?', 'The fee covers cloud server allocation and node activation for real-time USD liquidity.')">Why is there a fee?</button>
                 <button class="opt-btn" onclick="botReply('Is my data safe?', 'Yes. All Wallet IDs and keys are encrypted via AES-256 fragmented storage.')">Is my data safe?</button>
-                <button class="opt-btn" onclick="window.open('https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K', '_blank')">Talk to Admin Support</button>
+                <button class="opt-btn" onclick="window.open( 'https://whatsapp.com/channel/0029VbC4se9GJP8Jz1ixST0K' )">Talk to Admin Support</button>
             </div>
         </div>
     </div>
 
     <!-- Terms Modal -->
-    <div id="termsPopup" class="popup-overlay" aria-hidden="true">
+    <div id="termsPopup" class="popup-overlay">
         <div class="popup-content">
-            <i class="fa-solid fa-xmark popup-close" onclick="closeTermsPopup()" aria-label="Close modal"></i>
-            <h2 style="font-family:var(--font-head); margin-bottom:15px; font-weight: 800;">Terms of Sovereignty</h2>
+            <i class="fa-solid fa-xmark popup-close" onclick="closeTermsPopup()"></i>
+            <h2 style="font-family:var(--font-head); margin-bottom:15px;">Terms of Sovereignty</h2>
             <div style="font-size:13px; color:#555; max-height:250px; overflow-y:auto; text-align:left; line-height:1.6;">
                 <p>1. <b>Single Node:</b> Exactly one account per physical device is allowed.</p><br>
-                <p>2. <b>Activation:</b> The network fee covers server allocation and is non-refundable.</p><br>
+                <p>2. <b>Activation:</b> The $2 fee is spent on server costs and is non-refundable.</p><br>
                 <p>3. <b>Tasks:</b> Automation bots are strictly forbidden and lead to account lock.</p>
             </div>
             <button class="btn-submit" style="width:100%; margin-top:20px;" onclick="closeTermsPopup()">I Understand</button>
         </div>
     </div>
 
-    <!-- Video Setup Modal -->
-    <div id="videoPopup" class="popup-overlay" aria-hidden="true">
+    <!-- Video Modal -->
+    <div id="videoPopup" class="popup-overlay">
         <div class="popup-content" style="background:#000; padding:15px; max-width:650px;">
-            <i class="fa-solid fa-circle-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;" aria-label="Close video"></i>
+            <i class="fa-solid fa-circle-xmark popup-close" onclick="closeVideoPopup()" style="color:#fff; top:-40px; right:0;"></i>
             <div style="width:100%; aspect-ratio:16/9; background:#111; border-radius:15px; overflow:hidden;">
-                <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fv%2F17QfdiALhb%2F&show_text=false" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe id="tutVideo" width="100%" height="100%" src="https://www.facebook.com/share/v/17QfdiALhb/?mibextid=wwXIfr" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
     <script type="module">
-        import { auth, db, doc, setDoc, serverTimestamp } from "../assets/js/firebase-config.js";
+        import { auth, db, doc, setDoc, serverTimestamp, getDocs, collection } from "../assets/js/firebase-config.js";
         import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // Global Toast Notification Helper
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
-        let toastTimeout;
-        
-        const showToast = (message) => {
-            clearTimeout(toastTimeout);
-            toastMessage.innerText = message;
-            toast.classList.add('show');
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 4500);
-        };
-
-        // 1. URL Referral Parameter Reader
+        // 1. URL Referral Handling
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
         if (ref) document.getElementById('ref_id').value = ref;
 
-        // 2. Comprehensive A-Z 196+ Country Dataset + Dynamic Fetch Engine
+        // 2. Fetch Countries
         const cSel = document.getElementById('country');
-        
         fetch("https://restcountries.com/v3.1/all?fields=name,idd")
             .then(res => res.json())
             .then(data => {
                 const sorted = data.sort((a, b) => a.name.common.localeCompare(b.name.common));
-                
-                // Clear existing options except default disabled option
-                cSel.innerHTML = `<option value="" disabled selected>Select Region</option>`;
-                
                 sorted.forEach(c => {
-                    const countryName = c.name.common;
-                    const rootCode = c.idd ? (c.idd.root || '') : '';
-                    const suffixCode = (c.idd && c.idd.suffixes) ? c.idd.suffixes[0] : '';
-                    const fullDialCode = rootCode + suffixCode;
-                    
-                    let opt = new Option(countryName, countryName);
-                    if (fullDialCode) {
-                        opt.setAttribute('data-dial', fullDialCode);
+                    if(c.name.common !== "Pakistan") {
+                        const code = (c.idd.root || '') + (c.idd.suffixes ? c.idd.suffixes[0] : '');
+                        let opt = new Option(c.name.common, c.name.common);
+                        opt.setAttribute('data-dial', code);
+                        cSel.add(opt);
                     }
-                    cSel.add(opt);
                 });
+            });
 
-                // Default Pakistan selection if present
-                for (let i = 0; i < cSel.options.length; i++) {
-                    if (cSel.options[i].value === "Pakistan") {
-                        cSel.selectedIndex = i;
-                        lockCountryAndSetDial();
-                        break;
-                    }
-                }
-            })
-            .catch(() => console.warn("Dynamic API countries fallback active."));
-
-        // Country Selection & Phone Dial Locking System
         window.lockCountryAndSetDial = () => {
             const select = document.getElementById('country');
             const selected = select.options[select.selectedIndex];
-            const dial = selected ? selected.getAttribute('data-dial') : null;
+            const dial = selected.getAttribute('data-dial');
             const phoneInput = document.getElementById('phone');
-            
-            if (dial) {
+            if(dial) {
                 phoneInput.value = dial + " ";
                 phoneInput.readOnly = false;
                 phoneInput.focus();
-                select.classList.add('locked');
+                select.style.pointerEvents = "none";
+                select.style.background = "#eee";
             }
         };
 
-        // 3. Password Strength Meter & Interactive Eye Toggle
+        // 3. Password Interaction
         const pInput = document.getElementById('pass');
         const pBar = document.getElementById('bar');
         const pMeter = document.getElementById('meter');
-        const togglePass = document.getElementById('togglePass');
 
         pInput.addEventListener('input', () => {
             let val = pInput.value;
@@ -780,27 +305,16 @@
             if(/[A-Z]/.test(val)) s += 30;
             if(/[0-9]/.test(val)) s += 30;
             pBar.style.width = s + "%";
-            pBar.style.backgroundColor = s < 50 ? "var(--error-red)" : s < 90 ? "var(--warn-yellow)" : "var(--success)";
+            pBar.style.backgroundColor = s < 50 ? "#ff3b30" : s < 90 ? "#ffcc00" : "#00c853";
         });
 
-        const togglePassword = () => {
-            const isPass = pInput.type === 'password';
-            pInput.type = isPass ? 'text' : 'password';
-            togglePass.classList.toggle('fa-eye');
-            togglePass.classList.toggle('fa-eye-slash');
-            togglePass.classList.toggle('active');
+        document.getElementById('togglePass').onclick = () => {
+            pInput.type = pInput.type === 'password' ? 'text' : 'password';
         };
-        togglePass.addEventListener('click', togglePassword);
 
-        // 4. MAIN REGISTRATION PROCESSOR
+        // 4. MAIN REGISTRATION LOGIC
         document.getElementById('regForm').onsubmit = async (e) => {
             e.preventDefault();
-            
-            if(!document.getElementById('terms').checked) {
-                showToast("You must accept the terms of sovereignty.");
-                return;
-            }
-
             const btn = document.getElementById('submitBtn');
             const loader = document.getElementById('loader');
             const txt = document.getElementById('btnText');
@@ -813,11 +327,11 @@
             txt.innerText = "Encrypting Node...";
 
             try {
-                // Firebase Auth Create User
+                // Firebase Auth Create
                 const userCredential = await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
                 const user = userCredential.user;
 
-                // Document for App State
+                // Document for App State - SAVED BY UID TO PREVENT ERRORS
                 const userDoc = {
                     uid: user.uid,
                     referral_id: document.getElementById('ref_id').value || "direct",
@@ -841,67 +355,34 @@
 
                 localStorage.setItem('user_email', emailVal);
                 
-                // Save record under UID mapping
+                // SAVE BY UID
                 await setDoc(doc(db, "pending_users", user.uid), userDoc);
                 
-                // Success confetti trigger
-                if(typeof confetti === 'function') {
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                }
-                
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 setTimeout(() => window.location.href = "payment.html", 2000);
 
             } catch (err) {
-                let msg = "Protocol Error.";
-                if(err.code === 'auth/email-already-in-use') msg = "This identity is already registered in the system.";
-                if(err.code === 'auth/weak-password') msg = "Password encryption too weak. Minimum 8 characters required.";
-                if(err.code === 'auth/invalid-email') msg = "The email identity provided is invalid.";
-                
-                showToast(msg);
+                alert("Protocol Error: " + err.message);
                 btn.disabled = false;
                 loader.style.display = 'none';
                 txt.innerText = "Initialize Node Authentication";
             }
         };
 
-        // UI Modal Helpers
-        const openPopup = (id) => {
-            const popup = document.getElementById(id);
-            popup.classList.add('show');
-            popup.setAttribute('aria-hidden', 'false');
-        };
-        
-        const closePopup = (id) => {
-            const popup = document.getElementById(id);
-            popup.classList.remove('show');
-            popup.setAttribute('aria-hidden', 'true');
-        };
-
-        window.openTermsPopup = () => openPopup('termsPopup');
-        window.closeTermsPopup = () => closePopup('termsPopup');
-        window.openVideoPopup = () => openPopup('videoPopup');
-        window.closeVideoPopup = () => {
-            closePopup('videoPopup');
-            const frame = document.getElementById('tutVideo');
-            if(frame) frame.src = frame.src;
-        };
-
-        window.toggleChat = () => {
-            const overlay = document.getElementById('chatOverlay');
-            const isOpen = overlay.classList.toggle('open');
-            overlay.setAttribute('aria-hidden', !isOpen);
-        };
-
+        // UI HELPERS
+        window.openTermsPopup = () => document.getElementById('termsPopup').style.display = 'flex';
+        window.closeTermsPopup = () => document.getElementById('termsPopup').style.display = 'none';
+        window.openVideoPopup = () => document.getElementById('videoPopup').style.display = 'flex';
+        window.closeVideoPopup = () => document.getElementById('videoPopup').style.display = 'none';
+        window.toggleChat = () => document.getElementById('chatOverlay').classList.toggle('open');
         window.botReply = (q, a) => {
             const body = document.getElementById('chatBody');
-            body.innerHTML += `<div class="user-msg">${q}</div>`;
+            body.innerHTML += `<div class="bot-msg" style="align-self:flex-end; background:var(--pure-black); color:#fff; border-radius: 18px 18px 4px 18px;">${q}</div>`;
             setTimeout(() => {
                 body.innerHTML += `<div class="bot-msg">${a}</div>`;
                 body.scrollTop = body.scrollHeight;
-            }, 500);
+            }, 600);
         };
-
-        // Prevent double-tap zoom on iOS
         document.addEventListener('gesturestart', (e) => e.preventDefault());
     </script>
 </body>
