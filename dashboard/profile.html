@@ -97,11 +97,135 @@
 
     <div class="bg-mesh"></div>
 
-    <header>
-        <img src="../assets/ui/logo.png" class="h-logo" onclick="location.href='home.html'">
-        <div class="h-title">User Identity</div>
-        <div style="width:34px"></div>
-    </header>
+<!-- ========================================== -->
+<!-- 🚀 DYNAMIC ISLAND SUB-HEADER WITH BACK BTN -->
+<!-- ========================================== -->
+<style>
+    /* Dynamic Island Capsule Sub-Header */
+    .dynamic-island-subheader {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        max-width: 880px;
+        height: 58px;
+        background: rgba(14, 14, 18, 0.85);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        padding: 0 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 2000;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: islandPop 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Dynamic Shrink on Scroll */
+    .dynamic-island-subheader.shrunk {
+        width: calc(100% - 48px);
+        max-width: 800px;
+        height: 50px;
+        background: rgba(10, 10, 14, 0.94);
+        border-color: rgba(0, 200, 83, 0.3);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Left Group: Back Button + Logo */
+    .island-left-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .h-back-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .h-back-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .h-back-btn:active {
+        transform: scale(0.92);
+    }
+
+    .h-sub-logo {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .h-sub-logo:active {
+        transform: scale(0.92);
+    }
+
+    .h-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+        text-align: center;
+    }
+
+    .island-right-space {
+        width: 74px; /* Symmetrical balance offset for back button + logo */
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    @keyframes islandPop {
+        0% { transform: translate(-50%, -30px) scale(0.85); opacity: 0; }
+        100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    }
+</style>
+
+<!-- DYNAMIC ISLAND SUB-HEADER HTML -->
+<header class="dynamic-island-subheader" id="dynamicSubHeader">
+    <div class="island-left-group">
+        <div class="h-back-btn" onclick="window.history.length > 1 ? window.history.back() : location.href='home.html'" aria-label="Go Back">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <img src="../assets/ui/logo.png" class="h-sub-logo" onclick="location.href='home.html'" alt="NEXRA Logo">
+    </div>
+
+    <div class="h-title">User Identity</div>
+
+    <div class="island-right-space">
+        <!-- Visual Balance Offset -->
+    </div>
+</header>
+
+<script>
+    // Scroll handling for Dynamic Island Expansion & Shrink
+    window.addEventListener('scroll', () => {
+        const subHeader = document.getElementById('dynamicSubHeader');
+        if (window.scrollY > 20) {
+            subHeader.classList.add('shrunk');
+        } else {
+            subHeader.classList.remove('shrunk');
+        }
+    });
+</script>
 
     <main class="viewport" id="profileView">
         
