@@ -96,13 +96,11 @@
 <body>
 
     <div class="bg-mesh"></div>
-
 <!-- ========================================== -->
-<!-- 🚀 DYNAMIC ISLAND SUB-HEADER WITH BACK BTN -->
+<!-- 🚀 DYNAMIC ISLAND SECONDARY PAGE HEADER    -->
 <!-- ========================================== -->
 <style>
-    /* Dynamic Island Capsule Sub-Header */
-    .dynamic-island-subheader {
+    .page-island-header {
         position: fixed;
         top: 16px;
         left: 50%;
@@ -122,29 +120,23 @@
         z-index: 2000;
         box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
         transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        animation: islandPop 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: islandSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Dynamic Shrink on Scroll */
-    .dynamic-island-subheader.shrunk {
+    /* Shrink on scroll effect */
+    .page-island-header.shrunk {
         width: calc(100% - 48px);
         max-width: 800px;
-        height: 50px;
+        height: 52px;
         background: rgba(10, 10, 14, 0.94);
         border-color: rgba(0, 200, 83, 0.3);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 200, 83, 0.12);
     }
 
-    /* Left Group: Back Button + Logo */
-    .island-left-group {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
+    /* Back Button Styling */
     .h-back-btn {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -152,81 +144,93 @@
         align-items: center;
         justify-content: center;
         color: #ffffff;
-        font-size: 14px;
+        font-size: 15px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .h-back-btn:hover {
         background: rgba(255, 255, 255, 0.12);
         border-color: rgba(255, 255, 255, 0.25);
+        color: #00c853;
     }
 
     .h-back-btn:active {
-        transform: scale(0.92);
+        transform: scale(0.9);
     }
 
-    .h-sub-logo {
-        width: 28px;
-        height: 28px;
-        object-fit: contain;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-
-    .h-sub-logo:active {
-        transform: scale(0.92);
+    /* Central Title */
+    .h-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
     }
 
     .h-title {
-        font-family: 'Outfit', sans-serif;
+        font-family: 'Outfit', -apple-system, sans-serif;
         font-size: 15px;
         font-weight: 800;
         color: #ffffff;
         letter-spacing: -0.3px;
-        text-align: center;
     }
 
-    .island-right-space {
-        width: 74px; /* Symmetrical balance offset for back button + logo */
+    /* Right Logo */
+    .h-logo-wrap {
         display: flex;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
     }
 
-    @keyframes islandPop {
-        0% { transform: translate(-50%, -30px) scale(0.85); opacity: 0; }
+    .h-logo {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        transition: transform 0.25s ease;
+    }
+
+    .h-logo-wrap:active .h-logo {
+        transform: scale(0.9);
+    }
+
+    /* Offset spacing for page body content */
+    body {
+        padding-top: 86px !important;
+    }
+
+    @keyframes islandSlideIn {
+        0% { transform: translate(-50%, -25px) scale(0.9); opacity: 0; }
         100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
     }
 </style>
 
-<!-- DYNAMIC ISLAND SUB-HEADER HTML -->
-<header class="dynamic-island-subheader" id="dynamicSubHeader">
-    <div class="island-left-group">
-        <div class="h-back-btn" onclick="window.history.length > 1 ? window.history.back() : location.href='home.html'" aria-label="Go Back">
-            <i class="fa-solid fa-chevron-left"></i>
-        </div>
-        <img src="../assets/ui/logo.png" class="h-sub-logo" onclick="location.href='home.html'" alt="NEXRA Logo">
+<header class="page-island-header" id="pageHeader">
+    <button class="h-back-btn" onclick="window.history.length > 1 ? history.back() : location.href='home.html'" aria-label="Go Back">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div class="h-title-wrap">
+        <span class="h-title">User Identity</span>
     </div>
 
-    <div class="h-title">User Identity</div>
-
-    <div class="island-right-space">
-        <!-- Visual Balance Offset -->
+    <div class="h-logo-wrap" onclick="location.href='home.html'">
+        <img src="../assets/ui/logo.png" class="h-logo" alt="NEXRA Logo">
     </div>
 </header>
 
 <script>
-    // Scroll handling for Dynamic Island Expansion & Shrink
     window.addEventListener('scroll', () => {
-        const subHeader = document.getElementById('dynamicSubHeader');
-        if (window.scrollY > 20) {
-            subHeader.classList.add('shrunk');
-        } else {
-            subHeader.classList.remove('shrunk');
+        const header = document.getElementById('pageHeader');
+        if (header) {
+            if (window.scrollY > 20) {
+                header.classList.add('shrunk');
+            } else {
+                header.classList.remove('shrunk');
+            }
         }
     });
 </script>
-
     <main class="viewport" id="profileView">
         
         <!-- Profile Branding -->
