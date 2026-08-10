@@ -373,15 +373,125 @@
         <span id="toastMsg">Link copied securely</span>
     </div>
 
-    <!-- Header Navigation -->
-    <header>
-        <div class="h-brand">
-            <img src="../assets/ui/logo.png" class="logo-btn" onclick="location.href='home.html'" alt="Home" aria-label="Home">
-            <img src="../assets/ui/title-text.png" class="h-name" alt="NEXRA">
-        </div>
-        <div class="profile-trigger" id="userInitial" onclick="location.href='profile.html'" aria-label="Profile">?</div>
-    </header>
+<!-- ========================================== -->
+<!-- 🚀 DYNAMIC ISLAND BRAND HEADER             -->
+<!-- ========================================== -->
+<style>
+    .island-brand-header {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        max-width: 880px;
+        height: 60px;
+        background: rgba(14, 14, 18, 0.85);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 2000;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: islandSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
+    /* Apple Dynamic Island Shrink Effect on Scroll */
+    .island-brand-header.shrunk {
+        width: calc(100% - 48px);
+        max-width: 800px;
+        height: 52px;
+        background: rgba(10, 10, 14, 0.94);
+        border-color: rgba(0, 200, 83, 0.3);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 200, 83, 0.12);
+    }
+
+    .h-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    .logo-btn {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .h-brand:active .logo-btn {
+        transform: scale(0.9);
+    }
+
+    /* Clear Visibility for White + Orange Branding Logo */
+    .h-name {
+        height: 20px;
+        width: auto;
+        object-fit: contain;
+        mix-blend-mode: normal !important;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8)) brightness(1.08) contrast(1.05);
+        transition: filter 0.3s ease;
+    }
+
+    .profile-trigger {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-family: 'Outfit', -apple-system, sans-serif;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .profile-trigger:active {
+        transform: scale(0.92);
+    }
+
+    /* Offset spacing for page body content */
+    body {
+        padding-top: 86px !important;
+    }
+
+    @keyframes islandSlideIn {
+        0% { transform: translate(-50%, -25px) scale(0.9); opacity: 0; }
+        100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    }
+</style>
+
+<header class="island-brand-header" id="brandIslandHeader">
+    <div class="h-brand" onclick="location.href='home.html'">
+        <img src="../assets/ui/logo.png" class="logo-btn" alt="Home" aria-label="Home">
+        <img src="../assets/ui/title-text.png" class="h-name" alt="NEXRA">
+    </div>
+    <div class="profile-trigger" id="userInitial" onclick="location.href='profile.html'" aria-label="Profile">?</div>
+</header>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('brandIslandHeader');
+        if (header) {
+            if (window.scrollY > 20) {
+                header.classList.add('shrunk');
+            } else {
+                header.classList.remove('shrunk');
+            }
+        }
+    });
+</script>
     <main class="viewport">
         
         <!-- Wealth Blueprint Card -->
