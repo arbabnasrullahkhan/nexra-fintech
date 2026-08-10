@@ -77,83 +77,87 @@
 
     <div class="bg-mesh"></div>
 <!-- ========================================== -->
-<!-- 🚀 DYNAMIC ISLAND HEADER MODULE             -->
+<!-- 🚀 DYNAMIC ISLAND HEADER & STYLING ENGINE  -->
 <!-- ========================================== -->
 <style>
-    /* Dynamic Island Header Capsule */
-    header.dynamic-island {
+    /* Dynamic Island Capsule Header */
+    .dynamic-island-header {
         position: fixed;
-        top: 14px;
+        top: 16px;
         left: 50%;
         transform: translateX(-50%);
-        width: calc(100% - 28px);
-        max-width: 900px;
+        width: calc(100% - 32px);
+        max-width: 880px;
         height: 60px;
-        background: rgba(12, 12, 16, 0.85);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+        background: rgba(14, 14, 18, 0.85);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 100px;
-        padding: 0 16px 0 12px;
+        padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        z-index: 3000;
+        z-index: 2000;
         box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        animation: islandPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: islandPop 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Left Brand Group */
-    .di-brand-group {
+    /* Dynamic Shrink on Scroll (Apple Island Effect) */
+    .dynamic-island-header.shrunk {
+        width: calc(100% - 48px);
+        max-width: 800px;
+        height: 52px;
+        background: rgba(10, 10, 14, 0.94);
+        border-color: rgba(0, 200, 83, 0.3);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 200, 83, 0.15);
+    }
+
+    /* Branding Wrapper */
+    .island-brand {
         display: flex;
         align-items: center;
         gap: 12px;
         cursor: pointer;
-    }
-
-    .di-logo-wrapper {
         position: relative;
-        width: 38px;
-        height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
-    .di-logo-glow {
+    .logo-glow-ring {
         position: absolute;
-        inset: 0;
-        background: radial-gradient(circle, rgba(255, 214, 0, 0.25) 0%, transparent 70%);
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
+        background: radial-gradient(circle, rgba(0, 200, 83, 0.3) 0%, transparent 70%);
         filter: blur(6px);
-        animation: islandPulse 3s infinite ease-in-out;
+        pointer-events: none;
     }
 
     .h-logo {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         object-fit: contain;
         position: relative;
         z-index: 2;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: transform 0.3s var(--ease-spring, ease);
     }
 
-    .di-brand-group:active .h-logo {
-        transform: scale(0.88);
+    .island-brand:active .h-logo {
+        transform: scale(0.92);
     }
 
-    /* CLEAR DISPLAY FOR NAME.PNG (Native White & Orange Colors Preserved) */
-    .h-name {
+    /* CLEAR VISIBILITY FIX FOR WHITE + ORANGE NAME/TEXT LOGO */
+    .h-name-brand {
         height: 20px;
         width: auto;
         object-fit: contain;
-        mix-blend-mode: normal !important; /* Disables multiply blend */
-        filter: none !important;            /* Disables color inversion */
-        display: block;
+        /* Completely fixes invisibility issue for white/orange graphics */
+        mix-blend-mode: normal !important;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8)) brightness(1.08) contrast(1.05);
+        transition: filter 0.3s ease;
     }
 
-    /* Right Action Group */
+    /* Header Actions */
     .h-actions {
         display: flex;
         align-items: center;
@@ -161,49 +165,43 @@
     }
 
     .h-icon {
-        position: relative;
         width: 38px;
         height: 38px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #a1a1aa;
-        font-size: 16px;
+        color: #ffffff;
+        font-size: 15px;
         cursor: pointer;
+        position: relative;
         transition: all 0.3s ease;
     }
 
     .h-icon:hover {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.16);
-    }
-
-    .h-icon:active {
-        transform: scale(0.92);
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.25);
     }
 
     .h-dot {
         position: absolute;
-        top: 3px;
-        right: 3px;
+        top: 2px;
+        right: 2px;
         width: 8px;
         height: 8px;
         background: #00c853;
         border-radius: 50%;
-        border: 2px solid #0c0c10;
-        box-shadow: 0 0 8px #00c853;
-        animation: dotBlink 2s infinite ease-in-out;
+        box-shadow: 0 0 10px #00c853;
+        animation: pulseDot 2s infinite;
     }
 
     .profile-dp {
         width: 38px;
         height: 38px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+        background: rgba(255, 255, 255, 0.05);
         border: 1.5px solid rgba(255, 255, 255, 0.15);
         color: #ffffff;
         display: flex;
@@ -214,43 +212,67 @@
         cursor: pointer;
         text-transform: uppercase;
         font-family: 'Outfit', sans-serif;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .profile-dp:hover {
-        transform: scale(1.06);
-        border-color: #00c853;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
     }
 
     .profile-dp:active {
         transform: scale(0.92);
     }
 
-    /* Dynamic Island Animations */
+    /* Viewport spacing for Dynamic Island header offset */
+    .viewport {
+        padding-top: 90px !important;
+    }
+
+    /* Geo Banner Enhancements */
+    .geo-banner {
+        background: rgba(41, 121, 255, 0.08);
+        color: #2979ff;
+        padding: 12px 20px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+        border: 1px solid rgba(41, 121, 255, 0.2);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .geo-banner i {
+        font-size: 14px;
+        animation: bouncePin 2s infinite ease-in-out;
+    }
+
+    /* Dynamic Animations */
     @keyframes islandPop {
-        0% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
-        100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        0% { transform: translate(-50%, -30px) scale(0.85); opacity: 0; }
+        100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
     }
 
-    @keyframes islandPulse {
-        0%, 100% { opacity: 0.4; transform: scale(1); }
-        50% { opacity: 0.8; transform: scale(1.12); }
+    @keyframes pulseDot {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.3); opacity: 0.5; }
     }
 
-    @keyframes dotBlink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
+    @keyframes bouncePin {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
     }
 </style>
 
-<header class="dynamic-island" id="islandHeader">
-    <div class="di-brand-group" onclick="location.reload()">
-        <div class="di-logo-wrapper">
-            <div class="di-logo-glow"></div>
-            <img src="../assets/ui/logo.png" class="h-logo" alt="NEXRA Logo">
-        </div>
-        <img src="../assets/ui/name.png" class="h-name" alt="NEXRA">
+<!-- DYNAMIC ISLAND HEADER HTML -->
+<header class="dynamic-island-header" id="dynamicIsland">
+    <div class="island-brand" onclick="location.reload()">
+        <div class="logo-glow-ring"></div>
+        <img src="../assets/ui/logo.png" class="h-logo" alt="NEXRA Logo">
+        <img src="../assets/ui/title-text.png" onerror="this.src='../assets/ui/name.png'" class="h-name-brand" alt="NEXRA">
     </div>
 
     <div class="h-actions">
@@ -258,30 +280,27 @@
             <i class="fa-regular fa-bell"></i>
             <div class="h-dot"></div>
         </div>
-        <div class="profile-dp" id="userInitial" onclick="location.href='profile.html'" aria-label="Profile">?</div>
+        <div class="profile-dp" id="userInitial" onclick="location.href='profile.html'">?</div>
     </div>
 </header>
 
+<main class="viewport">
+    <div class="geo-banner" id="geoTarget">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Synchronizing Ecosystem Node...</span>
+    </div>
+
 <script>
-    // Optional Scroll Dynamic Compression Animation
+    // Scroll handling for Dynamic Island Expansion & Shrink
     window.addEventListener('scroll', () => {
-        const header = document.getElementById('islandHeader');
-        if (header) {
-            if (window.scrollY > 40) {
-                header.style.transform = 'translateX(-50%) scale(0.96)';
-                header.style.background = 'rgba(10, 10, 14, 0.92)';
-            } else {
-                header.style.transform = 'translateX(-50%) scale(1)';
-                header.style.background = 'rgba(12, 12, 16, 0.85)';
-            }
+        const island = document.getElementById('dynamicIsland');
+        if (window.scrollY > 20) {
+            island.classList.add('shrunk');
+        } else {
+            island.classList.remove('shrunk');
         }
     });
 </script>
-    <main class="viewport">
-        
-        <div class="geo-banner" id="geoTarget">
-            <i class="fa-solid fa-location-dot"></i> Synchronizing Ecosystem Node...
-        </div>
 
         <!-- THE MASTER VAULT -->
         <div class="vault-card">
