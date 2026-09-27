@@ -1,77 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Nexra Promoter Portal</title>
-    <meta name="description" content="Exclusive portal for Nexra promotional partners.">
     
-    <!-- Fonts -->
+    <!-- SEO & Identity -->
+    <title>NEXRA | Promoter Node Portal</title>
+    <meta name="description" content="Exclusive promotional network portal for Nexra partners. Track your network generation and operational metrics in real-time.">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Confetti Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <!-- Core Architecture Styles -->
     <style>
+        /* === DESIGN TOKENS === */
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-base: #f8fafc;
-            --bg-surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-light: #e2e8f0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --bg-base: #F4F7FB;
+            --bg-surface: #FFFFFF;
+            --bg-surface-glass: rgba(255, 255, 255, 0.7);
+            --bg-subtle: #F8FAFC;
+            
+            --border-light: rgba(15, 23, 42, 0.06);
+            --border-strong: rgba(15, 23, 42, 0.12);
+            --border-focus: rgba(37, 99, 235, 0.3);
+            
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --text-inverse: #FFFFFF;
+            
+            --accent-primary: #2563EB;
+            --accent-primary-hover: #1D4ED8;
+            --accent-primary-light: rgba(37, 99, 235, 0.08);
+            
+            --accent-green: #059669;
+            --accent-green-light: rgba(5, 150, 105, 0.1);
+            
+            --accent-gold: #D97706;
+            --accent-gold-light: rgba(217, 119, 6, 0.1);
+            
+            --shadow-sm: 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
+            --shadow-float: 0 30px 60px -15px rgba(37, 99, 235, 0.15);
+            
+            --font-main: 'Inter', sans-serif;
+            --font-head: 'Outfit', sans-serif;
+            
             --radius-lg: 16px;
             --radius-xl: 24px;
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* === RESET & BASE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg-base);
-            color: var(--text-main);
+            color: var(--text-primary);
+            font-family: var(--font-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(217,100%,94%,1) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, hsla(253,100%,94%,1) 0px, transparent 50%);
-            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Container */
+        /* === AMBIENT BACKGROUND === */
+        .ambient-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ambient-glow-1 {
+            position: absolute;
+            top: -10%; left: -20%;
+            width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -10%; right: -20%;
+            width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.04) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(var(--border-light) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+        }
+
+        /* === CONTAINER === */
         .app-container {
             width: 100%;
-            max-width: 480px; /* Mobile focused */
+            max-width: 520px;
             margin: 0 auto;
-            padding: 24px 20px;
+            padding: max(24px, env(safe-area-inset-top)) 24px max(40px, env(safe-area-inset-bottom));
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
+            z-index: 10;
         }
 
-        /* Header */
+        /* === HEADER === */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
-            animation: fadeDown 0.6s ease-out;
+            margin-bottom: 48px;
+            animation: fadeDown 0.6s var(--ease-spring);
         }
 
         .logo-wrap {
@@ -80,75 +139,90 @@
             gap: 12px;
         }
 
-        .logo-wrap img {
-            height: 36px;
+        .logo-wrap img.icon {
+            height: 32px;
             width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .logo-wrap img.text {
+            height: 16px;
+            width: auto;
+            filter: invert(1) brightness(0);
         }
 
         .badge {
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            color: white;
-            padding: 6px 14px;
+            background: var(--accent-primary-light);
+            color: var(--accent-primary);
+            padding: 8px 16px;
             border-radius: 100px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 800;
             letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 1px solid rgba(37, 99, 235, 0.15);
             box-shadow: var(--shadow-sm);
         }
 
-        /* Screens */
+        /* === SCREENS === */
         .screen {
             display: none;
             flex-direction: column;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
         }
 
         .screen.active {
             display: flex;
         }
 
-        /* Glass Card */
+        /* === GLASS CARD === */
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: var(--bg-surface-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-light);
             border-radius: var(--radius-xl);
-            padding: 32px 24px;
+            padding: 40px 32px;
             box-shadow: var(--shadow-lg);
             text-align: center;
         }
 
         .card-icon {
-            width: 64px;
-            height: 64px;
-            background: #eff6ff;
-            color: var(--primary);
-            border-radius: 50%;
+            width: 72px;
+            height: 72px;
+            background: var(--bg-surface);
+            color: var(--accent-primary);
+            border-radius: 20px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
         }
 
         h1 {
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1.2;
+            font-family: var(--font-head);
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.1;
             margin-bottom: 12px;
-            background: linear-gradient(to right, #0f172a, #334155);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-primary);
+            letter-spacing: -1px;
         }
 
         p.subtitle {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 32px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-weight: 500;
         }
 
-        /* Input Group */
+        /* === INPUT SYSTEM === */
         .input-group {
             position: relative;
             margin-bottom: 24px;
@@ -158,78 +232,121 @@
         .input-group label {
             display: block;
             font-size: 13px;
-            font-weight: 600;
-            color: var(--text-main);
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 8px;
             margin-left: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 18px;
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: color 0.3s ease;
         }
 
         .input-field {
             width: 100%;
             background: var(--bg-surface);
-            border: 1px solid var(--border-light);
-            padding: 16px 20px;
+            border: 1px solid var(--border-strong);
+            padding: 16px 20px 16px 48px;
             border-radius: var(--radius-lg);
-            font-size: 16px;
-            color: var(--text-main);
+            font-size: 15px;
+            color: var(--text-primary);
+            font-weight: 500;
             outline: none;
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.02);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
+
+        .input-field::placeholder { color: var(--text-muted); font-weight: 400; }
 
         .input-field:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px var(--border-focus);
         }
 
-        /* Buttons */
+        .input-field:focus + i, .input-wrapper:focus-within i {
+            color: var(--accent-primary);
+        }
+
+        /* === BUTTONS === */
         .btn-primary {
             width: 100%;
-            background: var(--text-main);
-            color: white;
+            background: var(--accent-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 18px;
             border-radius: var(--radius-lg);
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s var(--ease-spring);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 14px 0 rgba(0,0,0,0.1);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+            margin-top: 16px;
         }
 
-        .btn-primary:active {
-            transform: scale(0.98);
+        .btn-primary:hover {
+            background: var(--accent-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(37, 99, 235, 0.35);
         }
+
+        .btn-primary:active { transform: scale(0.98); }
 
         .btn-primary:disabled {
             opacity: 0.7;
             cursor: not-allowed;
+            transform: none;
         }
 
         .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            color: var(--text-main);
-            padding: 12px 20px;
-            border-radius: var(--radius-lg);
-            font-weight: 600;
-            font-size: 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 13px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn-outline:active {
-            background: #f1f5f9;
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
         }
 
-        /* Dashboard Elements */
+        /* === DASHBOARD ELEMENTS === */
+        .dashboard-header {
+            margin-bottom: 32px;
+        }
+
+        .dashboard-header h2 {
+            font-family: var(--font-head);
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        /* Stat Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -239,186 +356,197 @@
 
         .stat-card {
             background: var(--bg-surface);
-            padding: 20px;
+            padding: 24px 20px;
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-light);
             text-align: left;
             box-shadow: var(--shadow-sm);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease;
         }
         
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
         .stat-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--primary);
-            border-radius: 4px 0 0 4px;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--accent-primary);
         }
 
-        .stat-card.success::before { background: var(--success); }
-        .stat-card.warning::before { background: var(--warning); }
+        .stat-card.success::before { background: var(--accent-green); }
+        .stat-card.warning::before { background: var(--accent-gold); }
 
         .stat-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--text-main);
+            font-family: var(--font-head);
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-primary);
             margin-bottom: 4px;
+            letter-spacing: -1px;
         }
 
         .stat-label {
             font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Link Box */
+        /* Premium Link Box */
         .link-box {
             background: var(--bg-surface);
-            border: 1px dashed #cbd5e1;
-            padding: 16px;
+            border: 2px dashed var(--border-strong);
+            padding: 16px 20px;
             border-radius: var(--radius-lg);
             margin: 32px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .link-box:hover {
+            border-color: var(--accent-primary);
+            background: var(--accent-primary-light);
         }
 
         .link-text {
-            font-family: monospace;
+            font-family: 'Inter', monospace;
             font-size: 14px;
-            color: var(--primary);
+            color: var(--accent-primary);
             word-break: break-all;
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
+            line-height: 1.4;
         }
 
         .copy-btn {
-            background: #eff6ff;
-            color: var(--primary);
+            background: var(--text-primary);
+            color: var(--text-inverse);
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
             cursor: pointer;
             flex-shrink: 0;
-            transition: all 0.2s;
+            transition: all 0.2s var(--ease-spring);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
         }
         
-        .copy-btn:active {
-            transform: scale(0.9);
-        }
+        .copy-btn:hover { transform: scale(1.05) translateY(-2px); }
+        .copy-btn:active { transform: scale(0.95); }
 
-        /* List */
+        /* User List */
         .list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 32px 0 16px;
+            margin: 40px 0 20px;
             padding: 0 4px;
         }
         
         .list-header h3 {
-            font-size: 18px;
-            font-weight: 700;
+            font-family: var(--font-head);
+            font-size: 20px;
+            font-weight: 800;
         }
 
         .user-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .user-item {
             background: var(--bg-surface);
-            padding: 16px;
+            padding: 16px 20px;
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-light);
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .user-item:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
         }
+
+        .user-info { display: flex; align-items: center; gap: 16px; }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-strong);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: #475569;
-            font-size: 14px;
+            font-weight: 800;
+            font-family: var(--font-head);
+            color: var(--text-primary);
+            font-size: 16px;
         }
 
         .user-details h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
         
         .user-details p {
             font-size: 12px;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
         .status-badge {
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 100px;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .status-confirmed {
-            background: #d1fae5;
-            color: #047857;
-        }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #b45309;
-        }
+        .status-confirmed { background: var(--accent-green-light); color: var(--accent-green); }
+        .status-pending { background: var(--accent-gold-light); color: var(--accent-gold); }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
+            padding: 48px 24px;
+            color: var(--text-secondary);
             background: var(--bg-surface);
             border-radius: var(--radius-lg);
-            border: 1px dashed var(--border-light);
+            border: 2px dashed var(--border-strong);
         }
 
         .empty-state i {
-            font-size: 32px;
-            margin-bottom: 12px;
-            opacity: 0.5;
+            font-size: 40px;
+            margin-bottom: 16px;
+            color: var(--text-muted);
         }
 
-        /* Animations */
+        /* === ANIMATIONS & UTILS === */
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -426,77 +554,86 @@
             border: 3px solid rgba(255,255,255,0.3);
             border-top-color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             animation: spin 1s linear infinite;
             display: none;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Toast */
+        /* === TOAST NOTIFICATION === */
         .toast {
             position: fixed;
-            top: 20px;
+            top: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(-100px);
-            background: var(--text-main);
-            color: white;
-            padding: 12px 24px;
+            background: var(--text-primary);
+            color: var(--text-inverse);
+            padding: 14px 28px;
             border-radius: 100px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             box-shadow: var(--shadow-lg);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.26, 1.55);
-            z-index: 1000;
+            transition: all 0.4s var(--ease-spring);
+            z-index: 2000;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
+        .toast.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
+
+    <!-- Ambient Light Theme Background -->
+    <div class="ambient-canvas" aria-hidden="true">
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+        <div class="bg-grid"></div>
+    </div>
 
     <div class="app-container">
         
         <!-- Header -->
         <header class="header">
             <div class="logo-wrap">
-                <img src="assets/ui/logo.png" alt="Nexra Logo" onerror="this.src='https://via.placeholder.com/36x36?text=N'">
-                <img src="assets/ui/name.png" alt="Nexra" onerror="this.style.display='none'" style="height: 18px;">
+                <img src="assets/ui/logo.png" alt="NEXRA Logo" class="icon" onerror="this.src='https://via.placeholder.com/32x32?text=N'">
+                <img src="assets/ui/name.png" alt="NEXRA" class="text" onerror="this.style.display='none'">
             </div>
-            <div class="badge">Partner</div>
+            <div class="badge">Partner Node</div>
         </header>
 
         <!-- SCREEN 1: Setup / Login -->
         <main class="screen active" id="setup-screen">
             <div class="glass-card">
                 <div class="card-icon">
-                    <i class="ri-rocket-2-line"></i>
+                    <i class="fa-solid fa-network-wired"></i>
                 </div>
                 <h1>Activate Your<br>Promoter Engine</h1>
                 <p class="subtitle">Enter your email to generate your unique premium link and track your referrals in real-time.</p>
 
                 <div class="input-group">
-                    <label for="promoEmail">Email Address</label>
-                    <input type="email" id="promoEmail" class="input-field" placeholder="partner@example.com" autocomplete="email">
+                    <label for="promoEmail">Secure Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="promoEmail" class="input-field" placeholder="partner@example.com" autocomplete="email">
+                    </div>
                 </div>
                 
                 <div class="input-group">
                     <label for="premiumId">Desired Premium ID</label>
-                    <input type="text" id="premiumId" class="input-field" placeholder="e.g. prom_arbab" autocomplete="off">
-                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">This will be your unique referral link.</p>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-fingerprint"></i>
+                        <input type="text" id="premiumId" class="input-field" placeholder="e.g. prom_name" autocomplete="off">
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 8px;"><i class="fa-solid fa-link" style="margin-right: 4px;"></i> This will configure your unique referral link.</p>
                 </div>
 
                 <button class="btn-primary" id="generateBtn">
-                    <span>Initialize Portal</span>
+                    <span>Promo Portal</span>
                     <div class="loader" id="btnLoader"></div>
-                    <i class="ri-arrow-right-line" id="btnIcon"></i>
+                    <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
                 </button>
             </div>
         </main>
@@ -504,17 +641,19 @@
         <!-- SCREEN 2: Dashboard -->
         <main class="screen" id="dashboard-screen">
             
-            <button class="btn-outline" style="margin-bottom: 24px; align-self: flex-start;" onclick="logout()">
-                <i class="ri-arrow-left-line"></i> Switch Account
+            <button class="btn-outline" style="margin-bottom: 32px; align-self: flex-start;" onclick="logout()">
+                <i class="fa-solid fa-arrow-left"></i> Switch Account
             </button>
 
-            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">Partner Overview</h2>
-            <p style="color: var(--text-muted); font-size: 14px;" id="welcomeEmail">...</p>
+            <div class="dashboard-header">
+                <h2>Partner Overview</h2>
+                <p style="color: var(--text-secondary); font-size: 15px; font-weight: 500;" id="welcomeEmail">...</p>
+            </div>
 
             <div class="link-box">
-                <div class="link-text" id="referralLink">nexraearn.vercel.app/p/---</div>
-                <button class="copy-btn" onclick="copyLink()">
-                    <i class="ri-file-copy-line"></i>
+                <div class="link-text" id="referralLink">https://nexraearn.vercel.app/auth/register.html?ref=---</div>
+                <button class="copy-btn" onclick="copyLink()" aria-label="Copy Referral Link">
+                    <i class="fa-solid fa-copy"></i>
                 </button>
             </div>
 
@@ -524,21 +663,22 @@
                     <div class="stat-label">Total Joined</div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-value" id="statConfirmed">0</div>
+                    <div class="stat-value" id="statConfirmed" style="color: var(--accent-green);">0</div>
                     <div class="stat-label">Confirmed</div>
                 </div>
             </div>
 
             <div class="list-header">
                 <h3>Recent Network</h3>
-                <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;" id="statUnconfirmed">0 Pending</span>
+                <span style="font-size: 13px; color: var(--accent-gold); font-weight: 700; background: var(--accent-gold-light); padding: 4px 12px; border-radius: 100px;" id="statUnconfirmed">0 Pending</span>
             </div>
 
             <div class="user-list" id="usersList">
                 <!-- User items injected here -->
                 <div class="empty-state" id="emptyState">
-                    <i class="ri-group-line"></i>
-                    <p>No users joined through your link yet.<br>Start sharing!</p>
+                    <i class="fa-solid fa-users-viewfinder"></i>
+                    <h4 style="font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 8px;">No Nodes Connected</h4>
+                    <p style="font-size: 14px; line-height: 1.5;">No users joined through your link yet.<br>Start sharing your premium link above.</p>
                 </div>
             </div>
 
@@ -548,10 +688,13 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toastMsg">
-        <i class="ri-checkbox-circle-fill" style="color: #4ade80;"></i>
+        <i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
         <span id="toastText">Link copied to clipboard!</span>
     </div>
 
+    <!-- ==========================================
+         JAVASCRIPT LOGIC (Strictly Preserved)
+         ========================================== -->
     <script type="module">
         import { db, collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy } from "./assets/js/firebase-config.js";
 
@@ -567,8 +710,8 @@
         let currentPromoId = null;
         let currentLink = null;
 
-        // Base URL for referral link (Premium Auth Route - Short Link)
-        const BASE_LINK_URL = "https://nexraearn.vercel.app/a/r?ref=";
+        // Base URL for referral link (Premium Auth Route - Updated per requirements)
+        const BASE_LINK_URL = "https://nexraearn.vercel.app/auth/register.html?ref=";
 
         // Initialize checking local storage
         window.onload = () => {
@@ -577,7 +720,7 @@
             if(savedEmail && savedId) {
                 emailInput.value = savedEmail;
                 idInput.value = savedId;
-                processEmail(savedEmail, savedId);
+                processEmail(savedEmail, savedId, true); // true = silent/auto load
             }
         };
 
@@ -599,10 +742,10 @@
                 return;
             }
             
-            processEmail(email, customId);
+            processEmail(email, customId, false);
         });
 
-        async function processEmail(email, customId) {
+        async function processEmail(email, customId, isAutoLoad) {
             setLoading(true);
             try {
                 // Use the user-defined custom ID
@@ -636,8 +779,21 @@
                 // Load Dashboard
                 await loadDashboardData(promoId, email);
 
+                // Transition UI
                 setupScreen.classList.remove('active');
                 dashScreen.classList.add('active');
+
+                // Trigger celebration confetti if it's a manual new login/generation
+                if(!isAutoLoad) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#2563EB', '#10B981', '#F59E0B']
+                        });
+                    }, 300);
+                }
 
             } catch (error) {
                 console.error(error);
@@ -730,6 +886,7 @@
             localStorage.removeItem('nexra_promo_email');
             dashScreen.classList.remove('active');
             setupScreen.classList.add('active');
+            // Retain ID in input if they want to try another ID, or clear it. We clear email.
             emailInput.value = '';
         };
 
@@ -765,11 +922,11 @@
             text.innerText = msg;
             
             if(isSuccess) {
-                icon.className = 'ri-checkbox-circle-fill';
-                icon.style.color = '#4ade80';
+                icon.className = 'fa-solid fa-circle-check';
+                icon.style.color = '#10B981';
             } else {
-                icon.className = 'ri-error-warning-fill';
-                icon.style.color = '#f87171';
+                icon.className = 'fa-solid fa-circle-exclamation';
+                icon.style.color = '#EF4444';
             }
 
             toast.classList.add('show');
