@@ -5,119 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- ==========================================
-         MASTER SEO & SOCIAL GRAPH INTEGRATION
+         MASTER SEO, VERIFICATION & SOCIAL GRAPH
          ========================================== -->
     <title>NEXRA | The Global Fintech Node Ecosystem</title>
     <meta name="title" content="NEXRA | Unlock Global Wealth with Technical Nodes">
     <meta name="description" content="Join the world's most secure fintech ecosystem. Process technical nodes, grow your referral network, and earn real USD with instant payouts to EasyPaisa, SadaPay, Crypto, and Bank.">
-    <meta name="keywords" content="NEXRA, fintech ecosystem, node processing, task to earn, passive income, secure crypto, EasyPaisa earning, SadaPay withdrawal, global wealth, smart earning">
+    <meta name="keywords" content="NEXRA, fintech ecosystem, node processing, light mode, secure crypto, EasyPaisa earning, SadaPay withdrawal, global wealth, smart earning">
     <meta name="author" content="NEXRA Official">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <meta name="theme-color" content="#ffffff">
     <meta name="color-scheme" content="light">
-    <link rel="canonical" href="https://nexra.ct.ws/intro.html">
+    
+    <!-- Real Vercel Canonical Domain -->
+    <link rel="canonical" href="https://nexraearn.vercel.app/intro.html">
 
     <!-- Open Graph (Facebook/WhatsApp/Telegram) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nexra.ct.ws/intro.html">
+    <meta property="og:url" content="https://nexraearn.vercel.app/intro.html">
     <meta property="og:title" content="NEXRA | $0.20 Welcome Bonus Inside">
     <meta property="og:description" content="The ultimate standard in digital wealth generation. Verified platform, AES-256 secured, instant liquidity.">
     <meta property="og:image" content="assets/ui/logo.png">
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://nexraearn.vercel.app/intro.html">
     <meta name="twitter:title" content="NEXRA | The Global Fintech Node Ecosystem">
     <meta name="twitter:description" content="Process technical nodes, grow your referral network, and earn real USD with instant payouts.">
-    <meta name="twitter:image" content="assets/ui/logo.png">
 
-    <!-- Favicon -->
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FinancialProduct",
+      "name": "NEXRA Protocol",
+      "description": "Secure fintech ecosystem for processing technical nodes and earning digital liquidity.",
+      "url": "https://nexraearn.vercel.app/intro.html",
+      "brand": {
+        "@type": "Brand",
+        "name": "NEXRA"
+      }
+    }
+    </script>
+
+    <!-- Preload & Assets -->
     <link rel="icon" type="image/png" href="assets/ui/favicon.png">
-    <link rel="apple-touch-icon" href="assets/ui/favicon.png">
-    
-    <!-- Preconnect & Fonts -->
+    <link rel="preload" as="image" href="assets/ui/logo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/ui/title-text.png" fetchpriority="high">
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Confetti Engine -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <!-- ==========================================
-         PREMIUM LIGHT MODE DESIGN SYSTEM
+         ARCHITECTURE & PREMIUM LIGHT THEME CSS
          ========================================== -->
     <style>
-        /* --- DESIGN TOKENS --- */
+        /* CORE DESIGN TOKENS */
         :root {
-            /* Core Backgrounds */
-            --bg-base: #F8FAFC; /* Slate 50 */
+            /* Light Mode Backgrounds */
+            --bg-base: #F4F7FB;
             --bg-surface: #FFFFFF;
-            --bg-surface-hover: #F1F5F9;
+            --bg-surface-glass: rgba(255, 255, 255, 0.85);
+            --bg-subtle: #F1F5F9;
             
-            /* Typography (Light Mode) */
-            --text-primary: #0F172A; /* Slate 900 */
-            --text-secondary: #475569; /* Slate 600 */
-            --text-muted: #94A3B8; /* Slate 400 */
+            /* Borders & Dividers */
+            --border-light: rgba(15, 23, 42, 0.06);
+            --border-strong: rgba(15, 23, 42, 0.12);
+            --border-focus: rgba(37, 99, 235, 0.4);
+            
+            /* Typography */
+            --text-primary: #0F172A;     /* Slate 900 */
+            --text-secondary: #475569;   /* Slate 600 */
+            --text-muted: #94A3B8;       /* Slate 400 */
             --text-inverse: #FFFFFF;
             
-            /* Accent Colors */
-            --accent-green: #10B981; /* Emerald 500 */
-            --accent-green-light: #D1FAE5;
-            --accent-blue: #2563EB; /* Blue 600 */
-            --accent-blue-light: #DBEAFE;
-            --accent-gold: #F59E0B; /* Amber 500 */
-            --accent-gold-light: #FEF3C7;
-            --accent-red: #E11D48; /* Rose 600 */
+            /* Accents & Brand Colors */
+            --accent-primary: #2563EB;   /* Premium Azure */
+            --accent-primary-hover: #1D4ED8;
+            --accent-primary-light: rgba(37, 99, 235, 0.08);
             
-            /* UI Elements */
-            --border-subtle: #E2E8F0; /* Slate 200 */
-            --border-focus: #CBD5E1;
+            --accent-green: #059669;     /* Fintech Emerald */
+            --accent-green-light: rgba(5, 150, 105, 0.08);
             
-            /* Premium Shadows */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.15);
+            --accent-gold: #D97706;      /* Rich Amber */
+            --accent-gold-light: rgba(217, 119, 6, 0.08);
             
-            /* Glassmorphism */
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.4);
+            --accent-red: #DC2626;       /* Crimson Alert */
+            --accent-red-light: rgba(220, 38, 38, 0.08);
             
-            /* Typography Families */
-            --font-main: 'Inter', sans-serif;
-            --font-head: 'Outfit', sans-serif;
+            /* Shadows & Depth */
+            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
+            --shadow-float: 0 30px 60px -15px rgba(37, 99, 235, 0.15);
             
-            /* Animation Curves */
+            /* Typography Scales */
+            --font-main: 'Inter', system-ui, sans-serif;
+            --font-head: 'Outfit', system-ui, sans-serif;
+            
+            /* Motion & Transitions */
             --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* --- BASE RESET & SETUP --- */
+        /* RESET & BASE */
         *, *::before, *::after { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
+            margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
         }
 
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body { 
+        html, body { 
             width: 100%; 
+            min-height: 100vh;
             overflow-x: hidden; 
             background-color: var(--bg-base); 
             color: var(--text-primary); 
             font-family: var(--font-main); 
-            line-height: 1.5;
+            scroll-behavior: smooth; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- AMBIENT LIGHT MODE BACKGROUNDS --- */
-        /* Subtle Floating Brand Watermark (Inverted for Light Mode) */
+        /* --- AMBIENT LIGHT BACKGROUND --- */
+        .ambient-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+            background: var(--bg-base);
+        }
+
+        .ambient-glow-1 {
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 70vw; height: 70vw;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(60px);
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -20%; right: -10%;
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.05) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .bg-grid { 
+            position: fixed; inset: 0; z-index: -1; 
+            background-image: 
+                linear-gradient(var(--border-light) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--border-light) 1px, transparent 1px); 
+            background-size: 40px 40px; 
+            background-position: center top;
+            mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+            opacity: 0.7;
+        }
+
         .brand-watermark {
             position: fixed;
             inset: 0;
@@ -127,48 +180,11 @@
             opacity: 0.02;
             pointer-events: none;
             z-index: -2;
-            filter: invert(1);
             mix-blend-mode: multiply;
-        }
-        
-        /* Pristine Dot Grid Overlay */
-        .bg-grid { 
-            position: fixed; 
-            inset: 0; 
-            z-index: -1; 
-            background-image: radial-gradient(var(--text-muted) 1px, transparent 1px);
-            background-size: 24px 24px;
-            opacity: 0.15;
-            mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 80%);
-            pointer-events: none;
+            filter: invert(1) grayscale(100%);
         }
 
-        /* Soft Pastel Glows */
-        .bg-glow-top {
-            position: fixed;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 60%);
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .bg-glow-bottom {
-            position: fixed;
-            bottom: -200px;
-            right: -100px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* --- LAYOUT CONTAINERS --- */
+        /* --- LAYOUT COMPONENTS --- */
         .container { 
             width: 100%; 
             max-width: 1200px; 
@@ -177,48 +193,48 @@
         }
         
         .section-padding { 
-            padding: 100px 0; 
+            padding: 120px 0; 
             position: relative;
         }
-        
-        /* --- TYPOGRAPHY SYSTEM --- */
+
+        /* Text Utilities */
         .sec-title { 
             font-family: var(--font-head); 
-            font-size: clamp(28px, 4vw, 42px); 
-            font-weight: 800; 
+            font-size: clamp(32px, 5vw, 48px); 
+            font-weight: 900; 
             text-align: center; 
             margin-bottom: 16px; 
-            letter-spacing: -0.03em;
+            letter-spacing: -1.5px;
             color: var(--text-primary);
         }
         
         .sec-subtitle { 
             text-align: center; 
-            font-size: clamp(15px, 1.8vw, 17px); 
+            font-size: clamp(15px, 2vw, 18px); 
             color: var(--text-secondary); 
-            font-weight: 400; 
-            margin-bottom: 50px; 
-            max-width: 650px; 
+            font-weight: 500; 
+            margin-bottom: 60px; 
+            max-width: 680px; 
             margin-inline: auto; 
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
-        /* --- 1. LIVE "DYNAMIC ISLAND" NAVIGATION --- */
+        /* === 1. NAVIGATION: DYNAMIC ISLAND (LIGHT) === */
         nav { 
             position: fixed; 
-            top: 20px; 
+            top: 24px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 90%; 
-            max-width: 900px;
-            background: var(--glass-bg); 
-            backdrop-filter: blur(24px); 
-            -webkit-backdrop-filter: blur(24px);
+            width: 92%; 
+            max-width: 800px;
+            background: var(--bg-surface-glass); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000; 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             border-radius: 100px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-            transition: all 0.4s var(--ease-out-expo);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s var(--ease-out);
         }
         
         .nav-inner { 
@@ -232,33 +248,37 @@
             display: flex; 
             align-items: center; 
             gap: 12px; 
+            font-family: var(--font-head); 
+            font-weight: 800; 
+            font-size: 20px; 
+            color: var(--text-primary);
         }
         
-        .n-logo img.logo-icon { 
-            width: 34px; 
-            height: 34px;
+        .n-logo img.icon { 
+            width: 32px; 
+            height: 32px;
             object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
-        .n-logo img.logo-text {
+        .n-logo img.text {
             width: auto; 
             height: 18px; 
-            /* Force dark mode logo to be black for light mode */
-            filter: brightness(0);
+            /* Invert to black for light mode */
+            filter: invert(1) brightness(0); 
         }
         
         .server-health { 
-            display: flex; 
+            display: none; /* Hide on small mobile, show on tablet+ */
             align-items: center; 
             gap: 8px; 
             font-size: 12px; 
-            font-weight: 600; 
-            background: var(--bg-surface); 
+            font-weight: 700; 
+            background: var(--bg-subtle); 
             padding: 8px 16px; 
             border-radius: 100px; 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             color: var(--text-secondary);
-            box-shadow: var(--shadow-sm);
         }
         
         .pulse-dot { 
@@ -266,8 +286,8 @@
             height: 8px; 
             background: var(--accent-green); 
             border-radius: 50%; 
-            box-shadow: 0 0 12px var(--accent-green); 
-            animation: blink 2s infinite ease-in-out; 
+            box-shadow: 0 0 12px rgba(5, 150, 105, 0.6); 
+            animation: blink 2s infinite; 
         }
         
         .btn-nav { 
@@ -276,19 +296,19 @@
             padding: 12px 28px; 
             border-radius: 100px; 
             text-decoration: none; 
-            font-weight: 600; 
+            font-weight: 700; 
             font-size: 14px; 
             transition: all 0.3s var(--ease-spring); 
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
-            background: #1E293B;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-md);
+            background: var(--accent-primary);
         }
 
-        /* --- 2. HERO SECTION --- */
+        /* === 2. HERO SECTION === */
         .hero { 
             padding: 180px 24px 100px; 
             text-align: center; 
@@ -301,60 +321,50 @@
             align-items: center; 
             gap: 8px;
             font-size: 12px; 
-            font-weight: 700; 
-            color: var(--accent-blue); 
-            background: var(--accent-blue-light); 
-            padding: 8px 20px; 
+            font-weight: 800; 
+            color: var(--accent-primary); 
+            background: var(--accent-primary-light); 
+            padding: 10px 20px; 
             border-radius: 100px; 
             margin-bottom: 32px; 
             letter-spacing: 0.5px; 
             text-transform: uppercase; 
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            box-shadow: var(--shadow-xs);
         }
         
         .hero h1 { 
             font-family: var(--font-head); 
-            font-size: clamp(42px, 7vw, 76px); 
-            font-weight: 800; 
+            font-size: clamp(42px, 7vw, 80px); 
+            font-weight: 900; 
             line-height: 1.05; 
             margin-bottom: 24px; 
-            letter-spacing: -0.04em; 
+            letter-spacing: -2.5px; 
             color: var(--text-primary);
         }
         
         .hero p { 
-            font-size: clamp(16px, 2vw, 19px); 
+            font-size: clamp(16px, 2vw, 20px); 
             color: var(--text-secondary); 
             max-width: 720px; 
             margin: 0 auto 40px; 
             line-height: 1.6; 
-            font-weight: 400; 
+            font-weight: 500; 
         }
         
         .bonus-badge { 
             display: inline-flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 12px; 
             background: var(--bg-surface); 
-            border: 1px solid var(--accent-green); 
+            border: 1px solid var(--border-strong); 
             padding: 14px 32px; 
             border-radius: 100px; 
             font-weight: 700; 
             font-size: 14px; 
             color: var(--text-primary);
             margin-bottom: 48px; 
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.12); 
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bonus-badge::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(16,185,129,0.1), transparent);
-            animation: shine 3s infinite;
+            box-shadow: var(--shadow-sm); 
         }
         
         .bonus-badge i { 
@@ -362,14 +372,14 @@
             font-size: 18px; 
         }
 
-        /* Twin High-Conversion Buttons */
+        /* Light Theme Buttons */
         .cta-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
             flex-wrap: wrap;
-            max-width: 550px;
+            max-width: 600px;
             margin: 0 auto;
         }
         
@@ -377,14 +387,14 @@
             display: inline-flex; 
             align-items: center; 
             gap: 12px; 
-            background: var(--text-primary); 
+            background: var(--accent-primary); 
             color: var(--text-inverse); 
             padding: 18px 40px; 
             border-radius: 16px; 
             font-size: 16px; 
-            font-weight: 600; 
+            font-weight: 800; 
             text-decoration: none; 
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15); 
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25); 
             transition: all 0.3s var(--ease-spring); 
         }
 
@@ -397,57 +407,57 @@
             padding: 18px 40px; 
             border-radius: 16px; 
             font-size: 16px; 
-            font-weight: 600; 
+            font-weight: 700; 
             text-decoration: none; 
-            border: 1px solid var(--border-subtle);
+            border: 1px solid var(--border-strong);
             box-shadow: var(--shadow-sm);
             transition: all 0.3s var(--ease-spring); 
         }
         
         .cta-primary:hover { 
             transform: translateY(-4px); 
-            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.25); 
-            background: #1E293B;
+            box-shadow: 0 16px 32px rgba(37, 99, 235, 0.35); 
+            background: var(--accent-primary-hover);
         }
 
         .cta-secondary:hover {
             transform: translateY(-4px); 
-            background: var(--bg-surface-hover);
-            border-color: var(--border-focus);
+            border-color: var(--text-primary);
             box-shadow: var(--shadow-md);
         }
         
         .floating-coin { 
             width: 160px; 
             position: absolute; 
-            top: 15%; 
+            top: 10%; 
             right: 5%; 
-            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1)); 
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.1)); 
             animation: float 6s ease-in-out infinite; 
             opacity: 0.15; 
             pointer-events: none;
+            z-index: -1;
         }
 
-        /* --- LIVE TICKER BAR (Light Theme) --- */
+        /* --- 3. TICKER BAR (LIGHT MODE) --- */
         .ticker-bar { 
             background: var(--bg-surface); 
-            border-top: 1px solid var(--border-subtle);
-            border-bottom: 1px solid var(--border-subtle);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
             color: var(--text-secondary); 
             padding: 16px 0; 
             display: flex; 
             overflow: hidden; 
             font-size: 12px; 
-            font-weight: 700; 
+            font-weight: 800; 
             text-transform: uppercase; 
-            letter-spacing: 1px; 
+            letter-spacing: 1.5px; 
             white-space: nowrap; 
             box-shadow: var(--shadow-sm);
         }
         
         .ticker-content { 
             display: inline-block; 
-            animation: scrollTicker 35s linear infinite; 
+            animation: scrollTicker 30s linear infinite; 
         }
 
         .ticker-content span {
@@ -458,22 +468,22 @@
         }
 
         .ticker-content i {
-            color: var(--accent-blue);
-            font-size: 14px;
+            color: var(--accent-primary);
         }
 
-        /* --- 3. INTERACTIVE BIOMETRIC SIMULATOR --- */
+        /* --- 4. INTERACTIVE BIOMETRIC SIMULATOR (LIGHT) --- */
         .sim-box { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             border-radius: 32px; 
             padding: 60px 40px; 
             max-width: 500px; 
             margin: 0 auto; 
             text-align: center; 
-            box-shadow: var(--shadow-xl); 
+            box-shadow: var(--shadow-float); 
             position: relative; 
             overflow: hidden;
+            z-index: 5;
         }
         
         .sim-btn-wrapper {
@@ -483,10 +493,9 @@
             margin: 0 auto 32px;
         }
 
-        /* Physical tactile fingerprint button */
         .sim-btn { 
             background: var(--bg-base); 
-            border: 4px solid var(--bg-surface); 
+            border: 2px solid var(--border-strong); 
             width: 100%; 
             height: 100%; 
             border-radius: 50%; 
@@ -494,15 +503,10 @@
             align-items: center; 
             justify-content: center; 
             cursor: pointer; 
-            transition: all 0.2s var(--ease-spring); 
+            transition: all 0.3s var(--ease-spring); 
             font-size: 48px; 
             color: var(--text-primary); 
-            /* Complex shadow to simulate physical inset/outset depth */
-            box-shadow: 
-                inset 0 4px 10px rgba(0,0,0,0.05),
-                inset 0 -4px 10px rgba(255,255,255,1),
-                0 10px 25px rgba(0,0,0,0.08),
-                0 4px 6px rgba(0,0,0,0.04);
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.02), var(--shadow-sm);
             position: relative;
             z-index: 2;
         }
@@ -511,28 +515,25 @@
             position: absolute;
             inset: -8px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--accent-primary-light) 0%, transparent 70%);
             z-index: 1;
             animation: pulseGlow 2.5s infinite ease-in-out;
         }
         
         .sim-btn:active { 
-            transform: scale(0.96); 
-            box-shadow: 
-                inset 0 8px 15px rgba(0,0,0,0.1),
-                inset 0 -2px 5px rgba(255,255,255,0.5),
-                0 2px 4px rgba(0,0,0,0.05);
-            color: var(--accent-green);
+            transform: scale(0.92); 
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        /* Scanner Laser Line Animation */
         .scanner-line {
             position: absolute;
-            left: 15%;
-            width: 70%;
+            left: 10%;
+            width: 80%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
-            box-shadow: 0 0 15px var(--accent-green);
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
             top: 0;
             opacity: 0;
             pointer-events: none;
@@ -547,74 +548,66 @@
         
         .float-money { 
             position: absolute; 
-            font-weight: 800; 
+            font-weight: 900; 
             color: var(--accent-green); 
-            font-size: 28px; 
+            font-size: 32px; 
             pointer-events: none; 
             animation: floatUp 1.2s cubic-bezier(0.075, 0.82, 0.165, 1) forwards; 
             opacity: 0; 
+            text-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
             font-family: var(--font-head);
             z-index: 10;
         }
 
-        /* --- 4. TRUST & METRICS (Bento Grid) --- */
+        /* --- 5. TRUST & METRICS --- */
         .stats-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
             gap: 24px; 
-            margin-top: 40px; 
+            margin-top: 48px; 
         }
         
         .s-card { 
             background: var(--bg-surface); 
-            padding: 40px 30px; 
-            border-radius: 28px; 
+            padding: 40px 24px; 
+            border-radius: 24px; 
             text-align: center; 
-            border: 1px solid var(--border-subtle); 
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light); 
+            transition: all 0.3s var(--ease-out);
+            box-shadow: var(--shadow-sm);
         }
 
         .s-card:hover {
             border-color: var(--border-focus);
             transform: translateY(-6px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-lg);
         }
         
-        .s-card-icon-wrap {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: var(--bg-base);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 26px;
-            color: var(--text-primary);
-            border: 1px solid var(--border-subtle);
+        .s-card i { 
+            font-size: 32px; 
+            margin-bottom: 24px; 
+            color: var(--accent-primary); 
         }
-
+        
         .s-val { 
             font-family: var(--font-head); 
-            font-size: 44px; 
-            font-weight: 800; 
+            font-size: 42px; 
+            font-weight: 900; 
             display: block; 
-            letter-spacing: -0.04em; 
+            letter-spacing: -1.5px; 
             margin-bottom: 8px;
             color: var(--text-primary);
-            transition: color 0.3s ease;
         }
         
         .s-lbl { 
-            font-size: 13px; 
-            font-weight: 700; 
+            font-size: 12px; 
+            font-weight: 800; 
             text-transform: uppercase; 
             color: var(--text-secondary); 
-            letter-spacing: 0.5px; 
+            letter-spacing: 1.5px; 
         }
 
-        /* --- 5. PREMIUM SHOWCASE CARDS --- */
+        /* --- 6. PREMIUM SHOWCASE CARDS --- */
         .grid-4 { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
@@ -623,47 +616,47 @@
         
         .feat-card { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             padding: 40px 32px; 
-            border-radius: 28px; 
-            transition: all 0.3s var(--ease-out-expo); 
+            border-radius: 24px; 
+            transition: all 0.4s var(--ease-spring); 
             position: relative; 
             overflow: hidden; 
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
         }
         
         .feat-card:hover { 
-            border-color: var(--border-focus); 
-            box-shadow: var(--shadow-xl); 
+            border-color: var(--border-strong); 
+            box-shadow: var(--shadow-lg); 
             transform: translateY(-8px); 
         }
         
         .feat-icon { 
-            width: 56px; 
-            height: 56px; 
-            background: var(--bg-base); 
+            width: 60px; 
+            height: 60px; 
+            background: var(--bg-subtle); 
             border-radius: 18px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 22px; 
-            margin-bottom: 28px; 
+            font-size: 24px; 
+            margin-bottom: 24px; 
             color: var(--text-primary); 
-            border: 1px solid var(--border-subtle);
+            border: 1px solid var(--border-light);
         }
         
         .feat-card h3 { 
             font-size: 20px; 
-            font-weight: 700; 
+            font-weight: 800; 
             margin-bottom: 12px; 
             font-family: var(--font-head);
             color: var(--text-primary);
         }
         
         .feat-card p { 
-            font-size: 14px; 
+            font-size: 15px; 
             color: var(--text-secondary); 
-            font-weight: 400; 
+            font-weight: 500; 
             line-height: 1.6; 
         }
         
@@ -673,30 +666,29 @@
             right: 24px; 
             font-size: 10px; 
             font-weight: 800; 
-            background: var(--bg-base); 
+            background: var(--bg-subtle); 
             color: var(--text-primary); 
-            padding: 6px 16px; 
+            padding: 8px 16px; 
             border-radius: 100px; 
-            letter-spacing: 0.5px;
-            border: 1px solid var(--border-subtle);
+            letter-spacing: 1px;
+            border: 1px solid var(--border-light);
         }
 
-        /* --- 6. FINANCIAL TRANSPARENCY --- */
+        /* --- 7. FINANCIAL TRANSPARENCY --- */
         .scarcity-banner { 
             background: var(--accent-gold-light); 
-            border: 1px solid rgba(245, 158, 11, 0.3); 
-            padding: 18px; 
-            border-radius: 20px; 
+            border: 1px solid rgba(217, 119, 6, 0.2); 
+            padding: 16px 24px; 
+            border-radius: 16px; 
             text-align: center; 
             font-size: 14px; 
-            font-weight: 600; 
-            color: #92400E; /* Dark amber text */
+            font-weight: 700; 
+            color: var(--accent-gold); 
             margin-bottom: 48px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 12px; 
-            box-shadow: var(--shadow-sm);
         }
 
         .fee-breakdown { 
@@ -707,38 +699,44 @@
             margin-top: 48px; 
             flex-wrap: wrap; 
             width: 100%;
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
         }
         
         .f-bar-wrap { 
             width: 100%; 
             max-width: 600px; 
-            height: 14px; 
-            background: var(--border-subtle); 
-            border-radius: 10px; 
+            height: 12px; 
+            background: var(--bg-subtle); 
+            border-radius: 12px; 
             display: flex; 
             overflow: hidden; 
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
         }
         
         .f-sec-1 { width: 10%; background: var(--accent-red); }
-        .f-sec-2 { width: 40%; background: var(--accent-blue); }
+        .f-sec-2 { width: 40%; background: var(--accent-primary); }
         .f-sec-3 { width: 50%; background: var(--accent-green); }
         
         .f-legend { 
             display: flex; 
             gap: 24px; 
             font-size: 12px; 
-            font-weight: 700; 
+            font-weight: 800; 
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-wrap: wrap;
-            color: var(--text-secondary);
+            justify-content: center;
         }
         
         .f-leg-item { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 10px; 
+            color: var(--text-primary);
         }
         
         .f-dot { 
@@ -747,70 +745,66 @@
             border-radius: 50%; 
         }
 
-        /* --- 7. ESTIMATOR & ROADMAP --- */
+        /* --- 8. ESTIMATOR & ROADMAP --- */
         .calc-box { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
-            padding: 50px 40px; 
+            border: 1px solid var(--border-light); 
+            padding: 48px 40px; 
             border-radius: 32px; 
             margin-top: 40px; 
             text-align: center; 
-            box-shadow: var(--shadow-lg);
-            max-width: 700px;
-            margin-inline: auto;
+            box-shadow: var(--shadow-md);
         }
         
-        /* Premium Light Theme Range Slider */
         .range-slider { 
             width: 100%; 
             margin: 32px 0; 
-            background: var(--border-subtle);
+            accent-color: var(--accent-primary); 
+            background: var(--bg-subtle);
             height: 8px;
             border-radius: 100px;
             outline: none;
             -webkit-appearance: none;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-light);
         }
 
         .range-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: var(--bg-surface);
+            background: var(--accent-primary);
             cursor: pointer;
-            border: 4px solid var(--text-primary);
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+            border: 4px solid var(--bg-surface);
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
             transition: transform 0.2s;
         }
-
+        
         .range-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
         
         .calc-result { 
             font-family: var(--font-head); 
             font-size: 56px; 
-            font-weight: 800; 
+            font-weight: 900; 
             color: var(--accent-green); 
-            margin-top: 12px; 
-            letter-spacing: -0.04em;
+            margin-top: 16px; 
+            letter-spacing: -2px;
         }
         
-        /* Clean Timeline Map */
         .progression-map { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle);
-            padding: 50px; 
+            border: 1px solid var(--border-light);
+            padding: 48px; 
             border-radius: 32px; 
-            margin-top: 50px; 
-            position: relative; 
-            box-shadow: var(--shadow-md);
+            margin-top: 48px; 
+            box-shadow: var(--shadow-sm);
         }
         
         .p-step { 
             display: flex; 
-            align-items: flex-start; 
+            align-items: center; 
             gap: 24px; 
             margin-bottom: 32px; 
             position: relative; 
@@ -822,22 +816,21 @@
         }
         
         .p-icon { 
-            width: 52px; 
-            height: 52px; 
+            width: 56px; 
+            height: 56px; 
             border-radius: 20px; 
-            background: var(--bg-base); 
+            background: var(--bg-subtle); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             font-size: 20px; 
-            border: 1px solid var(--border-subtle);
+            border: 1px solid var(--border-light);
             flex-shrink: 0;
-            box-shadow: var(--shadow-sm);
         }
         
         .p-text h4 { 
             font-size: 18px; 
-            font-weight: 700; 
+            font-weight: 800; 
             font-family: var(--font-head);
             margin-bottom: 6px;
             color: var(--text-primary);
@@ -846,10 +839,10 @@
         .p-text p { 
             font-size: 14px; 
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* --- 8. SOCIAL PROOF & LEADERS --- */
+        /* --- 9. SOCIAL PROOF & LEADERS --- */
         .podium { 
             display: flex; 
             align-items: flex-end; 
@@ -861,23 +854,24 @@
         
         .pod-col { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-strong); 
             border-radius: 24px 24px 0 0; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: flex-start; 
             padding-top: 24px; 
-            font-weight: 800; 
+            font-weight: 900; 
             position: relative; 
             font-family: var(--font-head);
             box-shadow: var(--shadow-md);
+            color: var(--text-primary);
         }
         
-        .pod-2 { width: 110px; height: 150px; }
+        .pod-2 { width: 120px; height: 150px; }
         
         .pod-1 { 
-            width: 120px; 
+            width: 140px; 
             height: 200px; 
             background: var(--text-primary); 
             color: var(--text-inverse); 
@@ -886,27 +880,24 @@
             box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.15); 
         }
         
-        .pod-3 { width: 110px; height: 110px; }
+        .pod-3 { width: 120px; height: 110px; }
         
         .pod-avatar { 
             width: 48px; 
             height: 48px; 
             border-radius: 50%; 
-            background: var(--bg-base); 
+            background: var(--bg-subtle); 
             color: var(--text-primary); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             font-size: 18px; 
             margin-bottom: 16px; 
-            border: 1px solid var(--border-subtle); 
-            font-family: var(--font-main);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            border: 2px solid var(--border-strong); 
         }
         
         .pod-1 .pod-avatar { 
             border-color: var(--accent-gold); 
-            border-width: 2px;
             background: var(--bg-surface);
             color: var(--text-primary);
         }
@@ -920,45 +911,45 @@
         
         .review-card { 
             background: var(--bg-surface);
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             padding: 32px; 
-            border-radius: 28px; 
+            border-radius: 24px; 
             display: flex; 
-            gap: 20px; 
+            gap: 24px; 
             align-items: flex-start; 
             box-shadow: var(--shadow-sm);
         }
         
         .rev-img { 
-            width: 52px; 
-            height: 52px; 
+            width: 50px; 
+            height: 50px; 
             border-radius: 50%; 
-            background: var(--bg-base); 
-            color: var(--text-primary); 
+            background: var(--accent-primary-light); 
+            color: var(--accent-primary); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-weight: 700; 
-            flex-shrink: 0; 
-            border: 1px solid var(--border-subtle);
-            font-family: var(--font-head);
+            font-weight: 900; 
             font-size: 20px;
+            flex-shrink: 0; 
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            font-family: var(--font-head);
         }
         
         .rev-content h5 { 
             font-size: 16px; 
-            font-weight: 700; 
+            font-weight: 800; 
             display: flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 8px; 
             font-family: var(--font-head);
             color: var(--text-primary);
+            margin-bottom: 8px;
         }
         
         .rev-content p { 
-            font-size: 14px; 
+            font-size: 15px; 
             color: var(--text-secondary); 
-            margin-top: 8px; 
             line-height: 1.6; 
             font-style: italic; 
         }
@@ -966,13 +957,12 @@
         .v-tag { 
             font-size: 10px; 
             background: var(--accent-green-light); 
-            color: #065F46; 
+            color: var(--accent-green); 
             padding: 4px 12px; 
             border-radius: 100px; 
             text-transform: uppercase; 
             font-weight: 800; 
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            font-family: var(--font-main);
+            border: 1px solid rgba(5, 150, 105, 0.2);
         }
 
         /* Security Elements */
@@ -981,25 +971,25 @@
             justify-content: center; 
             gap: 16px; 
             flex-wrap: wrap; 
-            margin: 50px 0 30px; 
+            margin: 48px 0; 
         }
         
         .sec-badge { 
             display: flex; 
             align-items: center; 
             gap: 10px; 
-            font-size: 12px; 
-            font-weight: 600; 
+            font-size: 13px; 
+            font-weight: 700; 
             color: var(--text-secondary); 
             background: var(--bg-surface); 
             padding: 12px 24px; 
             border-radius: 100px; 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-strong); 
             box-shadow: var(--shadow-sm);
         }
         
         .sec-badge i { 
-            color: var(--text-primary); 
+            color: var(--accent-primary); 
             font-size: 16px; 
         }
 
@@ -1007,60 +997,33 @@
             display: flex; 
             justify-content: center; 
             gap: 16px; 
-            margin: 0 0 24px; 
+            margin: 32px 0; 
             flex-wrap: wrap;
         }
         
         .pay-tag { 
             font-size: 12px; 
-            font-weight: 700; 
-            background: var(--bg-base); 
-            border: 1px solid var(--border-subtle); 
+            font-weight: 800; 
+            background: var(--bg-surface); 
+            border: 1px solid var(--border-strong); 
             padding: 10px 24px; 
             border-radius: 100px; 
             display: flex; 
             align-items: center; 
             gap: 8px; 
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-xs);
         }
 
-        /* --- 9. FUTURE VISION MAP --- */
-        .roadmap-container {
-            max-width: 700px; 
-            margin: 0 auto; 
-            padding: 30px;
-            background: var(--bg-surface);
-            border-radius: 32px;
-            border: 1px solid var(--border-subtle);
-            box-shadow: var(--shadow-md);
-        }
-
-        .roadmap-item {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 32px;
-            align-items: flex-start;
-        }
-        
-        .roadmap-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .roadmap-item i {
-            font-size: 24px;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        /* --- 10. QUIZ BOX CONTAINER --- */
+        /* --- 10. QUIZ BOX --- */
         .quiz-box { 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-light); 
             padding: 60px 40px; 
-            border-radius: 36px; 
+            border-radius: 32px; 
             text-align: center; 
-            box-shadow: var(--shadow-xl);
-            max-width: 650px;
+            box-shadow: var(--shadow-lg);
+            max-width: 680px;
             margin: 0 auto;
         }
         
@@ -1068,27 +1031,27 @@
             background: var(--text-primary); 
             color: var(--text-inverse); 
             border: none; 
-            padding: 18px 40px; 
+            padding: 18px 48px; 
             border-radius: 16px; 
-            font-weight: 600; 
-            margin: 16px; 
+            font-weight: 800; 
+            margin-top: 24px; 
             cursor: pointer; 
             font-size: 16px;
             transition: all 0.3s var(--ease-spring);
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2);
         }
 
         .quiz-btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 15px 25px rgba(15, 23, 42, 0.25);
-            background: #1E293B;
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.3);
+            background: var(--accent-primary);
         }
 
-        /* --- FOOTER COMPOSITION --- */
+        /* === FOOTER COMPOSITION === */
         footer { 
             text-align: center; 
-            padding: 100px 24px 80px; 
-            border-top: 1px solid var(--border-subtle); 
+            padding: 80px 24px; 
+            border-top: 1px solid var(--border-strong); 
             background: var(--bg-surface); 
             position: relative; 
         }
@@ -1097,15 +1060,15 @@
             width: 50px; 
             height: 50px;
             object-fit: contain;
-            opacity: 0.4; 
-            margin-bottom: 32px; 
+            opacity: 0.2; 
+            margin-bottom: 24px; 
             filter: grayscale(100%);
         }
         
         .spam-promise { 
             font-size: 12px; 
-            font-weight: 600; 
-            color: var(--text-secondary); 
+            font-weight: 700; 
+            color: var(--text-muted); 
             margin-bottom: 24px; 
             display: flex; 
             justify-content: center; 
@@ -1115,22 +1078,22 @@
 
         .f-copy {
             font-size: 11px;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-muted);
         }
 
-        /* Floating Widgets */
+        /* Floating Components */
         .fake-chat { 
             position: fixed; 
             bottom: 30px; 
             left: 30px; 
             background: var(--bg-surface); 
-            border: 1px solid var(--border-subtle); 
+            border: 1px solid var(--border-strong); 
             border-radius: 100px; 
             padding: 14px 28px; 
-            box-shadow: var(--shadow-lg); 
+            box-shadow: var(--shadow-float); 
             display: flex; 
             align-items: center; 
             gap: 12px; 
@@ -1144,7 +1107,7 @@
         .chat-dot { 
             width: 6px; 
             height: 6px; 
-            background: var(--text-muted); 
+            background: var(--accent-primary); 
             border-radius: 50%; 
             animation: typing 1.4s infinite; 
         }
@@ -1165,27 +1128,27 @@
             align-items: center; 
             justify-content: center; 
             font-size: 28px; 
-            box-shadow: 0 10px 25px rgba(37,211,102,0.3); 
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.4); 
             z-index: 1000; 
             cursor: pointer; 
             transition: all 0.3s var(--ease-spring); 
         }
         
         .wa-fab:hover { 
-            transform: scale(1.08) translateY(-4px); 
-            box-shadow: 0 15px 30px rgba(37,211,102,0.4); 
+            transform: scale(1.1) translateY(-6px); 
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.5); 
         }
 
-        /* --- ANIMATION KEYFRAMES --- */
+        /* --- KEYFRAMES --- */
         @keyframes float { 
             0%, 100% { transform: translateY(0) rotate(0deg); } 
-            50% { transform: translateY(-16px) rotate(3deg); } 
+            50% { transform: translateY(-20px) rotate(4deg); } 
         }
         
         @keyframes floatUp { 
             0% { opacity: 0; transform: translateY(10px) scale(0.8); } 
             20% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-80px) scale(1.1); } 
+            100% { opacity: 0; transform: translateY(-90px) scale(1.1); } 
         }
         
         @keyframes blink { 
@@ -1208,84 +1171,71 @@
         }
 
         @keyframes scanLaser {
-            0% { top: 0%; }
-            50% { top: 100%; }
-            100% { top: 0%; }
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
         }
 
         @keyframes pulseGlow {
             0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
-        @keyframes shine {
-            100% { left: 200%; }
-        }
-
-        /* --- RESPONSIVE MEDIA QUERIES --- */
+        /* --- RESPONSIVE ADJUSTMENTS --- */
         @media(min-width: 768px){
             .review-grid { grid-template-columns: 1fr 1fr; }
-            nav { top: 30px; }
-            .hero { padding: 200px 24px 120px; }
-            .sim-box { padding: 80px 60px; }
-            .calc-box { padding: 60px; }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            nav { top: 32px; }
+            .server-health { display: flex; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Architecture -->
+    <!-- Light Theme Ambient Structure -->
+    <div class="ambient-canvas" aria-hidden="true">
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+        <div class="bg-grid"></div>
+    </div>
     <img src="assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true">
-    <div class="bg-grid" aria-hidden="true"></div>
-    <div class="bg-glow-top" aria-hidden="true"></div>
-    <div class="bg-glow-bottom" aria-hidden="true"></div>
 
-    <!-- 1. LIVE NAVBAR ("Dynamic Island" Layout) -->
+    <!-- 1. LIVE NAVBAR ("Dynamic Island" Premium Light Layout) -->
     <nav id="dynamicNav" aria-label="Main Navigation">
         <div class="nav-inner">
-            <div class="n-logo" aria-label="NEXRA Logo">
-                <img src="assets/ui/logo.png" alt="NEXRA Icon" class="logo-icon"> 
-                <img src="assets/ui/title-text.png" alt="NEXRA" class="logo-text">
+            <div class="n-logo">
+                <img src="assets/ui/logo.png" alt="NEXRA Logo" class="icon"> 
+                <img src="assets/ui/title-text.png" alt="NEXRA" class="text">
             </div>
-            <div class="server-health" aria-label="Server Status">
-                <div class="pulse-dot" aria-hidden="true"></div> Live 99.9%
-            </div>
+            <div class="server-health"><div class="pulse-dot"></div> Systems Operational 99.9%</div>
             <a href="auth/register.html" class="btn-nav">Access Node</a>
         </div>
     </nav>
 
     <!-- 2. HERO SECTION -->
-    <header class="hero">
+    <section class="hero" aria-labelledby="hero-title">
         <div class="container">
-            <img src="assets/ui/logo.png" class="floating-coin" alt="Floating Asset Visualization" aria-hidden="true">
-            <div class="geo-tag" id="geoTarget" aria-live="polite">
-                <i class="fa-solid fa-location-dot"></i> Connecting Secure Partner Node...
-            </div>
-            <h1>Unlock Global Wealth<br>with NEXRA Protocol.</h1>
-            <p>The world's most secure technical task ecosystem. Complete micro-nodes and initiate real-time USD liquidity with professional grade encryption.</p>
+            <img src="assets/ui/logo.png" class="floating-coin" alt="Floating NEXRA Asset">
+            <div class="geo-tag" id="geoTarget"><i class="fa-solid fa-location-dot"></i> Connecting Secure Partner Node...</div>
             
-            <div class="bonus-badge">
-                <i class="fa-solid fa-gift"></i> $0.20 Welcome Bonus Activated For New Members
-            </div>
+            <h1 id="hero-title">Unlock Global Wealth<br>with NEXRA Protocol.</h1>
+            <p>The world's most secure technical task ecosystem. Complete micro-nodes and initiate real-time USD liquidity with professional-grade encryption architecture.</p>
             
+            <div class="bonus-badge"><i class="fa-solid fa-gift"></i> $0.20 Welcome Bonus Activated For New Members</div>
+            
+            <!-- Primary Actions -->
             <div class="cta-container">
                 <a href="auth/register.html" class="cta-primary">Join Ecosystem <i class="fa-solid fa-arrow-right"></i></a>
                 <a href="auth/login.html" class="cta-secondary">Member Login</a>
             </div>
             
-            <p style="font-size:12px; color:var(--text-muted); font-weight:600; margin-top:32px;">
-                <i class="fa-solid fa-bolt" style="color:var(--accent-gold);"></i> Secure gateway setup takes only 45 seconds.
-            </p>
+            <p style="font-size:13px; color:var(--text-muted); font-weight:700; margin-top:32px;"><i class="fa-solid fa-shield-check"></i> Secure gateway setup takes only 45 seconds.</p>
         </div>
-    </header>
+    </section>
 
     <!-- Live Ticker Bar -->
-    <aside class="ticker-bar" aria-label="Live System Updates">
-        <div class="ticker-content" aria-hidden="true">
+    <div class="ticker-bar" aria-hidden="true">
+        <div class="ticker-content">
             <span><i class="fa-solid fa-arrow-trend-up"></i> USD/PKR Live Auto-Conversion Active</span>
             <span><i class="fa-solid fa-fire"></i> 14,205 NEXRA Coins Burned Today</span>
             <span><i class="fa-solid fa-microchip"></i> 8,402 Active Nodes Processing</span>
@@ -1295,47 +1245,45 @@
             <span><i class="fa-solid fa-microchip"></i> 8,402 Active Nodes Processing</span>
             <span><i class="fa-solid fa-shield-halved"></i> AES-256 Encrypted Ecosystem</span>
         </div>
-    </aside>
+    </div>
 
-    <!-- 3. INTERACTIVE SIMULATOR -->
-    <section class="section-padding" aria-labelledby="sim-title">
+    <!-- 3. INTERACTIVE SIMULATOR (UX Engagement Hook) -->
+    <section class="section-padding">
         <div class="container">
-            <h2 class="sec-title" id="sim-title">Experience the Protocol</h2>
-            <p class="sec-subtitle">Tap and hold the scanner below to simulate a real Technical Node completion inside our secure sandbox environment.</p>
+            <h2 class="sec-title">Experience the Protocol</h2>
+            <p class="sec-subtitle">Tap and hold the scanner below to simulate a real Technical Node completion inside our secure light-mode sandbox environment.</p>
             
             <div class="sim-box" id="simBox">
                 <div class="sim-btn-wrapper">
-                    <div class="sim-btn-glow" aria-hidden="true"></div>
-                    <button class="sim-btn" onclick="appLogic.simulateTask()" aria-label="Simulate Biometric Scan">
-                        <i class="fa-solid fa-fingerprint"></i>
-                    </button>
-                    <div class="scanner-line" aria-hidden="true"></div>
+                    <div class="sim-btn-glow"></div>
+                    <button class="sim-btn" onclick="simulateTask()" aria-label="Simulate Biometric Scan"><i class="fa-solid fa-fingerprint"></i></button>
+                    <div class="scanner-line"></div>
                 </div>
-                <h3 style="font-weight:800; font-size:20px; margin-bottom:8px; font-family:var(--font-head); color:var(--text-primary);">Biometric Data Node</h3>
-                <p style="font-size:14px; color:var(--text-secondary); font-weight:400;">Simulate data handshakes. Register to lock in absolute rewards.</p>
+                <h3 style="font-weight:900; font-size: 24px; margin-bottom:10px; font-family:var(--font-head); color:var(--text-primary);">Biometric Data Node</h3>
+                <p style="font-size:15px; color:var(--text-secondary); font-weight:500;">Simulate data handshakes. Register to lock in absolute rewards.</p>
             </div>
         </div>
     </section>
 
     <!-- 4. LIVE PLATFORM METRICS -->
-    <section class="section-padding" aria-labelledby="metrics-title">
+    <section class="section-padding" style="background: var(--bg-surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
         <div class="container">
-            <h2 class="sec-title" id="metrics-title">Ecosystem Scale</h2>
+            <h2 class="sec-title">Ecosystem Scale</h2>
             <p class="sec-subtitle">Real-time analytical metrics illustrating the scope of our network transparency and liquidity.</p>
             
             <div class="stats-grid">
                 <div class="s-card">
-                    <div class="s-card-icon-wrap"><i class="fa-solid fa-users"></i></div>
+                    <i class="fa-solid fa-users"></i>
                     <span class="s-val" id="statUsr">7,542</span>
                     <span class="s-lbl">Verified Network Members</span>
                 </div>
-                <div class="s-card" style="border-color: rgba(16, 185, 129, 0.3);">
-                    <div class="s-card-icon-wrap" style="color: var(--accent-green); background: var(--accent-green-light);"><i class="fa-solid fa-sack-dollar"></i></div>
+                <div class="s-card" style="border-color: var(--accent-green); background: var(--accent-green-light);">
+                    <i class="fa-solid fa-sack-dollar" style="color: var(--accent-green);"></i>
                     <span class="s-val" id="statPaid" style="color: var(--accent-green);">$15,240</span>
                     <span class="s-lbl">Total Liquid Outflow</span>
                 </div>
                 <div class="s-card">
-                    <div class="s-card-icon-wrap"><i class="fa-solid fa-stopwatch"></i></div>
+                    <i class="fa-solid fa-stopwatch"></i>
                     <span class="s-val">1h 45m</span>
                     <span class="s-lbl">Average Payout Speed</span>
                 </div>
@@ -1344,13 +1292,13 @@
     </section>
 
     <!-- 5. HOW IT WORKS & SHOWCASE -->
-    <section class="section-padding" aria-labelledby="product-title">
+    <section class="section-padding">
         <div class="container">
-            <div class="scarcity-banner" role="alert">
+            <div class="scarcity-banner">
                 <i class="fa-solid fa-clock"></i> Critical Node Threshold Alert: Only 14 secure registration slots remain for today.
             </div>
 
-            <h2 class="sec-title" id="product-title">Product Ecosystem</h2>
+            <h2 class="sec-title">Product Ecosystem</h2>
             <p class="sec-subtitle">Explore premium channels built to optimize daily data generation pipelines.</p>
 
             <div class="grid-4">
@@ -1361,20 +1309,20 @@
                     <p>Process 10 daily secure hardware nodes. Simple verification parameters for direct digital assets.</p>
                 </div>
                 <div class="feat-card">
-                    <div class="feat-badge" style="background: var(--accent-blue-light); color: var(--accent-blue); border-color: rgba(37,99,235,0.2);">MULTIPLIER</div>
-                    <div class="feat-icon" style="color: var(--accent-blue);"><i class="fa-solid fa-video"></i></div>
+                    <div class="feat-badge" style="background: var(--accent-primary); color: #fff;">MULTIPLIER</div>
+                    <div class="feat-icon" style="color: var(--accent-primary); background: var(--accent-primary-light); border-color: transparent;"><i class="fa-solid fa-video"></i></div>
                     <h3>Social Protocol</h3>
                     <p>Share verified promotional assets on popular socials. Yield guaranteed node multipliers.</p>
                 </div>
                 <div class="feat-card">
-                    <div class="feat-badge" style="background: var(--accent-gold-light); color: #92400E; border-color: rgba(245,158,11,0.2);">WEEKLY</div>
-                    <div class="feat-icon" style="color: var(--accent-gold);"><i class="fa-solid fa-clover"></i></div>
+                    <div class="feat-badge" style="background: var(--accent-gold); color: #fff;">WEEKLY</div>
+                    <div class="feat-icon" style="color: var(--accent-gold); background: var(--accent-gold-light); border-color: transparent;"><i class="fa-solid fa-clover"></i></div>
                     <h3>Fortune Wheel</h3>
                     <p>Unlock weekly algorithm rotations. Secure premium incentives up to $3.00 instantly.</p>
                 </div>
                 <div class="feat-card">
-                    <div class="feat-badge" style="background: var(--accent-green-light); color: #065F46; border-color: rgba(16,185,129,0.2);">PASSIVE</div>
-                    <div class="feat-icon" style="color: var(--accent-green);"><i class="fa-solid fa-cube"></i></div>
+                    <div class="feat-badge" style="background: var(--accent-green); color: #fff;">PASSIVE</div>
+                    <div class="feat-icon" style="color: var(--accent-green); background: var(--accent-green-light); border-color: transparent;"><i class="fa-solid fa-cube"></i></div>
                     <h3>Staking Node</h3>
                     <p>Delegate computational assets directly inside securely managed network staking vaults.</p>
                 </div>
@@ -1382,56 +1330,51 @@
         </div>
     </section>
 
-    <!-- 6. OPERATIONAL TRANSPARENCY -->
-    <section class="section-padding" aria-labelledby="matrix-title">
+    <!-- 6. OPERATIONAL TRANSPARENCY (Allocation Matrix) -->
+    <section class="section-padding">
         <div class="container">
-            <h2 class="sec-title" id="matrix-title">Financial Transparency Matrix</h2>
+            <h2 class="sec-title">Financial Transparency Matrix</h2>
             <p class="sec-subtitle">The registration process requires a small setup key allocation of $2 (~Rs 550) to filter malicious requests. Here is the physical allocation breakdown:</p>
 
             <div class="fee-breakdown">
-                <div class="f-bar-wrap" aria-hidden="true">
+                <div class="f-bar-wrap">
                     <div class="f-sec-1"></div><div class="f-sec-2"></div><div class="f-sec-3"></div>
                 </div>
                 <div class="f-legend">
                     <div class="f-leg-item"><div class="f-dot" style="background: var(--accent-red);"></div> 10% Protocol Audits</div>
-                    <div class="f-leg-item"><div class="f-dot" style="background: var(--accent-blue);"></div> 40% Mainframe Bandwidth</div>
-                    <div class="f-leg-item"><div class="f-dot" style="background: var(--accent-green);"></div> 50% Reward Liquidity</div>
+                    <div class="f-leg-item"><div class="f-dot" style="background: var(--accent-primary);"></div> 40% Mainframe Bandwidth</div>
+                    <div class="f-leg-item"><div class="f-dot" style="background: var(--accent-green);"></div> 50% Reward Liquidity Reserves</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 7. GAMIFICATION & TARGET PROJECTION -->
-    <section class="section-padding" aria-labelledby="projection-title">
+    <section class="section-padding" style="background: var(--bg-surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
         <div class="container">
-            <h2 class="sec-title" id="projection-title">Project Your Yield</h2>
+            <h2 class="sec-title">Project Your Yield</h2>
             <p class="sec-subtitle">Utilize the network parameter slide-calculator below to estimate standard rewards configurations.</p>
             
             <div class="calc-box">
-                <h4 style="font-weight:700; font-size:15px; text-transform:uppercase; letter-spacing:0.5px; font-family:var(--font-head); color:var(--text-secondary);">If I invite <span id="invCount" style="color: var(--accent-blue); font-weight:900;">5</span> active node partners...</h4>
-                
-                <input type="range" min="0" max="100" value="5" class="range-slider" id="calcSlider" oninput="appLogic.calcEarn()" aria-label="Calculate estimated monthly yield">
-                
-                <p style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Estimated Monthly Generation Yield</p>
+                <h4 style="font-weight:900; font-size:18px; text-transform:uppercase; letter-spacing:0.5px; font-family:var(--font-head); color:var(--text-primary);">If I invite <span id="invCount" style="color: var(--accent-primary);">5</span> active node partners...</h4>
+                <input type="range" min="0" max="100" value="5" class="range-slider" id="calcSlider" oninput="calcEarn()" aria-label="Calculate estimated yield">
+                <p style="font-size:13px; color:var(--text-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Estimated Monthly Generation Yield</p>
                 <div class="calc-result" id="calcTotal">$15.25</div>
-                
-                <p style="font-size:11px; color:var(--accent-green); font-weight:700; margin-top:16px;">
-                    <i class="fa-solid fa-arrow-trend-up"></i> Includes 100-Referral Mega Bonus Structure
-                </p>
+                <p style="font-size:12px; color:var(--accent-green); font-weight:800; margin-top:16px; background: var(--accent-green-light); display: inline-block; padding: 6px 16px; border-radius: 100px;"><i class="fa-solid fa-arrow-trend-up"></i> Includes 100-Referral Mega Bonus Structure</p>
             </div>
 
             <div class="progression-map">
-                <h3 style="font-family: var(--font-head); font-size: 26px; margin-bottom: 40px; font-weight: 800; color: var(--text-primary);">Node Progression Tier List</h3>
+                <h3 style="font-family: var(--font-head); font-size: 28px; margin-bottom: 40px; font-weight: 900; text-align: center; color: var(--text-primary);">Node Progression Tier List</h3>
                 <div class="p-step">
-                    <div class="p-icon" style="color: #B45309; background: #FEF3C7; border-color: rgba(180,83,9,0.2);"><i class="fa-solid fa-medal"></i></div>
+                    <div class="p-icon" style="color: #cd7f32; border-color: rgba(205, 127, 50, 0.2);"><i class="fa-solid fa-medal"></i></div>
                     <div class="p-text"><h4>Bronze Operational Node</h4><p>Standard task routing pipelines and default transfer queue intervals.</p></div>
                 </div>
                 <div class="p-step">
-                    <div class="p-icon" style="color: #92400E; background: #FDE68A; border-color: rgba(146,64,14,0.2);"><i class="fa-solid fa-crown"></i></div>
+                    <div class="p-icon" style="color: var(--accent-gold); border-color: rgba(217, 119, 6, 0.2);"><i class="fa-solid fa-crown"></i></div>
                     <div class="p-text"><h4>Gold Master System Node</h4><p>3x Task Parameter Multipliers plus zero processing fees on allocations.</p></div>
                 </div>
                 <div class="p-step">
-                    <div class="p-icon" style="color: #BE123C; background: #FFE4E6; border-color: rgba(190,18,60,0.2);"><i class="fa-solid fa-gem"></i></div>
+                    <div class="p-icon" style="color: var(--accent-red); border-color: rgba(220, 38, 38, 0.2);"><i class="fa-solid fa-gem"></i></div>
                     <div class="p-text"><h4>Legendary VIP Node Base</h4><p>15x Generational Scalability, priority dedicated system managers, and prime ranks.</p></div>
                 </div>
             </div>
@@ -1439,29 +1382,31 @@
     </section>
 
     <!-- 8. COMMUNITY HALL OF FAME -->
-    <section class="section-padding" aria-labelledby="fame-title">
+    <section class="section-padding">
         <div class="container">
-            <h2 class="sec-title" id="fame-title">Network Hall of Fame</h2>
+            <h2 class="sec-title">Network Hall of Fame</h2>
             <p class="sec-subtitle">Real-time leaderboard ranks tracking premium weekly computational activity.</p>
             
-            <div class="podium" aria-hidden="true">
+            <!-- Podium Framework (Light Theme Adapted) -->
+            <div class="podium">
                 <div class="pod-col pod-2">
-                    <div class="pod-avatar">S</div>$450<div style="font-size:11px; color: var(--text-secondary); margin-top:6px; font-family:var(--font-main);">Rank 2</div>
+                    <div class="pod-avatar">S</div>$450<div style="font-size:12px; color: var(--text-secondary); margin-top:8px;">Rank 2</div>
                 </div>
                 <div class="pod-col pod-1">
-                    <div class="pod-avatar">A</div>$920<div style="font-size:11px; color: var(--text-inverse); font-weight:800; margin-top:6px; font-family:var(--font-main);">Rank 1</div>
+                    <div class="pod-avatar" style="border-color: var(--accent-gold);">A</div>$920<div style="font-size:12px; color: var(--text-inverse); font-weight:800; margin-top:8px;">Rank 1</div>
                 </div>
                 <div class="pod-col pod-3">
-                    <div class="pod-avatar">M</div>$310<div style="font-size:11px; color: var(--text-secondary); margin-top:6px; font-family:var(--font-main);">Rank 3</div>
+                    <div class="pod-avatar">M</div>$310<div style="font-size:12px; color: var(--text-secondary); margin-top:8px;">Rank 3</div>
                 </div>
             </div>
-            <p style="text-align:center; font-size:13px; font-weight:600; color:var(--text-secondary); margin-bottom:50px;">Top weekly computational node operators receive $5.00 VIP Incentives.</p>
+            <p style="text-align:center; font-size:14px; font-weight:700; color:var(--text-secondary); margin-bottom:60px;">Top weekly computational node operators receive $5.00 VIP Incentives.</p>
 
+            <!-- Reviews -->
             <div class="review-grid">
                 <div class="review-card">
                     <div class="rev-img">Z</div>
                     <div class="rev-content">
-                        <h5>Zeeshan Ali <span class="v-tag">Verified Node</span></h5>
+                        <h5>Zeeshan Ali <span class="v-tag">Verified Node Operator</span></h5>
                         <p>"Absolutely peerless security integrations. Transferred rewards securely to EasyPaisa within standard intervals. Outstanding reliability."</p>
                     </div>
                 </div>
@@ -1474,11 +1419,12 @@
                 </div>
             </div>
 
+            <!-- Security Architecture Indicators -->
             <div class="secure-badges">
                 <div class="sec-badge"><i class="fa-solid fa-shield-halved"></i> AES-256 Protocol</div>
-                <div class="sec-badge"><i class="fa-solid fa-robot"></i> Advanced Anti-Bot</div>
-                <div class="sec-badge"><i class="fa-solid fa-user-check"></i> Multi-Sig Audit</div>
-                <div class="sec-badge"><i class="fa-solid fa-file-shield"></i> AML Compliance</div>
+                <div class="sec-badge"><i class="fa-solid fa-robot"></i> Advanced Anti-Bot Engine</div>
+                <div class="sec-badge"><i class="fa-solid fa-user-check"></i> Multi-Sig Audit Verification</div>
+                <div class="sec-badge"><i class="fa-solid fa-file-shield"></i> AML Standard Compliance</div>
             </div>
 
             <div class="pay-methods">
@@ -1491,38 +1437,38 @@
     </section>
 
     <!-- 9. ROADMAP & MILESTONES -->
-    <section class="section-padding" aria-labelledby="roadmap-title">
+    <section class="section-padding" style="background: var(--bg-surface); border-top: 1px solid var(--border-light);">
         <div class="container">
-            <h2 class="sec-title" id="roadmap-title">Ecosystem Roadmap</h2>
+            <h2 class="sec-title">Ecosystem Roadmap</h2>
             <p class="sec-subtitle">Architecting a scalable, sustainable, decentralized infrastructure.</p>
             
-            <div class="roadmap-container">
-                <div class="roadmap-item">
-                    <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i> 
-                    <div>
-                        <h4 style="font-family: var(--font-head); font-weight: 700; margin-bottom: 4px; font-size:16px;">Phase 1: Task Frame Launch (Completed)</h4>
-                        <p style="font-size: 14px; color: var(--text-secondary);">Deployment of stable verification systems and computational node frameworks.</p>
+            <div style="max-width:700px; margin:0 auto; padding: 20px;">
+                <div class="p-step">
+                    <div class="p-icon" style="color: var(--accent-green); background: var(--accent-green-light); border-color: transparent;"><i class="fa-solid fa-circle-check"></i></div> 
+                    <div class="p-text">
+                        <h4>Phase 1: Task Frame Launch (Completed)</h4>
+                        <p>Deployment of stable verification systems and computational node frameworks.</p>
                     </div>
                 </div>
-                <div class="roadmap-item">
-                    <i class="fa-solid fa-spinner fa-spin" style="color: var(--accent-blue);"></i> 
-                    <div>
-                        <h4 style="font-family: var(--font-head); font-weight: 700; margin-bottom: 4px; font-size:16px;">Phase 2: Global Integration (In Progress)</h4>
-                        <p style="font-size: 14px; color: var(--text-secondary);">Expanding staking options, multi-regional server expansions, and partner integrations.</p>
+                <div class="p-step">
+                    <div class="p-icon" style="color: var(--accent-primary); background: var(--accent-primary-light); border-color: transparent;"><i class="fa-solid fa-spinner fa-spin"></i></div> 
+                    <div class="p-text">
+                        <h4>Phase 2: Global Integration (In Progress)</h4>
+                        <p>Expanding staking options, multi-regional server expansions, and partner integrations.</p>
                     </div>
                 </div>
-                <div class="roadmap-item" style="opacity: 0.5;">
-                    <i class="fa-regular fa-circle" style="color: var(--text-muted);"></i> 
-                    <div>
-                        <h4 style="font-family: var(--font-head); font-weight: 700; margin-bottom: 4px; font-size:16px;">Phase 3: Native Applications (Upcoming)</h4>
-                        <p style="font-size: 14px; color: var(--text-secondary);">Direct compilation on custom lightweight client platforms for iOS and Android.</p>
+                <div class="p-step" style="opacity: 0.6;">
+                    <div class="p-icon"><i class="fa-regular fa-circle"></i></div> 
+                    <div class="p-text">
+                        <h4>Phase 3: Native Applications (Upcoming)</h4>
+                        <p>Direct compilation on custom lightweight client platforms for iOS and Android.</p>
                     </div>
                 </div>
-                <div class="roadmap-item" style="opacity: 0.5;">
-                    <i class="fa-regular fa-circle" style="color: var(--text-muted);"></i> 
-                    <div>
-                        <h4 style="font-family: var(--font-head); font-weight: 700; margin-bottom: 4px; font-size:16px;">Phase 4: Governance Systems (Future)</h4>
-                        <p style="font-size: 14px; color: var(--text-secondary);">Integration of decentralized ledger tokens (NXT) for autonomous governance configurations.</p>
+                <div class="p-step" style="opacity: 0.6;">
+                    <div class="p-icon"><i class="fa-regular fa-circle"></i></div> 
+                    <div class="p-text">
+                        <h4>Phase 4: Governance Systems (Future)</h4>
+                        <p>Integration of decentralized ledger tokens (NXT) for autonomous governance configurations.</p>
                     </div>
                 </div>
             </div>
@@ -1530,205 +1476,142 @@
     </section>
 
     <!-- 10. INTERACTIVE DECISION MODULE -->
-    <section class="section-padding" style="border:none;" aria-labelledby="quiz-title">
+    <section class="section-padding">
         <div class="container">
             <div class="quiz-box" id="quizBox">
-                <h3 id="quiz-title" style="font-family: var(--font-head); font-size: 28px; margin-bottom: 20px; font-weight: 800; color: var(--text-primary);">Determine Your Node Compatibility</h3>
-                <p style="font-size: 16px; margin-bottom: 32px; color: var(--text-secondary); line-height:1.6;">Do you possess a standard modern smartphone and have the capacity to manage daily network nodes?</p>
-                <button class="quiz-btn" onclick="appLogic.approveNodeCandidate()">Confirm Compatibility</button>
+                <h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 24px; font-weight: 900; color: var(--text-primary); letter-spacing: -1px;">Determine Your Node Compatibility</h3>
+                <p style="font-size: 16px; margin-bottom: 32px; color: var(--text-secondary); line-height: 1.6;">Do you possess a standard modern smartphone and have the capacity to manage daily network nodes securely?</p>
+                <button class="quiz-btn" onclick="approveNodeCandidate()">Confirm Compatibility</button>
             </div>
         </div>
     </section>
 
     <!-- BRAND FOOTER -->
-    <footer role="contentinfo">
+    <footer>
         <img src="assets/ui/logo.png" class="f-logo" alt="NEXRA Logo">
         
-        <div style="max-width:600px; margin:0 auto 40px; font-size:14px; color:var(--text-secondary); line-height:1.7; font-style:italic;">
+        <!-- Founder Direct Statement -->
+        <div style="max-width:600px; margin:0 auto 40px; font-size:14px; color:var(--text-secondary); line-height:1.6; font-style:italic;">
             "NEXRA represents a paradigm shift in cooperative computational tasks. Our core directive remains establishing absolute decentralized economic paths for every verified node partner."<br>
-            <b style="color:var(--text-primary); font-style:normal; margin-top:16px; display:block; font-family: var(--font-head); font-size: 14px; letter-spacing: 0.5px;">— NEXRA Ecosystem Core Authority</b>
+            <b style="color:var(--text-primary); font-style:normal; margin-top:16px; display:block; font-family: var(--font-head); font-size: 15px; letter-spacing: 0.5px;">— NEXRA Ecosystem Core Authority</b>
         </div>
 
-        <div class="spam-promise"><i class="fa-solid fa-lock" style="color:var(--accent-green);"></i> Strict AES-256 Data Encapsulation Active. No data leaks.</div>
+        <div class="spam-promise"><i class="fa-solid fa-lock" style="color: var(--accent-primary);"></i> Strict AES-256 Data Encapsulation Active. No data leaks.</div>
         <p class="f-copy">Ecosystem Liquidity Last Sync: <span id="syncTime">2 MINS AGO</span></p>
-        <p class="f-copy" style="opacity: 0.4; margin-top: 12px;">&copy; 2026 NEXRA FINTECH. ALL RIGHTS RESERVED.</p>
+        <p class="f-copy" style="opacity: 0.5; margin-top: 16px;">&copy; 2026 NEXRA FINTECH. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Floating Widgets -->
-    <div class="fake-chat" aria-hidden="true">
+    <!-- Simulated Live Chat Indicator -->
+    <div class="fake-chat">
         <div class="chat-dot"></div><div class="chat-dot"></div><div class="chat-dot"></div>
-        <span style="font-size:12px; font-weight:700; color:var(--text-secondary);">Security monitor typing...</span>
+        <span style="font-size:12px; font-weight:800; color:var(--text-primary);">Security monitor typing...</span>
     </div>
 
-    <button class="wa-fab" onclick="window.location.href='https://chat.whatsapp.com/YOUR_LINK'" aria-label="Contact Support via WhatsApp">
+    <!-- Floating Secure Support Link -->
+    <div class="wa-fab" onclick="window.location.href='https://chat.whatsapp.com/YOUR_LINK'" aria-label="Contact Support via WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
-    </button>
+    </div>
 
-    <!-- Audio Node -->
+    <!-- Interactive Node Sound Effects Node -->
     <audio id="sfx" src="https://assets.mixkit.co/active_storage/sfx/2017/2017-preview.mp3" preload="auto"></audio>
 
     <!-- ==========================================
-         JAVASCRIPT LOGIC ARCHITECTURE
+         JAVASCRIPT LOGIC (Strictly Preserved)
          ========================================== -->
     <script>
-        /**
-         * Global App Logic Encapsulation
-         * Preserves 100% of the requested functionality while improving structure
-         * and safety mechanisms.
-         */
-        const appLogic = (() => {
+        // 1. Smooth scroll handling for Navbar Island scaling effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('dynamicNav');
+            if (window.scrollY > 50) {
+                nav.style.transform = 'translateX(-50%) scale(0.95)';
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = '0 12px 32px rgba(15, 23, 42, 0.15)';
+            } else {
+                nav.style.transform = 'translateX(-50%) scale(1)';
+                nav.style.background = 'rgba(255, 255, 255, 0.85)';
+                nav.style.boxShadow = 'var(--shadow-md)';
+            }
+        });
+
+        // 2. Biometric Scanner Simulation Node
+        function simulateTask() {
+            const box = document.getElementById('simBox');
+            const money = document.createElement('div');
+            money.className = 'float-money';
+            money.innerText = '+$0.0003';
             
-            // Elements
-            const DOM = {
-                nav: document.getElementById('dynamicNav'),
-                simBox: document.getElementById('simBox'),
-                sfx: document.getElementById('sfx'),
-                invCount: document.getElementById('invCount'),
-                calcSlider: document.getElementById('calcSlider'),
-                calcTotal: document.getElementById('calcTotal'),
-                statUsr: document.getElementById('statUsr'),
-                statPaid: document.getElementById('statPaid'),
-                geoTarget: document.getElementById('geoTarget'),
-                syncTime: document.getElementById('syncTime'),
-                quizBox: document.getElementById('quizBox')
-            };
+            // Randomized positioning within parameters
+            money.style.left = (35 + Math.random() * 30) + '%';
+            money.style.top = '30%';
+            
+            box.appendChild(money);
+            
+            // Safe play mechanism
+            const audio = document.getElementById('sfx');
+            if(audio) { audio.play().catch(()=>{}); }
+            
+            setTimeout(() => { money.remove(); }, 1200);
+        }
 
-            // Metrics State
-            let metrics = {
-                users: 7542,
-                paid: 15240
-            };
+        // 3. Multi-Tiered Generation Yield Calculator
+        function calcEarn() {
+            const val = document.getElementById('calcSlider').value;
+            document.getElementById('invCount').innerText = val;
+            
+            // Standard computation ($0.01 base daily * 30) + referral yield coefficient
+            let monthly = (0.01 * 30) + (val * 0.054);
+            if(val >= 10) monthly += 0.65;
+            if(val >= 25) monthly += 1.00;
+            if(val >= 50) monthly += 5.00;
+            if(val == 100) monthly += 15.00;
 
-            // 1. Navigation Scroll Effect
-            const initScroll = () => {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 50) {
-                        DOM.nav.style.transform = 'translateX(-50%) scale(0.97)';
-                        DOM.nav.style.background = 'rgba(255, 255, 255, 0.95)';
-                        DOM.nav.style.boxShadow = '0 10px 40px rgba(0,0,0,0.08)';
-                    } else {
-                        DOM.nav.style.transform = 'translateX(-50%) scale(1)';
-                        DOM.nav.style.background = 'var(--glass-bg)';
-                        DOM.nav.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
-                    }
-                });
-            };
+            document.getElementById('calcTotal').innerText = "$" + monthly.toFixed(2);
+        }
 
-            // 2. Biometric Scanner Simulation
-            const simulateTask = () => {
-                if(!DOM.simBox) return;
-                
-                const money = document.createElement('div');
-                money.className = 'float-money';
-                money.innerText = '+$0.0003';
-                
-                // Randomized positioning
-                money.style.left = (35 + Math.random() * 30) + '%';
-                money.style.top = '30%';
-                
-                DOM.simBox.appendChild(money);
-                
-                if(DOM.sfx) {
-                    DOM.sfx.currentTime = 0;
-                    DOM.sfx.play().catch(() => { /* Silently handle autoplay restrictions */ });
+        // 4. Operational Analytics Increment Engines
+        let users = 7542;
+        let paid = 15240;
+        setInterval(() => {
+            users += Math.floor(Math.random() * 3);
+            paid += Math.random() * 0.8;
+            document.getElementById('statUsr').innerText = users.toLocaleString();
+            document.getElementById('statPaid').innerText = "$" + paid.toLocaleString(undefined, {maximumFractionDigits:0});
+        }, 4000);
+
+        // 5. Secure API Regional Target Check
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                if(data.country_name) {
+                    document.getElementById('geoTarget').innerHTML = `<i class="fa-solid fa-earth-americas"></i> Secure Node Connection Established: ${data.country_name}`;
                 }
-                
-                setTimeout(() => { if(money.parentNode) money.remove(); }, 1200);
-            };
+            }).catch(()=>{});
 
-            // 3. Multi-Tiered Yield Calculator
-            const calcEarn = () => {
-                if(!DOM.calcSlider || !DOM.calcTotal || !DOM.invCount) return;
-                
-                const val = parseInt(DOM.calcSlider.value, 10);
-                DOM.invCount.innerText = val;
-                
-                // Preserved Original Math Logic
-                let monthly = (0.01 * 30) + (val * 0.054);
-                if(val >= 10) monthly += 0.65;
-                if(val >= 25) monthly += 1.00;
-                if(val >= 50) monthly += 5.00;
-                if(val === 100) monthly += 15.00;
+        // 6. Analytics Sync Intervals Update
+        setInterval(() => {
+            const mins = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('syncTime').innerText = mins + " MINS AGO";
+        }, 60000);
 
-                DOM.calcTotal.innerText = "$" + monthly.toFixed(2);
-            };
+        // 7. Interactive Quiz Module Transition (Updated inline styles for Light Theme)
+        function approveNodeCandidate() {
+            const target = document.getElementById('quizBox');
+            
+            // Trigger beautiful confetti splash (Optimized for light mode contrast)
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.8 },
+                colors: ['#2563EB', '#10B981', '#F59E0B']
+            });
 
-            // 4. Operational Analytics Increment Engine
-            const initMetrics = () => {
-                setInterval(() => {
-                    metrics.users += Math.floor(Math.random() * 3);
-                    metrics.paid += Math.random() * 0.8;
-                    
-                    if(DOM.statUsr) DOM.statUsr.innerText = metrics.users.toLocaleString();
-                    if(DOM.statPaid) DOM.statPaid.innerText = "$" + metrics.paid.toLocaleString(undefined, {maximumFractionDigits:0});
-                }, 4000);
-            };
-
-            // 5. Secure API Regional Target
-            const fetchGeo = async () => {
-                try {
-                    const res = await fetch('https://ipapi.co/json/');
-                    if(!res.ok) throw new Error("API Error");
-                    const data = await res.json();
-                    
-                    if(data.country_name && DOM.geoTarget) {
-                        DOM.geoTarget.innerHTML = `<i class="fa-solid fa-earth-americas"></i> Secure Node Connection Established: ${data.country_name}`;
-                    }
-                } catch (error) {
-                    // Fail silently, keep default text
-                    console.warn("Geo-routing deferred.");
-                }
-            };
-
-            // 6. Analytics Sync Interval
-            const initSyncTime = () => {
-                setInterval(() => {
-                    const mins = Math.floor(Math.random() * 5) + 1;
-                    if(DOM.syncTime) DOM.syncTime.innerText = mins + " MINS AGO";
-                }, 60000);
-            };
-
-            // 7. Interactive Quiz Transition
-            const approveNodeCandidate = () => {
-                if(!DOM.quizBox) return;
-                
-                // Adapted Confetti colors for Light Theme visibility (Emerald, Blue, Amber)
-                if(typeof confetti !== 'undefined') {
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.8 },
-                        colors: ['#10B981', '#2563EB', '#F59E0B']
-                    });
-                }
-
-                DOM.quizBox.innerHTML = `
-                    <h3 style="color: var(--accent-green); font-family: var(--font-head); font-size: 32px; font-weight: 900; margin-bottom: 16px; letter-spacing: -0.03em;">Candidate Approved</h3>
-                    <p style="margin-top: 10px; font-size: 16px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 32px;">Your browser parameters are verified compatible with the NEXRA Node Architecture.</p>
-                    <a href="auth/register.html" style="background: var(--text-primary); color: var(--text-inverse); text-decoration: none; font-weight: 600; font-size: 16px; padding: 18px 40px; border-radius: 16px; display: inline-block; box-shadow: 0 10px 20px rgba(15,23,42,0.15); transition: transform 0.2s, box-shadow 0.2s;">Claim $0.20 Onboarding Bonus</a>
-                `;
-            };
-
-            // Initialization Sequence
-            const init = () => {
-                initScroll();
-                initMetrics();
-                fetchGeo();
-                initSyncTime();
-                
-                // Initialize default calc state
-                calcEarn();
-            };
-
-            // Expose public methods
-            return { init, simulateTask, calcEarn, approveNodeCandidate };
-        })();
-
-        // Boot
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', appLogic.init);
-        } else {
-            appLogic.init();
+            // Dynamically injected UI perfectly mapped to light mode variables
+            target.innerHTML = `
+                <h3 style="color: var(--accent-green); font-family: var(--font-head); font-size: 36px; font-weight: 900; margin-bottom: 16px; letter-spacing: -1px;">Candidate Approved</h3>
+                <p style="margin-top: 10px; font-size: 16px; color: var(--text-secondary); line-height: 1.6; max-width: 500px; margin: 0 auto;">Your browser parameters are verified compatible with the NEXRA Node Architecture.</p>
+                <br>
+                <a href="auth/register.html" style="color: var(--text-inverse); background: var(--accent-primary); text-decoration: none; font-weight: 800; font-size: 16px; padding: 18px 40px; border-radius: 16px; display: inline-block; box-shadow: 0 12px 32px rgba(37, 99, 235, 0.25); transition: all 0.3s ease; margin-top: 20px;">Claim $0.20 Onboarding Bonus</a>
+            `;
         }
     </script>
 </body>
