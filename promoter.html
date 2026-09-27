@@ -5,65 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- SEO & Identity -->
-    <title>NEXRA | Premium Partner Portal</title>
-    <meta name="description" content="Exclusive management portal for Nexra promotional partners. Track referrals and manage your network securely.">
+    <title>NEXRA | Premium Promoter Portal</title>
+    <meta name="description" content="Exclusive portal for Nexra promotional partners and node affiliates. Track your network in real-time.">
     <meta name="theme-color" content="#ffffff">
     <meta name="color-scheme" content="light">
     
-    <!-- Fonts & Icons -->
+    <!-- Fix missing favicon -->
+    <link rel="icon" type="image/png" href="assets/ui/favicon.png">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Icons (Preserved Remix Icons reference) -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
+    <!-- Design System -->
     <style>
-        /* ==========================================
-           CORE DESIGN TOKENS (LIGHT FINTECH THEME)
-           ========================================== */
+        /* --- CORE DESIGN TOKENS (LIGHT MODE) --- */
         :root {
+            /* Backgrounds */
             --bg-base: #F4F7FB;
             --bg-surface: #FFFFFF;
             --bg-surface-glass: rgba(255, 255, 255, 0.85);
-            --bg-subtle: #F8FAFC;
+            --bg-subtle: #F1F5F9;
             
+            /* Borders */
             --border-light: rgba(15, 23, 42, 0.08);
-            --border-strong: rgba(15, 23, 42, 0.12);
+            --border-strong: rgba(15, 23, 42, 0.15);
             --border-focus: rgba(37, 99, 235, 0.4);
             
+            /* Typography */
             --text-primary: #0F172A;
             --text-secondary: #475569;
             --text-muted: #94A3B8;
             --text-inverse: #FFFFFF;
             
-            --accent-primary: #2563EB;
+            /* Accents */
+            --accent-primary: #2563EB;   
             --accent-primary-hover: #1D4ED8;
             --accent-primary-light: rgba(37, 99, 235, 0.08);
             
-            --accent-green: #059669;
-            --accent-green-light: #D1FAE5;
+            --accent-green: #059669;     
+            --accent-green-light: rgba(5, 150, 105, 0.1);
             
-            --accent-warning: #D97706;
+            --accent-warning: #D97706;   
             --accent-warning-light: #FEF3C7;
+
+            --accent-danger: #DC2626;
             
-            --shadow-sm: 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+            /* Shadows */
+            --shadow-xs: 0 2px 4px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 4px 12px -2px rgba(15, 23, 42, 0.06);
             --shadow-md: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
             --shadow-lg: 0 24px 48px -12px rgba(15, 23, 42, 0.12);
-            --shadow-float: 0 30px 60px -15px rgba(37, 99, 235, 0.15);
             
+            /* Radii & Fonts */
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 24px;
-            
             --font-main: 'Inter', system-ui, sans-serif;
             --font-head: 'Outfit', system-ui, sans-serif;
+
+            /* Animation easing */
             --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ==========================================
-           BASE RESET & AMBIENT ENVIRONMENT
-           ========================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             background-color: var(--bg-base);
@@ -76,37 +91,49 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Background System */
-        .ambient-canvas {
-            position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
+        /* --- AMBIENT ENVIRONMENT --- */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
         }
+
         .ambient-glow-1 {
-            position: absolute; top: -10%; left: -10%; width: 70vw; height: 70vw;
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 70vw; height: 70vw;
             background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 60%);
-            border-radius: 50%; filter: blur(60px);
+            border-radius: 50%;
+            filter: blur(60px);
         }
+
         .ambient-glow-2 {
-            position: absolute; bottom: -20%; right: -10%; width: 80vw; height: 80vw;
-            background: radial-gradient(circle, rgba(5, 150, 105, 0.04) 0%, transparent 60%);
-            border-radius: 50%; filter: blur(80px);
+            position: absolute;
+            bottom: -10%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.05) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(60px);
         }
-        .bg-grid { 
+
+        .grid-overlay {
             position: fixed; inset: 0; z-index: -1; 
             background-image: 
                 linear-gradient(var(--border-light) 1px, transparent 1px), 
                 linear-gradient(90deg, var(--border-light) 1px, transparent 1px); 
             background-size: 32px 32px; 
-            mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-            opacity: 0.6;
+            mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
+            -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 90%);
+            opacity: 0.8;
+            pointer-events: none;
         }
 
-        /* ==========================================
-           APP CONTAINER & HEADER
-           ========================================== */
+        /* --- APP CONTAINER --- */
         .app-container {
             width: 100%;
-            max-width: 560px; /* App-like mobile-first width */
+            max-width: 520px; 
             margin: 0 auto;
             padding: 32px 24px;
             flex: 1;
@@ -116,14 +143,32 @@
             z-index: 10;
         }
 
+        /* --- HEADER --- */
         .header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 40px; animation: fadeDown 0.6s var(--ease-out);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            animation: fadeDown 0.8s var(--ease-out) forwards;
         }
-        
-        .logo-wrap { display: flex; align-items: center; gap: 12px; }
-        .logo-wrap img.icon { height: 36px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-        .logo-wrap img.text { height: 18px; width: auto; filter: invert(1) brightness(0); }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-wrap img.icon {
+            height: 36px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo-wrap img.text {
+            height: 18px;
+            width: auto;
+            filter: invert(1) brightness(0); /* Black out for light mode */
+        }
 
         .badge {
             background: var(--bg-surface);
@@ -133,205 +178,491 @@
             font-size: 12px;
             font-weight: 800;
             letter-spacing: 0.5px;
-            box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            font-family: var(--font-head);
             text-transform: uppercase;
         }
 
-        /* ==========================================
-           SCREEN MANAGEMENT & ANIMATIONS
-           ========================================== */
-        .screen { display: none; flex-direction: column; animation: fadeIn 0.5s var(--ease-out) forwards; }
-        .screen.active { display: flex; }
+        /* --- SCREEN MANAGEMENT --- */
+        .screen {
+            display: none;
+            flex-direction: column;
+            animation: fadeInScale 0.5s var(--ease-out) forwards;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .screen.active {
+            display: flex;
+        }
 
-        /* ==========================================
-           PREMIUM GLASS CARDS
-           ========================================== */
+        /* --- UI COMPONENTS --- */
         .glass-card {
             background: var(--bg-surface-glass);
-            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-xl);
             padding: 40px 32px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .card-icon {
-            width: 72px; height: 72px;
+            width: 72px;
+            height: 72px;
             background: var(--accent-primary-light);
             color: var(--accent-primary);
             border-radius: 20px;
-            display: inline-flex; align-items: center; justify-content: center;
-            font-size: 32px; margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
             border: 1px solid rgba(37, 99, 235, 0.15);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.1);
         }
 
         h1 {
-            font-family: var(--font-head); font-size: 32px; font-weight: 900;
-            line-height: 1.2; margin-bottom: 12px; color: var(--text-primary);
-            letter-spacing: -1px;
+            font-family: var(--font-head);
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
-        p.subtitle { color: var(--text-secondary); font-size: 15px; line-height: 1.6; margin-bottom: 32px; font-weight: 500; }
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
 
-        /* ==========================================
-           FORMS & INPUTS
-           ========================================== */
-        .input-group { position: relative; margin-bottom: 24px; text-align: left; }
-        
+        /* Inputs */
+        .input-group {
+            position: relative;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
         .input-group label {
-            display: block; font-size: 13px; font-weight: 700; color: var(--text-primary);
-            margin-bottom: 8px; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            margin-left: 4px;
+            font-family: var(--font-head);
         }
 
         .input-field {
-            width: 100%; background: var(--bg-subtle); border: 1px solid var(--border-strong);
-            padding: 18px 24px; border-radius: var(--radius-lg); font-size: 16px; font-weight: 500;
-            color: var(--text-primary); outline: none; transition: all 0.3s ease;
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            padding: 16px 20px;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s var(--ease-out);
+            box-shadow: var(--shadow-xs);
         }
-        
-        .input-field::placeholder { color: var(--text-muted); }
+
+        .input-field::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
         .input-field:focus {
-            border-color: var(--accent-primary); background: var(--bg-surface);
+            border-color: var(--accent-primary);
             box-shadow: 0 0 0 4px var(--accent-primary-light);
+            background: var(--bg-surface);
         }
 
         /* Buttons */
         .btn-primary {
-            width: 100%; background: var(--accent-primary); color: var(--text-inverse);
-            border: none; padding: 18px; border-radius: var(--radius-lg); font-size: 16px;
-            font-weight: 800; cursor: pointer; transition: all 0.3s var(--ease-spring);
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25); margin-top: 10px;
+            width: 100%;
+            background: var(--accent-primary);
+            color: var(--text-inverse);
+            border: none;
+            padding: 18px;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            font-weight: 700;
+            font-family: var(--font-head);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-spring);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
+            margin-top: 16px;
         }
 
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35); background: var(--accent-primary-hover); }
-        .btn-primary:active { transform: translateY(0) scale(0.98); }
-        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .btn-primary:hover {
+            background: var(--accent-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98) translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .btn-outline {
-            background: var(--bg-surface); border: 1px solid var(--border-strong);
-            color: var(--text-primary); padding: 12px 24px; border-radius: 100px;
-            font-weight: 700; font-size: 14px; display: inline-flex; align-items: center;
-            gap: 10px; cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow-sm);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+            font-family: var(--font-head);
         }
 
-        .btn-outline:hover { border-color: var(--text-primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        /* Loader */
-        .loader {
-            border: 3px solid rgba(255,255,255,0.3); border-top-color: white;
-            border-radius: 50%; width: 20px; height: 20px;
-            animation: spin 0.8s linear infinite; display: none;
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            background: var(--bg-subtle);
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* ==========================================
-           DASHBOARD ELEMENTS
-           ========================================== */
-        .dash-header { margin-bottom: 32px; }
-        .dash-header h2 { font-family: var(--font-head); font-size: 28px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.5px; }
-        .dash-header p { color: var(--text-secondary); font-size: 15px; font-weight: 500; margin-top: 4px; }
+        /* --- DASHBOARD ELEMENTS --- */
+        .dash-header {
+            margin-bottom: 24px;
+        }
+
+        .dash-title {
+            font-size: 28px;
+            font-weight: 900;
+            font-family: var(--font-head);
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .dash-email {
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dash-email i {
+            color: var(--accent-primary);
+        }
 
         /* Link Box */
         .link-box {
-            background: var(--bg-surface); border: 1px dashed var(--border-focus);
-            padding: 20px 24px; border-radius: var(--radius-xl); margin-bottom: 32px;
-            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            padding: 20px;
+            border-radius: var(--radius-xl);
+            margin: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
             box-shadow: var(--shadow-sm);
         }
 
-        .link-text { font-family: 'Inter', monospace; font-size: 14px; color: var(--accent-primary); word-break: break-all; font-weight: 600; line-height: 1.4; }
-        
-        .copy-btn {
-            background: var(--accent-primary-light); color: var(--accent-primary);
-            border: 1px solid rgba(37, 99, 235, 0.2); width: 48px; height: 48px;
-            border-radius: 16px; display: flex; align-items: center; justify-content: center;
-            font-size: 20px; cursor: pointer; flex-shrink: 0; transition: all 0.2s var(--ease-spring);
+        .link-text {
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            color: var(--accent-primary);
+            word-break: break-all;
+            text-align: left;
+            font-weight: 600;
+            line-height: 1.4;
         }
-        .copy-btn:hover { background: var(--accent-primary); color: white; transform: scale(1.05); }
-        .copy-btn:active { transform: scale(0.95); }
+
+        .copy-btn {
+            background: var(--bg-subtle);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s var(--ease-spring);
+        }
+        
+        .copy-btn:hover {
+            background: var(--text-primary);
+            color: var(--text-inverse);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
 
         /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 40px; }
-        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
         .stat-card {
-            background: var(--bg-surface); padding: 24px; border-radius: var(--radius-xl);
-            border: 1px solid var(--border-light); text-align: left; box-shadow: var(--shadow-md);
-            position: relative; overflow: hidden; transition: transform 0.3s ease;
+            background: var(--bg-surface);
+            padding: 24px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-light);
+            text-align: left;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s var(--ease-out);
         }
-        .stat-card:hover { transform: translateY(-4px); }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
         .stat-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%;
-            background: var(--accent-primary); border-radius: 6px 0 0 6px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-primary);
         }
+
         .stat-card.success::before { background: var(--accent-green); }
 
-        .stat-value { font-family: var(--font-head); font-size: 36px; font-weight: 900; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -1px; }
-        .stat-label { font-size: 13px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value {
+            font-family: var(--font-head);
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
         /* User List */
-        .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 4px; }
-        .list-header h3 { font-family: var(--font-head); font-size: 20px; font-weight: 800; color: var(--text-primary); }
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
         
-        .user-list { display: flex; flex-direction: column; gap: 16px; }
+        .list-header h3 {
+            font-family: var(--font-head);
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .pending-badge {
+            background: var(--accent-warning-light);
+            color: var(--accent-warning);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
+
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 40px;
+        }
 
         .user-item {
-            background: var(--bg-surface); padding: 20px; border-radius: var(--radius-xl);
-            border: 1px solid var(--border-light); display: flex; align-items: center;
-            justify-content: space-between; box-shadow: var(--shadow-sm); transition: transform 0.2s ease;
+            background: var(--bg-surface);
+            padding: 20px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.3s;
         }
-        .user-item:hover { transform: translateX(4px); border-color: var(--border-strong); }
 
-        .user-info { display: flex; align-items: center; gap: 16px; }
+        .user-item:hover {
+            border-color: var(--border-strong);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .user-avatar {
-            width: 48px; height: 48px; border-radius: 16px;
-            background: var(--bg-subtle); border: 1px solid var(--border-strong);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-family: var(--font-head); color: var(--text-secondary); font-size: 18px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-family: var(--font-head);
         }
 
-        .user-details h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--text-primary); }
-        .user-details p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .user-details h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        
+        .user-details p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
 
-        .status-badge { padding: 6px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid transparent; }
-        .status-confirmed { background: var(--accent-green-light); color: var(--accent-green); border-color: rgba(5, 150, 105, 0.2); }
-        .status-pending { background: var(--accent-warning-light); color: var(--accent-warning); border-color: rgba(217, 119, 6, 0.2); }
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-confirmed {
+            background: var(--accent-green-light);
+            color: var(--accent-green);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+
+        .status-pending {
+            background: var(--accent-warning-light);
+            color: var(--accent-warning);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+        }
 
         .empty-state {
-            text-align: center; padding: 60px 24px; color: var(--text-muted);
-            background: var(--bg-surface); border-radius: var(--radius-xl);
+            text-align: center;
+            padding: 60px 24px;
+            background: var(--bg-surface);
+            border-radius: var(--radius-xl);
             border: 2px dashed var(--border-strong);
         }
-        .empty-state i { font-size: 48px; margin-bottom: 16px; color: var(--border-strong); }
-        .empty-state p { font-size: 15px; font-weight: 500; line-height: 1.6; }
 
-        /* ==========================================
-           TOAST NOTIFICATION (PREMIUM)
-           ========================================== */
-        .toast {
-            position: fixed; top: 32px; left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: var(--text-primary); color: var(--text-inverse); padding: 16px 32px;
-            border-radius: 100px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow-float);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.26, 1.55); z-index: 2000;
-            display: flex; align-items: center; gap: 12px;
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            opacity: 0.5;
         }
-        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* --- ANIMATIONS & COMPONENTS --- */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.96) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Toast Popup */
+        .toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            background: var(--text-primary);
+            color: var(--text-inverse);
+            padding: 16px 28px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s var(--ease-spring);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast-icon.success { color: #4ade80; }
+        .toast-icon.error { color: #f87171; }
 
     </style>
 </head>
 <body>
 
-    <!-- Light Theme Ambient Environment -->
-    <div class="ambient-canvas" aria-hidden="true">
+    <!-- Ambient Light Background -->
+    <div class="ambient-bg" aria-hidden="true">
         <div class="ambient-glow-1"></div>
         <div class="ambient-glow-2"></div>
-        <div class="bg-grid"></div>
     </div>
+    <div class="grid-overlay" aria-hidden="true"></div>
 
     <div class="app-container">
         
@@ -341,62 +672,61 @@
                 <img src="assets/ui/logo.png" alt="Nexra Logo" class="icon" onerror="this.src='https://via.placeholder.com/36x36?text=N'">
                 <img src="assets/ui/title-text.png" alt="Nexra" class="text" onerror="this.style.display='none'">
             </div>
-            <div class="badge">Partner Node</div>
+            <div class="badge">Promoter Portal</div>
         </header>
 
         <!-- ==========================================
-             SCREEN 1: SETUP / LOGIN
+             SCREEN 1: SETUP & AUTHENTICATION
              ========================================== -->
-        <main class="screen active" id="setup-screen">
+        <main class="screen active" id="setup-screen" aria-label="Portal Login">
             <div class="glass-card">
                 <div class="card-icon">
-                    <i class="fa-solid fa-rocket"></i>
+                    <i class="ri-rocket-2-fill"></i>
                 </div>
                 <h1>Activate Your<br>Promoter Engine</h1>
                 <p class="subtitle">Enter your email to generate your unique premium link and track your referrals in real-time.</p>
 
                 <div class="input-group">
-                    <label for="promoEmail">Email Address</label>
+                    <label for="promoEmail">Secure Email Address</label>
                     <input type="email" id="promoEmail" class="input-field" placeholder="partner@example.com" autocomplete="email">
                 </div>
                 
                 <div class="input-group">
-                    <label for="premiumId">Desired Premium ID</label>
+                    <label for="premiumId">Desired Premium Node ID</label>
                     <input type="text" id="premiumId" class="input-field" placeholder="e.g. prom_arbab" autocomplete="off">
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px; font-weight: 500;"><i class="fa-solid fa-circle-info"></i> This will be your unique referral link.</p>
+                    <p style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; font-weight: 500;"><i class="ri-information-line"></i> This will formulate your unique referral URL.</p>
                 </div>
 
                 <button class="btn-primary" id="generateBtn">
                     <span>Initialize Portal</span>
                     <div class="loader" id="btnLoader"></div>
-                    <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
+                    <i class="ri-arrow-right-line" id="btnIcon"></i>
                 </button>
             </div>
         </main>
 
         <!-- ==========================================
-             SCREEN 2: DASHBOARD
+             SCREEN 2: DASHBOARD INTERFACE
              ========================================== -->
-        <main class="screen" id="dashboard-screen">
+        <main class="screen" id="dashboard-screen" aria-label="Partner Dashboard">
             
             <button class="btn-outline" style="margin-bottom: 32px; align-self: flex-start;" onclick="logout()">
-                <i class="fa-solid fa-arrow-left"></i> Switch Account
+                <i class="ri-arrow-left-line"></i> Switch Account
             </button>
 
             <div class="dash-header">
-                <h2>Partner Overview</h2>
-                <p id="welcomeEmail">...</p>
+                <h2 class="dash-title">Partner Overview</h2>
+                <p class="dash-email" id="welcomeEmail"><i class="ri-mail-check-line"></i> ...</p>
             </div>
 
-            <!-- Tracking Link Generator -->
+            <!-- Enhanced Referral Link Box -->
             <div class="link-box">
-                <div class="link-text" id="referralLink">nexraearn.vercel.app/auth/register.html?ref=---</div>
+                <div class="link-text" id="referralLink">https://nexraearn.vercel.app/auth/register.html?ref=...</div>
                 <button class="copy-btn" onclick="copyLink()" aria-label="Copy Referral Link">
-                    <i class="fa-regular fa-copy"></i>
+                    <i class="ri-file-copy-line"></i>
                 </button>
             </div>
 
-            <!-- Metrics -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="statTotal">0</div>
@@ -404,21 +734,20 @@
                 </div>
                 <div class="stat-card success">
                     <div class="stat-value" id="statConfirmed">0</div>
-                    <div class="stat-label">Confirmed</div>
+                    <div class="stat-label">Confirmed Nodes</div>
                 </div>
             </div>
 
-            <!-- Live List -->
             <div class="list-header">
                 <h3>Recent Network</h3>
-                <span style="font-size: 13px; color: var(--accent-warning); font-weight: 700; background: var(--accent-warning-light); padding: 4px 12px; border-radius: 100px;" id="statUnconfirmed">0 Pending</span>
+                <span class="pending-badge" id="statUnconfirmed">0 Pending</span>
             </div>
 
             <div class="user-list" id="usersList">
-                <!-- User items injected dynamically via JS -->
+                <!-- Data dynamically injected -->
                 <div class="empty-state" id="emptyState">
-                    <i class="fa-solid fa-users"></i>
-                    <p>No users joined through your link yet.<br>Start sharing to build your network!</p>
+                    <i class="ri-group-line"></i>
+                    <p>No nodes registered through your link yet.<br>Start sharing to build your network!</p>
                 </div>
             </div>
 
@@ -426,20 +755,20 @@
 
     </div>
 
-    <!-- Toast Notification (Premium Global Feedback) -->
+    <!-- Global Toast Notification System -->
     <div class="toast" id="toastMsg" aria-live="polite">
-        <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
-        <span id="toastText">Link copied to clipboard!</span>
+        <i class="ri-checkbox-circle-fill toast-icon success" id="toastIcon"></i>
+        <span id="toastText">Action completed successfully.</span>
     </div>
 
     <!-- ==========================================
-         JAVASCRIPT LOGIC (Strictly Preserved Architecture)
+         FIREBASE LOGIC & APP CONTROLLER
          ========================================== -->
     <script type="module">
-        // 1. EXACT PRESERVATION OF FIREBASE IMPORTS
+        // 1. EXACT PRESERVATION OF IMPORTS
         import { db, collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy } from "./assets/js/firebase-config.js";
 
-        // DOM Elements Mapping
+        // DOM Elements Configuration
         const setupScreen = document.getElementById('setup-screen');
         const dashScreen = document.getElementById('dashboard-screen');
         const emailInput = document.getElementById('promoEmail');
@@ -451,10 +780,10 @@
         let currentPromoId = null;
         let currentLink = null;
 
-        // 2. UPDATED REFERRAL DESTINATION URL
+        // UPDATED EXACT LINK STRUCTURE AS REQUESTED
         const BASE_LINK_URL = "https://nexraearn.vercel.app/auth/register.html?ref=";
 
-        // Initialize checking local storage
+        // Auto-Initialization & State Check
         window.onload = () => {
             const savedEmail = localStorage.getItem('nexra_promo_email');
             const savedId = localStorage.getItem('nexra_promo_id');
@@ -465,39 +794,40 @@
             }
         };
 
+        // UI Event Listeners
         generateBtn.addEventListener('click', () => {
             const email = emailInput.value.trim().toLowerCase();
             const customId = idInput.value.trim().toLowerCase();
             
+            // Core Validation Logic Preserved
             if(!validateEmail(email)) {
-                showToast("Please enter a valid email address", false);
+                showToast("Please enter a valid email address.", false);
                 return;
             }
             if(customId.length < 4) {
-                showToast("Premium ID must be at least 4 characters", false);
+                showToast("Premium ID must be at least 4 characters.", false);
                 return;
             }
-            // Basic validation to allow only letters, numbers, and underscores
             if(!/^[a-z0-9_]+$/.test(customId)) {
-                showToast("Premium ID can only contain letters, numbers, and underscores", false);
+                showToast("Premium ID can only contain lowercase letters, numbers, and underscores.", false);
                 return;
             }
             
             processEmail(email, customId);
         });
 
+        // Main Architecture Function
         async function processEmail(email, customId) {
             setLoading(true);
             try {
-                // Use the user-defined custom ID
                 const promoId = customId;
                 currentPromoId = promoId;
                 currentLink = BASE_LINK_URL + promoId;
                 
-                // Check if promoter exists, if not create
                 const promoRef = doc(db, 'promoters', promoId);
                 const promoSnap = await getDoc(promoRef);
 
+                // Registration / Authentication Logic
                 if(!promoSnap.exists()) {
                     await setDoc(promoRef, {
                         email: email,
@@ -506,37 +836,45 @@
                         totalClicks: 0
                     });
                 } else {
-                    // Make sure the email matches so someone can't hijack an ID
+                    // Security verification logic preserved
                     if(promoSnap.data().email !== email) {
-                        showToast("This Premium ID is already taken by another email.", false);
+                        showToast("This Premium ID is securely registered to another email.", false);
                         setLoading(false);
                         return;
                     }
                 }
 
+                // Session Persistence
                 localStorage.setItem('nexra_promo_email', email);
                 localStorage.setItem('nexra_promo_id', promoId);
                 
-                // Load Dashboard
+                // Initialize Application State
                 await loadDashboardData(promoId, email);
 
                 setupScreen.classList.remove('active');
                 dashScreen.classList.add('active');
 
             } catch (error) {
-                console.error(error);
-                showToast("An error occurred. Please check connection.", false);
+                console.error("[NEXRA Error Log]:", error);
+                
+                // Graceful Offline / Network Error Handling Implementation
+                if (error.message && error.message.toLowerCase().includes('offline')) {
+                    showToast("Network Error: Unable to reach secure servers. Please check your internet connection.", false);
+                } else {
+                    showToast("Connection failed. Please ensure stable internet and try again.", false);
+                }
             } finally {
                 setLoading(false);
             }
         }
 
+        // Dashboard Data Controller
         async function loadDashboardData(promoId, email) {
-            document.getElementById('welcomeEmail').innerText = email;
+            document.getElementById('welcomeEmail').innerHTML = `<i class="ri-shield-check-fill" style="color:var(--accent-green)"></i> ${email}`;
             document.getElementById('referralLink').innerText = currentLink;
 
-            // Fetch referred users from main 'users' collection where referredBy == promoId
             try {
+                // Fetch Network Hierarchy
                 const usersRef = collection(db, 'users');
                 const q = query(usersRef, where("referredBy", "==", promoId));
                 const snapshot = await getDocs(q);
@@ -548,7 +886,7 @@
                 const listContainer = document.getElementById('usersList');
                 const emptyState = document.getElementById('emptyState');
                 
-                // Clear old items except empty state
+                // DOM Wipe Preserving Empty State Element
                 Array.from(listContainer.children).forEach(child => {
                     if(child.id !== 'emptyState') child.remove();
                 });
@@ -561,7 +899,7 @@
                     snapshot.forEach(doc => {
                         const data = doc.data();
                         total++;
-                        // Assuming verification status is kept in a field like 'isVerified' or 'status'
+                        // Original verification logic retained
                         const isConfirmed = data.isVerified === true || data.status === 'active';
                         
                         if(isConfirmed) confirmed++;
@@ -573,52 +911,58 @@
                         
                         const name = data.name || data.username || "Anonymous User";
                         const initial = name.charAt(0).toUpperCase();
-                        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'Recent';
+                        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'Recent Integration';
 
                         item.innerHTML = `
                             <div class="user-info">
                                 <div class="user-avatar">${initial}</div>
                                 <div class="user-details">
                                     <h4>${name}</h4>
-                                    <p>Joined ${date}</p>
+                                    <p>Node joined on ${date}</p>
                                 </div>
                             </div>
                             <div class="status-badge ${isConfirmed ? 'status-confirmed' : 'status-pending'}">
-                                ${isConfirmed ? 'Confirmed' : 'Pending'}
+                                ${isConfirmed ? 'Confirmed Node' : 'Pending Action'}
                             </div>
                         `;
                         listContainer.appendChild(item);
                     });
                 }
 
-                // Update Stats dynamically
+                // Render Analytics
                 document.getElementById('statTotal').innerText = total;
                 document.getElementById('statConfirmed').innerText = confirmed;
                 document.getElementById('statUnconfirmed').innerText = `${pending} Pending`;
 
             } catch (error) {
-                console.error("Error fetching stats:", error);
-                // Fail silently on index building wait states
+                console.error("[NEXRA Dashboard Sync Error]:", error);
+                if (error.message && error.message.toLowerCase().includes('offline')) {
+                    showToast("Dashboard sync failed. Working offline.", false);
+                }
             }
         }
 
-        // Global Methods Attachment
+        // Global Copy Link Implementation
         window.copyLink = () => {
             if(currentLink) {
                 navigator.clipboard.writeText(currentLink).then(() => {
-                    showToast("Tracking Link Copied!", true);
+                    showToast("Secure referral link copied to clipboard!", true);
+                }).catch(err => {
+                    showToast("Failed to copy link. Please manually highlight.", false);
                 });
             }
         };
 
+        // Session Termination
         window.logout = () => {
             localStorage.removeItem('nexra_promo_email');
+            localStorage.removeItem('nexra_promo_id');
             dashScreen.classList.remove('active');
             setupScreen.classList.add('active');
             emailInput.value = '';
         };
 
-        // Utility Methods
+        // --- Core Utilities ---
         function validateEmail(email) {
             return String(email)
                 .toLowerCase()
@@ -641,20 +985,19 @@
             }
         }
 
+        // Premium Toast Engine
         let toastTimer;
         function showToast(msg, isSuccess = true) {
             const toast = document.getElementById('toastMsg');
             const text = document.getElementById('toastText');
-            const icon = toast.querySelector('i');
+            const icon = document.getElementById('toastIcon');
             
             text.innerText = msg;
             
             if(isSuccess) {
-                icon.className = 'fa-solid fa-circle-check';
-                icon.style.color = '#10b981'; // Tailwind Emerald 500
+                icon.className = 'ri-checkbox-circle-fill toast-icon success';
             } else {
-                icon.className = 'fa-solid fa-circle-exclamation';
-                icon.style.color = '#ef4444'; // Tailwind Red 500
+                icon.className = 'ri-error-warning-fill toast-icon error';
             }
 
             toast.classList.add('show');
@@ -662,7 +1005,7 @@
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 3000);
+            }, 3500);
         }
     </script>
 </body>
