@@ -4,93 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- SEO & Metadata -->
+    <!-- ==========================================
+         SEO, METADATA & OPEN GRAPH IDENTITY
+         ========================================== -->
     <title>NEXRA | Smart Earning Ecosystem</title>
-    <meta name="description" content="Join NEXRA, the world's most secure and advanced fintech earning ecosystem. Experience seamless digital asset growth.">
-    <meta name="keywords" content="NEXRA, Fintech, Smart Earning, Ecosystem, Crypto, Finance, Web3">
-    <meta name="author" content="NEXRA Ecosystem">
-    
-    <!-- Open Graph / Social -->
+    <meta name="description" content="Join NEXRA, the world's most secure and advanced fintech earning ecosystem. Experience next-generation digital wealth generation.">
+    <meta name="keywords" content="NEXRA, Earning Ecosystem, Fintech, Secure Finance, Smart Earning, Web3, Digital Ecosystem">
+    <meta name="author" content="NEXRA Community">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#050507">
+    <meta name="color-scheme" content="dark">
+    <link rel="canonical" href="https://nexra.app/"> <!-- Update domain when live -->
+
+    <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="NEXRA | Smart Earning Ecosystem">
-    <meta property="og:description" content="Join NEXRA, the world's most secure and advanced fintech earning ecosystem.">
     <meta property="og:site_name" content="NEXRA">
-    
-    <!-- Theme & Apple Mobile Web App -->
-    <meta name="theme-color" content="#030305">
+    <meta property="og:title" content="NEXRA | Smart Earning Ecosystem">
+    <meta property="og:description" content="Join the world's most secure and advanced fintech earning ecosystem.">
+    <meta property="og:image" content="assets/ui/logo.png">
+    <meta property="og:url" content="https://nexra.app/">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NEXRA | Smart Earning Ecosystem">
+    <meta name="twitter:description" content="Join the world's most secure and advanced fintech earning ecosystem.">
+    <meta name="twitter:image" content="assets/ui/logo.png">
+
+    <!-- Apple & PWA Mobile Web App Meta -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="NEXRA">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="NEXRA">
+    <meta name="msapplication-TileColor" content="#050507">
+    <meta name="msapplication-navbutton-color" content="#050507">
 
-    <!-- Preload Critical Assets for Instant Rendering -->
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "NEXRA",
+      "operatingSystem": "All",
+      "applicationCategory": "FinanceApplication",
+      "description": "Smart Earning Ecosystem providing next-generation digital wealth solutions.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "NEXRA Community"
+      }
+    }
+    </script>
+
+    <!-- ==========================================
+         PRELOADING CRITICAL ASSETS
+         ========================================== -->
     <link rel="icon" type="image/png" href="assets/ui/favicon.png">
+    <link rel="apple-touch-icon" href="assets/ui/favicon.png">
+    
+    <!-- Preload UI Assets for Instant Rendering -->
     <link rel="preload" as="image" href="assets/ui/logo.png" fetchpriority="high">
     <link rel="preload" as="image" href="assets/ui/title-text.png" fetchpriority="high">
     <link rel="preload" as="image" href="assets/ui/watermark.png" fetchpriority="low">
 
-    <!-- Fonts -->
+    <!-- Preload Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Comprehensive Premium Design System -->
+    <!-- ==========================================
+         CORE DESIGN SYSTEM & STYLES
+         ========================================== -->
     <style>
-        /* ==========================================================================
-           1. DESIGN SYSTEM & CSS VARIABLES
-           ========================================================================== */
+        /* --- DESIGN TOKENS --- */
         :root {
-            /* Color Palette - Deep Cyber Fintech */
-            --nx-bg-base: #030305;
-            --nx-bg-surface: #0a0a0f;
-            --nx-bg-surface-elevated: #12121a;
+            --brand-bg: #050507; /* Deepest obsidian */
+            --brand-surface: #0a0a0e;
+            --brand-glow: rgba(255, 255, 255, 0.04);
+            --brand-accent: rgba(255, 255, 255, 0.85);
             
-            /* Typography Colors */
-            --nx-text-primary: #ffffff;
-            --nx-text-secondary: #a1a1aa;
-            --nx-text-tertiary: #52525b;
-            --nx-text-accent: #e4e4e7;
+            --grid-color: rgba(255, 255, 255, 0.025);
+            --grid-size: 32px;
             
-            /* Accents & UI */
-            --nx-accent-glow: rgba(255, 255, 255, 0.08);
-            --nx-accent-border: rgba(255, 255, 255, 0.05);
-            --nx-accent-border-strong: rgba(255, 255, 255, 0.12);
-            --nx-loader-fill: #ffffff;
-            --nx-loader-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
             
-            /* Status Colors */
-            --nx-error: #ef4444;
-            --nx-error-bg: rgba(239, 68, 68, 0.1);
-            --nx-warning: #f59e0b;
+            --loader-bg: rgba(255, 255, 255, 0.05);
+            --loader-fill: #ffffff;
+            --loader-glow: rgba(255, 255, 255, 0.4);
             
-            /* Typography Specs */
-            --nx-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --nx-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
             
-            /* Motion & Easing Curves */
-            --nx-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
-            --nx-ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
-            --nx-ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-            --nx-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-            
-            /* Layout & Spacing */
-            --nx-safe-top: env(safe-area-inset-top, 20px);
-            --nx-safe-bottom: env(safe-area-inset-bottom, 20px);
-            --nx-max-width: 480px;
-            
-            /* Z-Index Hierarchy */
-            --z-bg: 0;
-            --z-grid: 1;
-            --z-noise: 2;
-            --z-watermark: 3;
-            --z-content: 10;
-            --z-overlay: 50;
-            --z-modal: 100;
+            --safe-area-top: env(safe-area-inset-top, 20px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 20px);
         }
 
-        /* ==========================================================================
-           2. BASE RESETS & NORMALIZATION
-           ========================================================================== */
+        /* --- BASE RESET & SETUP --- */
         *, *::before, *::after { 
             margin: 0; 
             padding: 0; 
@@ -101,68 +113,62 @@
         html, body {
             width: 100%; 
             height: 100%;
-            height: 100dvh; /* Dynamic viewport height for modern mobile browsers */
+            height: 100dvh; 
             overflow: hidden !important;
             position: fixed;
-            background-color: var(--nx-bg-base);
-            font-family: var(--nx-font-sans);
-            color: var(--nx-text-primary);
+            background-color: var(--brand-bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             touch-action: none; 
             user-select: none;
             -webkit-user-drag: none;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            color: var(--text-primary);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
             overscroll-behavior: none;
         }
 
-        /* ==========================================================================
-           3. BACKGROUND, AMBIANCE & NOISE ENGINE
-           ========================================================================== */
-        
-        /* Central Radial Illumination */
-        .ambient-core {
+        /* --- AMBIENT BACKGROUND SYSTEM --- */
+        .ambient-canvas {
             position: absolute;
             inset: 0;
-            z-index: var(--z-bg);
-            background-image: 
-                radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.04) 0%, transparent 55%),
-                radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.015) 0%, transparent 40%);
+            z-index: 1;
             pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, var(--brand-glow) 0%, transparent 60%),
+                        radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.015) 0%, transparent 50%);
         }
 
-        /* Subtle Cinematic Grain/Noise */
-        .noise-layer {
+        /* Precision Grid Overlay */
+        .ambient-grid {
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: var(--z-noise);
-            opacity: 0.035;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
-        }
-
-        /* High-Tech Grid Floor */
-        .grid-layer {
-            position: absolute;
-            inset: -50% -50%;
+            inset: -50%;
             width: 200%;
             height: 200%;
-            z-index: var(--z-grid);
             background-image: 
-                linear-gradient(var(--nx-accent-border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--nx-accent-border) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
             background-position: center;
-            transform: perspective(600px) rotateX(75deg) translateY(100px) translateZ(-200px);
             mask-image: radial-gradient(ellipse at center, black 10%, transparent 60%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 60%);
-            pointer-events: none;
-            opacity: 0.6;
+            transform: perspective(1000px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: gridMove 20s linear infinite;
+            opacity: 0.8;
         }
 
-        /* Faded Brand Watermark */
+        /* Noise Texture for Premium Matte Finish */
+        .ambient-noise {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0.035;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- BRAND PRESERVATION: WATERMARK --- */
         .brand-watermark {
             position: absolute;
             inset: 0;
@@ -171,471 +177,278 @@
             object-fit: cover;
             opacity: 0.015;
             pointer-events: none;
-            z-index: var(--z-watermark);
+            z-index: 3;
             mix-blend-mode: screen;
-            filter: grayscale(100%) contrast(150%);
+            filter: grayscale(100%) contrast(120%);
         }
 
-        /* ==========================================================================
-           4. MAIN LAYOUT SHELL
-           ========================================================================== */
-        .app-shell {
-            position: relative;
-            z-index: var(--z-content);
-            width: 100%;
-            height: 100%;
+        /* --- MAIN APPLICATION SHELL --- */
+        .splash-shell {
+            position: relative; 
+            z-index: 10;
+            width: 100%; 
+            max-width: 480px;
+            height: 100%; 
             display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-            transition: all 0.9s var(--nx-ease-cinematic);
-        }
-
-        .shell-container {
-            width: 100%;
-            max-width: var(--nx-max-width);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            flex-direction: column; 
             justify-content: space-between;
-            align-items: center;
-            padding: calc(var(--nx-safe-top) + 6vh) 32px calc(var(--nx-safe-bottom) + 5vh);
-            position: relative;
+            align-items: center; 
+            padding: max(8dvh, var(--safe-area-top)) 32px max(6dvh, var(--safe-area-bottom));
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo), filter 0.8s var(--ease-out-expo);
         }
 
-        /* ==========================================================================
-           5. BRANDING PRESENTATION
-           ========================================================================== */
-        .brand-header {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
+        /* Header / Brand Group */
+        .brand-group { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
             width: 100%;
-            position: relative;
-            transform: translateY(-2dvh);
+            gap: 32px;
         }
 
-        /* Logo Anatomy */
-        .logo-wrapper {
+        /* Logo Configuration */
+        .logo-container {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 120px;
-            height: 120px;
         }
 
-        /* Multi-layered Animated Glows */
-        .logo-glow-outer {
+        /* Multi-layered cinematic glow */
+        .logo-glow {
             position: absolute;
             width: 180px;
             height: 180px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
             border-radius: 50%;
-            background: radial-gradient(circle, var(--nx-accent-glow) 0%, transparent 65%);
-            filter: blur(15px);
-            animation: breatheOuter 6s infinite ease-in-out;
+            filter: blur(16px);
+            animation: pulseGlow 4s var(--ease-in-out-circ) infinite alternate;
             pointer-events: none;
+            z-index: 1;
         }
 
         .logo-glow-inner {
             position: absolute;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-            filter: blur(8px);
-            animation: breatheInner 3s infinite ease-in-out alternate;
-            pointer-events: none;
-        }
-
-        /* The actual logo image */
-        .logo-main {
             width: 90px;
             height: 90px;
-            object-fit: contain;
-            position: relative;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+            border-radius: 50%;
+            filter: blur(8px);
             z-index: 2;
-            transform: translateZ(0) scale(0.8);
-            opacity: 0;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
-            will-change: transform, opacity, filter;
-            animation: cinematicEntrance 1.4s var(--nx-ease-spring) 0.1s forwards;
         }
 
-        /* Typography & Taglines */
-        .brand-typography {
+        .logo-main { 
+            width: 100px; 
+            height: 100px; 
+            object-fit: contain; 
+            position: relative; 
+            z-index: 5;
+            transform: scale(0.85) translateZ(0);
+            opacity: 0;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+            will-change: transform, opacity, filter;
+            animation: cinematicReveal 1.2s var(--ease-spring) 0.1s forwards,
+                       floating 6s ease-in-out 1.3s infinite;
+        }
+
+        /* Typography & Identity */
+        .identity-group {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 12px;
+            position: relative;
+            z-index: 5;
         }
 
-        .name-img {
-            width: 180px;
-            height: auto;
-            object-fit: contain;
+        .name-img { 
+            width: clamp(160px, 45vw, 195px); 
+            height: auto; 
+            object-fit: contain; 
+            transform: translateY(24px) scale(0.95); 
             opacity: 0;
-            transform: translateY(24px) translateZ(0);
             will-change: transform, opacity;
-            animation: fadeUpElevated 1s var(--nx-ease-out-expo) 0.4s forwards;
+            animation: fadeUpReveal 0.9s var(--ease-out-expo) 0.4s forwards; 
         }
 
-        .tagline {
-            font-size: 10.5px;
-            font-weight: 600;
-            letter-spacing: 0.45em;
-            text-transform: uppercase;
-            color: var(--nx-text-secondary);
+        .tagline-wrapper {
+            overflow: hidden;
+            padding: 4px 0;
+        }
+
+        .tagline { 
+            font-size: clamp(10px, 2.8vw, 12px); 
+            font-weight: 600; 
+            letter-spacing: 0.45em; 
+            text-transform: uppercase; 
+            color: var(--text-secondary);
+            transform: translateY(100%); 
             opacity: 0;
-            transform: translateY(20px) translateZ(0);
+            will-change: transform, opacity;
+            animation: slideUpReveal 0.8s var(--ease-out-expo) 0.6s forwards; 
             text-align: center;
+            white-space: nowrap;
+        }
+
+        /* --- FOOTER & LOADER SYSTEM --- */
+        .loader-group { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 24px; 
             width: 100%;
-            text-indent: 0.45em; /* Compensate for letter spacing on last char */
-            will-change: transform, opacity;
-            animation: fadeUpElevated 1s var(--nx-ease-out-expo) 0.55s forwards;
-            background: linear-gradient(90deg, var(--nx-text-secondary), #ffffff, var(--nx-text-secondary));
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: 
-                fadeUpElevated 1s var(--nx-ease-out-expo) 0.55s forwards,
-                shimmerText 5s linear infinite 2s;
+            position: relative;
+            z-index: 5;
         }
 
-        /* ==========================================================================
-           6. QUANTUM LOADER SYSTEM
-           ========================================================================== */
-        .loader-footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUpElevated 1s var(--nx-ease-out-expo) 0.8s forwards;
-        }
-
-        /* Status Output Terminal */
-        .system-status {
-            font-family: var(--nx-font-mono);
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            color: var(--nx-text-tertiary);
-            text-transform: uppercase;
-            height: 14px;
-            display: flex;
-            align-items: center;
+        /* High-end glassmorphic kinetic tracker */
+        .system-loader { 
+            display: flex; 
+            gap: 6px; 
+            align-items: center; 
             justify-content: center;
-            transition: color 0.3s ease;
-        }
-
-        .system-status.status-error {
-            color: var(--nx-error);
-        }
-
-        /* Upgraded Kinetic Battery Loader */
-        .quantum-loader-track {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--nx-accent-border-strong);
-            border-radius: 20px;
+            height: 36px; 
+            padding: 0 16px;
+            background: rgba(25, 25, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            box-shadow: 
-                0 4px 24px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            position: relative;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeUpReveal 0.8s var(--ease-out-expo) 0.8s forwards;
         }
 
-        /* Reflection beneath loader */
-        .quantum-loader-track::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 10%;
-            width: 80%;
-            height: 10px;
-            background: inherit;
-            filter: blur(8px);
-            opacity: 0.3;
-            transform: scaleY(-0.5);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .loader-node {
-            width: 6px;
-            height: 16px;
-            background: var(--nx-loader-bg);
-            border-radius: 3px;
-            transform-origin: center;
-            transform: scaleY(0.3);
-            will-change: transform, background-color, box-shadow;
-            animation: quantumPulse 1.5s infinite var(--nx-ease-cinematic);
-        }
-
-        .loader-node:nth-child(1) { animation-delay: 0.0s; }
-        .loader-node:nth-child(2) { animation-delay: 0.15s; }
-        .loader-node:nth-child(3) { animation-delay: 0.30s; }
-        .loader-node:nth-child(4) { animation-delay: 0.45s; }
-
-        /* Loader error state */
-        .quantum-loader-track.is-paused .loader-node {
-            animation-play-state: paused;
-            background: var(--nx-error-bg);
-            box-shadow: none;
-            transform: scaleY(0.3);
-        }
-
-        .footer-credit {
-            font-size: 10px;
-            color: var(--nx-text-tertiary);
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+        .system-track {
             display: flex;
+            gap: 5px;
             align-items: center;
+            height: 100%;
+        }
+
+        .track-node { 
+            width: 6px; 
+            height: 6px; 
+            background: var(--loader-bg); 
+            border-radius: 50%; 
+            will-change: transform, background-color, box-shadow;
+            animation: nodePulse 1.5s infinite var(--ease-in-out-circ); 
+        }
+        
+        .track-node:nth-child(1) { animation-delay: 0.0s; }
+        .track-node:nth-child(2) { animation-delay: 0.15s; }
+        .track-node:nth-child(3) { animation-delay: 0.3s; }
+        .track-node:nth-child(4) { animation-delay: 0.45s; }
+
+        /* Status Text Updates */
+        .status-text {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            height: 14px; /* Fixed height to prevent layout shift */
+            opacity: 0;
+            animation: fadeIn 0.5s ease 1s forwards;
+        }
+
+        /* Footer Credits */
+        .footer-credit { 
+            font-size: 11px; 
+            color: rgba(255, 255, 255, 0.3); 
+            font-weight: 600; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase;
+            display: flex; 
+            align-items: center; 
             gap: 10px;
+            opacity: 0;
+            animation: fadeUpReveal 0.8s var(--ease-out-expo) 1s forwards;
         }
 
         .footer-credit::before, .footer-credit::after {
             content: '';
             display: inline-block;
-            width: 24px;
+            width: 24px; 
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--nx-text-tertiary), transparent);
-            opacity: 0.3;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
         }
 
-        /* ==========================================================================
-           7. MODALS & NOTIFICATION SYSTEM (OFFLINE/ERROR FALLBACK)
-           ========================================================================== */
-        .system-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 3, 5, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            z-index: var(--z-modal);
-            display: flex;
-            justify-content: center;
-            align-items: flex-end; /* Mobile friendly bottom alignment */
-            padding: 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s var(--nx-ease-cinematic);
+        /* --- ANIMATION KEYFRAMES --- */
+        @keyframes gridMove {
+            0% { transform: perspective(1000px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(1000px) rotateX(60deg) translateY(64px) translateZ(-200px); } /* 64px is 2x grid size */
         }
 
-        .system-modal-overlay.is-active {
-            opacity: 1;
-            visibility: visible;
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            100% { transform: scale(1.15); opacity: 1; }
         }
 
-        .system-modal-content {
-            width: 100%;
-            max-width: 400px;
-            background: var(--nx-bg-surface-elevated);
-            border: 1px solid var(--nx-accent-border-strong);
-            border-radius: 24px;
-            padding: 32px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 16px;
-            transform: translateY(40px) scale(0.95);
-            transition: all 0.5s var(--nx-ease-spring);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            margin-bottom: env(safe-area-inset-bottom, 16px);
+        @keyframes cinematicReveal { 
+            0% { opacity: 0; transform: scale(0.85) translateZ(0); filter: blur(10px); } 
+            100% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0); } 
         }
 
-        .system-modal-overlay.is-active .system-modal-content {
-            transform: translateY(0) scale(1);
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) translateZ(0); }
+            50% { transform: translateY(-6px) translateZ(0); }
         }
-
-        .modal-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--nx-error-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--nx-error);
-            margin-bottom: 8px;
-        }
-
-        .modal-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke-width: 2;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--nx-text-primary);
-            letter-spacing: -0.02em;
-        }
-
-        .modal-desc {
-            font-size: 13px;
-            line-height: 1.5;
-            color: var(--nx-text-secondary);
-        }
-
-        .modal-btn {
-            margin-top: 12px;
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            background: var(--nx-text-primary);
-            color: var(--nx-bg-base);
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-btn:active {
-            transform: scale(0.97);
-            opacity: 0.9;
-        }
-
-        /* ==========================================================================
-           8. ANIMATIONS & KEYFRAMES
-           ========================================================================== */
         
-        @keyframes cinematicEntrance {
-            0% { opacity: 0; transform: scale(0.85) translateZ(0); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0px); }
+        @keyframes fadeUpReveal { 
+            from { opacity: 0; transform: translateY(24px) scale(0.98); filter: blur(4px); } 
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
         }
 
-        @keyframes fadeUpElevated {
-            0% { opacity: 0; transform: translateY(24px) translateZ(0); filter: blur(4px); }
-            100% { opacity: 1; transform: translateY(0) translateZ(0); filter: blur(0px); }
+        @keyframes slideUpReveal { 
+            from { opacity: 0; transform: translateY(100%); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
 
-        @keyframes breatheOuter {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.15); opacity: 0.9; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        @keyframes breatheInner {
-            0% { transform: scale(0.9) rotate(0deg); opacity: 0.7; }
-            100% { transform: scale(1.1) rotate(10deg); opacity: 1; }
-        }
-
-        @keyframes quantumPulse {
+        
+        @keyframes nodePulse { 
             0%, 100% { 
-                transform: scaleY(0.3); 
-                background: var(--nx-loader-bg); 
+                transform: scale(1); 
+                background: var(--loader-bg); 
                 box-shadow: none; 
-            }
+            } 
             50% { 
-                transform: scaleY(1); 
-                background: var(--nx-loader-fill); 
-                box-shadow: 0 0 12px var(--nx-loader-fill), 0 0 4px var(--nx-loader-fill); 
-            }
+                transform: scale(1.5); 
+                background: var(--loader-fill); 
+                box-shadow: 0 0 10px var(--loader-glow); 
+            } 
         }
 
-        @keyframes shimmerText {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        /* Exit Transition Logic (Camera Push Effect) */
-        .exit-camera-push {
-            opacity: 0;
-            transform: scale(1.1) translateZ(50px);
-            filter: blur(12px) brightness(1.2);
+        /* --- STATE TRANSITIONS --- */
+        .exit-effect { 
+            opacity: 0 !important; 
+            transform: scale(1.04) translateY(-10px) !important; 
+            filter: blur(12px) !important; 
             pointer-events: none;
         }
 
-        /* ==========================================================================
-           9. RESPONSIVE DESIGN & MEDIA QUERIES
-           ========================================================================== */
-        
-        /* Landscape Mobile & Small Tablets */
-        @media screen and (max-height: 500px) and (orientation: landscape) {
-            .shell-container {
-                padding: 16px;
-                flex-direction: row;
-                justify-content: space-around;
-            }
-            .brand-header {
-                transform: none;
-                flex: 0.6;
-            }
-            .loader-footer {
-                flex: 0.4;
-                justify-content: center;
-            }
-            .logo-wrapper {
-                width: 80px; height: 80px;
-            }
-            .logo-main {
-                width: 60px; height: 60px;
-            }
-            .name-img {
-                width: 140px;
-            }
-            .system-modal-content {
-                max-height: 90vh;
-                overflow-y: auto;
-                padding: 24px 20px;
-            }
+        /* Screen Reader Only Utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
-        /* Desktop Optimization (Limits max width and frames it beautifully) */
-        @media screen and (min-width: 768px) {
-            .app-shell {
-                background: rgba(3, 3, 5, 0.4);
-            }
-            .shell-container {
-                max-width: 420px;
-                height: 85vh;
-                max-height: 850px;
-                border-radius: 40px;
-                background: var(--nx-bg-surface);
-                border: 1px solid var(--nx-accent-border);
-                box-shadow: 
-                    0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
-                overflow: hidden;
-            }
-            .system-modal-overlay {
-                align-items: center; /* Center on desktop */
-                background: rgba(3, 3, 5, 0.7);
-            }
-            .system-modal-content {
-                border-radius: 24px;
-                margin-bottom: 0;
-            }
-            /* Add an inner shadow to simulate device bezel */
-            .shell-container::before {
-                content: ''; position: absolute; inset: 0;
-                border-radius: 40px;
-                box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
-                pointer-events: none; z-index: 50;
-            }
-        }
-
-        /* Accessibility: Reduce Motion */
+        /* --- ACCESSIBILITY: REDUCED MOTION --- */
         @media (prefers-reduced-motion: reduce) {
             *, ::before, ::after {
                 animation-duration: 0.01ms !important;
@@ -643,378 +456,276 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
-            .logo-glow-outer, .logo-glow-inner { display: none; }
-            .grid-layer { display: none; }
-            .quantum-loader-track { box-shadow: none; }
-            .loader-node { transform: scaleY(0.7); background: var(--nx-loader-fill); }
-            .exit-camera-push { transform: none; filter: none; }
+            .ambient-grid { animation: none; }
+            .logo-main { animation: none; opacity: 1; transform: none; filter: none; }
+            .name-img, .tagline, .system-loader, .footer-credit, .status-text { 
+                animation: none; opacity: 1; transform: none; filter: none; 
+            }
+            .logo-glow { animation: none; opacity: 0.8; }
+            .track-node { animation: none; background: var(--loader-fill); }
+            .exit-effect { filter: none; transform: none; }
         }
 
-        /* Fallback for disabled JavaScript */
-        .noscript-banner {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            background: var(--nx-error);
-            color: #fff;
-            text-align: center;
-            padding: 12px;
-            font-size: 13px;
-            font-weight: 600;
-            z-index: 9999;
-            letter-spacing: 0.05em;
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (min-width: 768px) {
+            .splash-shell { padding: 10dvh 40px; max-width: 600px; }
+            .logo-main { width: 120px; height: 120px; }
+            .name-img { width: 220px; }
+            .tagline { font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Noscript Fallback -->
-    <noscript>
-        <div class="noscript-banner">
-            JavaScript is required to access the NEXRA Ecosystem. Please enable it in your browser settings.
-        </div>
-    </noscript>
-
-    <!-- Layer 1: Environment Engine -->
-    <div class="ambient-core" aria-hidden="true"></div>
-    <div class="grid-layer" aria-hidden="true"></div>
-    <div class="noise-layer" aria-hidden="true"></div>
-    <img src="assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true" loading="lazy" decoding="async">
-
-    <!-- Layer 2: Main Application Shell -->
-    <main class="app-shell" id="app-shell" aria-live="polite" aria-busy="true">
-        <div class="shell-container">
-            
-            <!-- Branding Header Section -->
-            <header class="brand-header">
-                <div class="logo-wrapper">
-                    <div class="logo-glow-outer" aria-hidden="true"></div>
-                    <div class="logo-glow-inner" aria-hidden="true"></div>
-                    <img src="assets/ui/logo.png" alt="NEXRA Logo Symbol" class="logo-main" fetchpriority="high">
-                </div>
-                
-                <div class="brand-typography">
-                    <img src="assets/ui/title-text.png" alt="NEXRA" class="name-img" fetchpriority="high">
-                    <h1 class="tagline">Smart Earning Ecosystem</h1>
-                </div>
-            </header>
-
-            <!-- Loading & Status Footer Section -->
-            <footer class="loader-footer">
-                <div class="system-status" id="system-status" aria-atomic="true">
-                    INITIALIZING CORE MODULES...
-                </div>
-                
-                <div class="quantum-loader-track" id="loader-track" aria-label="Loading application environment">
-                    <div class="loader-node"></div>
-                    <div class="loader-node"></div>
-                    <div class="loader-node"></div>
-                    <div class="loader-node"></div>
-                </div>
-                
-                <p class="footer-credit">Powered by NEXRA Community</p>
-            </footer>
-        </div>
-    </main>
-
-    <!-- Layer 3: System Modals (Network Error / Initialization Failure) -->
-    <div class="system-modal-overlay" id="error-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
-        <div class="system-modal-content">
-            <div class="modal-icon">
-                <!-- Feather Icon: Wifi-Off -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="2" y1="2" x2="22" y2="22"></line>
-                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
-                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
-                    <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
-                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
-                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
-                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
-                </svg>
-            </div>
-            <h2 class="modal-title" id="modal-title">Connection Lost</h2>
-            <p class="modal-desc" id="modal-desc">NEXRA requires an active network connection to securely synchronize ecosystem data. Please check your internet connection.</p>
-            <button class="modal-btn" id="btn-retry" type="button">
-                <!-- Feather Icon: Refresh-Cw -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="23 4 23 10 17 10"></polyline>
-                    <polyline points="1 20 1 14 7 14"></polyline>
-                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                </svg>
-                Retry Connection
-            </button>
-        </div>
+    <!-- Semantic Screen Reader Announcement Area -->
+    <div aria-live="polite" aria-atomic="true" class="sr-only" id="sr-announcer">
+        Initializing NEXRA Smart Earning Ecosystem...
     </div>
 
-    <!-- Application Initialization Logic -->
+    <!-- Background Environment -->
+    <div class="ambient-canvas" aria-hidden="true">
+        <div class="ambient-grid"></div>
+    </div>
+    <div class="ambient-noise" aria-hidden="true"></div>
+    
+    <!-- Preserved Watermark Integration -->
+    <img src="assets/ui/watermark.png" class="brand-watermark" alt="" aria-hidden="true" draggable="false">
+
+    <!-- Application UI Shell -->
+    <main class="splash-shell" id="app-shell" role="main">
+        
+        <header class="brand-group">
+            <div class="logo-container">
+                <div class="logo-glow" aria-hidden="true"></div>
+                <div class="logo-glow-inner" aria-hidden="true"></div>
+                <img src="assets/ui/logo.png" alt="NEXRA Logo" class="logo-main" id="brand-logo" loading="eager" decoding="async" draggable="false">
+            </div>
+            
+            <div class="identity-group">
+                <img src="assets/ui/title-text.png" alt="NEXRA" class="name-img" loading="eager" decoding="async" draggable="false">
+                <div class="tagline-wrapper">
+                    <h1 class="tagline">Smart Earning Ecosystem</h1>
+                </div>
+            </div>
+        </header>
+
+        <footer class="loader-group">
+            <div class="system-loader" role="progressbar" aria-label="Loading application securely" aria-valuemin="0" aria-valuemax="100">
+                <div class="system-track">
+                    <div class="track-node"></div>
+                    <div class="track-node"></div>
+                    <div class="track-node"></div>
+                    <div class="track-node"></div>
+                </div>
+            </div>
+            
+            <p class="status-text" id="boot-status" aria-hidden="true">Establishing secure connection...</p>
+            
+            <p class="footer-credit">Powered by NEXRA Community</p>
+        </footer>
+        
+    </main>
+
+    <!-- ==========================================
+         APPLICATION BOOTLOADER LOGIC
+         ========================================== -->
     <script type="module">
-        // ==========================================================================
-        // 1. FIREBASE INTEGRATION (STRICTLY PRESERVED)
-        // ==========================================================================
+        // 1. EXACT PRESERVATION OF FIREBASE IMPORTS
         import { db, doc, getDoc, auth, onAuthStateChanged } from "./assets/js/firebase-config.js";
 
-        // ==========================================================================
-        // 2. STATE MANAGEMENT & GLOBALS
-        // ==========================================================================
-        const AppState = {
-            capturedUser: null,
-            isAuthResolved: false,
-            isNetworkOnline: navigator.onLine,
-            isBooting: true,
-            authUnsubscribe: null,
-            statusInterval: null
-        };
+        /**
+         * SystemBootloader Class
+         * Manages the strict application entry sequence, ensuring minimum splash time 
+         * for brand presence, fetching maintenance status, and handling auth routing safely.
+         */
+        class SystemBootloader {
+            constructor() {
+                // Core Elements
+                this.shell = document.getElementById('app-shell');
+                this.statusText = document.getElementById('boot-status');
+                this.srAnnouncer = document.getElementById('sr-announcer');
+                
+                // State Architecture
+                this.capturedUser = null;
+                this.isAuthResolved = false;
+                this.isMaintenance = false;
+                this.hasError = false;
+                
+                // Timing Configurations (in ms)
+                this.SPLASH_MIN_TIME = 3200; // Optimal for cinematic animations
+                this.EXIT_ANIM_TIME = 800; // Matches --ease-out-expo CSS transition
+                
+                this.startTime = Date.now();
+                
+                // Status Update Sequence Messages
+                this.statusMessages = [
+                    "Establishing secure connection...",
+                    "Verifying encryption protocols...",
+                    "Loading ecosystem data...",
+                    "Ready."
+                ];
+            }
 
-        const Config = {
-            MIN_SPLASH_TIME_MS: 3200, // Slightly extended for cinematic feel & UX pacing
-            EXIT_ANIM_DURATION_MS: 900, // Matches CSS transition exactly
-            MAINTENANCE_DOC_PATH: ["settings", "app"]
-        };
-
-        const DOM = {
-            shell: document.getElementById('app-shell'),
-            statusText: document.getElementById('system-status'),
-            loaderTrack: document.getElementById('loader-track'),
-            errorModal: document.getElementById('error-modal'),
-            btnRetry: document.getElementById('btn-retry'),
-            modalTitle: document.getElementById('modal-title'),
-            modalDesc: document.getElementById('modal-desc')
-        };
-
-        // ==========================================================================
-        // 3. BOOTSTRAPPER SYSTEM
-        // ==========================================================================
-        class NexraBootstrapper {
-            
             /**
-             * Initialize the application boot sequence
+             * Initialize the sequence immediately
              */
-            static async start() {
-                // 1. Immediately attach Firebase observer to pre-warm state (Preserved Logic)
-                AppState.authUnsubscribe = onAuthStateChanged(auth, (user) => {
-                    AppState.capturedUser = user;
-                    AppState.isAuthResolved = true;
-                });
-
-                // 2. Setup Event Listeners for network resilience
-                this.setupNetworkMonitors();
-
-                // 3. Start dynamic UI feedback
+            async boot() {
                 this.cycleStatusMessages();
-
-                // 4. Begin Core Initialization Race
-                const startTime = Date.now();
+                this.attachAuthListener();
                 
                 try {
-                    if (!AppState.isNetworkOnline) {
-                        throw new Error("OFFLINE");
-                    }
-
-                    // Parallel Loading: Check maintenance while waiting for auth (Preserved Logic)
-                    // Added a timeout to prevent hanging forever on bad networks
-                    const maintenanceCheck = this.fetchMaintenanceStatusWithTimeout(10000);
-                    const isMaintenance = await maintenanceCheck;
-
-                    // Calculate remaining time to satisfy MIN_SPLASH_TIME_MS
-                    const elapsedTime = Date.now() - startTime;
-                    const remainingDelay = Math.max(0, Config.MIN_SPLASH_TIME_MS - elapsedTime);
-
-                    // Proceed to routing after cinematic delay
-                    setTimeout(() => {
-                        this.executeRoutingSequence(isMaintenance);
-                    }, remainingDelay);
-
+                    // Parallel Execution: Fetch config while waiting for Auth resolution
+                    await this.fetchSystemSettings();
                 } catch (error) {
-                    console.error("[NEXRA BOOT ERROR]:", error);
-                    
-                    // Stop cyclic messages
-                    if (AppState.statusInterval) clearInterval(AppState.statusInterval);
-                    
-                    if (error.message === "OFFLINE" || !AppState.isNetworkOnline) {
-                        this.triggerSystemFault("OFFLINE");
-                    } else {
-                        // Generic Firestore/System Failure (Safe Fallback Preserved)
-                        this.triggerSystemFault("SYSTEM_ERROR");
-                    }
+                    console.error("[NEXRA Bootloader] System Config Error:", error);
+                    this.hasError = true;
                 }
+
+                this.finalizeBootSequence();
             }
 
             /**
-             * Fetches maintenance doc with a built-in timeout to prevent infinite loaders
+             * Attaches the Firebase Auth Listener to pre-warm the state
              */
-            static async fetchMaintenanceStatusWithTimeout(timeoutMs) {
-                return new Promise((resolve, reject) => {
-                    const timer = setTimeout(() => reject(new Error("TIMEOUT")), timeoutMs);
-                    
-                    getDoc(doc(db, Config.MAINTENANCE_DOC_PATH[0], Config.MAINTENANCE_DOC_PATH[1]))
-                        .then((snap) => {
-                            clearTimeout(timer);
-                            resolve(snap.exists() ? snap.data().maintenance : false);
-                        })
-                        .catch((err) => {
-                            clearTimeout(timer);
-                            reject(err);
-                        });
+            attachAuthListener() {
+                this.unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+                    this.capturedUser = user;
+                    this.isAuthResolved = true;
                 });
             }
 
             /**
-             * Handles the final redirect logic (Preserved original logic exactly)
+             * Fetches maintenance mode settings from Firestore
              */
-            static executeRoutingSequence(isMaintenance) {
-                // Clean up listener for performance
-                if (AppState.authUnsubscribe) AppState.authUnsubscribe();
+            async fetchSystemSettings() {
+                try {
+                    const settingsRef = doc(db, "settings", "app");
+                    const settingsSnap = await getDoc(settingsRef);
+                    
+                    if (settingsSnap.exists()) {
+                        const data = settingsSnap.data();
+                        this.isMaintenance = data.maintenance === true;
+                    }
+                } catch (err) {
+                    throw new Error("Firestore connection timeout/failure");
+                }
+            }
 
-                DOM.statusText.textContent = "SYNCHRONIZATION COMPLETE";
-                DOM.statusText.style.color = "var(--nx-text-primary)";
+            /**
+             * Cycles minor status text to give feeling of active progression
+             */
+            cycleStatusMessages() {
+                let step = 0;
+                this.messageInterval = setInterval(() => {
+                    step++;
+                    if (step < this.statusMessages.length - 1) {
+                        this.updateStatus(this.statusMessages[step]);
+                    } else {
+                        clearInterval(this.messageInterval);
+                    }
+                }, 900);
+            }
 
-                // Trigger cinematic exit
-                DOM.shell.classList.add('exit-camera-push');
-                DOM.shell.setAttribute('aria-busy', 'false');
+            /**
+             * Updates visual status and Screen Reader announcement
+             */
+            updateStatus(msg) {
+                if(this.statusText) {
+                    // Slight fade effect for text change
+                    this.statusText.style.opacity = '0';
+                    setTimeout(() => {
+                        this.statusText.textContent = msg;
+                        this.statusText.style.opacity = '1';
+                    }, 200);
+                }
+                if(this.srAnnouncer) this.srAnnouncer.textContent = msg;
+            }
 
-                // Wait for CSS animation to finish before actual redirect
+            /**
+             * Ensures minimum viewing time is respected, then executes exit
+             */
+            finalizeBootSequence() {
+                const elapsedTime = Date.now() - this.startTime;
+                const remainingTime = Math.max(0, this.SPLASH_MIN_TIME - elapsedTime);
+
                 setTimeout(() => {
-                    if (isMaintenance) {
+                    this.updateStatus(this.statusMessages[this.statusMessages.length - 1]); // "Ready."
+                    this.triggerExit();
+                }, remainingTime);
+            }
+
+            /**
+             * Triggers CSS exit animation and executes routing logic
+             */
+            triggerExit() {
+                if (this.shell) {
+                    this.shell.classList.add('exit-effect');
+                }
+                
+                // Wait for the exit animation to physically finish before redirecting
+                setTimeout(() => {
+                    this.executeRoutingLogic();
+                }, this.EXIT_ANIM_TIME);
+            }
+
+            /**
+             * Core Routing Logic (Strictly Preserved)
+             */
+            executeRoutingLogic() {
+                // Clean up memory
+                if (this.unsubscribeAuth) this.unsubscribeAuth();
+                if (this.messageInterval) clearInterval(this.messageInterval);
+
+                // 1. Fallback routing on critical failure
+                if (this.hasError) {
+                    console.warn("[NEXRA Bootloader] Boot error detected. Falling back to login.");
+                    window.location.replace('auth/login.html');
+                    return;
+                }
+
+                // 2. Maintenance Routing
+                if (this.isMaintenance) {
+                    window.location.replace('auth/checkpoint.html');
+                    return;
+                }
+
+                // Helper Router based on User Object
+                const routeUser = (user) => {
+                    if (user) {
                         window.location.replace('auth/checkpoint.html');
-                        return;
-                    }
-
-                    const routeUser = (user) => {
-                        if (user) {
-                            window.location.replace('auth/checkpoint.html');
+                    } else {
+                        const hasVisited = localStorage.getItem('nexra_onboarded');
+                        if (!hasVisited) {
+                            localStorage.setItem('nexra_onboarded', 'true');
+                            window.location.replace('intro.html');
                         } else {
-                            const hasVisited = localStorage.getItem('nexra_onboarded');
-                            if (!hasVisited) {
-                                localStorage.setItem('nexra_onboarded', 'true');
-                                window.location.replace('intro.html');
-                            } else {
-                                window.location.replace('auth/login.html');
-                            }
+                            window.location.replace('auth/login.html');
                         }
-                    };
-
-                    // Use pre-warmed state or fetch immediately if slow network
-                    if (AppState.isAuthResolved) {
-                        routeUser(AppState.capturedUser);
-                    } else {
-                        onAuthStateChanged(auth, routeUser);
                     }
-                }, Config.EXIT_ANIM_DURATION_MS);
-            }
+                };
 
-            // ==========================================================================
-            // 4. UI & UX FEEDBACK ENHANCEMENTS
-            // ==========================================================================
-
-            /**
-             * Cycles high-tech status messages to maintain user engagement
-             */
-            static cycleStatusMessages() {
-                const messages = [
-                    "INITIALIZING CORE MODULES...",
-                    "ESTABLISHING SECURE CONNECTION...",
-                    "VERIFYING CRYPTOGRAPHIC KEYS...",
-                    "SYNCING ECOSYSTEM DATA...",
-                    "FINALIZING SECURE SESSION..."
-                ];
-                let currentIndex = 0;
-
-                AppState.statusInterval = setInterval(() => {
-                    if (currentIndex < messages.length - 1 && AppState.isBooting && AppState.isNetworkOnline) {
-                        currentIndex++;
-                        // Add fade effect for text change
-                        DOM.statusText.style.opacity = 0;
-                        setTimeout(() => {
-                            DOM.statusText.textContent = messages[currentIndex];
-                            DOM.statusText.style.opacity = 1;
-                        }, 200);
-                    }
-                }, 800);
-            }
-
-            /**
-             * Gracefully handles errors by presenting a premium modal instead of silent fails
-             */
-            static triggerSystemFault(reason) {
-                AppState.isBooting = false;
-                DOM.loaderTrack.classList.add('is-paused');
-                DOM.statusText.classList.add('status-error');
-                
-                if (reason === "OFFLINE") {
-                    DOM.statusText.textContent = "NETWORK CONNECTION LOST";
-                    DOM.modalTitle.textContent = "Connection Lost";
-                    DOM.modalDesc.textContent = "NEXRA requires an active network connection to securely synchronize ecosystem data. Please check your internet connection.";
+                // 3. Process Auth State
+                if (this.isAuthResolved) {
+                    routeUser(this.capturedUser);
                 } else {
-                    DOM.statusText.textContent = "SYSTEM FAULT DETECTED";
-                    DOM.modalTitle.textContent = "Service Unavailable";
-                    DOM.modalDesc.textContent = "We are currently experiencing difficulties connecting to the secure servers. Please try again in a moment.";
+                    // Ultimate safety fallback if Auth is extremely slow
+                    onAuthStateChanged(auth, routeUser);
                 }
-
-                // Show Modal smoothly
-                setTimeout(() => {
-                    DOM.errorModal.classList.add('is-active');
-                    DOM.btnRetry.focus();
-                }, 400);
-            }
-
-            /**
-             * Restores UI after a successful retry
-             */
-            static clearSystemFault() {
-                DOM.errorModal.classList.remove('is-active');
-                DOM.loaderTrack.classList.remove('is-paused');
-                DOM.statusText.classList.remove('status-error');
-                DOM.statusText.textContent = "RE-ESTABLISHING CONNECTION...";
-                AppState.isBooting = true;
-                
-                // Restart boot sequence
-                setTimeout(() => this.start(), 600);
-            }
-
-            /**
-             * Sets up resilient network monitoring
-             */
-            static setupNetworkMonitors() {
-                window.addEventListener('online', () => {
-                    AppState.isNetworkOnline = true;
-                    if (!AppState.isBooting) {
-                        this.clearSystemFault();
-                    }
-                });
-
-                window.addEventListener('offline', () => {
-                    AppState.isNetworkOnline = false;
-                    this.triggerSystemFault("OFFLINE");
-                });
-
-                DOM.btnRetry.addEventListener('click', () => {
-                    if (navigator.onLine) {
-                        AppState.isNetworkOnline = true;
-                        this.clearSystemFault();
-                    } else {
-                        // Provide button feedback even if still offline
-                        DOM.btnRetry.style.transform = 'scale(0.95)';
-                        setTimeout(() => DOM.btnRetry.style.transform = 'none', 150);
-                    }
-                });
             }
         }
 
-        // ==========================================================================
-        // 5. APPLICATION ENTRY POINT
-        // ==========================================================================
-        const bootNEXRA = () => {
-            // Prevent double initialization
-            if (window.nexraBooted) return;
-            window.nexraBooted = true;
-            
-            NexraBootstrapper.start();
+        // ==========================================
+        // INITIALIZATION TRIGGER
+        // ==========================================
+        const startApp = () => {
+            const bootloader = new SystemBootloader();
+            bootloader.boot();
         };
 
-        // Initialize exactly when DOM is ready
         if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", bootNEXRA);
+            document.addEventListener("DOMContentLoaded", startApp);
         } else {
-            bootNEXRA();
+            startApp();
         }
     </script>
 </body>
