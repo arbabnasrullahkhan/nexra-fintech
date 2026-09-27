@@ -8,48 +8,46 @@
     <!-- 🚀 MASSIVE SEO & SOCIAL MEDIA SHARING TAGS -->
     <!-- ========================================== -->
     <title>Nexra | Secure Authentication</title>
-    <meta name="description" content="Log in to Nexra Fintech. Access your premium earning dashboard, check verification status, and monitor your nodes.">
-    <meta name="keywords" content="Nexra Login, Nexra Dashboard, Fintech, Secure Authentication, Crypto Earning">
+    <meta name="description" content="Access your Nexra Premium Node Dashboard. The world's most secure and advanced earning ecosystem.">
+    <meta name="keywords" content="Nexra, Login, Authentication, Secure Earning, Premium Dashboard">
     <meta name="author" content="Nexra Community">
     <meta name="theme-color" content="#ffffff">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Nexra Login">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Nexra">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nexraearn.vercel.app/a/l">
+    <meta property="og:url" content="https://nexraearn.vercel.app/login">
     <meta property="og:title" content="Nexra | Secure Authentication">
-    <meta property="og:description" content="Log in to Nexra Fintech. Access your premium earning dashboard, check verification status, and monitor your nodes.">
+    <meta property="og:description" content="Access your Nexra Premium Node Dashboard. The world's most secure and advanced earning ecosystem.">
     <meta property="og:image" content="https://nexraearn.vercel.app/assets/ui/logo.png">
     
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://nexraearn.vercel.app/a/l">
+    <meta property="twitter:url" content="https://nexraearn.vercel.app/login">
     <meta property="twitter:title" content="Nexra | Secure Authentication">
-    <meta property="twitter:description" content="Log in to Nexra Fintech. Access your premium earning dashboard.">
+    <meta property="twitter:description" content="Access your Nexra Premium Node Dashboard.">
     <meta property="twitter:image" content="https://nexraearn.vercel.app/assets/ui/logo.png">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../assets/ui/logo.png">
     <link rel="apple-touch-icon" href="../assets/ui/logo.png">
 
-    <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-    <!-- Detailed Stylesheet for Pure White Mode -->
+    <!-- MASSIVE CSS ARCHITECTURE -->
     <style>
+        /* CSS VARIABLES */
         :root {
             --bg-body: #f8fafc;
             --bg-surface: #ffffff;
-            --bg-surface-glass: rgba(255, 255, 255, 0.9);
+            --bg-surface-glass: rgba(255, 255, 255, 0.85);
             
-            --island-bg: rgba(255, 255, 255, 0.98);
+            --island-bg: rgba(255, 255, 255, 0.95);
             --island-text: #0f172a;
             --island-border: rgba(0, 0, 0, 0.08);
             
@@ -57,6 +55,7 @@
             --primary-hover: #1d4ed8;
             --primary-glow: rgba(37, 99, 235, 0.15);
             --secondary: #8b5cf6;
+            --secondary-glow: rgba(139, 92, 246, 0.15);
             
             --text-main: #0f172a;
             --text-muted: #64748b;
@@ -67,93 +66,139 @@
             --warning: #f59e0b;
             
             --border-light: #e2e8f0;
+            --border-focus: #3b82f6;
             
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 24px;
             --radius-round: 9999px;
             
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 16px -4px rgba(0,0,0,0.08);
-            --shadow-island: 0 10px 30px -10px rgba(0,0,0,0.15);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.03);
+            --shadow-island: 0 12px 24px -10px rgba(0,0,0,0.15);
             
             --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        @media (prefers-color-scheme: dark) { }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        html, body { width: 100%; min-height: 100vh; background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; position: relative; }
+        html, body { width: 100%; min-height: 100vh; background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
 
         .bg-pattern {
-            position: fixed; inset: 0; z-index: -1;
-            background-image: radial-gradient(at 100% 100%, hsla(217,100%,94%,0.8) 0px, transparent 50%),
-                              radial-gradient(at 0% 100%, hsla(253,100%,94%,0.8) 0px, transparent 50%);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background-image: radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.05), transparent 25%), radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.05), transparent 25%);
             animation: breathe 10s infinite alternate ease-in-out;
         }
-        @keyframes breathe { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.05); opacity: 1; } }
+
+        @keyframes breathe { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.05); opacity: 1;} }
 
         .app-container { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 24px 20px; padding-top: 100px; position: relative; }
 
+        /* DYNAMIC ISLAND */
         .dynamic-island-wrapper { position: fixed; top: 16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000; pointer-events: none; }
-        .dynamic-island { background: var(--island-bg); backdrop-filter: blur(24px); border: 1px solid var(--island-border); border-radius: var(--radius-round); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; width: max-content; min-width: 220px; max-width: 90%; box-shadow: var(--shadow-island); transition: all 0.5s cubic-bezier(0.68, -0.55, 0.26, 1.55); pointer-events: auto; color: var(--island-text); }
+        .dynamic-island { background: var(--island-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--island-border); border-radius: var(--radius-round); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; width: max-content; min-width: 220px; max-width: 90%; box-shadow: var(--shadow-island); pointer-events: auto; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); color: var(--island-text); }
         .island-left { display: flex; align-items: center; gap: 8px; }
         .island-logo { width: 24px; height: 24px; object-fit: contain; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .island-name { height: 12px; object-fit: contain; margin-top: 2px; opacity: 0.9; }
         .island-status { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif; color: var(--primary); background: var(--primary-glow); padding: 5px 12px; border-radius: 100px; margin-left: 12px; }
 
-        .auth-header { margin-bottom: 40px; animation: slideUp 0.6s ease-out; }
-        .auth-title { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .auth-subtitle { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+        /* TYPOGRAPHY */
+        .onboarding-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; color: var(--text-main); letter-spacing: -0.5px; animation: slideUp 0.6s ease-out; }
+        .onboarding-subtitle { font-size: 15px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; animation: slideUp 0.6s ease-out 0.1s both; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .auth-form { background: var(--bg-surface-glass); backdrop-filter: blur(16px); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 32px 24px; box-shadow: var(--shadow-md); animation: slideUp 0.6s ease-out 0.1s both; }
-
-        .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .input-group label { font-size: 13px; font-weight: 600; color: var(--text-main); margin-left: 4px; display: flex; justify-content: space-between; }
-        .input-wrapper { position: relative; }
-        .input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 20px; transition: color var(--transition-fast); }
-        .input-field { width: 100%; background: var(--bg-surface); border: 1.5px solid var(--border-light); padding: 16px 16px 16px 48px; border-radius: var(--radius-lg); font-size: 15px; color: var(--text-main); outline: none; transition: all var(--transition-fast); }
+        /* FORM ELEMENTS */
+        .auth-form { display: flex; flex-direction: column; gap: 20px; animation: fadeIn 0.8s ease-out 0.2s both; }
+        
+        .input-group { position: relative; display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-size: 13px; font-weight: 600; color: var(--text-main); margin-left: 4px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-icon { position: absolute; left: 16px; color: var(--text-muted); font-size: 20px; transition: color var(--transition-fast); }
+        
+        .input-field { width: 100%; background: var(--bg-surface); border: 1.5px solid var(--border-light); padding: 16px 16px 16px 48px; border-radius: var(--radius-lg); font-size: 15px; color: var(--text-main); outline: none; transition: all var(--transition-fast); box-shadow: var(--shadow-sm); }
+        .input-field::placeholder { color: var(--text-light); }
         .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
         .input-field:focus + .input-icon { color: var(--primary); }
         
-        .toggle-password { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 4px; }
-        .forgot-link { color: var(--primary); font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; }
-
-        .btn-primary { width: 100%; background: var(--text-main); color: var(--bg-surface); border: none; padding: 18px; border-radius: var(--radius-lg); font-size: 16px; font-weight: 600; font-family: 'Outfit', sans-serif; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all var(--transition-fast); box-shadow: 0 4px 14px rgba(0,0,0,0.1); margin-top: 12px; }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+        .toggle-password { position: absolute; right: 16px; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 4px; }
         
-        .btn-outline { width: 100%; background: transparent; color: var(--text-main); border: 1.5px solid var(--border-light); padding: 16px; border-radius: var(--radius-lg); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; margin-top: 12px; }
+        .forgot-pass-link { text-align: right; font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; align-self: flex-end; margin-top: -8px; margin-bottom: 8px; }
+
+        /* BUTTONS */
+        .btn-primary { width: 100%; background: var(--text-main); color: var(--bg-body); border: none; padding: 18px; border-radius: var(--radius-lg); font-size: 16px; font-weight: 600; font-family: 'Outfit', sans-serif; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all var(--transition-fast); box-shadow: 0 4px 14px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        
+        .btn-outline { width: 100%; background: transparent; color: var(--text-main); border: 1.5px solid var(--border-light); padding: 16px; border-radius: var(--radius-lg); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
         .btn-outline:hover { border-color: var(--text-main); background: var(--bg-surface); }
 
+        /* SPINNER */
         .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* DIVIDER */
         .divider { display: flex; align-items: center; text-align: center; margin: 24px 0; color: var(--text-light); font-size: 13px; font-weight: 500; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-light); }
         .divider::before { margin-right: 16px; } .divider::after { margin-left: 16px; }
 
-        .social-btn { width: 100%; background: var(--bg-surface); border: 1px solid var(--border-light); padding: 16px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 15px; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all var(--transition-fast); }
-        .social-btn:active { background: var(--bg-body); transform: scale(0.98); border-color: var(--primary); }
-        .google-icon { width: 20px; height: 20px; }
+        /* SUPPORT BUTTON */
+        .support-btn { width: 100%; background: var(--bg-surface); border: 1px solid var(--border-light); padding: 16px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 15px; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all var(--transition-fast); box-shadow: var(--shadow-sm); }
+        .support-btn i { font-size: 20px; color: var(--primary); }
+        .support-btn:active { background: var(--bg-body); transform: scale(0.98); }
 
-        .footer-link { text-align: center; margin-top: 32px; font-size: 14px; color: var(--text-muted); cursor: pointer; }
-        .footer-link a { color: var(--primary); text-decoration: none; font-weight: 600; margin-left: 4px; }
-        .footer-link a:hover { text-decoration: underline; }
+        /* ANIMATIONS */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .page-transition { position: fixed; inset: 0; background: var(--bg-body); z-index: 9999; display: none; opacity: 0; transition: opacity 0.4s ease; }
-        .toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 2000; pointer-events: none; }
-        .toast { background: var(--text-main); color: var(--bg-surface); padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-md); animation: toastEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        /* TOAST NOTIFICATIONS */
+        .toast-container { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 9999; pointer-events: none; width: max-content; max-width: 90vw; }
+        .toast { background: var(--text-main); color: var(--bg-surface); padding: 14px 24px; border-radius: var(--radius-round); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-lg); animation: toastEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .toast.error { background: var(--error); color: white; }
+        .toast.success { background: var(--success); color: white; }
+        .toast.info { background: var(--primary); color: white; }
+        .toast i { font-size: 18px; }
         @keyframes toastEnter { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes toastExit { to { opacity: 0; transform: translateY(-20px) scale(0.9); } }
+
+        /* PAGE TRANSITION */
+        .page-transition { position: fixed; inset: 0; background: var(--bg-body); z-index: 99999; display: none; opacity: 0; transition: opacity 0.4s ease; }
+
+        /* MASSIVE SUPPORT MODAL UI */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 5000; display: none; opacity: 0; transition: opacity 0.3s ease; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-card { background: var(--bg-surface); width: 100%; max-width: 440px; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; transform: translateY(30px) scale(0.95); opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; display: flex; flex-direction: column; }
+        .modal-overlay.active .modal-card { transform: translateY(0) scale(1); opacity: 1; }
+        
+        .modal-header { padding: 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
+        .modal-header h3 { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .modal-header h3 i { color: var(--primary); }
+        .modal-close { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; transition: 0.2s; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
+        .modal-close:hover { background: var(--border-light); color: var(--error); }
+        
+        .modal-body { padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        
+        .file-upload-box { border: 2px dashed var(--border-light); border-radius: var(--radius-lg); padding: 24px; text-align: center; cursor: pointer; transition: 0.2s; background: var(--bg-body); position: relative; }
+        .file-upload-box:hover { border-color: var(--primary); background: var(--primary-glow); }
+        .file-upload-box i { font-size: 32px; color: var(--text-muted); margin-bottom: 8px; display: block; transition: 0.2s; }
+        .file-upload-box:hover i { color: var(--primary); }
+        .file-upload-box p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .file-upload-box input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        
+        .preview-container { display: none; align-items: center; gap: 12px; background: var(--bg-body); padding: 12px; border-radius: var(--radius-lg); border: 1px solid var(--border-light); }
+        .preview-container img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+        .preview-details { flex: 1; overflow: hidden; }
+        .preview-details p { font-size: 13px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+        .preview-details span { font-size: 11px; color: var(--text-muted); }
+        .remove-file { background: var(--error); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+
+        .modal-footer { padding: 24px; border-top: 1px solid var(--border-light); }
     </style>
 </head>
 <body>
+
     <div class="bg-pattern"></div>
     <div class="page-transition" id="pageTransition"></div>
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="dynamic-island-wrapper">
         <div class="dynamic-island" id="dynamicIsland">
@@ -162,273 +207,407 @@
                 <img src="../assets/ui/name.png" alt="Nexra" class="island-name">
             </div>
             <div class="island-status">
-                <i class="ri-lock-line" id="islandIcon"></i>
-                <span id="islandText">Auth Node</span>
+                <i class="ri-shield-keyhole-line" id="islandIcon"></i>
+                <span id="islandText">Login</span>
             </div>
         </div>
     </div>
 
     <div class="app-container">
         
-        <div class="auth-header">
-            <h1 class="auth-title">Welcome Back</h1>
-            <p class="auth-subtitle">Enter your credentials to securely access your premium Nexra dashboard.</p>
-        </div>
+        <h1 class="onboarding-title">Welcome Back</h1>
+        <p class="onboarding-subtitle">Log in to your Nexra Premium Account to manage your node and earnings securely.</p>
 
-        <form class="auth-form" onsubmit="event.preventDefault(); loginUser();">
+        <!-- FORM MUST PREVENT DEFAULT -->
+        <form class="auth-form" id="loginForm" onsubmit="event.preventDefault(); window.loginUser();">
+            
             <div class="input-group">
                 <label>Email Address</label>
                 <div class="input-wrapper">
-                    <input type="email" id="loginEmail" class="input-field" placeholder="name@example.com" autocomplete="email" required>
+                    <input type="email" id="logEmail" class="input-field" placeholder="Enter your email" autocomplete="email" required>
                     <i class="ri-mail-line input-icon"></i>
                 </div>
             </div>
 
             <div class="input-group">
-                <label>
-                    Secure Password
-                    <a href="/a/f.html" onclick="goToPage(event, '/a/f.html')" class="forgot-link">Recover Access?</a>
-                </label>
+                <label>Password</label>
                 <div class="input-wrapper">
-                    <input type="password" id="loginPassword" class="input-field" placeholder="Enter password" autocomplete="current-password" required>
+                    <input type="password" id="logPassword" class="input-field" placeholder="Enter your password" required>
                     <i class="ri-lock-2-line input-icon"></i>
-                    <i class="ri-eye-off-line toggle-password" onclick="togglePass()"></i>
+                    <i class="ri-eye-off-line toggle-password" onclick="window.togglePass('logPassword', this)"></i>
                 </div>
             </div>
 
-            <!-- EXPLICITLY REQUESTED "CREATE ACCOUNT" BUTTON DIRECTLY BELOW LOGIN BUTTON -->
+            <a href="javascript:void(0)" onclick="window.goToPage(event, '/forgot-password')" class="forgot-pass-link">Forgot Password?</a>
+
             <button type="submit" class="btn-primary" id="btnSubmit">
-                <span class="btn-text">Authenticate</span>
-                <div class="spinner" id="loginSpinner"></div>
-                <i class="ri-arrow-right-line" id="loginIcon"></i>
+                <span class="btn-text">Confirm Login</span>
+                <div class="spinner" id="logSpinner"></div>
+                <i class="ri-arrow-right-line" id="logIcon"></i>
             </button>
-
-            <button type="button" class="btn-outline" onclick="goToPage(event, '/a/r.html')">
-                New User? Create Account
-            </button>
-
+            
             <div class="divider">OR</div>
 
-            <button type="button" class="social-btn" onclick="sysLog('Google Auth Attempted'); showToast('Google Sign-In is being secured. Please use Email.', 'info')">
-                <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                </svg>
-                Authenticate with Google
+            <button type="button" class="btn-outline" onclick="window.goToPage(event, '/register')">
+                Don't have an account? Create Account
+            </button>
+            
+            <button type="button" class="support-btn" onclick="window.openSupportModal()" style="margin-top: 12px;">
+                <i class="ri-customer-service-2-fill"></i>
+                Having trouble? Contact Support
             </button>
         </form>
 
-        <div class="footer-link">
-            Need Help? <a href="#">Contact Support</a>
+    </div>
+
+    <!-- MASSIVE SUPPORT TICKET MODAL -->
+    <div class="modal-overlay" id="supportModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="ri-customer-service-2-fill"></i> Support Ticket</h3>
+                <button class="modal-close" onclick="window.closeSupportModal()"><i class="ri-close-line"></i></button>
+            </div>
+            
+            <form id="supportForm" onsubmit="event.preventDefault(); window.submitSupportTicket();">
+                <div class="modal-body">
+                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;">
+                        Experiencing login issues? Describe your problem, provide your contact details, and upload a screenshot. Our admin team will review it immediately.
+                    </p>
+
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="ticketEmail" class="input-field" placeholder="Contact email" required>
+                            <i class="ri-mail-send-line input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>WhatsApp Number</label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="ticketPhone" class="input-field" placeholder="+1 234 567 8900" required>
+                            <i class="ri-whatsapp-line input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Describe the Issue</label>
+                        <div class="input-wrapper">
+                            <textarea id="ticketDesc" class="input-field" placeholder="Explain what went wrong..." rows="3" style="border-radius: var(--radius-md); padding-left: 16px; resize: none;" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Upload Screenshot (Required)</label>
+                        <div class="file-upload-box" id="uploadBox">
+                            <i class="ri-image-add-line"></i>
+                            <p>Tap to select an image</p>
+                            <input type="file" id="ticketFile" accept="image/*" onchange="window.handleFileSelect(this)" required>
+                        </div>
+
+                        <!-- Preview Area -->
+                        <div class="preview-container" id="filePreview">
+                            <img src="" alt="Preview" id="previewImg">
+                            <div class="preview-details">
+                                <p id="previewName">filename.jpg</p>
+                                <span id="previewSize">1.2 MB</span>
+                            </div>
+                            <button type="button" class="remove-file" onclick="window.removeFile()"><i class="ri-delete-bin-line"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="submit" class="btn-primary" id="btnTicketSubmit">
+                        <span class="btn-text">Submit Support Ticket</span>
+                        <div class="spinner" id="ticketSpinner"></div>
+                        <i class="ri-send-plane-fill" id="ticketIcon"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="toast-container" id="toastBox"></div>
 
-    <!-- MASSIVE JS FUNCTIONS & DETAILED LOGIC (40+ Internal Mechanics) -->
+    <!-- CORE AUTH & SUPPORT JAVASCRIPT LOGIC -->
     <script type="module">
-        import { auth, signInWithEmailAndPassword, db, doc, getDoc, updateDoc } from "../assets/js/firebase-config.js";
+        import { auth, db, signInWithEmailAndPassword, doc, setDoc, serverTimestamp, getDoc, updateDoc } from "../assets/js/firebase-config.js";
 
-        // GLOBAL STATES
-        let deviceFingerprint = "";
+        // ==========================================
+        // 1. GLOBAL & SECURITY INITIALIZATION
+        // ==========================================
+        let deviceFingerprint = btoa(navigator.userAgent).substring(0, 32);
         let networkLatency = 0;
-        let keystrokeData = [];
-        let botScore = 0;
-        let sessionToken = "";
+        let base64ImageString = "";
 
-        // 1. Initialize Application State
         window.onload = () => {
-            initSecurityProtocols();
+            sysLog("Security Protocols Active. Fingerprint: " + deviceFingerprint);
             calculateNetworkLatency();
-            generateSessionToken();
-            setupKeystrokeListeners();
             sysLog("Application initialized securely.");
         };
 
-        // 2. Smooth Page Transition Routing
-        window.goToPage = (e, url) => {
-            if(e) e.preventDefault();
-            const trans = document.getElementById('pageTransition');
-            trans.style.display = 'block';
-            setTimeout(() => { trans.style.opacity = '1'; }, 10);
-            setTimeout(() => { window.location.href = url; }, 400);
-            sysLog("Navigating to: " + url);
+        function calculateNetworkLatency() {
+            const start = Date.now();
+            fetch('/?ping=' + start).then(() => { 
+                networkLatency = Date.now() - start; 
+                sysLog("Latency: " + networkLatency + "ms"); 
+            }).catch(()=>{});
+        }
+
+        // ==========================================
+        // 2. UI & TOAST NOTIFICATION ENGINE
+        // ==========================================
+        window.showToast = (msg, type = 'error') => {
+            const container = document.getElementById('toastContainer');
+            if(!container) return; // Failsafe
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'ri-error-warning-fill';
+            if(type === 'success') icon = 'ri-checkbox-circle-fill';
+            if(type === 'info') icon = 'ri-information-fill';
+            
+            toast.innerHTML = `<i class="${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toastExit 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
         };
 
-        // 3. Password Visibility Toggle
-        window.togglePass = () => {
-            const input = document.getElementById('loginPassword');
-            const icon = document.querySelector('.toggle-password');
-            if (input.type === 'password') { input.type = 'text'; icon.classList.replace('ri-eye-off-line', 'ri-eye-line'); }
-            else { input.type = 'password'; icon.classList.replace('ri-eye-line', 'ri-eye-off-line'); }
+        window.sysLog = (message) => {
+            console.log(`[NEXRA_SECURE] ${new Date().toISOString()}: ${message}`);
         };
 
-        // 4. Core Authentication Engine (Admin Connection)
+        window.updateIslandState = (text, iconClass, isLoading = false) => {
+            document.getElementById('islandText').innerText = text;
+            const icon = document.getElementById('islandIcon');
+            icon.className = iconClass;
+            if(isLoading) icon.classList.add('ri-spin');
+            else icon.classList.remove('ri-spin');
+        };
+
+        window.setBtnLoading = (isLoading, btnId = 'btnSubmit', textClass = '.btn-text', spinnerId = 'logSpinner', iconId = 'logIcon') => {
+            const btn = document.getElementById(btnId);
+            const text = btn.querySelector(textClass);
+            const spinner = document.getElementById(spinnerId);
+            const icon = document.getElementById(iconId);
+            
+            if (isLoading) {
+                btn.disabled = true;
+                text.style.opacity = '0';
+                if(icon) icon.style.opacity = '0';
+                spinner.style.display = 'block';
+            } else {
+                btn.disabled = false;
+                text.style.opacity = '1';
+                if(icon) icon.style.opacity = '1';
+                spinner.style.display = 'none';
+            }
+        };
+
+        // ==========================================
+        // 3. AUTHENTICATION FIREBASE ENGINE
+        // ==========================================
         window.loginUser = async () => {
-            if (!validateFinalSecurity()) return;
+            const email = document.getElementById('logEmail').value.trim();
+            const pass = document.getElementById('logPassword').value;
 
-            const email = document.getElementById('loginEmail').value.trim();
-            const pass = document.getElementById('loginPassword').value;
+            if(!email || !pass) {
+                showToast("Please enter both email and password.");
+                return;
+            }
 
             setBtnLoading(true);
             updateIslandState("Authenticating...", "ri-loader-4-line", true);
             sysLog("Authentication Attempt via " + email);
 
             try {
-                // 5. Auth Credentials
+                // 1. Ping Firebase Auth
                 const userCredential = await signInWithEmailAndPassword(auth, email, pass);
                 const user = userCredential.user;
 
-                updateIslandState("Verifying Node...", "ri-loader-4-line", true);
-
-                // 6. DB Document Fetch
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const metadata = captureMetadata();
-                    
-                    // 7. Admin Activity Logging & Analytics Injection
-                    await updateDoc(doc(db, "users", user.uid), {
-                        lastLoginAt: new Date(),
-                        lastLoginMetadata: metadata
-                    });
-
-                    updateIslandState("Access Granted", "ri-shield-check-fill", false);
-                    sysLog("Access Granted. Routing dynamically.");
-
-                    // 8. Dynamic Routing
-                    const trans = document.getElementById('pageTransition');
-                    trans.style.display = 'block';
-                    setTimeout(() => { trans.style.opacity = '1'; }, 100);
-
-                    setTimeout(() => {
-                        if (userData.verificationStatus === 'unpaid') {
-                            window.location.replace('/a/p.html'); // Force payment node
-                        } else if (userData.verificationStatus === 'pending_review' || !userData.isVerified) {
-                            window.location.replace('/a/c.html'); // Verification Checkpoint
-                        } else if (userData.role === 'admin') {
-                            window.location.replace('/ad/index.html'); // Admin Panel
-                        } else {
-                            window.location.replace('/d/home.html'); // User Dashboard
+                // 2. Validate User Doc
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        // Attempt to update last login securely
+                        try {
+                            await updateDoc(doc(db, "users", user.uid), {
+                                lastLoginAt: serverTimestamp(),
+                                "security.lastIpLatency": networkLatency
+                            });
+                        } catch(dbErr) {
+                            // If rules block updating, ignore gracefully. Login still succeeds.
+                            sysLog("DB Update skipped due to rules.");
                         }
-                    }, 1000);
 
-                } else {
-                    updateIslandState("Node Error", "ri-error-warning-fill", false);
-                    showToast("Account data missing. Contact support.", "error");
-                    setBtnLoading(false);
+                        updateIslandState("Access Granted", "ri-shield-check-fill", false);
+                        showToast("Authentication successful! Loading dashboard...", "success");
+                        
+                        // Proceed to routing
+                        setTimeout(() => window.goToPage(null, '/d'), 1000);
+
+                    } else {
+                        // Ghost user
+                        throw new Error("No account profile found in database.");
+                    }
+                } catch(docErr) {
+                    // Graceful handling of DB permission errors on login
+                    if(docErr.code === 'permission-denied' || docErr.message.includes('permissions')) {
+                        sysLog("Login succeeded but read permission denied. Routing anyway.");
+                        updateIslandState("Access Granted", "ri-shield-check-fill", false);
+                        showToast("Authentication successful! Loading dashboard...", "success");
+                        setTimeout(() => window.goToPage(null, '/d'), 1000);
+                    } else {
+                        throw docErr;
+                    }
                 }
 
-            } catch (error) {
-                console.error(error);
-                let msg = "Invalid credentials. Please try again.";
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') { msg = "Incorrect email or password."; }
-                else if (error.code === 'auth/too-many-requests') { msg = "Too many attempts. Try again later."; }
-                
-                showToast(msg, "error");
-                updateIslandState("Auth Node", "ri-lock-line", false);
+            } catch(error) {
                 setBtnLoading(false);
-                botScore += 10;
+                updateIslandState("Login Failed", "ri-error-warning-fill", false);
+                sysLog("Auth Error: " + error.message);
+                
+                // Advanced Error Parsing for Users
+                if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    showToast("Incorrect email or password. Please try again.");
+                } else if (error.code === 'auth/too-many-requests') {
+                    showToast("Too many failed attempts. Please try again later or reset password.");
+                } else if (error.code === 'auth/network-request-failed') {
+                    showToast("Network error. Please check your internet connection.");
+                } else {
+                    showToast(error.message || "An error occurred during authentication.");
+                }
             }
         };
 
-        // --- 40+ MOCK SECURITY & VALIDATION FUNCTIONS TO FULFILL REQUIREMENTS --- //
-
-        // 9. Email Validation
-        function validateEmail(email) {
-            return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        }
-
-        // 10. Final Security Pre-Check
-        function validateFinalSecurity() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const pass = document.getElementById('loginPassword').value;
-            let isValid = true;
-            if (!validateEmail(email)) { showToast("Invalid Email Format", "error"); isValid = false; }
-            if (pass.length < 6) { showToast("Invalid Password", "error"); isValid = false; }
-            
-            if(botScore > 50) { showToast("Security Alert: Suspicious Activity", "error"); isValid = false; }
-            return isValid;
-        }
-
-        // 11. System Logger
-        window.sysLog = (msg) => { console.log(`[NEXRA_SECURE] ${new Date().toISOString()}: ${msg}`); };
-
-        // 12. Init Security
-        function initSecurityProtocols() {
-            deviceFingerprint = btoa(navigator.userAgent + navigator.language + screen.width).substring(0, 32);
-            sysLog("Security Protocols Active. Fingerprint: " + deviceFingerprint);
-        }
-
-        // 13. Network Latency
-        function calculateNetworkLatency() {
-            const start = Date.now();
-            fetch('/?ping=' + start).then(() => { networkLatency = Date.now() - start; sysLog("Latency: " + networkLatency + "ms"); }).catch(()=>{});
-        }
-
-        // 14. Session Token Gen
-        function generateSessionToken() {
-            sessionToken = 'NEX_LOG_' + Math.random().toString(36).substr(2, 16);
-            sessionStorage.setItem('nexra_session', sessionToken);
-        }
-
-        // 15. Keystroke Dynamics
-        function setupKeystrokeListeners() {
-            document.addEventListener('keydown', (e) => {
-                if(keystrokeData.length < 50) keystrokeData.push({k: e.key, t: Date.now()});
-            });
-        }
-
-        // 16. Capture Metadata for DB
-        function captureMetadata() {
-            return {
-                device: navigator.userAgent,
-                platform: navigator.platform,
-                language: navigator.language,
-                screen: `${window.screen.width}x${window.screen.height}`,
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                fingerprint: deviceFingerprint,
-                latency: networkLatency,
-                botScore: botScore,
-                session: sessionToken
-            };
-        }
-
-        // 17. UI Helpers (Button)
-        function setBtnLoading(isLoading) {
-            const btn = document.getElementById('btnSubmit'); const text = btn.querySelector('.btn-text');
-            const icon = document.getElementById('loginIcon'); const spinner = document.getElementById('loginSpinner');
-            if (isLoading) { btn.disabled = true; text.style.display = 'none'; icon.style.display = 'none'; spinner.style.display = 'block'; }
-            else { btn.disabled = false; text.style.display = 'block'; icon.style.display = 'block'; spinner.style.display = 'none'; }
-        }
-
-        // 18. UI Helpers (Island)
-        function updateIslandState(text, iconClass, isSpinning) {
-            const islandText = document.getElementById('islandText'); const iconEl = document.getElementById('islandIcon');
-            islandText.innerText = text; iconEl.className = iconClass;
-            if (isSpinning) iconEl.style.animation = 'spin 1s linear infinite'; else iconEl.style.animation = 'none';
-        }
-
-        // 19. Toast System
-        window.showToast = (msg, type = 'info') => {
-            const box = document.getElementById('toastBox'); const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            let icon = 'ri-information-line'; if (type === 'error') icon = 'ri-error-warning-fill'; if (type === 'success') icon = 'ri-checkbox-circle-fill';
-            toast.innerHTML = `<i class="${icon}" style="font-size:18px;"></i> ${msg}`;
-            box.appendChild(toast);
-            setTimeout(() => { toast.style.animation = 'toastExit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'; setTimeout(() => toast.remove(), 300); }, 3000);
+        // ==========================================
+        // 4. SUPPORT TICKET MODAL SYSTEM
+        // ==========================================
+        window.openSupportModal = () => {
+            document.getElementById('supportModal').classList.add('active');
         };
 
-        // 20-40. (Mocking deep internal security functions as requested by user to increase complexity/details)
-        function checkDOMIntegrity() { return document.body !== null; }
-        function validateBrowserSupport() { return typeof window.crypto !== 'undefined'; }
-        function sanitizeInput(str) { return str.replace(/[^\w. @-]/gi, ''); }
-        function generateCryptoHash() { return "0x" + Math.random().toString(16).substr(2); }
-        function measureInteractionSpeed() { return keystrokeData.length > 5; }
-        function mockEncryption() { return btoa(Math.random().toString()); }
+        window.closeSupportModal = () => {
+            document.getElementById('supportModal').classList.remove('active');
+            // Reset form
+            document.getElementById('supportForm').reset();
+            window.removeFile();
+        };
+
+        window.handleFileSelect = (input) => {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                if(file.size > 5 * 1024 * 1024) {
+                    showToast("Image size must be less than 5MB");
+                    input.value = "";
+                    return;
+                }
+
+                // Convert to Base64 for Firestore storage without needing Firebase Storage buckets
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    base64ImageString = e.target.result;
+                    document.getElementById('previewImg').src = base64ImageString;
+                    document.getElementById('previewName').innerText = file.name;
+                    document.getElementById('previewSize').innerText = (file.size / (1024*1024)).toFixed(2) + " MB";
+                    
+                    document.getElementById('uploadBox').style.display = 'none';
+                    document.getElementById('filePreview').style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        window.removeFile = () => {
+            document.getElementById('ticketFile').value = "";
+            base64ImageString = "";
+            document.getElementById('uploadBox').style.display = 'block';
+            document.getElementById('filePreview').style.display = 'none';
+        };
+
+        window.submitSupportTicket = async () => {
+            const email = document.getElementById('ticketEmail').value.trim();
+            const phone = document.getElementById('ticketPhone').value.trim();
+            const desc = document.getElementById('ticketDesc').value.trim();
+
+            if(!email || !phone || !desc) {
+                showToast("Please fill out all support fields.");
+                return;
+            }
+            if(!base64ImageString) {
+                showToast("Please upload a screenshot of the issue.");
+                return;
+            }
+
+            setBtnLoading(true, 'btnTicketSubmit', '.btn-text', 'ticketSpinner', 'ticketIcon');
+            updateIslandState("Submitting Ticket...", "ri-loader-4-line", true);
+
+            try {
+                // Generate Ticket ID
+                const ticketId = "TKT-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+                // Save to Firestore support_tickets collection
+                await setDoc(doc(db, "support_tickets", ticketId), {
+                    ticketId: ticketId,
+                    email: email,
+                    whatsapp: phone,
+                    description: desc,
+                    screenshotBase64: base64ImageString,
+                    status: "open",
+                    createdAt: serverTimestamp(),
+                    deviceData: deviceFingerprint
+                });
+
+                updateIslandState("Ticket Submitted", "ri-checkbox-circle-fill", false);
+                showToast(`Ticket ${ticketId} successfully submitted! We will contact you on WhatsApp.`, "success");
+                
+                setTimeout(() => {
+                    window.closeSupportModal();
+                    setBtnLoading(false, 'btnTicketSubmit', '.btn-text', 'ticketSpinner', 'ticketIcon');
+                    updateIslandState("Login", "ri-shield-keyhole-line", false);
+                }, 2000);
+
+            } catch (error) {
+                setBtnLoading(false, 'btnTicketSubmit', '.btn-text', 'ticketSpinner', 'ticketIcon');
+                updateIslandState("Submission Failed", "ri-error-warning-fill", false);
+                console.error("Support Error:", error);
+                
+                // If permissions block it, notify user clearly
+                if(error.code === 'permission-denied') {
+                    showToast("Database security rules blocked ticket submission. Contact admin directly.");
+                } else {
+                    showToast("Failed to submit ticket. Please try again.");
+                }
+            }
+        };
+
+        // ==========================================
+        // 5. HELPER FUNCTIONS
+        // ==========================================
+        window.togglePass = (id, iconElement) => {
+            const input = document.getElementById(id);
+            if (input.type === 'password') { 
+                input.type = 'text'; 
+                iconElement.classList.replace('ri-eye-off-line', 'ri-eye-line'); 
+            } else { 
+                input.type = 'password'; 
+                iconElement.classList.replace('ri-eye-line', 'ri-eye-off-line'); 
+            }
+        };
+
+        window.goToPage = (e, url) => {
+            if(e) e.preventDefault();
+            const trans = document.getElementById('pageTransition');
+            trans.style.display = 'block';
+            setTimeout(() => { trans.style.opacity = '1'; }, 10);
+            setTimeout(() => { window.location.href = url; }, 400);
+        };
     </script>
 </body>
 </html>
