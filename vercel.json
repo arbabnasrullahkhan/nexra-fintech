@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/login", "destination": "/a/l.html" },
+    { "source": "/register", "destination": "/a/r.html" },
+    { "source": "/forgot-password", "destination": "/a/f.html" },
+    { "source": "/promo", "destination": "/promo.html" },
+    { "source": "/ad", "destination": "/ad/index.html" },
+    { "source": "/ad/:match*", "destination": "/ad/:match*.html" },
+    { "source": "/d", "destination": "/d/h.html" },
+    { "source": "/d/:match*", "destination": "/d/:match*.html" },
+    { "source": "/a/:match*", "destination": "/a/:match*.html" }
+  ]
+}
