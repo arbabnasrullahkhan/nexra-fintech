@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- ========================================== -->
+    <!-- 🚀 MASTER SEO & ACCESS KEYWORDS            -->
+    <!-- ========================================== -->
+    <title>Login | NEXRA Command Center</title>
+    <meta name="title" content="Login to NEXRA | Secure Access to Global Wealth">
+    <meta name="description" content="Access your NEXRA dashboard. Process technical nodes, manage your referral network, and withdraw USD instantly. The world's most secure fintech task portal.">
+    <meta name="keywords" content="NEXRA login, online earning dashboard, secure task site, EasyPaisa withdrawal login, Binance USDT earning login, fintech ecosystem access">
+    <meta name="author" content="NEXRA Official">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nexra.ct.ws/auth/login.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexra.ct.ws/auth/login.html">
+    <meta property="og:title" content="Login to NEXRA Ecosystem">
+    <meta property="og:description" content="Sign in to your encrypted vault and start processing daily nodes.">
+    <meta property="og:image" content="https://nexra.ct.ws/assets/ui/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --gray-light: #f8f9fa;
+            --gray-border: #e2e8f0; --text-muted: #8e8e93; --grid-line: rgba(0, 0, 0, 0.04);
+            --accent: #00c853; --blue: #007aff;
+            --font-head: 'Outfit', sans-serif;
+        }
+
+        /* 1. LOCKDOWN: No Zoom, No Scroll */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; }
+        html, body { width: 100%; height: 100dvh; overflow: hidden; position: fixed; background-color: var(--white); color: var(--black); font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; }
+
+        /* 2. TECHNICAL GRID BACKGROUND */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 35px 35px;
+            mask-image: radial-gradient(circle at 50% 50%, black, transparent 95%);
+        }
+
+        /* 3. LOGIN CARD */
+        .login-card { width: 90%; max-width: 420px; padding: 30px 20px; text-align: center; animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        header { margin-bottom: 40px; }
+        .logo { width: 75px; height: 75px; margin-bottom: 20px; mix-blend-mode: multiply; cursor: pointer; }
+        h1 { font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 8px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+
+        /* Form Styling */
+        form { display: flex; flex-direction: column; gap: 24px; text-align: left; }
+        .field { display: flex; flex-direction: column; gap: 8px; position: relative; }
+        label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--black); padding-left: 5px; }
+        
+        input {
+            width: 100%; padding: 18px; border-radius: 16px; border: 1.5px solid var(--gray-border);
+            background: var(--gray-light); font-size: 15px; font-weight: 700; color: var(--black);
+            outline: none; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit;
+        }
+        input:focus { border-color: var(--black); background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+
+        .eye-icon { position: absolute; right: 18px; top: 40px; color: var(--text-muted); cursor: pointer; padding: 5px; font-size: 18px; }
+
+        .form-links { display: flex; justify-content: space-between; align-items: center; margin-top: -12px; padding: 0 5px; }
+        .form-links a { font-size: 13px; font-weight: 700; color: var(--black); text-decoration: none; }
+
+        /* Submit Button */
+        .btn-login {
+            background: var(--black); color: #fff; padding: 20px; border: none; border-radius: 20px;
+            font-size: 16px; font-weight: 800; cursor: pointer; display: flex; justify-content: center;
+            align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .btn-login:active { transform: scale(0.96); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-register { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 35px; text-decoration: none; display: block; font-weight: 600; }
+        .btn-register b { color: var(--black); font-weight: 800; border-bottom: 2px solid var(--black); }
+
+        .loader { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div class="login-card">
+        <header>
+            <img src="../assets/ui/logo.png" alt="NEXRA Official" class="logo" onclick="location.href='../index.html'">
+            <h1>NEXRA</h1>
+            <p class="subtitle">Ecosystem Entrance</p>
+        </header>
+
+        <form id="loginForm">
+            <div class="field">
+                <label>Email Identity</label>
+                <input type="email" id="email" placeholder="Email" required autocomplete="username">
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="**********" required autocomplete="current-password">
+                <i class="fa-solid fa-eye eye-icon" id="togglePass"></i>
+            </div>
+
+            <div class="form-links">
+                <a href="forget.html">Recovery Protocol?</a>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">
+                <div class="loader" id="loader"></div>
+                <span id="btnText">Verify & Authorize</span>
+            </button>
+        </form>
+
+        <a href="register.html" class="btn-register">New to the community? <b>Join NEXRA</b></a>
+    </div>
+
+    <!-- Firebase Integration Engine -->
+    <script type="module">
+        import { auth, db } from "../assets/js/firebase-config.js";
+        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { doc, getDoc, setDoc, query, collection, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+        const passInput = document.getElementById('password');
+        const togglePass = document.getElementById('togglePass');
+
+        // Toggle Password visibility
+        togglePass.onclick = () => {
+            const type = passInput.type === 'password' ? 'text' : 'password';
+            passInput.type = type;
+            togglePass.classList.toggle('fa-eye');
+            togglePass.classList.toggle('fa-eye-slash');
+        };
+
+        loginForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('email').value.trim().toLowerCase();
+            const passwordInput = passInput.value;
+
+            loginBtn.disabled = true;
+            loader.style.display = 'block';
+            btnText.innerText = "Authenticating...";
+
+            try {
+                // 1. Firebase Authentication Node Check
+                const userCredential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+                const user = userCredential.user;
+
+                // 2. UID-BASED DATA RETRIEVAL (HANDSHAKE)
+                const uidDocRef = doc(db, "pending_users", user.uid);
+                let userSnap = await getDoc(uidDocRef);
+                let userData = null;
+
+                if (!userSnap.exists()) {
+                    // MIGRATION / FALLBACK: Check if record exists under EMAIL ID instead of UID
+                    const legacyQuery = query(collection(db, "pending_users"), where("email", "==", emailInput));
+                    const querySnap = await getDocs(legacyQuery);
+
+                    if (!querySnap.empty) {
+                        // User exists by email - move to UID mapping for standardized protocol
+                        const legacyData = querySnap.docs[0].data();
+                        await setDoc(doc(db, "pending_users", user.uid), {
+                            ...legacyData,
+                            uid: user.uid
+                        });
+                        userData = legacyData;
+                    } else {
+                        // No data record found at all in the database
+                        window.location.replace("register.html");
+                        return;
+                    }
+                } else {
+                    userData = userSnap.data();
+                }
+
+                // 3. STATUS-BASED PROTOCOL ROUTING
+                const status = userData.status;
+
+                // Update Security Audit (IP & Login Time)
+                fetch('https://get.geojs.io/v1/ip/geo.json')
+                    .then(res => res.json())
+                    .then(async (geo) => {
+                        await updateDoc(doc(db, "pending_users", user.uid), {
+                            last_ip: geo.ip || "unknown",
+                            last_login: new Date().toISOString()
+                        });
+                    }).catch(() => {});
+
+                // 4. ROUTE EXECUTION
+                if (status === "pending_payment" || status === "rejected") {
+                    window.location.replace("payment.html");
+                } else if (status === "pending_verification") {
+                    window.location.replace("payment.html"); // Shows the auditing screen
+                } else if (status === "approved") {
+                    window.location.replace("checkpoint.html");
+                } else {
+                    // Default safe fallback
+                    window.location.replace("payment.html");
+                }
+
+            } catch (error) {
+                let msg = "Invalid identity or access key. Please check your credentials.";
+                
+                // If user doesn't exist in Auth system
+                if (error.code === 'auth/user-not-found') {
+                    window.location.replace("register.html");
+                    return;
+                }
+                
+                if (error.code === 'auth/wrong-password') msg = "The access key entered is incorrect.";
+                
+                alert("Security Alert: " + msg);
+                loginBtn.disabled = false;
+                loader.style.display = 'none';
+                btnText.innerText = "Verify & Authorize";
+            }
+        };
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
