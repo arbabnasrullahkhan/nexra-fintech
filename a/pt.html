@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- ========================================== -->
+    <!-- 🚀 MASSIVE SEO & SOCIAL MEDIA SHARING TAGS -->
+    <!-- ========================================== -->
+    <title>Nexra | Transaction History</title>
+    <meta name="description" content="View your Nexra Node activation history and payment logs securely.">
+    <meta name="keywords" content="Nexra Transactions, Payment History, Crypto Log, Node Status">
+    <meta name="author" content="Nexra Community">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexraearn.vercel.app/a/pt">
+    <meta property="og:title" content="Nexra | Transaction History">
+    <meta property="og:description" content="View your Nexra Node activation history and payment logs securely.">
+    <meta property="og:image" content="https://nexraearn.vercel.app/assets/ui/logo.png">
+    
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nexraearn.vercel.app/a/pt">
+    <meta property="twitter:title" content="Nexra | Transaction History">
+    <meta property="twitter:description" content="View your Nexra Node activation history and payment logs securely.">
+    <meta property="twitter:image" content="https://nexraearn.vercel.app/assets/ui/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/ui/logo.png">
+    <link rel="apple-touch-icon" href="../assets/ui/logo.png">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Detailed Stylesheet for Pure White Mode -->
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-surface-glass: rgba(255, 255, 255, 0.95);
+            
+            --island-bg: rgba(255, 255, 255, 0.98);
+            --island-text: #0f172a;
+            --island-border: rgba(0, 0, 0, 0.08);
+            
+            --primary: #2563eb;
+            --primary-glow: rgba(37, 99, 235, 0.15);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.15);
+            --error: #ef4444;
+            --error-glow: rgba(239, 68, 68, 0.15);
+            
+            --border-light: #e2e8f0;
+            
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-round: 9999px;
+            
+            --shadow-md: 0 8px 16px -4px rgba(0,0,0,0.08);
+            --shadow-island: 0 12px 24px -10px rgba(0,0,0,0.15);
+        }
+
+        /* Enforce Light Mode strictly */
+        @media (prefers-color-scheme: dark) { }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; min-height: 100vh; background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
+
+        .bg-pattern { position: fixed; inset: 0; z-index: -1; background-image: radial-gradient(at 100% 0%, hsla(217,100%,94%,1) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(253,100%,94%,1) 0px, transparent 50%); animation: breathe 10s infinite alternate ease-in-out; }
+        @keyframes breathe { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.05); opacity: 1;} }
+
+        .app-container { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; padding: 24px 20px; padding-top: 90px; padding-bottom: 40px; position: relative; }
+
+        /* PERFECT DYNAMIC ISLAND HEADER */
+        .dynamic-island-wrapper { position: fixed; top: 16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000; pointer-events: none; }
+        .dynamic-island { background: var(--island-bg); backdrop-filter: blur(24px); border: 1px solid var(--island-border); border-radius: var(--radius-round); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; width: max-content; min-width: 240px; max-width: 90%; box-shadow: var(--shadow-island); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto; }
+        .island-left { display: flex; align-items: center; gap: 8px; }
+        .island-logo { width: 24px; height: 24px; object-fit: contain; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .island-name { height: 12px; object-fit: contain; margin-top: 2px; opacity: 0.9; }
+        .island-status { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; font-family: 'Outfit', sans-serif; color: var(--text-main); background: var(--border-light); padding: 5px 12px; border-radius: 100px; margin-left: 12px; }
+
+        .header-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; letter-spacing: -0.5px; animation: slideUp 0.6s ease-out; }
+        .header-subtitle { font-size: 15px; color: var(--text-muted); line-height: 1.6; animation: slideUp 0.6s ease-out 0.1s both; margin-bottom: 24px; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .transaction-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; animation: slideUp 0.6s ease-out 0.2s both; }
+        
+        .transaction-card { background: var(--bg-surface-glass); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 16px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-md); }
+        .tx-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+        
+        .tx-icon.pending { background: var(--warning-glow); color: var(--warning); }
+        .tx-icon.success { background: var(--success-glow); color: var(--success); }
+        .tx-icon.rejected { background: var(--error-glow); color: var(--error); }
+        
+        .tx-details { flex: 1; overflow: hidden; }
+        .tx-title { font-weight: 700; font-size: 15px; color: var(--text-main); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tx-id { font-size: 12px; color: var(--text-muted); font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .tx-right { text-align: right; }
+        .tx-amount { font-weight: 800; font-family: 'Outfit'; font-size: 16px; color: var(--text-main); margin-bottom: 4px; }
+        .tx-status { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; display: inline-block; }
+        
+        .tx-status.pending { background: var(--warning-glow); color: var(--warning); }
+        .tx-status.success { background: var(--success-glow); color: var(--success); }
+        .tx-status.rejected { background: var(--error-glow); color: var(--error); }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); display: none; }
+        .empty-icon { font-size: 48px; color: var(--border-light); margin-bottom: 16px; }
+
+        .btn-primary { width: 100%; background: var(--text-main); color: var(--bg-surface); border: none; padding: 16px; border-radius: var(--radius-lg); font-size: 15px; font-weight: 600; font-family: 'Outfit', sans-serif; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+        .btn-primary:active { transform: scale(0.98); }
+
+        /* Full Screen Loader */
+        .full-loader { position: fixed; inset: 0; background: var(--bg-surface-glass); backdrop-filter: blur(8px); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner-large { width: 48px; height: 48px; border: 4px solid var(--border-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-pattern"></div>
+    
+    <div class="full-loader" id="pageLoader">
+        <div class="spinner-large"></div>
+        <h3 style="font-family: 'Outfit'; font-weight: 700; color: var(--text-main);">Syncing Logs...</h3>
+    </div>
+
+    <!-- DYNAMIC ISLAND HEADER -->
+    <div class="dynamic-island-wrapper">
+        <div class="dynamic-island" id="dynamicIsland">
+            <div class="island-left">
+                <img src="../assets/ui/logo.png" alt="Nexra Logo" class="island-logo">
+                <img src="../assets/ui/name.png" alt="Nexra" class="island-name">
+            </div>
+            <div class="island-status">
+                <i class="ri-history-line" id="islandIcon"></i>
+                <span id="islandText">Logs</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container" id="mainContainer" style="display:none;">
+        
+        <h1 class="header-title">Transaction History</h1>
+        <p class="header-subtitle">View your node activation payment logs fetched directly from the secure admin database.</p>
+
+        <div class="transaction-list" id="txList">
+            <!-- Populated via JS -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <i class="ri-file-list-3-line empty-icon"></i>
+            <h3 style="font-weight: 700; color: var(--text-main); margin-bottom: 8px;">No Transactions Yet</h3>
+            <p style="font-size: 14px;">You have not initiated any node activation payments.</p>
+        </div>
+
+        <button class="btn-primary" onclick="window.location.href='/a/c.html'">
+            <i class="ri-arrow-left-line"></i> Back to Checkpoint
+        </button>
+    </div>
+
+    <script type="module">
+        import { auth, db, collection, query, where, getDocs, orderBy } from "../assets/js/firebase-config.js";
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                await fetchTransactions(user.uid);
+                document.getElementById('pageLoader').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'flex';
+            } else {
+                window.location.replace('/a/l.html');
+            }
+        });
+
+        async function fetchTransactions(uid) {
+            const list = document.getElementById('txList');
+            const empty = document.getElementById('emptyState');
+            
+            try {
+                const q = query(
+                    collection(db, "payments"), 
+                    where("userId", "==", uid)
+                );
+                
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                // Sort locally since we might not have a composite index created yet
+                let txs = [];
+                querySnapshot.forEach((doc) => {
+                    txs.push({ id: doc.id, ...doc.data() });
+                });
+                
+                txs.sort((a, b) => b.submittedAt?.toMillis() - a.submittedAt?.toMillis());
+
+                txs.forEach((tx) => {
+                    const card = document.createElement('div');
+                    card.className = 'transaction-card';
+                    
+                    let iconClass = 'pending';
+                    let iconRemix = 'ri-time-line';
+                    if (tx.status === 'approved') { iconClass = 'success'; iconRemix = 'ri-check-line'; }
+                    if (tx.status === 'rejected') { iconClass = 'rejected'; iconRemix = 'ri-close-line'; }
+
+                    const dateStr = tx.submittedAt ? new Date(tx.submittedAt.toMillis()).toLocaleDateString() : 'Just Now';
+
+                    card.innerHTML = `
+                        <div class="tx-icon ${iconClass}">
+                            <i class="${iconRemix}"></i>
+                        </div>
+                        <div class="tx-details">
+                            <div class="tx-title">${tx.method} Activation</div>
+                            <div class="tx-id">TxID: ${tx.txId}</div>
+                            <div class="tx-id" style="margin-top: 2px;">${dateStr}</div>
+                        </div>
+                        <div class="tx-right">
+                            <div class="tx-amount">${tx.amountExpected}</div>
+                            <div class="tx-status ${iconClass}">${tx.status}</div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error fetching logs:", error);
+                empty.style.display = 'block';
+                empty.querySelector('h3').innerText = "Error Syncing";
+                empty.querySelector('p').innerText = "Failed to retrieve logs from Admin Node.";
+            }
+        }
+    </script>
+</body>
+</html>
