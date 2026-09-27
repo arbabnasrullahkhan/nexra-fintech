@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexra Promoter Portal</title>
+    <meta name="description" content="Exclusive portal for Nexra promotional partners.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(217,100%,94%,1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(253,100%,94%,1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Mobile focused */
+            margin: 0 auto;
+            padding: 24px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            animation: fadeDown 0.6s ease-out;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-wrap img {
+            height: 36px;
+            width: auto;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #0f172a, #334155);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        /* Input Group */
+        .input-group {
+            position: relative;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            padding: 16px 20px;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.02);
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            background: var(--text-main);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: var(--radius-lg);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px 0 rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:active {
+            background: #f1f5f9;
+        }
+
+        /* Dashboard Elements */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-surface);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            text-align: left;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .stat-card.success::before { background: var(--success); }
+        .stat-card.warning::before { background: var(--warning); }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Link Box */
+        .link-box {
+            background: var(--bg-surface);
+            border: 1px dashed #cbd5e1;
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            margin: 32px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .link-text {
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--primary);
+            word-break: break-all;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: #eff6ff;
+            color: var(--primary);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* List */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 32px 0 16px;
+            padding: 0 4px;
+        }
+        
+        .list-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .user-item {
+            background: var(--bg-surface);
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .user-details p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border-light);
+        }
+
+        .empty-state i {
+            font-size: 32px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--text-main);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-wrap">
+                <img src="assets/ui/logo.png" alt="Nexra Logo" onerror="this.src='https://via.placeholder.com/36x36?text=N'">
+                <img src="assets/ui/name.png" alt="Nexra" onerror="this.style.display='none'" style="height: 18px;">
+            </div>
+            <div class="badge">Partner</div>
+        </header>
+
+        <!-- SCREEN 1: Setup / Login -->
+        <main class="screen active" id="setup-screen">
+            <div class="glass-card">
+                <div class="card-icon">
+                    <i class="ri-rocket-2-line"></i>
+                </div>
+                <h1>Activate Your<br>Promoter Engine</h1>
+                <p class="subtitle">Enter your email to generate your unique premium link and track your referrals in real-time.</p>
+
+                <div class="input-group">
+                    <label for="promoEmail">Email Address</label>
+                    <input type="email" id="promoEmail" class="input-field" placeholder="partner@example.com" autocomplete="email">
+                </div>
+
+                <button class="btn-primary" id="generateBtn">
+                    <span>Initialize Portal</span>
+                    <div class="loader" id="btnLoader"></div>
+                    <i class="ri-arrow-right-line" id="btnIcon"></i>
+                </button>
+            </div>
+        </main>
+
+        <!-- SCREEN 2: Dashboard -->
+        <main class="screen" id="dashboard-screen">
+            
+            <button class="btn-outline" style="margin-bottom: 24px; align-self: flex-start;" onclick="logout()">
+                <i class="ri-arrow-left-line"></i> Switch Account
+            </button>
+
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">Partner Overview</h2>
+            <p style="color: var(--text-muted); font-size: 14px;" id="welcomeEmail">...</p>
+
+            <div class="link-box">
+                <div class="link-text" id="referralLink">nexraearn.vercel.app/p/---</div>
+                <button class="copy-btn" onclick="copyLink()">
+                    <i class="ri-file-copy-line"></i>
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statTotal">0</div>
+                    <div class="stat-label">Total Joined</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value" id="statConfirmed">0</div>
+                    <div class="stat-label">Confirmed</div>
+                </div>
+            </div>
+
+            <div class="list-header">
+                <h3>Recent Network</h3>
+                <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;" id="statUnconfirmed">0 Pending</span>
+            </div>
+
+            <div class="user-list" id="usersList">
+                <!-- User items injected here -->
+                <div class="empty-state" id="emptyState">
+                    <i class="ri-group-line"></i>
+                    <p>No users joined through your link yet.<br>Start sharing!</p>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastMsg">
+        <i class="ri-checkbox-circle-fill" style="color: #4ade80;"></i>
+        <span id="toastText">Link copied to clipboard!</span>
+    </div>
+
+    <script type="module">
+        import { db, collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy } from "./assets/js/firebase-config.js";
+
+        // DOM Elements
+        const setupScreen = document.getElementById('setup-screen');
+        const dashScreen = document.getElementById('dashboard-screen');
+        const emailInput = document.getElementById('promoEmail');
+        const generateBtn = document.getElementById('generateBtn');
+        const btnLoader = document.getElementById('btnLoader');
+        const btnIcon = document.getElementById('btnIcon');
+        
+        let currentPromoId = null;
+        let currentLink = null;
+
+        // Base URL for referral link (Client requested specific format)
+        const BASE_LINK_URL = "https://nexraearn.vercel.app/join?ref=";
+
+        // Initialize checking local storage
+        window.onload = () => {
+            const savedEmail = localStorage.getItem('nexra_promo_email');
+            if(savedEmail) {
+                emailInput.value = savedEmail;
+                processEmail(savedEmail);
+            }
+        };
+
+        generateBtn.addEventListener('click', () => {
+            const email = emailInput.value.trim().toLowerCase();
+            if(!validateEmail(email)) {
+                showToast("Please enter a valid email address", false);
+                return;
+            }
+            processEmail(email);
+        });
+
+        async function processEmail(email) {
+            setLoading(true);
+            try {
+                // Generate a consistent ID based on email (simple hex encode for URL safety)
+                const promoId = btoa(email).replace(/=/g, '').substring(0, 15).toUpperCase();
+                currentPromoId = promoId;
+                currentLink = BASE_LINK_URL + promoId;
+                
+                // Check if promoter exists, if not create
+                const promoRef = doc(db, 'promoters', email);
+                const promoSnap = await getDoc(promoRef);
+
+                if(!promoSnap.exists()) {
+                    await setDoc(promoRef, {
+                        email: email,
+                        promoId: promoId,
+                        createdAt: serverTimestamp(),
+                        totalClicks: 0
+                    });
+                }
+
+                localStorage.setItem('nexra_promo_email', email);
+                
+                // Load Dashboard
+                await loadDashboardData(promoId, email);
+
+                setupScreen.classList.remove('active');
+                dashScreen.classList.add('active');
+
+            } catch (error) {
+                console.error(error);
+                showToast("An error occurred. Please check connection.", false);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function loadDashboardData(promoId, email) {
+            document.getElementById('welcomeEmail').innerText = email;
+            document.getElementById('referralLink').innerText = currentLink;
+
+            // Fetch referred users from main 'users' collection where referredBy == promoId
+            try {
+                const usersRef = collection(db, 'users');
+                const q = query(usersRef, where("referredBy", "==", promoId));
+                const snapshot = await getDocs(q);
+
+                let total = 0;
+                let confirmed = 0;
+                let pending = 0;
+                
+                const listContainer = document.getElementById('usersList');
+                const emptyState = document.getElementById('emptyState');
+                
+                // Clear old items except empty state
+                Array.from(listContainer.children).forEach(child => {
+                    if(child.id !== 'emptyState') child.remove();
+                });
+
+                if(snapshot.empty) {
+                    emptyState.style.display = 'block';
+                } else {
+                    emptyState.style.display = 'none';
+                    
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        total++;
+                        // Assuming verification status is kept in a field like 'isVerified' or 'status'
+                        const isConfirmed = data.isVerified === true || data.status === 'active';
+                        
+                        if(isConfirmed) confirmed++;
+                        else pending++;
+
+                        // Build UI Item
+                        const item = document.createElement('div');
+                        item.className = 'user-item';
+                        
+                        const name = data.name || data.username || "Anonymous User";
+                        const initial = name.charAt(0).toUpperCase();
+                        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'Recent';
+
+                        item.innerHTML = `
+                            <div class="user-info">
+                                <div class="user-avatar">${initial}</div>
+                                <div class="user-details">
+                                    <h4>${name}</h4>
+                                    <p>Joined ${date}</p>
+                                </div>
+                            </div>
+                            <div class="status-badge ${isConfirmed ? 'status-confirmed' : 'status-pending'}">
+                                ${isConfirmed ? 'Confirmed' : 'Pending'}
+                            </div>
+                        `;
+                        listContainer.appendChild(item);
+                    });
+                }
+
+                // Update Stats
+                document.getElementById('statTotal').innerText = total;
+                document.getElementById('statConfirmed').innerText = confirmed;
+                document.getElementById('statUnconfirmed').innerText = `${pending} Pending`;
+
+            } catch (error) {
+                console.error("Error fetching stats:", error);
+                // Depending on index requirements in Firebase, this might fail initially if index is building.
+            }
+        }
+
+        window.copyLink = () => {
+            if(currentLink) {
+                navigator.clipboard.writeText(currentLink).then(() => {
+                    showToast("Link copied to clipboard!", true);
+                });
+            }
+        };
+
+        window.logout = () => {
+            localStorage.removeItem('nexra_promo_email');
+            dashScreen.classList.remove('active');
+            setupScreen.classList.add('active');
+            emailInput.value = '';
+        };
+
+        // Utils
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        function setLoading(isLoading) {
+            if(isLoading) {
+                generateBtn.disabled = true;
+                generateBtn.querySelector('span').style.display = 'none';
+                btnIcon.style.display = 'none';
+                btnLoader.style.display = 'block';
+            } else {
+                generateBtn.disabled = false;
+                generateBtn.querySelector('span').style.display = 'block';
+                btnIcon.style.display = 'block';
+                btnLoader.style.display = 'none';
+            }
+        }
+
+        let toastTimer;
+        function showToast(msg, isSuccess = true) {
+            const toast = document.getElementById('toastMsg');
+            const text = document.getElementById('toastText');
+            const icon = toast.querySelector('i');
+            
+            text.innerText = msg;
+            
+            if(isSuccess) {
+                icon.className = 'ri-checkbox-circle-fill';
+                icon.style.color = '#4ade80';
+            } else {
+                icon.className = 'ri-error-warning-fill';
+                icon.style.color = '#f87171';
+            }
+
+            toast.classList.add('show');
+            
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
